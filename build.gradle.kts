@@ -53,6 +53,8 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok:1.18.26")
     // mysql
     runtimeOnly("com.mysql:mysql-connector-j")
+    // swagger
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 }
 
 kotlin {
