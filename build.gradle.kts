@@ -73,8 +73,8 @@ dependencies {
     // docker
 //    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
     // flyway
-    implementation("org.flywaydb:flyway-core:10.18.0")
-    implementation("org.flywaydb:flyway-mysql:10.18.0")
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-mysql")
 }
 
 kotlin {
