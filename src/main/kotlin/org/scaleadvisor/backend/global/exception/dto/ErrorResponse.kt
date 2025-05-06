@@ -1,6 +1,6 @@
-package org.scaleadvisor.backend.exception.dto
+package org.scaleadvisor.backend.global.exception.dto
 
-import org.scaleadvisor.backend.exception.model.CustomException
+import org.scaleadvisor.backend.global.exception.model.CustomException
 
 data class ErrorResponse(
     val errorCode: String,

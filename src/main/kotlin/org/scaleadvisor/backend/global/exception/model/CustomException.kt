@@ -1,7 +1,7 @@
-package org.scaleadvisor.backend.exception.model
+package org.scaleadvisor.backend.global.exception.model
 
 import lombok.Getter
-import org.scaleadvisor.backend.exception.BaseErrorCode
+import org.scaleadvisor.backend.global.exception.BaseErrorCode
 
 @Getter
 abstract class CustomException : RuntimeException {

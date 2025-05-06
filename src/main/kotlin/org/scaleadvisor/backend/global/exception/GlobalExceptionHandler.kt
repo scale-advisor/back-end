@@ -1,9 +1,10 @@
-package org.scaleadvisor.backend.exception
+package org.scaleadvisor.backend.global.exception
 
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
-import org.scaleadvisor.backend.exception.dto.ErrorResponse
+import org.scaleadvisor.backend.global.exception.dto.ErrorResponse
 import org.scaleadvisor.backend.exception.model.*
+import org.scaleadvisor.backend.global.exception.model.*
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

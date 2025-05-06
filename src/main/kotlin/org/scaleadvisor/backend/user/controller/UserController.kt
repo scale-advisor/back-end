@@ -1,5 +1,6 @@
-package org.scaleadvisor.backend.user
+package org.scaleadvisor.backend.user.controller
 
+import org.scaleadvisor.backend.user.service.UserService
 import org.scaleadvisor.backend.user.dto.UserCreateRequest
 import org.scaleadvisor.backend.user.dto.UserResponse
 import org.springframework.http.ResponseEntity

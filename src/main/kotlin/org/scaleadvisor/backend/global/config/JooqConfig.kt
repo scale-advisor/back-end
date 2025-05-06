@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.config
+package org.scaleadvisor.backend.global.config
 
 import org.springframework.boot.autoconfigure.jooq.DefaultConfigurationCustomizer
 import org.springframework.context.annotation.Bean

@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.user
+package org.scaleadvisor.backend.user.repository
 
 import org.jooq.DSLContext
 import org.jooq.generated.tables.Users.USERS

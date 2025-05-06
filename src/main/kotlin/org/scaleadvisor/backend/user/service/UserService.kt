@@ -1,4 +1,5 @@
-package org.scaleadvisor.backend.user
+package org.scaleadvisor.backend.user.service
+import org.scaleadvisor.backend.user.repository.UserRepository
 import org.scaleadvisor.backend.user.dto.UserResponse
 import org.springframework.stereotype.Service
 

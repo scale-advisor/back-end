@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.exception
+package org.scaleadvisor.backend.global.exception
 
 import lombok.AccessLevel
 import lombok.Getter
