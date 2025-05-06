@@ -28,7 +28,7 @@ out/
 gradle.properties
 src/main/resources/application.properties
 #src/generated
-src/main/resources/application.yml
+#src/main/resources/application.yml
 
 ### NetBeans ###
 /nbproject/private/

@@ -114,7 +114,7 @@ sonar {
         property("sonar.projectKey", "scale-advisor_back-end")
         property("sonar.organization", "scale-advisor")
         property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.coverage.exclusions", "src/generated/**")
+        property("sonar.coverage.exclusions", "**/**")
     }
 }
 
