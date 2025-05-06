@@ -12,10 +12,10 @@ import nu.studer.gradle.jooq.JooqEdition
 import java.sql.DriverManager
 import java.sql.Connection
 
-val dbUrl: String       by project
-val dbUser: String      by project
-val dbPasswd: String    by project
-val dbSchema: String    by project
+val dbUrl: String       = project.findProperty("dbUrl")?.toString() ? "";
+val dbUser: String      = project.findProperty("dbUser")?.toString() ? "";
+val dbPasswd: String    = project.findProperty("dbPasswd")?.toString() ? "";
+val dbSchema: String    = project.findProperty("dbSchema")?.toString() ? "";
 
 plugins {
     kotlin("jvm") version "1.9.25"
