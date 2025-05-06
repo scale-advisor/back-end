@@ -32,8 +32,8 @@ dependencies {
     // jooq
     implementation("org.springframework.boot:spring-boot-starter-jooq")
     jooqGenerator("com.mysql:mysql-connector-j")
-    jooqGenerator("org.jooq:jooq-meta:3.18.10")
-    jooqGenerator("org.jooq:jooq-codegen:3.18.10")
+    jooqGenerator("org.jooq:jooq-meta:3.19.22")
+    jooqGenerator("org.jooq:jooq-codegen:3.19.22")
     // spring
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 //    implementation("org.springframework.boot:spring-boot-starter-security")
@@ -84,7 +84,7 @@ repositories {
 
 // jooq generate 설정
 jooq {
-    version.set("3.18.10")
+    version.set("3.19.22")
     edition.set(JooqEdition.OSS)
 
     configurations {

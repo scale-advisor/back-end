@@ -42,3 +42,9 @@ src/main/resources/application.yml
 
 ### Kotlin ###
 .kotlin
+
+### docker db ###
+/db/
+/.data/
+
+.env

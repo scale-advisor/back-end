@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mysql:8.3          # 필요에 따라 5.7, 8.0 등 원하는 버전으로 변경
+    container_name: scale_advisor_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-secret}
+      MYSQL_DATABASE: ${DB_NAME:-sample}
+      MYSQL_USER: ${DB_USERNAME:-root}
+      MYSQL_PASSWORD: ${DB_USER_PASSWORD:-secret}
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+      TZ: Asia/Seoul
+    ports:
+      - "3306:3306"
+    volumes:
+      - type: bind
+        source: ${DB_MOUNT_PATH:-/db}
+        target: /var/lib/mysql
+      # 필요 시 초기 스키마·시드 데이터 넣을 place
+      # - ./mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h ${DB_HOST:-127.0.0.1} -u ${DB_USERNAME:-root} -p${DB_USER_PASSWORD:-secret}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
