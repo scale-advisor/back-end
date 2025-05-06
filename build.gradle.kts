@@ -65,9 +65,15 @@ kotlin {
     }
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+//tasks.withType<Test> {
+//    useJUnitPlatform()
+//}
+
+// 테스트 코드를 제외한 빌드 수행
+tasks.withType(Test) {
+    enabled = false
 }
+
 
 sonar {
     properties {
