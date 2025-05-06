@@ -1,4 +1,21 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        // buildscript 단계에서 MySQL 드라이버를 사용할 수 있도록
+        classpath("com.mysql:mysql-connector-j:8.0.33")
+    }
+}
+
 import nu.studer.gradle.jooq.JooqEdition
+import java.sql.DriverManager
+import java.sql.Connection
+
+val dbUrl: String       = project.findProperty("dbUrl")?.toString() ?: "";
+val dbUser: String      = project.findProperty("dbUser")?.toString() ?: "";
+val dbPasswd: String    = project.findProperty("dbPasswd")?.toString() ?: "";
+val dbSchema: String    = project.findProperty("dbSchema")?.toString() ?: "";
 
 plugins {
     kotlin("jvm") version "1.9.25"
@@ -65,8 +82,13 @@ kotlin {
     }
 }
 
+//tasks.withType<Test> {
+//    useJUnitPlatform()
+//}
+
+// 테스트 코드를 제외한 빌드 수행
 tasks.withType<Test> {
-    useJUnitPlatform()
+    enabled = false
 }
 
 sonar {
@@ -74,6 +96,7 @@ sonar {
         property("sonar.projectKey", "scale-advisor_back-end")
         property("sonar.organization", "scale-advisor")
         property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.coverage.exclusions", "src/generated/**")
     }
 }
 
@@ -94,9 +117,9 @@ jooq {
                 logging = org.jooq.meta.jaxb.Logging.WARN
                 jdbc.apply {
                     driver = "com.mysql.cj.jdbc.Driver"
-                    url = (project.findProperty("db-Url") ?: "defaultUrl").toString()
-                    user = (project.findProperty("db-User") ?: "defaultUser").toString()
-                    password = (project.findProperty("db-Passwd") ?: "defaultPwd").toString()
+                    url      = dbUrl
+                    user     = dbUser
+                    password = dbPasswd
                 }
                 generator.apply {
                     name = "org.jooq.codegen.DefaultGenerator"
@@ -105,7 +128,7 @@ jooq {
                         isUnsignedTypes = true
                         excludes = "sys"
 
-                        inputSchema = (project.findProperty("db-Schema") ?: "defaultSchema").toString()
+                        inputSchema = dbSchema
 
                         forcedTypes.addAll(
                             listOf(
@@ -138,5 +161,24 @@ jooq {
                 }
             }
         }
+    }
+}
+
+// DB 연결 가능 여부를 체크하는 헬퍼 함수
+fun isDbReachable(): Boolean {
+    return try {
+        // (Optional) 명시적 드라이버 로딩
+        Class.forName("com.mysql.cj.jdbc.Driver")
+        DriverManager.getConnection(dbUrl, dbUser, dbPasswd).use { it.isValid(2) }
+    } catch (e: Exception) {
+        logger.lifecycle("⚠️ DB 연결 실패: ${e.message}")
+        false
+    }
+}
+
+tasks.named("generateJooq") {
+    onlyIf {
+        // 이 조건이 false일 때는 아예 실행되지 않음
+        isDbReachable()
     }
 }

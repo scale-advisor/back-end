@@ -27,7 +27,7 @@ out/
 !**/src/test/**/out/
 gradle.properties
 src/main/resources/application.properties
-src/generated
+#src/generated
 src/main/resources/application.yml
 
 ### NetBeans ###
