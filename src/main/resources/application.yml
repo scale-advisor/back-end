@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: back-end
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  jooq:
+    sql-dialect: MySQL
+
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/sample?serverTimezone=Asia/Seoul&characterEncoding=UTF-8}
+    username: ${DB_USERNAME:root}
+    password: ${DB_USER_PASSWORD:secret}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  flyway:
+    enabled: true
+    validate-on-migrate: true
+    baseline-on-migrate: true
+
+logging:
+  level:
+    org.jooq.tools.LoggerListener: DEBUG
+#  discord:
+#    webhook-url: ${WEB_HOOK_URL}
+#  config: classpath:logback.xml
+
+springdoc:
+  api-docs:
+    path: /api-docs
+
+  swagger-ui:
+    path: /swagger-ui
+    operations-sorter: method
+    tags-sorter: alpha
