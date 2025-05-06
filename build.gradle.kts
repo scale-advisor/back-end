@@ -1,3 +1,6 @@
+import nu.studer.gradle.jooq.JooqEdition
+import java.sql.DriverManager
+
 buildscript {
     repositories {
         mavenCentral()
@@ -7,10 +10,6 @@ buildscript {
         classpath("com.mysql:mysql-connector-j:8.0.33")
     }
 }
-
-import nu.studer.gradle.jooq.JooqEdition
-import java.sql.DriverManager
-import java.sql.Connection
 
 val dbUrl: String       = project.findProperty("dbUrl")?.toString() ?: "";
 val dbUser: String      = project.findProperty("dbUser")?.toString() ?: "";
