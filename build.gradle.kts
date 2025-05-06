@@ -55,6 +55,8 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
     // swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+    // discord logback
+    implementation("com.github.napstr:logback-discord-appender:1.0.0")
 }
 
 kotlin {
@@ -77,6 +79,7 @@ sonar {
 
 repositories {
     mavenCentral()
+    maven("https://jitpack.io")
 }
 
 // jooq generate 설정
