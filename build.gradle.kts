@@ -56,7 +56,7 @@ dependencies {
     // swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     // discord logback
-//    implementation("com.github.napstr:logback-discord-appender:1.0.0")
+    implementation("com.github.napstr:logback-discord-appender:1.0.0")
 }
 
 kotlin {
