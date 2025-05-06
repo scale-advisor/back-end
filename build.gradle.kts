@@ -6,15 +6,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // buildscript 단계에서 MySQL 드라이버를 사용할 수 있도록
         classpath("com.mysql:mysql-connector-j:8.0.33")
+        classpath("org.flywaydb:flyway-mysql:10.18.0")
     }
 }
-
-val dbUrl: String       = project.findProperty("dbUrl")?.toString() ?: "";
-val dbUser: String      = project.findProperty("dbUser")?.toString() ?: "";
-val dbPasswd: String    = project.findProperty("dbPasswd")?.toString() ?: "";
-val dbSchema: String    = project.findProperty("dbSchema")?.toString() ?: "";
 
 plugins {
     kotlin("jvm") version "1.9.25"
@@ -23,6 +18,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
     id("org.sonarqube") version "6.0.1.5171"
     id("nu.studer.jooq") version "9.0"
+    id("org.flywaydb.flyway") version "10.19.0"
 }
 
 group = "org.scaleadvisor"
@@ -42,6 +38,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -73,6 +70,11 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     // discord logback
     implementation("com.github.napstr:logback-discord-appender:1.0.0")
+    // docker
+//    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+    // flyway
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-mysql")
 }
 
 kotlin {
@@ -90,6 +92,23 @@ tasks.withType<Test> {
     enabled = false
 }
 
+val dbUrl: String       = project.findProperty("dbUrl")?.toString() ?: "";
+val dbUser: String      = project.findProperty("dbUser")?.toString() ?: "";
+val dbPasswd: String    = project.findProperty("dbPasswd")?.toString() ?: "";
+val dbSchema: String    = project.findProperty("dbSchema")?.toString() ?: "";
+
+// DB 연결 가능 여부를 체크하는 헬퍼 함수
+fun isDbReachable(): Boolean {
+    return try {
+        // (Optional) 명시적 드라이버 로딩
+        Class.forName("com.mysql.cj.jdbc.Driver")
+        DriverManager.getConnection(dbUrl, dbUser, dbPasswd).use { it.isValid(2) }
+    } catch (e: Exception) {
+        logger.lifecycle("⚠️ DB 연결 실패: ${e.message}")
+        false
+    }
+}
+
 sonar {
     properties {
         property("sonar.projectKey", "scale-advisor_back-end")
@@ -97,11 +116,6 @@ sonar {
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.coverage.exclusions", "src/generated/**")
     }
-}
-
-repositories {
-    mavenCentral()
-    maven("https://jitpack.io")
 }
 
 // jooq generate 설정
@@ -157,21 +171,10 @@ jooq {
                         directory = "src/generated"
                     }
                     strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
+                    database.withExcludes("flyway_schema_history")
                 }
             }
         }
-    }
-}
-
-// DB 연결 가능 여부를 체크하는 헬퍼 함수
-fun isDbReachable(): Boolean {
-    return try {
-        // (Optional) 명시적 드라이버 로딩
-        Class.forName("com.mysql.cj.jdbc.Driver")
-        DriverManager.getConnection(dbUrl, dbUser, dbPasswd).use { it.isValid(2) }
-    } catch (e: Exception) {
-        logger.lifecycle("⚠️ DB 연결 실패: ${e.message}")
-        false
     }
 }
 
@@ -179,5 +182,14 @@ tasks.named("generateJooq") {
     onlyIf {
         // 이 조건이 false일 때는 아예 실행되지 않음
         isDbReachable()
+    }
+}
+
+if (isDbReachable()) {
+    flyway {
+        url = dbUrl
+        user = dbUser
+        password = dbPasswd
+        driver = "com.mysql.cj.jdbc.Driver"
     }
 }
