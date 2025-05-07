@@ -185,11 +185,28 @@ tasks.named("generateJooq") {
     }
 }
 
-if (isDbReachable()) {
-    flyway {
-        url = dbUrl
-        user = dbUser
-        password = dbPasswd
-        driver = "com.mysql.cj.jdbc.Driver"
+
+flyway {
+    url = dbUrl
+    user = dbUser
+    password = dbPasswd
+    driver = "com.mysql.cj.jdbc.Driver"
+    locations = arrayOf("filesystem:src/main/resources/db/migration")
+}
+
+// flywayMigrate를 build 전에 의존시키되, DB 연결 가능할 때만 실행
+tasks.named("flywayMigrate") {
+    onlyIf("DB 연결 가능 여부 확인") { isDbReachable() }
+    doFirst {
+        logger.lifecycle("🔄 DB 연결 확인됨 — Flyway 마이그레이션 시작")
     }
+}
+
+tasks.named("build") {
+    dependsOn("flywayMigrate")
+}
+
+// bootRun/BootJar 단계에도 동일 조건 적용
+tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
+    dependsOn("flywayMigrate")
 }
