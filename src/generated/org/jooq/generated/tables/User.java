@@ -75,7 +75,12 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>scale_advisor.user.social_id</code>.
      */
-    public final TableField<UserRecord, String> SOCIAL_ID = createField(DSL.name("social_id"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<UserRecord, String> SOCIAL_ID = createField(DSL.name("social_id"), SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>scale_advisor.user.login_type</code>.
+     */
+    public final TableField<UserRecord, String> LOGIN_TYPE = createField(DSL.name("login_type"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
      * The column <code>scale_advisor.user.created_at</code>.
@@ -133,7 +138,7 @@ public class User extends TableImpl<UserRecord> {
 
     @Override
     public List<UniqueKey<UserRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.KEY_USER_EMAIL, Keys.KEY_USER_NAME);
+        return Arrays.asList(Keys.KEY_USER_EMAIL);
     }
 
     @Override

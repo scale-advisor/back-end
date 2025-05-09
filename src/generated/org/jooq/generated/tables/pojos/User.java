@@ -21,6 +21,7 @@ public class User implements Serializable {
     private String password;
     private String name;
     private String socialId;
+    private String loginType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -32,6 +33,7 @@ public class User implements Serializable {
         this.password = value.password;
         this.name = value.name;
         this.socialId = value.socialId;
+        this.loginType = value.loginType;
         this.createdAt = value.createdAt;
         this.updatedAt = value.updatedAt;
     }
@@ -42,6 +44,7 @@ public class User implements Serializable {
         String password,
         String name,
         String socialId,
+        String loginType,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
     ) {
@@ -50,6 +53,7 @@ public class User implements Serializable {
         this.password = password;
         this.name = name;
         this.socialId = socialId;
+        this.loginType = loginType;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -130,6 +134,21 @@ public class User implements Serializable {
     }
 
     /**
+     * Getter for <code>scale_advisor.user.login_type</code>.
+     */
+    public String getLoginType() {
+        return this.loginType;
+    }
+
+    /**
+     * Setter for <code>scale_advisor.user.login_type</code>.
+     */
+    public User setLoginType(String loginType) {
+        this.loginType = loginType;
+        return this;
+    }
+
+    /**
      * Getter for <code>scale_advisor.user.created_at</code>.
      */
     public LocalDateTime getCreatedAt() {
@@ -198,6 +217,12 @@ public class User implements Serializable {
         }
         else if (!this.socialId.equals(other.socialId))
             return false;
+        if (this.loginType == null) {
+            if (other.loginType != null)
+                return false;
+        }
+        else if (!this.loginType.equals(other.loginType))
+            return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
                 return false;
@@ -222,6 +247,7 @@ public class User implements Serializable {
         result = prime * result + ((this.password == null) ? 0 : this.password.hashCode());
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         result = prime * result + ((this.socialId == null) ? 0 : this.socialId.hashCode());
+        result = prime * result + ((this.loginType == null) ? 0 : this.loginType.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
         return result;
@@ -236,6 +262,7 @@ public class User implements Serializable {
         sb.append(", ").append(password);
         sb.append(", ").append(name);
         sb.append(", ").append(socialId);
+        sb.append(", ").append(loginType);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);
 

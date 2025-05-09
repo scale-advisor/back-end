@@ -24,6 +24,5 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<UserRecord> KEY_USER_EMAIL = Internal.createUniqueKey(User.USER, DSL.name("KEY_user_email"), new TableField[] { User.USER.EMAIL }, true);
-    public static final UniqueKey<UserRecord> KEY_USER_NAME = Internal.createUniqueKey(User.USER, DSL.name("KEY_user_name"), new TableField[] { User.USER.NAME }, true);
     public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = Internal.createUniqueKey(User.USER, DSL.name("KEY_user_PRIMARY"), new TableField[] { User.USER.USER_ID }, true);
 }

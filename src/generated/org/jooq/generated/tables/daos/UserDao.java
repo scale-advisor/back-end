@@ -128,20 +128,6 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch a unique record that has <code>name = value</code>
-     */
-    public org.jooq.generated.tables.pojos.User fetchOneByName(String value) {
-        return fetchOne(User.USER.NAME, value);
-    }
-
-    /**
-     * Fetch a unique record that has <code>name = value</code>
-     */
-    public Optional<org.jooq.generated.tables.pojos.User> fetchOptionalByName(String value) {
-        return fetchOptional(User.USER.NAME, value);
-    }
-
-    /**
      * Fetch records that have <code>social_id BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
@@ -154,6 +140,21 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
      */
     public List<org.jooq.generated.tables.pojos.User> fetchBySocialId(String... values) {
         return fetch(User.USER.SOCIAL_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>login_type BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<org.jooq.generated.tables.pojos.User> fetchRangeOfLoginType(String lowerInclusive, String upperInclusive) {
+        return fetchRange(User.USER.LOGIN_TYPE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>login_type IN (values)</code>
+     */
+    public List<org.jooq.generated.tables.pojos.User> fetchByLoginType(String... values) {
+        return fetch(User.USER.LOGIN_TYPE, values);
     }
 
     /**
