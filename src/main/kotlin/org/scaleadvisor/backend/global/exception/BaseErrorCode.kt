@@ -24,6 +24,9 @@ enum class BaseErrorCode(
     // 404에러(Not Found 오류)
     NOT_FOUND_EXCEPTION("N001", "요청한 리소스 존재하지 않음."),
 
+    // 409에러(Conflict 오류)
+    CONFLICT_EXCEPTION("C001", "중복된 정보."),
+
     // 500에러(Internal Server 오류)
     INTERNAL_SERVER_EXCEPTION("I001", "서버 내부에서 에러 발생."),
 }
