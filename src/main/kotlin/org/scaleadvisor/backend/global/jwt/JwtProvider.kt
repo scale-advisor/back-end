@@ -1,0 +1,50 @@
+package org.scaleadvisor.backend.global.jwt
+
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.security.Keys
+import jakarta.annotation.PostConstruct
+import lombok.extern.slf4j.Slf4j
+import org.scaleadvisor.backend.user.domain.User
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
+import java.nio.charset.StandardCharsets
+import java.security.Key
+import java.util.Date
+
+@Component
+@Slf4j
+class JwtProvider {
+    companion object {
+        private val log: org.slf4j.Logger? = LoggerFactory.getLogger(JwtProvider::class.java)
+    }
+
+    private val ACCESS_TOKEN_VALID_MILLISECOND: Long = 1000L * 60 * 30
+
+    @Value("\${key.salt}")
+    private lateinit var salt: String
+    private lateinit var secretKey: Key
+
+    @PostConstruct
+    protected fun init() {
+        secretKey = Keys.hmacShaKeyFor(salt.toByteArray(StandardCharsets.UTF_8))
+    }
+
+    fun createAccessToken(userId: Long): String {
+        val now = Date()
+        val claims: Claims = Jwts.claims().apply {
+            put("userId", userId)
+            put("loginType", User.LoginType.BASIC)
+        }
+        val token = Jwts.builder()
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(Date(System.currentTimeMillis() + ACCESS_TOKEN_VALID_MILLISECOND))
+            .signWith(secretKey, SignatureAlgorithm.HS256)
+            .compact()
+        log?.info("[createAccessToken] access 토큰 생성 완료: {}", token)
+        return token
+    }
+}
