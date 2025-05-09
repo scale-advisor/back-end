@@ -1,0 +1,27 @@
+package org.scaleadvisor.backend.user.controller
+
+import org.scaleadvisor.backend.user.dto.LoginRequest
+import org.scaleadvisor.backend.user.service.AuthService
+import org.scaleadvisor.backend.user.dto.SignUpRequest
+import org.scaleadvisor.backend.user.dto.UserResponse
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@RequestMapping("/auth")
+class AuthController(
+    private val authService: AuthService
+) {
+    @PostMapping("/sign-up")
+    fun signUp(@RequestBody request: SignUpRequest): ResponseEntity<Long> {
+        val id = authService.signup(request)
+        return ResponseEntity.ok().body(id)
+    }
+
+    @PostMapping("/login/email")
+    fun login(@RequestBody request: LoginRequest): ResponseEntity<UserResponse> {
+        val user = authService.login(request)
+        return ResponseEntity.ok().body(user)
+    }
+}
+
