@@ -4,7 +4,7 @@
 package org.jooq.generated;
 
 
-import org.jooq.generated.tables.Users;
+import org.jooq.generated.tables.User;
 
 
 /**
@@ -14,7 +14,7 @@ import org.jooq.generated.tables.Users;
 public class Tables {
 
     /**
-     * The table <code>scale_advisor.users</code>.
+     * The table <code>scale_advisor.user</code>.
      */
-    public static final Users USERS = Users.USERS;
+    public static final User USER = User.USER;
 }
