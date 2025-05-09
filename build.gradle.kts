@@ -49,10 +49,10 @@ dependencies {
     jooqGenerator("org.jooq:jooq-codegen:3.19.22")
     // spring
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-//    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-//    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.springframework.security:spring-security-test")
     //jwt
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
