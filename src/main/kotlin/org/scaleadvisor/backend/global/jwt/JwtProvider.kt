@@ -22,6 +22,7 @@ class JwtProvider {
     }
 
     private val ACCESS_TOKEN_VALID_MILLISECOND: Long = 1000L * 30
+    private val REFRESH_TOKEN_VALID_MILLISECOND: Long = 1000L * 60 * 60 * 24
 
     @Value("\${key.salt}")
     private lateinit var salt: String
@@ -48,6 +49,19 @@ class JwtProvider {
             .signWith(secretKey, SignatureAlgorithm.HS256)
             .compact()
         log?.info("[createAccessToken] access 토큰 생성 완료: {}", token)
+        return token
+    }
+
+    fun createRefreshToken(): String {
+        val now = Date()
+        val claims: Claims = Jwts.claims()
+        val token = Jwts.builder()
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(Date(System.currentTimeMillis() + REFRESH_TOKEN_VALID_MILLISECOND))
+            .signWith(secretKey, SignatureAlgorithm.HS256)
+            .compact()
+        log?.info("[RefreshAccessToken] refresh 토큰 생성 완료: {}", token)
         return token
     }
 }
