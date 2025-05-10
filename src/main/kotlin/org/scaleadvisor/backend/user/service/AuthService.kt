@@ -46,7 +46,7 @@ class AuthService(
         if (!passwordEncoder.matches(request.password, user.password)) {
             throw ValidationException(UserMessageConstant.NOT_VALID_PASSWORD_MESSAGE)
         }
-        val accessToken = jwtProvider.createAccessToken(user.userId!!)
+        val accessToken = jwtProvider.createAccessToken(user.userId!!, user.email)
         return LoginResponse(accessToken = accessToken)
     }
 }

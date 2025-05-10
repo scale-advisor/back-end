@@ -21,7 +21,7 @@ class JwtProvider {
         private val log: org.slf4j.Logger? = LoggerFactory.getLogger(JwtProvider::class.java)
     }
 
-    private val ACCESS_TOKEN_VALID_MILLISECOND: Long = 1000L * 60 * 30
+    private val ACCESS_TOKEN_VALID_MILLISECOND: Long = 1000L * 30
 
     @Value("\${key.salt}")
     private lateinit var salt: String
@@ -32,10 +32,13 @@ class JwtProvider {
         secretKey = Keys.hmacShaKeyFor(salt.toByteArray(StandardCharsets.UTF_8))
     }
 
-    fun createAccessToken(userId: Long): String {
+    fun getSecretKey(): Key = secretKey
+
+    fun createAccessToken(userId: Long, email: String): String {
         val now = Date()
         val claims: Claims = Jwts.claims().apply {
             put("userId", userId)
+            put("email", email)
             put("loginType", User.LoginType.BASIC)
         }
         val token = Jwts.builder()
