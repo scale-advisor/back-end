@@ -21,7 +21,7 @@ class JwtProvider {
         private val log: org.slf4j.Logger? = LoggerFactory.getLogger(JwtProvider::class.java)
     }
 
-    val ACCESS_TOKEN_VALID_MILLISECOND: Long = 1000L * 30
+    val ACCESS_TOKEN_VALID_MILLISECOND: Long = 1000L * 60 * 30
     val REFRESH_TOKEN_VALID_MILLISECOND: Long = 1000L * 60 * 60 * 24
 
     @Value("\${key.salt}")

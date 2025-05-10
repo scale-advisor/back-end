@@ -61,7 +61,24 @@ class AuthService(
         return LoginResponse(accessToken = accessToken, refreshToken = refreshToken)
     }
 
+    fun logout(refreshToken: String) {
+        val claims = jwtProvider.parseClaims(refreshToken)
+        val expMillis = claims.expiration.time - System.currentTimeMillis()
+        if (expMillis <= 0) return
+
+        // 리프레시 토큰 블랙리스트화
+        val blacklistKey = "BL:RT"
+        redisTemplate.opsForSet()
+            .add(blacklistKey, refreshToken)
+        redisTemplate.expire(blacklistKey, expMillis, TimeUnit.MILLISECONDS)
+    }
+
+
     fun refreshToken(refreshToken: String): LoginResponse {
+        if (redisTemplate.opsForSet().isMember("BL:RT", refreshToken) == true) {
+            throw InvalidTokenException("이미 로그아웃된 유저 입니다.")
+        }
+
         val claims = jwtProvider.parseClaims(refreshToken)
         val userId = (claims["userId"] as Number).toLong()
         val redisKey = "$REFRESH_TOKEN_PREFIX$userId"
