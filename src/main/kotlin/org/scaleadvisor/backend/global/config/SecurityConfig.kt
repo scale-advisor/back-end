@@ -1,5 +1,7 @@
 package org.scaleadvisor.backend.global.config
 
+import org.scaleadvisor.backend.global.filter.JwtAuthenticationFilter
+import org.scaleadvisor.backend.global.filter.JwtAuthorizationFilter
 import org.scaleadvisor.backend.global.security.CustomUserDetailsService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,11 +14,14 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val customUserDetailsService: CustomUserDetailsService
+    private val customUserDetailsService: CustomUserDetailsService,
+    private val jwtAuthenticationFilter: JwtAuthenticationFilter,
+    private val jwtAuthorizationFilter: JwtAuthorizationFilter
 ) {
 
     @Bean
@@ -53,9 +58,12 @@ class SecurityConfig(
                         "/v3/api-docs/**",
                         "/api-docs/**",
                         "/api-docs/swagger-config").permitAll()
+                    .anyRequest().authenticated()
             }
 
             .authenticationProvider(authenticationProvider())
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
         return http.build()
     }
 }
