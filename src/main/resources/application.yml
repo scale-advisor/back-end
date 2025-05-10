@@ -20,6 +20,11 @@ spring:
     validate-on-migrate: true
     baseline-on-migrate: true
 
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
 logging:
   level:
     org.jooq.tools.LoggerListener: DEBUG

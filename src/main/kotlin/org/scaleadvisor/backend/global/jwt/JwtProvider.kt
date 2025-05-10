@@ -21,7 +21,8 @@ class JwtProvider {
         private val log: org.slf4j.Logger? = LoggerFactory.getLogger(JwtProvider::class.java)
     }
 
-    private val ACCESS_TOKEN_VALID_MILLISECOND: Long = 1000L * 30
+    val ACCESS_TOKEN_VALID_MILLISECOND: Long = 1000L * 60 * 30
+    val REFRESH_TOKEN_VALID_MILLISECOND: Long = 1000L * 60 * 60 * 24
 
     @Value("\${key.salt}")
     private lateinit var salt: String
@@ -50,4 +51,26 @@ class JwtProvider {
         log?.info("[createAccessToken] access 토큰 생성 완료: {}", token)
         return token
     }
+
+    fun createRefreshToken(userId: Long): String {
+        val now = Date()
+        val claims: Claims = Jwts.claims().apply {
+            put("userId", userId)
+        }
+        val token = Jwts.builder()
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(Date(System.currentTimeMillis() + REFRESH_TOKEN_VALID_MILLISECOND))
+            .signWith(secretKey, SignatureAlgorithm.HS256)
+            .compact()
+        log?.info("[RefreshAccessToken] refresh 토큰 생성 완료: {}", token)
+        return token
+    }
+
+    fun parseClaims(token: String) =
+        Jwts.parserBuilder()
+            .setSigningKey(secretKey)
+            .build()
+            .parseClaimsJws(token)
+            .body
 }

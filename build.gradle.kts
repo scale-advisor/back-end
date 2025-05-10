@@ -70,6 +70,8 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok:1.18.26")
     // mysql
     runtimeOnly("com.mysql:mysql-connector-j")
+    // redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
     // swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
     // discord logback

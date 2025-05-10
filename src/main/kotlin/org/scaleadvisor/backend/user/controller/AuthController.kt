@@ -1,9 +1,7 @@
 package org.scaleadvisor.backend.user.controller
 
-import org.scaleadvisor.backend.user.dto.LoginRequest
+import org.scaleadvisor.backend.user.dto.*
 import org.scaleadvisor.backend.user.service.AuthService
-import org.scaleadvisor.backend.user.dto.SignUpRequest
-import org.scaleadvisor.backend.user.dto.LoginResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -22,6 +20,18 @@ class AuthController(
     fun login(@RequestBody request: LoginRequest): ResponseEntity<LoginResponse> {
         val user = authService.login(request)
         return ResponseEntity.ok().body(user)
+    }
+
+    @PostMapping("/logout")
+    fun logout(@RequestBody request: LogoutRequest): ResponseEntity<Void> {
+        authService.logout(request.refreshToken)
+        return ResponseEntity.noContent().build()
+    }
+
+    @PostMapping("/refresh")
+    fun refresh(@RequestBody request: RefreshRequest): ResponseEntity<LoginResponse> {
+        val refresh = authService.refreshToken(request.refreshToken)
+        return ResponseEntity.ok().body(refresh)
     }
 }
 
