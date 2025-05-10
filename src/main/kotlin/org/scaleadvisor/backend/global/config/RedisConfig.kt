@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.global.redis
+package org.scaleadvisor.backend.global.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
