@@ -1,8 +1,8 @@
 package org.scaleadvisor.backend.user.repository
 
 import org.jooq.DSLContext
-import org.jooq.generated.tables.Users.USERS
-import org.scaleadvisor.backend.user.dto.UserResponse
+import org.jooq.generated.tables.User.USER
+import org.scaleadvisor.backend.user.domain.User
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -10,28 +10,32 @@ class UserRepository(
     private val dsl: DSLContext
 ) {
 
-    fun insertUser(username: String, email: String, password: String): Long {
-        val record = dsl.insertInto(USERS)
-            .set(USERS.USERNAME, username)
-            .set(USERS.EMAIL, email)
-            .set(USERS.PASSWORD, password)
-            .returningResult(USERS.ID)
-            .fetchOne()
+    fun createUser(user: User): Long = dsl
+        .insertInto(USER)
+        .set(USER.EMAIL, user.email)
+        .set(USER.PASSWORD, user.password)
+        .set(USER.NAME, user.name)
+        .set(USER.SOCIAL_ID, user.socialId)
+        .set(USER.LOGIN_TYPE, user.loginType.name)
+        .returning(USER.USER_ID)
+        .fetchOne()!![USER.USER_ID]
 
-        return record?.value1() ?: throw RuntimeException("User 추가 실패")
-    }
-
-    fun findUserById(id: Long): UserResponse? {
-        val record = dsl.selectFrom(USERS)
-            .where(USERS.ID.eq(id))
-            .fetchOne()
-
-        return record?.let {
-            UserResponse(
-                id = it.id,
-                username = it.username,
-                email = it.email
+    fun findByEmail(email: String): User? = dsl
+        .selectFrom(USER)
+        .where(USER.EMAIL.eq(email))
+        .fetchOne { r ->
+            User.fromDb(
+                userId = r[USER.USER_ID],
+                email = r[USER.EMAIL],
+                password = r[USER.PASSWORD],
+                name = r[USER.NAME],
+                socialId = r[USER.SOCIAL_ID],
+                loginType = User.LoginType.valueOf(r[USER.LOGIN_TYPE]),
+                createdAt = r[USER.CREATED_AT],
+                updatedAt = r[USER.UPDATED_AT]
             )
         }
-    }
+
+    fun existsByEmail(email: String): Boolean = dsl
+        .fetchCount(USER, USER.EMAIL.eq(email)) > 0
 }

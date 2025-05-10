@@ -35,3 +35,6 @@ springdoc:
     path: /swagger-ui
     operations-sorter: method
     tags-sorter: alpha
+
+key:
+  salt: ${SALT_KEY}

@@ -24,6 +24,7 @@ class GlobalExceptionHandler {
         private const val UNAUTHORIZED_LOG_MESSAGE      = "Unauthorized error occurred: "
         private const val FORBIDDEN_LOG_MESSAGE         = "Forbidden error occurred: "
         private const val NOT_FOUND_LOG_MESSAGE         = "Not found error occurred: "
+        private const val CONFLICT_LOG_MESSAGE         = "Conflict error occurred: "
         private const val INTERNAL_SERVER_LOG_MESSAGE   = "Internal server error occurred: "
     }
 
@@ -32,6 +33,7 @@ class GlobalExceptionHandler {
         ValidationException::class,
         MissingServletRequestParameterException::class,
         MethodArgumentNotValidException::class,
+        InvalidTokenException::class
     )
     fun handleValidationExceptions(ex: Exception): ResponseEntity<ErrorResponse> {
         logger.warn(VALIDATION_LOG_MESSAGE, ex)
@@ -85,6 +87,15 @@ class GlobalExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
             .body(ErrorResponse(customEx))
+    }
+
+    /** Conflict Exception **/
+    @ExceptionHandler(ConflictException::class)
+    fun handleConflictException(ex: ConflictException): ResponseEntity<ErrorResponse> {
+        logger.warn(CONFLICT_LOG_MESSAGE, ex)
+        return ResponseEntity
+            .status(HttpStatus.CONFLICT)
+            .body(ErrorResponse(ex))
     }
 
     /** Fallback for all other exceptions **/

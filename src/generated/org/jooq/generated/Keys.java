@@ -6,8 +6,8 @@ package org.jooq.generated;
 
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
-import org.jooq.generated.tables.Users;
-import org.jooq.generated.tables.records.UsersRecord;
+import org.jooq.generated.tables.User;
+import org.jooq.generated.tables.records.UserRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
 
@@ -23,7 +23,6 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<UsersRecord> KEY_USERS_EMAIL = Internal.createUniqueKey(Users.USERS, DSL.name("KEY_users_email"), new TableField[] { Users.USERS.EMAIL }, true);
-    public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, DSL.name("KEY_users_PRIMARY"), new TableField[] { Users.USERS.ID }, true);
-    public static final UniqueKey<UsersRecord> KEY_USERS_USERNAME = Internal.createUniqueKey(Users.USERS, DSL.name("KEY_users_username"), new TableField[] { Users.USERS.USERNAME }, true);
+    public static final UniqueKey<UserRecord> KEY_USER_EMAIL = Internal.createUniqueKey(User.USER, DSL.name("KEY_user_email"), new TableField[] { User.USER.EMAIL }, true);
+    public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = Internal.createUniqueKey(User.USER, DSL.name("KEY_user_PRIMARY"), new TableField[] { User.USER.USER_ID }, true);
 }

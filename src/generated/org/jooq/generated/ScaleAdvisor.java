@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.jooq.Catalog;
 import org.jooq.Table;
-import org.jooq.generated.tables.Users;
+import org.jooq.generated.tables.User;
 import org.jooq.impl.SchemaImpl;
 
 
@@ -27,9 +27,9 @@ public class ScaleAdvisor extends SchemaImpl {
     public static final ScaleAdvisor SCALE_ADVISOR = new ScaleAdvisor();
 
     /**
-     * The table <code>scale_advisor.users</code>.
+     * The table <code>scale_advisor.user</code>.
      */
-    public final Users USERS = Users.USERS;
+    public final User USER = User.USER;
 
     /**
      * No further instances allowed
@@ -47,7 +47,7 @@ public class ScaleAdvisor extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            Users.USERS
+            User.USER
         );
     }
 }
