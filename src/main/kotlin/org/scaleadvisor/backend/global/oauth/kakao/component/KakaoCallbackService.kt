@@ -1,6 +1,5 @@
 package org.scaleadvisor.backend.global.oauth.kakao.component
 
-import org.scaleadvisor.backend.global.jwt.JwtUtil
 import org.slf4j.LoggerFactory
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.scaleadvisor.backend.global.exception.model.KakaoBadRequestException
@@ -33,6 +32,8 @@ class KakaoCallbackService(
     @Value("\${kakao.userInfo-callback-url}")
     private lateinit var kakaoUserInfoUrl: String
 
+    @Value("\${kakao.token-expire-url}")
+    private lateinit var kakaoExpireTokenUrl: String
 
     fun getKakaoToken(code: String): String {
         val headers = HttpHeaders().apply {
@@ -96,5 +97,28 @@ class KakaoCallbackService(
             "nickname" to nickname,
             "email" to email
         )
+    }
+
+    fun expireKakaoToken(kakaoAccessToken: String): String {
+        val headers = HttpHeaders().apply {
+            contentType = MediaType.APPLICATION_FORM_URLENCODED
+            setBearerAuth(kakaoAccessToken)
+        }
+
+        val body: MultiValueMap<String, String> = LinkedMultiValueMap()
+        val requestEntity = HttpEntity(body, headers)
+
+        val response: ResponseEntity<String> =
+            restTemplate.postForEntity(kakaoExpireTokenUrl, requestEntity, String::class.java)
+
+        if (!response.statusCode.is2xxSuccessful) {
+            throw KakaoBadRequestException("카카오 로그아웃 요청 실패: ${response.statusCode.value()}")
+        }
+
+        val rootNode = objectMapper.readTree(response.body ?: throw KakaoBadRequestException("카카오로 부터 빈 값 반환."))
+        val kakaoUserId = rootNode.get("id").asText()
+
+        log?.info("[KakaoLogout] user_id = {}", kakaoUserId)
+        return kakaoUserId
     }
 }
