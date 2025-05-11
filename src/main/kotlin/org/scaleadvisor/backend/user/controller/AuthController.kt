@@ -1,7 +1,6 @@
 package org.scaleadvisor.backend.user.controller
 
 import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
-import org.scaleadvisor.backend.global.oauth.kakao.service.KakaoService
 import org.scaleadvisor.backend.user.dto.*
 import org.scaleadvisor.backend.user.service.AuthService
 import org.springframework.http.ResponseEntity
@@ -10,8 +9,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/auth")
 class AuthController(
-    private val authService: AuthService,
-    private val kakaoService: KakaoService
+    private val authService: AuthService
 ) {
     @PostMapping("/sign-up")
     fun signUp(@RequestBody request: SignUpRequest): ResponseEntity<Long> {
@@ -41,7 +39,7 @@ class AuthController(
     fun kakaoLogin(
         @RequestParam code: String
     ): ResponseEntity<LoginResponse> {
-        val response = kakaoService.login(KakaoCallbackRequest(code))
+        val response = authService.kakaoLogin(KakaoCallbackRequest(code))
         return ResponseEntity.ok().body(response)
     }
 
