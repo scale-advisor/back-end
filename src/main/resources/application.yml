@@ -48,6 +48,6 @@ key:
 kakao:
   api-key: ${KAKAO_API_KEY}
   login-redirect-url: ${KAKAO_LOGIN_REDIRECT_URL}
-  logout-redirect-url: ${KAKAO_LOGOUT_REDIRECT_URL}
+  token-expire-url: ${KAKAO_EXPIRE_TOKEN_URL}
   code-callback-url: ${KAKAO_CODE_CALLBACK_URL}
   userInfo-callback-url: ${KAKAO_USERINFO_CALLBACK_URL}
