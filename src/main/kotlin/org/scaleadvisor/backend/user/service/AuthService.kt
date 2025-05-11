@@ -73,6 +73,7 @@ class AuthService(
     }
 
     fun kakaoLogin(request: KakaoCallbackRequest): LoginResponse {
+        // 테스트 시 이거 request.code로만
         val kakaoAccessToken = kakaoCallbackService.getKakaoToken(request.code)
         val userInfo = kakaoCallbackService.getUserInfoFromKakaoToken(kakaoAccessToken)
 

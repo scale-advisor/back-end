@@ -48,7 +48,7 @@ class AuthController(
 //    fun getKakaoUserInfo(
 //        @RequestParam("code") accessToken: String
 //    ): ResponseEntity<LoginResponse> {
-//        val response = kakaoService.login(KakaoCallbackRequest(accessToken))
+//        val response = authService.kakaoLogin(KakaoCallbackRequest(accessToken))
 //        return ResponseEntity.ok().body(response)
 //    }
 }
