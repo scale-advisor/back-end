@@ -1,5 +1,6 @@
 package org.scaleadvisor.backend.user.controller
 
+import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
 import org.scaleadvisor.backend.user.dto.*
 import org.scaleadvisor.backend.user.service.AuthService
 import org.springframework.http.ResponseEntity
@@ -18,8 +19,8 @@ class AuthController(
 
     @PostMapping("/login/email")
     fun login(@RequestBody request: LoginRequest): ResponseEntity<LoginResponse> {
-        val user = authService.login(request)
-        return ResponseEntity.ok().body(user)
+        val response = authService.login(request)
+        return ResponseEntity.ok().body(response)
     }
 
     @PostMapping("/logout")
@@ -33,5 +34,22 @@ class AuthController(
         val refresh = authService.refreshToken(request.refreshToken)
         return ResponseEntity.ok().body(refresh)
     }
+
+    @RequestMapping("/kakao/callback", method = [RequestMethod.GET, RequestMethod.POST])
+    fun kakaoLogin(
+        @RequestParam code: String
+    ): ResponseEntity<LoginResponse> {
+        val response = authService.kakaoLogin(KakaoCallbackRequest(code))
+        return ResponseEntity.ok().body(response)
+    }
+
+    // 테스트용 코드
+//    @GetMapping("/kakao/user")
+//    fun getKakaoUserInfo(
+//        @RequestParam("code") accessToken: String
+//    ): ResponseEntity<LoginResponse> {
+//        val response = authService.kakaoLogin(KakaoCallbackRequest(accessToken))
+//        return ResponseEntity.ok().body(response)
+//    }
 }
 

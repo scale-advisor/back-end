@@ -33,7 +33,8 @@ class GlobalExceptionHandler {
         ValidationException::class,
         MissingServletRequestParameterException::class,
         MethodArgumentNotValidException::class,
-        InvalidTokenException::class
+        InvalidTokenException::class,
+        KakaoBadRequestException::class
     )
     fun handleValidationExceptions(ex: Exception): ResponseEntity<ErrorResponse> {
         logger.warn(VALIDATION_LOG_MESSAGE, ex)

@@ -6,6 +6,8 @@ import org.scaleadvisor.backend.global.exception.model.InvalidTokenException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.global.exception.model.ValidationException
 import org.scaleadvisor.backend.global.jwt.JwtProvider
+import org.scaleadvisor.backend.global.oauth.kakao.component.KakaoCallbackService
+import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
 import org.scaleadvisor.backend.user.domain.User
 import org.scaleadvisor.backend.user.dto.LoginRequest
 import org.scaleadvisor.backend.user.dto.LoginResponse
@@ -23,9 +25,11 @@ class AuthService(
     private val userRepository: UserRepository,
     private val jwtProvider: JwtProvider,
     private val passwordEncoder: PasswordEncoder,
-    private val redisTemplate: RedisTemplate<String, String>
+    private val redisTemplate: RedisTemplate<String, String>,
+    private val kakaoCallbackService: KakaoCallbackService
 ) {
     private val REFRESH_TOKEN_PREFIX = "RT:"
+    private val SOCIAL_TOKEN_PREFIX = "ST:"
 
     fun signup(request: SignUpRequest): Long {
         if (userRepository.existsByEmail(request.email)) {
@@ -43,7 +47,8 @@ class AuthService(
         return userRepository.createUser(newUser)
     }
 
-    fun login(request: LoginRequest): LoginResponse {
+    fun login(request: LoginRequest,
+              externalAccessToken: String? = null): LoginResponse {
         val user = userRepository
             .findByEmail(request.email)
             ?: throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_EMAIL_MESSAGE, request.email))
@@ -58,11 +63,47 @@ class AuthService(
         redisTemplate.opsForValue()
             .set(key, refreshToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND, TimeUnit.MILLISECONDS)
 
+        if (user.loginType == User.LoginType.KAKAO && externalAccessToken != null) {
+            val externalKey = "$SOCIAL_TOKEN_PREFIX${user.userId}"
+            redisTemplate.opsForValue()
+                .set(externalKey, externalAccessToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND, TimeUnit.MILLISECONDS)
+        }
+
         return LoginResponse(accessToken = accessToken, refreshToken = refreshToken)
+    }
+
+    fun kakaoLogin(request: KakaoCallbackRequest): LoginResponse {
+        // 테스트 시 이거 request.code로만
+        val kakaoAccessToken = kakaoCallbackService.getKakaoToken(request.code)
+        val userInfo = kakaoCallbackService.getUserInfoFromKakaoToken(kakaoAccessToken)
+
+        val kakaoUserId  = userInfo["id"].toString()
+        val nickname = userInfo["nickname"].toString()
+        val email    = userInfo["email"].toString()
+
+        if (!userRepository.existsByEmail(email)) {
+            // 이 부분 같은 경우 다시 의논
+            val encodedPassword = passwordEncoder.encode(kakaoUserId)
+            val newUser = User.of(
+                email     = email,
+                password  = encodedPassword,
+                name      = nickname,
+                loginType = User.LoginType.KAKAO,
+                socialId  = kakaoUserId
+            )
+            userRepository.createUser(newUser)
+        }
+
+        return login(
+            LoginRequest(email = email, password = kakaoUserId),
+            externalAccessToken = kakaoAccessToken
+        )
     }
 
     fun logout(refreshToken: String) {
         val claims = jwtProvider.parseClaims(refreshToken)
+        val userId    = (claims["userId"] as Number).toLong()
+        val user = userRepository.findById(userId) ?: return
         val expMillis = claims.expiration.time - System.currentTimeMillis()
         if (expMillis <= 0) return
 
@@ -71,8 +112,16 @@ class AuthService(
         redisTemplate.opsForSet()
             .add(blacklistKey, refreshToken)
         redisTemplate.expire(blacklistKey, expMillis, TimeUnit.MILLISECONDS)
-    }
 
+        // 카카오 계정 로그아웃일 경우 카카오 토큰 Expire까지 시키는 식
+        if (user.loginType == User.LoginType.KAKAO) {
+            val externalKey = "$SOCIAL_TOKEN_PREFIX$userId"
+            val kakaoToken = redisTemplate.opsForValue().get(externalKey)
+
+            kakaoCallbackService.expireKakaoToken(kakaoToken!!)
+            redisTemplate.delete(externalKey)
+        }
+    }
 
     fun refreshToken(refreshToken: String): LoginResponse {
         if (redisTemplate.opsForSet().isMember("BL:RT", refreshToken) == true) {
