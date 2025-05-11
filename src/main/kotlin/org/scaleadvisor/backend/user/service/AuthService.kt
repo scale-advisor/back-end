@@ -73,7 +73,6 @@ class AuthService(
         redisTemplate.expire(blacklistKey, expMillis, TimeUnit.MILLISECONDS)
     }
 
-
     fun refreshToken(refreshToken: String): LoginResponse {
         if (redisTemplate.opsForSet().isMember("BL:RT", refreshToken) == true) {
             throw InvalidTokenException("이미 로그아웃된 유저 입니다.")
