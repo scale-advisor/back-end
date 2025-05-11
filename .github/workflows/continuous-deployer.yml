@@ -65,9 +65,9 @@ jobs:
             sshpass -p "${{ secrets.PRIVATE_EC2_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.PRIVATE_EC2_HOST }} << 'EOF'
 
             #echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-            sudo docker-compose -f ~/app/docker/docker-compose-deploy.yml down --rmi all
-            sudo docker-compose -f ~/app/docker/docker-compose-deploy.yml pull
-            sudo docker-compose -f ~/app/docker/docker-compose-deploy.yml up -d --force-recreate
+            sudo docker-compose -f "${{ secrets.DOCKER_FILE_PATH }}" down --rmi all
+            sudo docker-compose -f "${{ secrets.DOCKER_FILE_PATH }}" pull
+            sudo docker-compose -f "${{ secrets.DOCKER_FILE_PATH }}" up -d --force-recreate
 
       - name: Remove GitHub Actions IP
         run: |
