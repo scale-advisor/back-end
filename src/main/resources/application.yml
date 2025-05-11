@@ -44,3 +44,10 @@ springdoc:
 
 key:
   salt: ${SALT_KEY:your-very-very-very-very-very-very-very-very-very-long-sentence}
+
+kakao:
+  api-key: ${KAKAO_API_KEY}
+  login-redirect-url: ${KAKAO_LOGIN_REDIRECT_URL}
+  logout-redirect-url: ${KAKAO_LOGOUT_REDIRECT_URL}
+  code-callback-url: ${KAKAO_CODE_CALLBACK_URL}
+  userInfo-callback-url: ${KAKAO_USERINFO_CALLBACK_URL}
