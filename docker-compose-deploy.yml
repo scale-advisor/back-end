@@ -15,7 +15,7 @@ services:
     depends_on:
       - mysql
     ports:
-      - "${SPRING_PORT}:8080"
+      - "${SPRING_PORT:-8080}:8080"
   db:
     image: mysql:8.3          # 필요에 따라 5.7, 8.0 등 원하는 버전으로 변경
     container_name: db
