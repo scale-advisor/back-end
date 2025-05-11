@@ -1,7 +1,7 @@
 services:
   db:
     image: mysql:8.3          # 필요에 따라 5.7, 8.0 등 원하는 버전으로 변경
-    container_name: scale_advisor_db
+    container_name: db
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-secret}
@@ -15,7 +15,7 @@ services:
       - "3306:3306"
     volumes:
       - type: bind
-        source: ${DB_MOUNT_PATH:-/db}
+        source: ${DB_MOUNT_PATH:-/db/mysql}
         target: /var/lib/mysql
       # 필요 시 초기 스키마·시드 데이터 넣을 place
       # - ./mysql/init:/docker-entrypoint-initdb.d:ro
@@ -24,3 +24,14 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  redis:
+    image: redis:7.2.4
+    container_name: in-memory-db
+    volumes:
+      - type: bind
+        source: ${REDIS_MOUNT_PATH:-/db/redis}
+        target: /data
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD}" ]

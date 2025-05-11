@@ -208,11 +208,6 @@ tasks.named("flywayMigrate") {
     }
 }
 
-tasks.named("build") {
-    dependsOn("flywayMigrate")
-}
-
-// bootRun/BootJar 단계에도 동일 조건 적용
-tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
+tasks.named("generateJooq") {
     dependsOn("flywayMigrate")
 }
