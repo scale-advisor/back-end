@@ -26,6 +26,15 @@ spring:
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD:secret}
 
+  mail:
+    host: ${GOOGLE_EMAIL_HOST}
+    port: ${GOOGLE_EMAIL_PORT}
+    username: ${GOOGLE_EMAIL}
+    password: ${GOOGLE_APP_PWD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
 logging:
   level:
     org.jooq.tools.LoggerListener: DEBUG
@@ -58,3 +67,6 @@ kakao:
   token-expire-url: ${KAKAO_EXPIRE_TOKEN_URL}
   code-callback-url: ${KAKAO_CODE_CALLBACK_URL}
   userInfo-callback-url: ${KAKAO_USERINFO_CALLBACK_URL}
+
+app:
+  url: ${APP_URL}

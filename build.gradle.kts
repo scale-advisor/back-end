@@ -83,6 +83,8 @@ dependencies {
     // flyway
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
+    // email
+    implementation("org.springframework.boot:spring-boot-starter-mail")
 }
 
 kotlin {

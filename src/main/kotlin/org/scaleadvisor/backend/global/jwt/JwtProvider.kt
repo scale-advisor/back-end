@@ -70,7 +70,7 @@ class JwtProvider {
         return token
     }
 
-    fun parseClaims(token: String) =
+    fun parseClaims(token: String): Claims =
         Jwts.parserBuilder()
             .setSigningKey(secretKey)
             .build()
