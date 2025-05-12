@@ -1,5 +1,6 @@
 package org.scaleadvisor.backend.user.service
 
+import org.scaleadvisor.backend.global.email.service.EmailService
 import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
 import org.scaleadvisor.backend.global.exception.model.ConflictException
 import org.scaleadvisor.backend.global.exception.model.InvalidTokenException
@@ -14,6 +15,7 @@ import org.scaleadvisor.backend.user.dto.LoginRequest
 import org.scaleadvisor.backend.user.dto.LoginResponse
 import org.scaleadvisor.backend.user.dto.SignUpRequest
 import org.scaleadvisor.backend.user.repository.UserRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -27,10 +29,14 @@ class AuthService(
     private val jwtProvider: JwtProvider,
     private val passwordEncoder: PasswordEncoder,
     private val redisTemplate: RedisTemplate<String, String>,
-    private val kakaoCallbackService: KakaoCallbackService
+    private val kakaoCallbackService: KakaoCallbackService,
+    private val emailService: EmailService
 ) {
     private val REFRESH_TOKEN_PREFIX = "RT:"
     private val SOCIAL_TOKEN_PREFIX = "ST:"
+
+    @Value("\${app.url}")
+    private val appUrl: String = ""
 
     fun signup(request: SignUpRequest): Long {
         if (userRepository.existsByEmail(request.email)) {
@@ -46,13 +52,18 @@ class AuthService(
             name = request.name,
             loginType = User.LoginType.BASIC
         )
+
+        emailService.sendConfirmationEmail(
+            generatedId,
+            request.email,
+            appUrl
+        )
+
         return userRepository.createUser(newUser, generatedId)
     }
 
-    fun login(request: LoginRequest,
-              externalAccessToken: String? = null): LoginResponse {
-        val user = userRepository
-            .findByEmail(request.email)
+    fun login(request: LoginRequest, socialToken: String? = null): LoginResponse {
+        val user = userRepository.findByEmail(request.email)
             ?: throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_EMAIL_MESSAGE, request.email))
 
         if (!passwordEncoder.matches(request.password, user.password)) {
@@ -65,10 +76,10 @@ class AuthService(
         redisTemplate.opsForValue()
             .set(key, refreshToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
 
-        if (user.loginType == User.LoginType.KAKAO && externalAccessToken != null) {
+        if (user.loginType == User.LoginType.KAKAO && socialToken != null) {
             val externalKey = "$SOCIAL_TOKEN_PREFIX${user.userId}"
             redisTemplate.opsForValue()
-                .set(externalKey, externalAccessToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
+                .set(externalKey, socialToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
         }
 
         return LoginResponse(accessToken = accessToken, refreshToken = refreshToken)
@@ -99,7 +110,7 @@ class AuthService(
 
         return login(
             LoginRequest(email = email, password = kakaoUserId),
-            externalAccessToken = kakaoAccessToken
+            socialToken = kakaoAccessToken
         )
     }
 
