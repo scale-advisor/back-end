@@ -32,6 +32,9 @@ logging:
 #  discord:
 #    webhook-url: ${WEB_HOOK_URL}
 #  config: classpath:logback.xml
+server:
+  servlet:
+    context-path: ${CONTEXT_PATH:/server}
 
 springdoc:
   api-docs:
