@@ -54,7 +54,6 @@ class AuthService(
         )
 
         emailService.sendConfirmationEmail(
-            generatedId,
             request.email,
             appUrl
         )
