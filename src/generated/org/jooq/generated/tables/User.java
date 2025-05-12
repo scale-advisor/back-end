@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
@@ -55,7 +54,7 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>scale_advisor.user.user_id</code>.
      */
-    public final TableField<UserRecord, Long> USER_ID = createField(DSL.name("user_id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<UserRecord, Long> USER_ID = createField(DSL.name("user_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>scale_advisor.user.email</code>.
@@ -124,11 +123,6 @@ public class User extends TableImpl<UserRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : ScaleAdvisor.SCALE_ADVISOR;
-    }
-
-    @Override
-    public Identity<UserRecord, Long> getIdentity() {
-        return (Identity<UserRecord, Long>) super.getIdentity();
     }
 
     @Override
