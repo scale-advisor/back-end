@@ -36,9 +36,7 @@ class AuthController(
     }
 
     @RequestMapping("/kakao/callback", method = [RequestMethod.GET, RequestMethod.POST])
-    fun kakaoLogin(
-        @RequestParam code: String
-    ): ResponseEntity<LoginResponse> {
+    fun kakaoLogin(@RequestParam code: String): ResponseEntity<LoginResponse> {
         val response = authService.kakaoLogin(KakaoCallbackRequest(code))
         return ResponseEntity.ok().body(response)
     }
