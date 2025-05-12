@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.scaleadvisor.backend.global.exception.model.InvalidTokenException
 import org.scaleadvisor.backend.global.jwt.JwtUtil
+import org.scaleadvisor.backend.global.security.CustomUserDetailsService
 import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -16,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 @Component
 class JwtAuthenticationFilter(
     private val jwtUtil: JwtUtil,
-    private val userDetailsService: UserDetailsService
+    private val userDetailsService: CustomUserDetailsService
 ) : OncePerRequestFilter() {
     private val pathMatcher = AntPathMatcher()
 
