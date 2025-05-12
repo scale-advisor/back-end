@@ -54,7 +54,7 @@ class AuthService(
             ?: throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_EMAIL_MESSAGE, request.email))
 
         if (!passwordEncoder.matches(request.password, user.password)) {
-            throw ValidationException(UserMessageConstant.NOT_VALID_PASSWORD_MESSAGE)
+            throw ValidationException(UserMessageConstant.INVALID_CREDENTIALS_MESSAGE)
         }
         val accessToken = jwtProvider.createAccessToken(user.userId!!, user.email)
         val refreshToken = jwtProvider.createRefreshToken(user.userId)
