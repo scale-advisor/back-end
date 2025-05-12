@@ -50,7 +50,6 @@ class JwtAuthenticationFilter(
                 val authentication = UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.authorities
                 )
-                log?.info(String.format("doFilterInternal 통과 완료"))
                 SecurityContextHolder.getContext().authentication = authentication
             } catch (ex: InvalidTokenException) {
                 log?.warn("doFilterInternal 실패")
@@ -58,5 +57,6 @@ class JwtAuthenticationFilter(
             }
         }
         filterChain.doFilter(request, response)
+        log?.info(String.format("doFilterInternal 통과 완료"))
     }
 }
