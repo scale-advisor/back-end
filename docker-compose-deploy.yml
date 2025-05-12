@@ -38,7 +38,7 @@ services:
         source: ${DB_MOUNT_PATH:-/db/mysql}
         target: /var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h ${DB_HOST:-127.0.0.1} -u ${DB_USERNAME:-root} -p${DB_USER_PASSWORD:-secret}"]
+      test: ["CMD-SHELL", "mysqladmin ping -h ${DB_HOST:-127.0.0.1} -P ${DB_PORT:-3306} -u ${DB_USERNAME:-root} -p${DB_USER_PASSWORD:-secret}"]
       interval: 10s
       timeout: 5s
       retries: 5
