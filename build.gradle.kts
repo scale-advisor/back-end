@@ -86,6 +86,10 @@ dependencies {
 
     // S3
     implementation("io.awspring.cloud:spring-cloud-aws-s3:3.0.2")
+
+    // email
+    implementation("org.springframework.boot:spring-boot-starter-mail")
+
 }
 
 kotlin {

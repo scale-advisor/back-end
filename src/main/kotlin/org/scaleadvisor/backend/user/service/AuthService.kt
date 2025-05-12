@@ -1,5 +1,7 @@
 package org.scaleadvisor.backend.user.service
 
+import org.scaleadvisor.backend.global.config.SecurityConfig
+import org.scaleadvisor.backend.global.email.service.EmailService
 import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
 import org.scaleadvisor.backend.global.exception.model.ConflictException
 import org.scaleadvisor.backend.global.exception.model.InvalidTokenException
@@ -14,8 +16,8 @@ import org.scaleadvisor.backend.user.dto.LoginRequest
 import org.scaleadvisor.backend.user.dto.LoginResponse
 import org.scaleadvisor.backend.user.dto.SignUpRequest
 import org.scaleadvisor.backend.user.repository.UserRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.concurrent.TimeUnit
@@ -25,12 +27,16 @@ import java.util.concurrent.TimeUnit
 class AuthService(
     private val userRepository: UserRepository,
     private val jwtProvider: JwtProvider,
-    private val passwordEncoder: PasswordEncoder,
+    private val securityConfig: SecurityConfig,
     private val redisTemplate: RedisTemplate<String, String>,
-    private val kakaoCallbackService: KakaoCallbackService
+    private val kakaoCallbackService: KakaoCallbackService,
+    private val emailService: EmailService
 ) {
     private val REFRESH_TOKEN_PREFIX = "RT:"
     private val SOCIAL_TOKEN_PREFIX = "ST:"
+
+    @Value("\${app.url}")
+    private val appUrl: String = ""
 
     fun signup(request: SignUpRequest): Long {
         if (userRepository.existsByEmail(request.email)) {
@@ -38,7 +44,7 @@ class AuthService(
         }
 
         val generatedId = IdUtil.generateId()
-        val encodedPassword = passwordEncoder.encode(request.password)
+        val encodedPassword = securityConfig.passwordEncoder().encode(request.password)
 
         val newUser = User.of(
             email = request.email,
@@ -46,16 +52,20 @@ class AuthService(
             name = request.name,
             loginType = User.LoginType.BASIC
         )
+
+        emailService.sendConfirmationEmail(
+            request.email,
+            appUrl
+        )
+
         return userRepository.createUser(newUser, generatedId)
     }
 
-    fun login(request: LoginRequest,
-              externalAccessToken: String? = null): LoginResponse {
-        val user = userRepository
-            .findByEmail(request.email)
+    fun login(request: LoginRequest, socialToken: String? = null): LoginResponse {
+        val user = userRepository.findByEmail(request.email)
             ?: throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_EMAIL_MESSAGE, request.email))
 
-        if (!passwordEncoder.matches(request.password, user.password)) {
+        if (!securityConfig.passwordEncoder().matches(request.password, user.password)) {
             throw ValidationException(UserMessageConstant.INVALID_CREDENTIALS_MESSAGE)
         }
         val accessToken = jwtProvider.createAccessToken(user.userId!!, user.email)
@@ -65,10 +75,10 @@ class AuthService(
         redisTemplate.opsForValue()
             .set(key, refreshToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
 
-        if (user.loginType == User.LoginType.KAKAO && externalAccessToken != null) {
+        if (user.loginType == User.LoginType.KAKAO && socialToken != null) {
             val externalKey = "$SOCIAL_TOKEN_PREFIX${user.userId}"
             redisTemplate.opsForValue()
-                .set(externalKey, externalAccessToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
+                .set(externalKey, socialToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
         }
 
         return LoginResponse(accessToken = accessToken, refreshToken = refreshToken)
@@ -86,7 +96,7 @@ class AuthService(
         if (!userRepository.existsByEmail(email)) {
             val generatedId = IdUtil.generateId()
             // 이 부분 같은 경우 다시 의논
-            val encodedPassword = passwordEncoder.encode(kakaoUserId)
+            val encodedPassword = securityConfig.passwordEncoder().encode(kakaoUserId)
             val newUser = User.of(
                 email     = email,
                 password  = encodedPassword,
@@ -99,7 +109,7 @@ class AuthService(
 
         return login(
             LoginRequest(email = email, password = kakaoUserId),
-            externalAccessToken = kakaoAccessToken
+            socialToken = kakaoAccessToken
         )
     }
 

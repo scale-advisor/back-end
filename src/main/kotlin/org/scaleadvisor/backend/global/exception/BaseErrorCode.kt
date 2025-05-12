@@ -16,6 +16,7 @@ enum class BaseErrorCode(
     VALIDATION_PARAMETER_EXCEPTION("B003", "파라미터 값 오류."),
     INVALID_TOKEN_EXCEPTION("B004", "토큰 형식이 잘못되었습니다."),
     KAKAO_BAD_REQUEST_EXCEPTION("B005", "카카오에게 잘못된 요청 혹은 반환을 했습니다."),
+    MESSAGING_EXCEPTION("B006", "메시지 전송 중 오류가 발생했습니다."),
 
     // 401에러(UnAuthorized 오류)
     UNAUTHORIZED_EXCEPTION("U001", "인증되지 않은 접근."),
