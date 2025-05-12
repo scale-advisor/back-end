@@ -24,16 +24,16 @@ class EmailService(
     @Value("\${spring.mail.username}")
     private lateinit var serviceName: String
 
-    fun generateSignupToken(userId: Long): String {
+    fun generateSignupToken(email: String): String {
         val token = UUID.randomUUID().toString()
         val valOps: ValueOperations<String, String> = redisTemplate.opsForValue()
-        valOps.set("signup:token:$token", userId.toString(), 24, TimeUnit.HOURS)
+        valOps.set("signup:token:$token", email, 24, TimeUnit.HOURS)
         return token
     }
 
-    fun sendConfirmationEmail(userId: Long, email: String, appUrl: String) {
-        val token = generateSignupToken(userId)
-        val confirmLink = "$appUrl/$userId/email-verification?token=$token"
+    fun sendConfirmationEmail(email: String, appUrl: String) {
+        val token = generateSignupToken(email)
+        val confirmLink = "$appUrl/email-verification?email=$email&token=$token"
         val content = buildString {
             append("<p>안녕하세요, $serviceName 입니다.</p>")
             append("<p>해당 링크를 통해 회원가입을 완료하세요:</p>")
@@ -60,11 +60,11 @@ class EmailService(
         }
     }
 
-    fun confirmSignup(userId: Long, token: String): ResponseEntity<String> {
+    fun confirmSignup(email: String, token: String): ResponseEntity<String> {
         val valOps: ValueOperations<String, String> = redisTemplate.opsForValue()
         val key = "signup:token:$token"
-        val storedUserId = valOps.get(key)?.toLongOrNull()
-        return if (storedUserId == userId) {
+        val storedEmail = valOps.get(key)
+        return if (storedEmail == email) {
             redisTemplate.delete(key)
             ResponseEntity.ok("회원가입 인증이 완료되었습니다.")
         } else {
