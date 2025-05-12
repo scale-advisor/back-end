@@ -26,6 +26,19 @@ spring:
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD:secret}
 
+
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_ACCESS_KEY_ID}
+        secret-key: ${AWS_SECRET_ACCESS_KEY}
+      s3:
+        bucket: ${S3_BUCKET_NAME:bucket}
+      region:
+        static: ${AWS_REGION:ap-northeast-2}
+      stack:
+        auto: false
+
   mail:
     host: ${GOOGLE_EMAIL_HOST}
     port: ${GOOGLE_EMAIL_PORT}
@@ -34,6 +47,7 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
+
 
 logging:
   level:

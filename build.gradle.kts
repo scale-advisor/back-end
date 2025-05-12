@@ -83,6 +83,10 @@ dependencies {
     // flyway
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
+
+    // S3
+    implementation("io.awspring.cloud:spring-cloud-aws-s3:3.0.2")
+
     // email
     implementation("org.springframework.boot:spring-boot-starter-mail")
 }
