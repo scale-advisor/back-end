@@ -61,12 +61,12 @@ class AuthService(
 
         val key = "$REFRESH_TOKEN_PREFIX${user.userId}"
         redisTemplate.opsForValue()
-            .set(key, refreshToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND, TimeUnit.MILLISECONDS)
+            .set(key, refreshToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
 
         if (user.loginType == User.LoginType.KAKAO && externalAccessToken != null) {
             val externalKey = "$SOCIAL_TOKEN_PREFIX${user.userId}"
             redisTemplate.opsForValue()
-                .set(externalKey, externalAccessToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND, TimeUnit.MILLISECONDS)
+                .set(externalKey, externalAccessToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
         }
 
         return LoginResponse(accessToken = accessToken, refreshToken = refreshToken)
@@ -102,7 +102,7 @@ class AuthService(
 
     fun logout(refreshToken: String) {
         val claims = jwtProvider.parseClaims(refreshToken)
-        val userId    = (claims["userId"] as Number).toLong()
+        val userId = (claims["userId"] as Number).toLong()
         val user = userRepository.findById(userId) ?: return
         val expMillis = claims.expiration.time - System.currentTimeMillis()
         if (expMillis <= 0) return
@@ -142,7 +142,7 @@ class AuthService(
         val newRefresh = jwtProvider.createRefreshToken(userId)
 
         redisTemplate.opsForValue()
-            .set(redisKey, newRefresh, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND, TimeUnit.MILLISECONDS)
+            .set(redisKey, newRefresh, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
 
         return LoginResponse(accessToken = newAccess, refreshToken = newRefresh)
     }

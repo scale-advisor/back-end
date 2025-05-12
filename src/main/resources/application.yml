@@ -45,6 +45,10 @@ springdoc:
 key:
   salt: ${SALT_KEY:your-very-very-very-very-very-very-very-very-very-long-sentence}
 
+jwt:
+  access-token-ttl: ${ACCESS_TOKEN_TTL}
+  refresh-token-ttl: ${REFRESH_TOKEN_TTL}
+
 kakao:
   api-key: ${KAKAO_API_KEY}
   login-redirect-url: ${KAKAO_LOGIN_REDIRECT_URL}
