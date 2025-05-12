@@ -67,3 +67,6 @@ kakao:
   token-expire-url: ${KAKAO_EXPIRE_TOKEN_URL}
   code-callback-url: ${KAKAO_CODE_CALLBACK_URL}
   userInfo-callback-url: ${KAKAO_USERINFO_CALLBACK_URL}
+
+app:
+  url: ${APP_URL}
