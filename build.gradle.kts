@@ -1,3 +1,4 @@
+import io.github.cdimascio.dotenv.dotenv
 import nu.studer.gradle.jooq.JooqEdition
 import java.sql.DriverManager
 
@@ -8,6 +9,7 @@ buildscript {
     dependencies {
         classpath("com.mysql:mysql-connector-j:8.0.33")
         classpath("org.flywaydb:flyway-mysql:10.18.0")
+        classpath("io.github.cdimascio:dotenv-kotlin:6.4.1")
     }
 }
 
@@ -100,10 +102,15 @@ tasks.withType<Test> {
     enabled = false
 }
 
-val dbUrl: String       = project.findProperty("dbUrl")?.toString() ?: "";
-val dbUser: String      = project.findProperty("dbUser")?.toString() ?: "";
-val dbPasswd: String    = project.findProperty("dbPasswd")?.toString() ?: "";
-val dbSchema: String    = project.findProperty("dbSchema")?.toString() ?: "";
+val dotenv = dotenv {
+    directory = rootDir.path
+    ignoreIfMissing = true
+}
+
+val dbUrl: String       = dotenv["DB_URL"] ?: "";
+val dbUser: String      = dotenv["DB_USERNAME"] ?: "";
+val dbPasswd: String    = dotenv["DB_USER_PASSWORD"] ?: "";
+val dbSchema: String    = dotenv["DB_SCHEMA"] ?: "";
 
 // DB 연결 가능 여부를 체크하는 헬퍼 함수
 fun isDbReachable(): Boolean {
@@ -113,6 +120,10 @@ fun isDbReachable(): Boolean {
         DriverManager.getConnection(dbUrl, dbUser, dbPasswd).use { it.isValid(2) }
     } catch (e: Exception) {
         logger.lifecycle("⚠️ DB 연결 실패: ${e.message}")
+        logger.lifecycle("DB_URL: ${dbUrl}")
+        logger.lifecycle("DB_USERNAME: ${dbUser}")
+        logger.lifecycle("DB_USER_PASSWORD: ${dbPasswd}")
+        logger.lifecycle("DB_SCHEMA: ${dbSchema}")
         false
     }
 }
