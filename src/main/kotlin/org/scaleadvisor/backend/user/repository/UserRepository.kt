@@ -10,15 +10,18 @@ class UserRepository(
     private val dsl: DSLContext
 ) {
 
-    fun createUser(user: User): Long = dsl
-        .insertInto(USER)
-        .set(USER.EMAIL, user.email)
-        .set(USER.PASSWORD, user.password)
-        .set(USER.NAME, user.name)
-        .set(USER.SOCIAL_ID, user.socialId)
-        .set(USER.LOGIN_TYPE, user.loginType.name)
-        .returning(USER.USER_ID)
-        .fetchOne()!![USER.USER_ID]
+    fun createUser(user: User, generatedId: Long): Long {
+        dsl.insertInto(USER)
+            .set(USER.USER_ID, generatedId)
+            .set(USER.EMAIL, user.email)
+            .set(USER.PASSWORD, user.password)
+            .set(USER.NAME, user.name)
+            .set(USER.SOCIAL_ID, user.socialId)
+            .set(USER.LOGIN_TYPE, user.loginType.name)
+            .execute()
+
+        return generatedId
+    }
 
     fun findById(userId: Long): User? = dsl
         .selectFrom(USER)

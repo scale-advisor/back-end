@@ -8,6 +8,7 @@ import org.scaleadvisor.backend.global.exception.model.ValidationException
 import org.scaleadvisor.backend.global.jwt.JwtProvider
 import org.scaleadvisor.backend.global.oauth.kakao.component.KakaoCallbackService
 import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
+import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.user.domain.User
 import org.scaleadvisor.backend.user.dto.LoginRequest
 import org.scaleadvisor.backend.user.dto.LoginResponse
@@ -36,6 +37,7 @@ class AuthService(
             throw ConflictException(String.format(UserMessageConstant.DUPLICATE_EMAIL_MESSAGE, request.email))
         }
 
+        val generatedId = IdUtil.generateId()
         val encodedPassword = passwordEncoder.encode(request.password)
 
         val newUser = User.of(
@@ -44,7 +46,7 @@ class AuthService(
             name = request.name,
             loginType = User.LoginType.BASIC
         )
-        return userRepository.createUser(newUser)
+        return userRepository.createUser(newUser, generatedId)
     }
 
     fun login(request: LoginRequest,
@@ -82,6 +84,7 @@ class AuthService(
         val email    = userInfo["email"].toString()
 
         if (!userRepository.existsByEmail(email)) {
+            val generatedId = IdUtil.generateId()
             // 이 부분 같은 경우 다시 의논
             val encodedPassword = passwordEncoder.encode(kakaoUserId)
             val newUser = User.of(
@@ -91,7 +94,7 @@ class AuthService(
                 loginType = User.LoginType.KAKAO,
                 socialId  = kakaoUserId
             )
-            userRepository.createUser(newUser)
+            userRepository.createUser(newUser, generatedId)
         }
 
         return login(
