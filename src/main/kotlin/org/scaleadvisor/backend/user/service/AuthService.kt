@@ -1,5 +1,6 @@
 package org.scaleadvisor.backend.user.service
 
+import org.scaleadvisor.backend.global.config.SecurityConfig
 import org.scaleadvisor.backend.global.email.service.EmailService
 import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
 import org.scaleadvisor.backend.global.exception.model.ConflictException
@@ -17,7 +18,6 @@ import org.scaleadvisor.backend.user.dto.SignUpRequest
 import org.scaleadvisor.backend.user.repository.UserRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.concurrent.TimeUnit
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit
 class AuthService(
     private val userRepository: UserRepository,
     private val jwtProvider: JwtProvider,
-    private val passwordEncoder: PasswordEncoder,
+    private val securityConfig: SecurityConfig,
     private val redisTemplate: RedisTemplate<String, String>,
     private val kakaoCallbackService: KakaoCallbackService,
     private val emailService: EmailService
@@ -44,7 +44,7 @@ class AuthService(
         }
 
         val generatedId = IdUtil.generateId()
-        val encodedPassword = passwordEncoder.encode(request.password)
+        val encodedPassword = securityConfig.passwordEncoder().encode(request.password)
 
         val newUser = User.of(
             email = request.email,
@@ -66,7 +66,7 @@ class AuthService(
         val user = userRepository.findByEmail(request.email)
             ?: throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_EMAIL_MESSAGE, request.email))
 
-        if (!passwordEncoder.matches(request.password, user.password)) {
+        if (!securityConfig.passwordEncoder().matches(request.password, user.password)) {
             throw ValidationException(UserMessageConstant.INVALID_CREDENTIALS_MESSAGE)
         }
         val accessToken = jwtProvider.createAccessToken(user.userId!!, user.email)
@@ -97,7 +97,7 @@ class AuthService(
         if (!userRepository.existsByEmail(email)) {
             val generatedId = IdUtil.generateId()
             // 이 부분 같은 경우 다시 의논
-            val encodedPassword = passwordEncoder.encode(kakaoUserId)
+            val encodedPassword = securityConfig.passwordEncoder().encode(kakaoUserId)
             val newUser = User.of(
                 email     = email,
                 password  = encodedPassword,
