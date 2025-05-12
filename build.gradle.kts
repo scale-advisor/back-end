@@ -85,11 +85,10 @@ dependencies {
     implementation("org.flywaydb:flyway-mysql")
 
     // S3
-    implementation("io.awspring.cloud:spring-cloud-aws-s3:3.0.2")
+    implementation("io.awspring.cloud:spring-cloud-aws-s3")
 
     // email
     implementation("org.springframework.boot:spring-boot-starter-mail")
-
 }
 
 kotlin {
