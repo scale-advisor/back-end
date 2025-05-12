@@ -26,6 +26,15 @@ spring:
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD:secret}
 
+  mail:
+    host: ${GOOGLE_EMAIL_HOST}
+    port: ${GOOGLE_EMAIL_PORT}
+    username: ${GOOGLE_EMAIL}
+    password: ${GOOGLE_APP_PWD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
 logging:
   level:
     org.jooq.tools.LoggerListener: DEBUG
