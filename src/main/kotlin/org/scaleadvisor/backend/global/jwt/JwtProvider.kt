@@ -38,10 +38,9 @@ class JwtProvider {
 
     fun getSecretKey(): Key = secretKey
 
-    fun createAccessToken(userId: Long, email: String): String {
+    fun createAccessToken(email: String): String {
         val now = Date()
         val claims: Claims = Jwts.claims().apply {
-            put("userId", userId)
             put("email", email)
             put("loginType", User.LoginType.BASIC)
         }
@@ -55,10 +54,10 @@ class JwtProvider {
         return token
     }
 
-    fun createRefreshToken(userId: Long): String {
+    fun createRefreshToken(email: String): String {
         val now = Date()
         val claims: Claims = Jwts.claims().apply {
-            put("userId", userId)
+            put("email", email)
         }
         val token = Jwts.builder()
             .setClaims(claims)
