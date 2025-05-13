@@ -1,5 +1,6 @@
 package org.scaleadvisor.backend.global.auth.service
 
+import jakarta.servlet.http.HttpServletResponse
 import org.scaleadvisor.backend.global.config.SecurityConfig
 import org.scaleadvisor.backend.global.email.service.EmailService
 import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
@@ -61,101 +62,121 @@ class AuthService(
         return userRepository.createUser(newUser, generatedId)
     }
 
-    fun login(request: LoginRequest, socialToken: String? = null): LoginResponse {
+    fun login(request: LoginRequest, response: HttpServletResponse, socialToken: String? = null
+    ): LoginResponse {
         val user = userRepository.findByEmail(request.email)
             ?: throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_MESSAGE, request.email))
 
         if (!securityConfig.passwordEncoder().matches(request.password, user.password)) {
             throw ValidationException(UserMessageConstant.INVALID_CREDENTIALS_MESSAGE)
         }
-        val accessToken = jwtProvider.createAccessToken(user.userId!!, user.email)
-        val refreshToken = jwtProvider.createRefreshToken(user.userId)
 
-        val key = "$REFRESH_TOKEN_PREFIX${user.userId}"
+        val accessToken = jwtProvider.createAccessToken(user.email)
+        val refreshToken = jwtProvider.createRefreshToken(user.email)
+
+        val redisKey = "$REFRESH_TOKEN_PREFIX${user.email}"
         redisTemplate.opsForValue()
-            .set(key, refreshToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
+            .set(redisKey, refreshToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
 
         if (user.loginType == User.LoginType.KAKAO && socialToken != null) {
-            val externalKey = "$SOCIAL_TOKEN_PREFIX${user.userId}"
+            val externalKey = "$SOCIAL_TOKEN_PREFIX${user.email}"
             redisTemplate.opsForValue()
                 .set(externalKey, socialToken, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
         }
 
+        val maxAgeSec = (jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong() / 1000L).toInt()
+        response.setHeader(
+            "Set-Cookie",
+            "refreshToken=$refreshToken; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=$maxAgeSec"
+        )
+
         return LoginResponse(accessToken = accessToken, refreshToken = refreshToken)
     }
 
-    fun kakaoLogin(request: KakaoCallbackRequest): LoginResponse {
-        // 테스트 시 이거 request.code로만
+    fun kakaoLogin(request: KakaoCallbackRequest, response: HttpServletResponse
+    ): LoginResponse {
         val kakaoAccessToken = kakaoCallbackService.getKakaoToken(request.code)
         val userInfo = kakaoCallbackService.getUserInfoFromKakaoToken(kakaoAccessToken)
 
-        val kakaoUserId  = userInfo["id"].toString()
+        val kakaoUserId = userInfo["id"].toString()
         val nickname = userInfo["nickname"].toString()
-        val email    = userInfo["email"].toString()
+        val email = userInfo["email"].toString()
 
         if (!userRepository.existsByEmail(email)) {
             val generatedId = IdUtil.generateId()
-            // 이 부분 같은 경우 다시 의논
             val encodedPassword = securityConfig.passwordEncoder().encode(kakaoUserId)
             val newUser = User.of(
-                email     = email,
-                password  = encodedPassword,
-                name      = nickname,
+                email = email,
+                password = encodedPassword,
+                name = nickname,
                 loginType = User.LoginType.KAKAO,
-                socialId  = kakaoUserId
+                socialId = kakaoUserId
             )
             userRepository.createUser(newUser, generatedId)
         }
 
         return login(
             LoginRequest(email = email, password = kakaoUserId),
+            response,
             socialToken = kakaoAccessToken
         )
     }
 
-    fun logout(refreshToken: String) {
+    fun logout(refreshToken: String, response: HttpServletResponse
+    ) {
         val claims = jwtProvider.parseClaims(refreshToken)
         val userId = (claims["userId"] as Number).toLong()
         val user = userRepository.findById(userId) ?: return
         val expMillis = claims.expiration.time - System.currentTimeMillis()
         if (expMillis <= 0) return
 
-        // 리프레시 토큰 블랙리스트화
-        val blacklistKey = "BL:RT"
-        redisTemplate.opsForSet()
-            .add(blacklistKey, refreshToken)
-        redisTemplate.expire(blacklistKey, expMillis, TimeUnit.MILLISECONDS)
+        // 리프레시 토큰 블랙라스트화
+        redisTemplate.opsForSet().add("BL:RT", refreshToken)
+        redisTemplate.expire("BL:RT", expMillis, TimeUnit.MILLISECONDS)
 
         // 카카오 계정 로그아웃일 경우 카카오 토큰 Expire까지 시키는 식
         if (user.loginType == User.LoginType.KAKAO) {
-            val externalKey = "$SOCIAL_TOKEN_PREFIX$userId"
+            val externalKey = "$SOCIAL_TOKEN_PREFIX${user.email}"
             val kakaoToken = redisTemplate.opsForValue().get(externalKey)
-
-            kakaoCallbackService.expireKakaoToken(kakaoToken!!)
-            redisTemplate.delete(externalKey)
+            if (kakaoToken != null) {
+                kakaoCallbackService.expireKakaoToken(kakaoToken)
+                redisTemplate.delete(externalKey)
+            }
         }
+
+        response.setHeader(
+            "Set-Cookie",
+            "refreshToken=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0"
+        )
     }
 
-    fun refreshToken(refreshToken: String): LoginResponse {
+    fun refreshToken(refreshToken: String, response: HttpServletResponse
+    ): LoginResponse {
         if (redisTemplate.opsForSet().isMember("BL:RT", refreshToken) == true) {
             throw InvalidTokenException("이미 로그아웃된 유저 입니다.")
         }
 
         val claims = jwtProvider.parseClaims(refreshToken)
-        val userId = (claims["userId"] as Number).toLong()
-        val redisKey = "$REFRESH_TOKEN_PREFIX$userId"
+        val email = claims["email"]?.toString()
+            ?: throw InvalidTokenException("토큰에 이메일 정보가 없습니다.")
+        val redisKey = "$REFRESH_TOKEN_PREFIX$email"
         val savedToken = redisTemplate.opsForValue().get(redisKey)
             ?: throw InvalidTokenException("만료되었거나 존재하지 않는 RefreshToken입니다.")
-
         if (savedToken != refreshToken) throw InvalidTokenException("유효하지 않은 RefreshToken입니다.")
 
-        val user = userRepository.findById(userId)
+        val user = userRepository.findByEmail(email)
             ?: throw NotFoundException("존재하지 않는 사용자입니다.")
-        val newAccess  = jwtProvider.createAccessToken(userId, user.email)
-        val newRefresh = jwtProvider.createRefreshToken(userId)
+        val newAccess = jwtProvider.createAccessToken(user.email)
+        val newRefresh = jwtProvider.createRefreshToken(user.email)
 
         redisTemplate.opsForValue()
             .set(redisKey, newRefresh, jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong(), TimeUnit.MILLISECONDS)
+
+        val maxAgeSec = (jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong() / 1000L).toInt()
+        response.setHeader(
+            "Set-Cookie",
+            "refreshToken=$newRefresh; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=$maxAgeSec"
+        )
 
         return LoginResponse(accessToken = newAccess, refreshToken = newRefresh)
     }
