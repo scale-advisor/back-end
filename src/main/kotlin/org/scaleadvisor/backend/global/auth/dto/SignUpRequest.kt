@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.user.dto
+package org.scaleadvisor.backend.global.auth.dto
 
 data class SignUpRequest(
     val name: String,

@@ -158,6 +158,21 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
+     * Fetch records that have <code>confirmed BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<org.jooq.generated.tables.pojos.User> fetchRangeOfConfirmed(String lowerInclusive, String upperInclusive) {
+        return fetchRange(User.USER.CONFIRMED, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>confirmed IN (values)</code>
+     */
+    public List<org.jooq.generated.tables.pojos.User> fetchByConfirmed(String... values) {
+        return fetch(User.USER.CONFIRMED, values);
+    }
+
+    /**
      * Fetch records that have <code>created_at BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

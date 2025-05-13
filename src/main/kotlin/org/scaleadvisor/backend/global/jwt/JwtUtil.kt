@@ -28,12 +28,6 @@ class JwtUtil(
         }
     }
 
-    fun getUserIdFromToken(token: String?): Long {
-        log?.info("[getUserIdFromToken] 토큰 기반 회원 ID 추출")
-        return Jwts.parserBuilder().setSigningKey(jwtProvider.getSecretKey()).build()
-            .parseClaimsJws(token).getBody().get("userId").toString().toLong()
-    }
-
     fun getEmailFromToken(token: String?): String {
         log?.info("[getUserEmailFromToken] 토큰 기반 회원 Email 추출")
         return Jwts.parserBuilder().setSigningKey(jwtProvider.getSecretKey()).build()

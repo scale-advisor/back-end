@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.user.controller
+package org.scaleadvisor.backend.global.auth.controller
 
 import org.scaleadvisor.backend.global.security.CustomUserDetails
 import org.springframework.http.ResponseEntity

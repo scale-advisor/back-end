@@ -2,8 +2,10 @@ package org.scaleadvisor.backend.user.repository
 
 import org.jooq.DSLContext
 import org.jooq.generated.tables.User.USER
+import org.jooq.generated.tables.records.UserRecord
 import org.scaleadvisor.backend.user.domain.User
 import org.springframework.stereotype.Repository
+import java.time.LocalDateTime
 
 @Repository
 class UserRepository(
@@ -18,6 +20,7 @@ class UserRepository(
             .set(USER.NAME, user.name)
             .set(USER.SOCIAL_ID, user.socialId)
             .set(USER.LOGIN_TYPE, user.loginType.name)
+            .set(USER.CONFIRMED, user.confirmed.name)
             .execute()
 
         return generatedId
@@ -26,35 +29,32 @@ class UserRepository(
     fun findById(userId: Long): User? = dsl
         .selectFrom(USER)
         .where(USER.USER_ID.eq(userId))
-        .fetchOne { r ->
-            User.fromDb(
-                userId    = r[USER.USER_ID],
-                email     = r[USER.EMAIL],
-                password  = r[USER.PASSWORD],
-                name      = r[USER.NAME],
-                socialId  = r[USER.SOCIAL_ID],
-                loginType = User.LoginType.valueOf(r[USER.LOGIN_TYPE]),
-                createdAt = r[USER.CREATED_AT],
-                updatedAt = r[USER.UPDATED_AT]
-            )
-        }
+        .fetchOne { record -> mapRecordToUser(record) }
 
     fun findByEmail(email: String): User? = dsl
         .selectFrom(USER)
-        .where(USER.EMAIL.eq(email))
-        .fetchOne { r ->
-            User.fromDb(
-                userId = r[USER.USER_ID],
-                email = r[USER.EMAIL],
-                password = r[USER.PASSWORD],
-                name = r[USER.NAME],
-                socialId = r[USER.SOCIAL_ID],
-                loginType = User.LoginType.valueOf(r[USER.LOGIN_TYPE]),
-                createdAt = r[USER.CREATED_AT],
-                updatedAt = r[USER.UPDATED_AT]
-            )
-        }
+        .where(USER.EMAIL.eq(email), USER.CONFIRMED.eq("Y"))
+        .fetchOne { record -> mapRecordToUser(record) }
 
     fun existsByEmail(email: String): Boolean = dsl
         .fetchCount(USER, USER.EMAIL.eq(email)) > 0
+
+    fun updateConfirmedByEmail(email: String): Int = dsl
+        .update(USER)
+        .set(USER.CONFIRMED, User.Confirmed.Y.name)
+        .set(USER.UPDATED_AT, LocalDateTime.now())
+        .where(USER.EMAIL.eq(email))
+        .execute()
+
+    private fun mapRecordToUser(r: UserRecord): User = User.fromDb(
+        userId    = r.userId,
+        email     = r.email,
+        password  = r.password,
+        name      = r.name,
+        socialId  = r.socialId,
+        loginType = User.LoginType.valueOf(r.loginType),
+        confirmed = User.Confirmed.valueOf(r.confirmed),
+        createdAt = r.createdAt,
+        updatedAt = r.updatedAt
+    )
 }

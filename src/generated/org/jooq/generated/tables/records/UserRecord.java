@@ -110,10 +110,25 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     }
 
     /**
+     * Setter for <code>scale_advisor.user.confirmed</code>.
+     */
+    public UserRecord setConfirmed(String value) {
+        set(6, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.user.confirmed</code>.
+     */
+    public String getConfirmed() {
+        return (String) get(6);
+    }
+
+    /**
      * Setter for <code>scale_advisor.user.created_at</code>.
      */
     public UserRecord setCreatedAt(LocalDateTime value) {
-        set(6, value);
+        set(7, value);
         return this;
     }
 
@@ -121,14 +136,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
      * Getter for <code>scale_advisor.user.created_at</code>.
      */
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(6);
+        return (LocalDateTime) get(7);
     }
 
     /**
      * Setter for <code>scale_advisor.user.updated_at</code>.
      */
     public UserRecord setUpdatedAt(LocalDateTime value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -136,7 +151,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
      * Getter for <code>scale_advisor.user.updated_at</code>.
      */
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(7);
+        return (LocalDateTime) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -162,7 +177,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     /**
      * Create a detached, initialised UserRecord
      */
-    public UserRecord(Long userId, String email, String password, String name, String socialId, String loginType, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public UserRecord(Long userId, String email, String password, String name, String socialId, String loginType, String confirmed, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(User.USER);
 
         setUserId(userId);
@@ -171,6 +186,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
         setName(name);
         setSocialId(socialId);
         setLoginType(loginType);
+        setConfirmed(confirmed);
         setCreatedAt(createdAt);
         setUpdatedAt(updatedAt);
         resetChangedOnNotNull();
@@ -189,6 +205,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
             setName(value.getName());
             setSocialId(value.getSocialId());
             setLoginType(value.getLoginType());
+            setConfirmed(value.getConfirmed());
             setCreatedAt(value.getCreatedAt());
             setUpdatedAt(value.getUpdatedAt());
             resetChangedOnNotNull();

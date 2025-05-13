@@ -11,6 +11,7 @@ data class User private constructor(
     val name: String,
     val socialId: String?,
     val loginType: LoginType,
+    val confirmed: Confirmed,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime
 ) {
@@ -21,7 +22,8 @@ data class User private constructor(
             password: String,
             name: String,
             loginType: LoginType,
-            socialId: String? = null
+            socialId: String? = null,
+            confirmed: Confirmed = Confirmed.N
         ): User {
             val now = LocalDateTime.now()
             return User(
@@ -31,6 +33,7 @@ data class User private constructor(
                 name = name,
                 socialId = socialId,
                 loginType = loginType,
+                confirmed = confirmed,
                 createdAt = now,
                 updatedAt = now
             )
@@ -44,6 +47,7 @@ data class User private constructor(
             name: String,
             socialId: String?,
             loginType: LoginType,
+            confirmed: Confirmed,
             createdAt: LocalDateTime,
             updatedAt: LocalDateTime
         ): User = User(
@@ -53,6 +57,7 @@ data class User private constructor(
             name = name,
             socialId = socialId,
             loginType = loginType,
+            confirmed = confirmed,
             createdAt = createdAt,
             updatedAt = updatedAt
         )
@@ -61,6 +66,10 @@ data class User private constructor(
     enum class LoginType {
         BASIC,
         KAKAO
+    }
+
+    enum class Confirmed {
+        Y, N
     }
 }
 
