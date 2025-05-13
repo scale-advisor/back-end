@@ -3,6 +3,7 @@ package org.scaleadvisor.backend.global.email.service
 import jakarta.mail.internet.MimeMessage
 import org.scaleadvisor.backend.global.exception.constant.TokenMessageConstant
 import org.scaleadvisor.backend.global.exception.model.MessagingException
+import org.scaleadvisor.backend.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.javamail.JavaMailSender
@@ -16,6 +17,7 @@ import java.util.*
 
 @Service
 class EmailService(
+    private val userRepository: UserRepository,
     private val javaMailSender: JavaMailSender,
     private val redisTemplate: RedisTemplate<String, String>
 ) {
@@ -65,6 +67,7 @@ class EmailService(
         val storedEmail = valOps.get(key)
         return if (storedEmail == email) {
             redisTemplate.delete(key)
+            userRepository.updateConfirmedByEmail(email)
             ResponseEntity.ok("회원가입 인증이 완료되었습니다.")
         } else {
             ResponseEntity.status(HttpStatus.BAD_REQUEST)

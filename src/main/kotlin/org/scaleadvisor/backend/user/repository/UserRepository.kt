@@ -5,6 +5,7 @@ import org.jooq.generated.tables.User.USER
 import org.jooq.generated.tables.records.UserRecord
 import org.scaleadvisor.backend.user.domain.User
 import org.springframework.stereotype.Repository
+import java.time.LocalDateTime
 
 @Repository
 class UserRepository(
@@ -32,11 +33,18 @@ class UserRepository(
 
     fun findByEmail(email: String): User? = dsl
         .selectFrom(USER)
-        .where(USER.EMAIL.eq(email))
+        .where(USER.EMAIL.eq(email), USER.CONFIRMED.eq("Y"))
         .fetchOne { record -> mapRecordToUser(record) }
 
     fun existsByEmail(email: String): Boolean = dsl
         .fetchCount(USER, USER.EMAIL.eq(email)) > 0
+
+    fun updateConfirmedByEmail(email: String): Int = dsl
+        .update(USER)
+        .set(USER.CONFIRMED, User.Confirmed.Y.name)
+        .set(USER.UPDATED_AT, LocalDateTime.now())
+        .where(USER.EMAIL.eq(email))
+        .execute()
 
     private fun mapRecordToUser(r: UserRecord): User = User.fromDb(
         userId    = r.userId,
