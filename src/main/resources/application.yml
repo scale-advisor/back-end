@@ -84,3 +84,6 @@ kakao:
 
 app:
   url: ${APP_URL}
+
+cookies:
+  domain: ${COOKIES_DOMAIN}

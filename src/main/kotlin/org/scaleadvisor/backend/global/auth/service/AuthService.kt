@@ -39,6 +39,9 @@ class AuthService(
     @Value("\${app.url}")
     private val appUrl: String = ""
 
+    @Value("\${cookies.domain}")
+    private lateinit var cookieDomain: String
+
     fun signup(request: SignUpRequest): Long {
         if (userRepository.existsByEmail(request.email)) {
             throw ConflictException(String.format(UserMessageConstant.DUPLICATE_EMAIL_MESSAGE, request.email))
@@ -87,7 +90,7 @@ class AuthService(
         val maxAgeSec = (jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong() / 1000L).toInt()
         response.setHeader(
             "Set-Cookie",
-            "refreshToken=$refreshToken; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=$maxAgeSec"
+            "refreshToken=$refreshToken; HttpOnly; Secure; SameSite=None; Domain=$cookieDomain; Path=/; Max-Age=$maxAgeSec"
         )
 
         return LoginResponse(accessToken = accessToken, refreshToken = refreshToken)
@@ -146,7 +149,7 @@ class AuthService(
 
         response.setHeader(
             "Set-Cookie",
-            "refreshToken=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0"
+            "refreshToken=; HttpOnly; Secure; SameSite=None; Domain=$cookieDomain; Path=/; Max-Age=0"
         )
     }
 
@@ -175,7 +178,7 @@ class AuthService(
         val maxAgeSec = (jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong() / 1000L).toInt()
         response.setHeader(
             "Set-Cookie",
-            "refreshToken=$newRefresh; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=$maxAgeSec"
+            "refreshToken=$newRefresh; HttpOnly; Secure; SameSite=None; Domain=$cookieDomain; Path=/; Max-Age=$maxAgeSec"
         )
 
         return LoginResponse(accessToken = newAccess, refreshToken = newRefresh)
