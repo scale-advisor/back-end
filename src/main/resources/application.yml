@@ -87,3 +87,6 @@ app:
 
 cookies:
   domain: ${COOKIES_DOMAIN}
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS}
