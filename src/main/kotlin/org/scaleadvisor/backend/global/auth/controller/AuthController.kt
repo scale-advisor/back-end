@@ -1,5 +1,6 @@
 package org.scaleadvisor.backend.global.auth.controller
 
+import jakarta.servlet.http.HttpServletResponse
 import org.scaleadvisor.backend.global.auth.dto.*
 import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
 import org.scaleadvisor.backend.global.auth.service.AuthService
@@ -18,27 +19,29 @@ class AuthController(
     }
 
     @PostMapping("/login/email")
-    fun login(@RequestBody request: LoginRequest): ResponseEntity<LoginResponse> {
-        val response = authService.login(request)
-        return ResponseEntity.ok().body(response)
+    fun login(@RequestBody request: LoginRequest, response: HttpServletResponse): ResponseEntity<LoginResponse> {
+        val result = authService.login(request, response)
+        return ResponseEntity.ok().body(result)
     }
 
     @PostMapping("/logout")
-    fun logout(@RequestBody request: LogoutRequest): ResponseEntity<Void> {
-        authService.logout(request.refreshToken)
+    fun logout(@RequestBody request: LogoutRequest, response: HttpServletResponse): ResponseEntity<Void> {
+        authService.logout(request.refreshToken, response)
         return ResponseEntity.noContent().build()
     }
 
     @PostMapping("/refresh")
-    fun refresh(@RequestBody request: RefreshRequest): ResponseEntity<LoginResponse> {
-        val refresh = authService.refreshToken(request.refreshToken)
-        return ResponseEntity.ok().body(refresh)
+    fun refresh(@CookieValue("refreshToken") refreshToken: String, response: HttpServletResponse
+    ): ResponseEntity<LoginResponse> {
+        val refreshed = authService.refreshToken(refreshToken, response)
+        return ResponseEntity.ok().body(refreshed)
     }
 
     @RequestMapping("/kakao/callback", method = [RequestMethod.GET, RequestMethod.POST])
-    fun kakaoLogin(@RequestParam code: String): ResponseEntity<LoginResponse> {
-        val response = authService.kakaoLogin(KakaoCallbackRequest(code))
-        return ResponseEntity.ok().body(response)
+    fun kakaoLogin(@RequestParam code: String, response: HttpServletResponse)
+    : ResponseEntity<LoginResponse> {
+        val result= authService.kakaoLogin(KakaoCallbackRequest(code), response)
+        return ResponseEntity.ok().body(result)
     }
 }
 
