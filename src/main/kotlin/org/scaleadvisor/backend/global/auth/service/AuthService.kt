@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.user.service
+package org.scaleadvisor.backend.global.auth.service
 
 import org.scaleadvisor.backend.global.config.SecurityConfig
 import org.scaleadvisor.backend.global.email.service.EmailService
@@ -12,9 +12,9 @@ import org.scaleadvisor.backend.global.oauth.kakao.component.KakaoCallbackServic
 import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
 import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.user.domain.User
-import org.scaleadvisor.backend.user.dto.LoginRequest
-import org.scaleadvisor.backend.user.dto.LoginResponse
-import org.scaleadvisor.backend.user.dto.SignUpRequest
+import org.scaleadvisor.backend.global.auth.dto.LoginRequest
+import org.scaleadvisor.backend.global.auth.dto.LoginResponse
+import org.scaleadvisor.backend.global.auth.dto.SignUpRequest
 import org.scaleadvisor.backend.user.repository.UserRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate

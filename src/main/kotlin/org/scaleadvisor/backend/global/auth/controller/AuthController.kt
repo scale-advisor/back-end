@@ -1,8 +1,8 @@
-package org.scaleadvisor.backend.user.controller
+package org.scaleadvisor.backend.global.auth.controller
 
+import org.scaleadvisor.backend.global.auth.dto.*
 import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
-import org.scaleadvisor.backend.user.dto.*
-import org.scaleadvisor.backend.user.service.AuthService
+import org.scaleadvisor.backend.global.auth.service.AuthService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
