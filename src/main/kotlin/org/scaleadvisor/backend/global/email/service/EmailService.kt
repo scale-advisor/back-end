@@ -12,7 +12,6 @@ import org.springframework.data.redis.core.ValueOperations
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Component
 import java.util.*
 
 @Service
