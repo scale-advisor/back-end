@@ -40,14 +40,5 @@ class AuthController(
         val response = authService.kakaoLogin(KakaoCallbackRequest(code))
         return ResponseEntity.ok().body(response)
     }
-
-    // 테스트용 코드
-//    @GetMapping("/kakao/user")
-//    fun getKakaoUserInfo(
-//        @RequestParam("code") accessToken: String
-//    ): ResponseEntity<LoginResponse> {
-//        val response = authService.kakaoLogin(KakaoCallbackRequest(accessToken))
-//        return ResponseEntity.ok().body(response)
-//    }
 }
 
