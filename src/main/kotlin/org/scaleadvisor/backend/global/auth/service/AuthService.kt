@@ -36,9 +36,6 @@ class AuthService(
     private val REFRESH_TOKEN_PREFIX = "RT:"
     private val SOCIAL_TOKEN_PREFIX = "ST:"
 
-    @Value("\${app.url}")
-    private val appUrl: String = ""
-
     @Value("\${cookies.domain}")
     private lateinit var cookieDomain: String
 
@@ -57,11 +54,7 @@ class AuthService(
             loginType = User.LoginType.BASIC
         )
 
-        emailService.sendConfirmationEmail(
-            request.email,
-            appUrl
-        )
-
+        emailService.sendConfirmationEmail(request.email)
         return userRepository.createUser(newUser, generatedId)
     }
 

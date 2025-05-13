@@ -27,6 +27,9 @@ class EmailService(
     @Value("\${spring.mail.username}")
     private lateinit var serviceName: String
 
+    @Value("\${app.url}")
+    private val appUrl: String = ""
+
     private fun valOps(): ValueOperations<String, String> =
         redisTemplate.opsForValue()
 
@@ -56,7 +59,7 @@ class EmailService(
         }
     }
 
-    fun sendConfirmationEmail(email: String, appUrl: String) {
+    fun sendConfirmationEmail(email: String) {
         val token = generateMailToken(prefix = "signup:token", email = email, duration = 1)
         val confirmLink = "$appUrl/email-verification?email=$email&token=$token"
 
@@ -83,7 +86,7 @@ class EmailService(
         val key = "password-reset:token:$token"
         valOps().set(key, request.email, 10, TimeUnit.MINUTES)
 
-        val resetLink = "${request.appUrl}/password-reset?token=$token"
+        val resetLink = "${appUrl}/password-reset?token=$token"
         val content = buildString {
             append("<p>안녕하세요, $serviceName 입니다.</p>")
             append("<p>아래 링크를 클릭하여 비밀번호를 재설정하세요.(10분 동안 유효합니다):</p>")
