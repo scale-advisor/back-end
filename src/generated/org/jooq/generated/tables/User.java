@@ -82,6 +82,11 @@ public class User extends TableImpl<UserRecord> {
     public final TableField<UserRecord, String> LOGIN_TYPE = createField(DSL.name("login_type"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
+     * The column <code>scale_advisor.user.confirmed</code>.
+     */
+    public final TableField<UserRecord, String> CONFIRMED = createField(DSL.name("confirmed"), SQLDataType.CHAR(1).nullable(false).defaultValue(DSL.inline("N", SQLDataType.CHAR)), this, "");
+
+    /**
      * The column <code>scale_advisor.user.created_at</code>.
      */
     public final TableField<UserRecord, LocalDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
