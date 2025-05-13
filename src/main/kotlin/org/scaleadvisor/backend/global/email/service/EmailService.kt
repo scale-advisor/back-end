@@ -1,10 +1,14 @@
 package org.scaleadvisor.backend.global.email.service
 
 import jakarta.mail.internet.MimeMessage
+import org.scaleadvisor.backend.global.config.SecurityConfig
 import org.scaleadvisor.backend.global.email.constant.EmailTitleConstant
+import org.scaleadvisor.backend.global.email.dto.PwdResetConfirmRequest
 import org.scaleadvisor.backend.global.email.dto.PwdResetRequest
 import org.scaleadvisor.backend.global.exception.constant.TokenMessageConstant
+import org.scaleadvisor.backend.global.exception.model.InvalidTokenException
 import org.scaleadvisor.backend.global.exception.model.MessagingException
+import org.scaleadvisor.backend.global.exception.model.ValidationException
 import org.scaleadvisor.backend.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Value
@@ -21,7 +25,8 @@ import java.util.*
 class EmailService(
     private val userRepository: UserRepository,
     private val javaMailSender: JavaMailSender,
-    private val redisTemplate: RedisTemplate<String, String>
+    private val redisTemplate: RedisTemplate<String, String>,
+    private val securityConfig: SecurityConfig
 ) {
 
     @Value("\${spring.mail.username}")
@@ -73,7 +78,8 @@ class EmailService(
     }
 
     fun sendResetPasswordEmail(request: PwdResetRequest): ResponseEntity<String> {
-        if (!userRepository.existsByEmail(request.email)) {
+        val requestEmail = request.email
+        if (!userRepository.existsByEmail(requestEmail)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("등록되지 않은 이메일입니다.")
         }
 
@@ -84,7 +90,7 @@ class EmailService(
             unit = TimeUnit.MINUTES
         )
 
-        val resetLink = "${appUrl}/password-reset?token=$token"
+        val resetLink = "${appUrl}/password-reset?email=$requestEmail&token=$token"
         val content = buildString {
             append("<p>안녕하세요, $serviceName 입니다.</p>")
             append("<p>아래 링크를 클릭하여 비밀번호를 재설정하세요.(10분 동안 유효합니다):</p>")
@@ -105,6 +111,27 @@ class EmailService(
         } else {
             ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(TokenMessageConstant.INVALID_TOKEN_MESSAGE)
+        }
+    }
+
+    fun confirmResetToken(token: String): String? {
+        val key = "password-reset:token:$token"
+        if (redisTemplate.hasKey(key)) {
+            return "${appUrl}/password-reset.html?token=$token"
+        } else{
+            throw ValidationException("잘못된 요청입니다.")
+        }
+    }
+
+    fun resetPassword(request: PwdResetConfirmRequest) {
+        val key = "password-reset:token:${request.token}"
+        val storedEmail = valOps().get(key)
+        if (redisTemplate.hasKey(request.token) && storedEmail != null) {
+            throw InvalidTokenException("잘못된 이메일 혹은 토큰 값입니다.")
+        } else{
+            val newEncodedPassword = securityConfig.passwordEncoder().encode(request.newPassword)
+            userRepository.resetPasswordByEmail(storedEmail!!, newEncodedPassword)
+            redisTemplate.delete(key)
         }
     }
 }
