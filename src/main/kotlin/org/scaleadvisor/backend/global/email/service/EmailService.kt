@@ -83,8 +83,6 @@ class EmailService(
             duration = 10,
             unit = TimeUnit.MINUTES
         )
-        val key = "password-reset:token:$token"
-        valOps().set(key, request.email, 10, TimeUnit.MINUTES)
 
         val resetLink = "${appUrl}/password-reset?token=$token"
         val content = buildString {
