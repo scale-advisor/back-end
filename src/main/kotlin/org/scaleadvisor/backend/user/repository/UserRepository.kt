@@ -46,6 +46,15 @@ class UserRepository(
         .where(USER.EMAIL.eq(email))
         .execute()
 
+    fun resetPasswordByEmail(email: String, newPassword: String): Int {
+        return dsl
+            .update(USER)
+            .set(USER.PASSWORD, newPassword)
+            .set(USER.UPDATED_AT, LocalDateTime.now())
+            .where(USER.EMAIL.eq(email))
+            .execute()
+    }
+
     private fun mapRecordToUser(r: UserRecord): User = User.fromDb(
         userId    = r.userId,
         email     = r.email,
