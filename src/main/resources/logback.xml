@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
 
     <springProperty name="DISCORD_WEBHOOK_URL" source="logging.discord.webhook-url"/>
     <appender name="DISCORD" class="com.github.napstr.logback.DiscordAppender">
