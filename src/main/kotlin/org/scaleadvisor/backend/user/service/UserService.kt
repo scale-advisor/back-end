@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service
 class UserService(
     private val userRepository: UserRepository
 ) {
-    private val currentUserId: Long = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
-        ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
+
+    private val currentUserId: Long
+        get() = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
+            ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
 
     fun updateName(newName: String) {
         if (userRepository.updateNameById(currentUserId, newName) != 1){
