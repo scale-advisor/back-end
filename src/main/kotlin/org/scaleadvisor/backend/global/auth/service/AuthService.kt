@@ -61,7 +61,7 @@ class AuthService(
     fun login(request: LoginRequest, response: HttpServletResponse, socialToken: String? = null
     ): LoginResponse {
         val user = userRepository.findByEmail(request.email)
-            ?: throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_MESSAGE, request.email))
+            ?: throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_EMAIL_MESSAGE, request.email))
 
         if (!securityConfig.passwordEncoder().matches(request.password, user.password)) {
             throw ValidationException(UserMessageConstant.INVALID_CREDENTIALS_MESSAGE)
