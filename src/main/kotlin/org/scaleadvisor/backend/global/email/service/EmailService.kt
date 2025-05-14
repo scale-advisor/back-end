@@ -1,8 +1,14 @@
 package org.scaleadvisor.backend.global.email.service
 
 import jakarta.mail.internet.MimeMessage
+import org.scaleadvisor.backend.global.config.SecurityConfig
+import org.scaleadvisor.backend.global.email.constant.EmailTitleConstant
+import org.scaleadvisor.backend.global.email.dto.PwdResetConfirmRequest
+import org.scaleadvisor.backend.global.email.dto.PwdResetRequest
 import org.scaleadvisor.backend.global.exception.constant.TokenMessageConstant
+import org.scaleadvisor.backend.global.exception.model.InvalidTokenException
 import org.scaleadvisor.backend.global.exception.model.MessagingException
+import org.scaleadvisor.backend.global.exception.model.ValidationException
 import org.scaleadvisor.backend.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Value
@@ -19,34 +25,31 @@ import java.util.*
 class EmailService(
     private val userRepository: UserRepository,
     private val javaMailSender: JavaMailSender,
-    private val redisTemplate: RedisTemplate<String, String>
+    private val redisTemplate: RedisTemplate<String, String>,
+    private val securityConfig: SecurityConfig
 ) {
 
     @Value("\${spring.mail.username}")
     private lateinit var serviceName: String
 
-    fun generateSignupToken(email: String): String {
+    @Value("\${app.url}")
+    private val appUrl: String = ""
+
+    private fun valOps(): ValueOperations<String, String> =
+        redisTemplate.opsForValue()
+
+    fun generateMailToken(prefix: String,
+                          email: String,
+                          duration: Long,
+                          unit: TimeUnit = TimeUnit.HOURS): String {
         val token = UUID.randomUUID().toString()
-        val valOps: ValueOperations<String, String> = redisTemplate.opsForValue()
-        valOps.set("signup:token:$token", email, 24, TimeUnit.HOURS)
+        val key = "$prefix:$token"
+        valOps().set(key, email, duration, unit)
         return token
     }
 
-    fun sendConfirmationEmail(email: String, appUrl: String) {
-        val token = generateSignupToken(email)
-        val confirmLink = "$appUrl/email-verification?email=$email&token=$token"
-        val content = buildString {
-            append("<p>안녕하세요, $serviceName 입니다.</p>")
-            append("<p>해당 링크를 통해 회원가입을 완료하세요:</p>")
-            append("<a href=\"$confirmLink\">회원가입 인증</a>")
-            append("<br><p>링크는 24시간 동안 유효합니다.</p>")
-        }
-        sendMail(serviceName, email, content)
-    }
-
-    private fun sendMail(setFrom: String, toMail: String, content: String) {
+    private fun sendMail(setFrom: String, toMail: String, content: String, title: String) {
         val message: MimeMessage = javaMailSender.createMimeMessage()
-        val title = "Scale-Advisor 회원가입 인증 메일입니다."
 
         try {
             MimeMessageHelper(message, true, "utf-8").apply {
@@ -61,17 +64,74 @@ class EmailService(
         }
     }
 
+    fun sendConfirmationEmail(email: String) {
+        val token = generateMailToken(prefix = "signup:token", email = email, duration = 1)
+        val confirmLink = "$appUrl/email-verification?email=$email&token=$token"
+
+        val content = buildString {
+            append("<p>안녕하세요, $serviceName 입니다.</p>")
+            append("<p>해당 링크를 통해 회원가입을 완료하세요:</p>")
+            append("<a href=\"$confirmLink\">회원가입 인증</a>")
+            append("<br><p>링크는 24시간 동안 유효합니다.</p>")
+        }
+        sendMail(serviceName, email, content, EmailTitleConstant.SIGNUP_TITLE)
+    }
+
+    fun sendResetPasswordEmail(request: PwdResetRequest): ResponseEntity<String> {
+        val requestEmail = request.email
+        if (!userRepository.existsByEmail(requestEmail)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("등록되지 않은 이메일입니다.")
+        }
+
+        val token = generateMailToken(
+            prefix = "password-reset:token",
+            email = request.email,
+            duration = 10,
+            unit = TimeUnit.MINUTES
+        )
+
+        val resetLink = "${appUrl}/password-reset?email=$requestEmail&token=$token"
+        val content = buildString {
+            append("<p>안녕하세요, $serviceName 입니다.</p>")
+            append("<p>아래 링크를 클릭하여 비밀번호를 재설정하세요.(10분 동안 유효합니다):</p>")
+            append("<a href=\"$resetLink\">비밀번호 재설정하기</a>")
+        }
+
+        sendMail(serviceName, request.email, content, EmailTitleConstant.RESET_CREDENTIAL_TITLE)
+        return ResponseEntity.ok().body("비밀번호 재설정 이메일을 발송했습니다.")
+    }
+
     fun confirmSignup(email: String, token: String): ResponseEntity<String> {
-        val valOps: ValueOperations<String, String> = redisTemplate.opsForValue()
         val key = "signup:token:$token"
-        val storedEmail = valOps.get(key)
+        val storedEmail = valOps().get(key)
         return if (storedEmail == email) {
             redisTemplate.delete(key)
             userRepository.updateConfirmedByEmail(email)
-            ResponseEntity.ok("회원가입 인증이 완료되었습니다.")
+            ResponseEntity.ok().body("회원가입 인증이 완료되었습니다.")
         } else {
             ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(TokenMessageConstant.INVALID_TOKEN_MESSAGE)
+        }
+    }
+
+    fun confirmResetToken(token: String): String? {
+        val key = "password-reset:token:$token"
+        if (redisTemplate.hasKey(key)) {
+            return "${appUrl}/password-reset.html?token=$token"
+        } else{
+            throw ValidationException("잘못된 요청입니다.")
+        }
+    }
+
+    fun resetPassword(request: PwdResetConfirmRequest) {
+        val key = "password-reset:token:${request.token}"
+        val storedEmail = valOps().get(key)
+        if (redisTemplate.hasKey(request.token) && storedEmail != null) {
+            throw InvalidTokenException("잘못된 이메일 혹은 토큰 값입니다.")
+        } else{
+            val newEncodedPassword = securityConfig.passwordEncoder().encode(request.newPassword)
+            userRepository.resetPasswordByEmail(storedEmail!!, newEncodedPassword)
+            redisTemplate.delete(key)
         }
     }
 }
