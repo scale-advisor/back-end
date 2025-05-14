@@ -121,8 +121,9 @@ class AuthService(
     fun logout(refreshToken: String, response: HttpServletResponse
     ) {
         val claims = jwtProvider.parseClaims(refreshToken)
-        val userId = (claims["userId"] as Number).toLong()
-        val user = userRepository.findById(userId) ?: return
+        val email = claims["email"].toString()
+        val user = userRepository.findByEmail(email)
+            ?:throw throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_ID_MESSAGE))
         val expMillis = claims.expiration.time - System.currentTimeMillis()
         if (expMillis <= 0) return
 
@@ -139,6 +140,8 @@ class AuthService(
                 redisTemplate.delete(externalKey)
             }
         }
+
+        redisTemplate.delete("$REFRESH_TOKEN_PREFIX$email")
 
         response.setHeader(
             "Set-Cookie",
