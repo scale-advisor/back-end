@@ -26,6 +26,11 @@ class UserRepository(
         return generatedId
     }
 
+    fun deleteUser(userId: Long): Int =
+        dsl.deleteFrom(USER)
+            .where(USER.USER_ID.eq(userId))
+            .execute()
+
     fun findById(userId: Long): User? = dsl
         .selectFrom(USER)
         .where(USER.USER_ID.eq(userId))
