@@ -97,7 +97,7 @@ class EmailService(
             append("<a href=\"$resetLink\">비밀번호 재설정하기</a>")
         }
 
-        sendMail(serviceName, request.email, content, EmailTitleConstant.RESET_PWD_TITLE)
+        sendMail(serviceName, request.email, content, EmailTitleConstant.RESET_CREDENTIAL_TITLE)
         return ResponseEntity.ok().body("비밀번호 재설정 이메일을 발송했습니다.")
     }
 
