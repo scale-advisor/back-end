@@ -26,6 +26,13 @@ class UserRepository(
         return generatedId
     }
 
+    fun updateNameById(userId: Long, newName: String): Int =
+        dsl.update(USER)
+            .set(USER.NAME, newName)
+            .set(USER.UPDATED_AT, LocalDateTime.now())
+            .where(USER.USER_ID.eq(userId))
+            .execute()
+
     fun deleteUser(userId: Long): Int =
         dsl.deleteFrom(USER)
             .where(USER.USER_ID.eq(userId))

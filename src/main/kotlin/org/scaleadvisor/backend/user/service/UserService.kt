@@ -9,13 +9,15 @@ import org.springframework.stereotype.Service
 class UserService(
     private val userRepository: UserRepository
 ) {
+    fun updateName(userId: Long, newName: String) {
+        if (userRepository.updateNameById(userId, newName) != 1){
+            throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_ID_MESSAGE, userId))
+        }
+    }
 
-    fun deleteUser(id: Long) {
-        val user = userRepository.findById(id)
-            ?: throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_ID_MESSAGE, id))
-
-        if(user.userId == id){
-            userRepository.deleteUser(id)
+    fun deleteUser(userId: Long) {
+        if (userRepository.deleteUser(userId) != 1) {
+            throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_ID_MESSAGE, userId))
         }
     }
 }
