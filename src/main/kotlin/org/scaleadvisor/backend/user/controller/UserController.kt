@@ -1,7 +1,5 @@
 package org.scaleadvisor.backend.user.controller
 
-import org.scaleadvisor.backend.global.exception.model.ForbiddenException
-import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.user.dto.UpdateNameRequest
 import org.scaleadvisor.backend.user.service.UserService
 import org.springframework.http.ResponseEntity
