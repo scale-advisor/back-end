@@ -86,7 +86,7 @@ class AuthService(
             "refreshToken=$refreshToken; HttpOnly; Secure; SameSite=None; Domain=$cookieDomain; Path=/; Max-Age=$maxAgeSec"
         )
 
-        return LoginResponse(accessToken = accessToken, refreshToken = refreshToken)
+        return LoginResponse(accessToken = accessToken)
     }
 
     fun kakaoLogin(request: KakaoCallbackRequest, response: HttpServletResponse
@@ -177,6 +177,6 @@ class AuthService(
             "refreshToken=$newRefresh; HttpOnly; Secure; SameSite=None; Domain=$cookieDomain; Path=/; Max-Age=$maxAgeSec"
         )
 
-        return LoginResponse(accessToken = newAccess, refreshToken = newRefresh)
+        return LoginResponse(accessToken = newAccess)
     }
 }
