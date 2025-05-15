@@ -106,7 +106,8 @@ class AuthService(
                 password = encodedPassword,
                 name = nickname,
                 loginType = User.LoginType.KAKAO,
-                socialId = kakaoUserId
+                socialId = kakaoUserId,
+                confirmed = User.Confirmed.Y
             )
             userRepository.createUser(newUser, generatedId)
         }
