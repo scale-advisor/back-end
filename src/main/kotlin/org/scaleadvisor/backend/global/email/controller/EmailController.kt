@@ -23,9 +23,9 @@ class EmailController(
 
     @GetMapping("/password-reset")
     fun verifyResetToken(@RequestParam token: String, response: HttpServletResponse
-    ): RedirectView {
+    ) {
         val redirectUrl = emailService.confirmResetToken(token)!!
-        return RedirectView(redirectUrl)
+        response.sendRedirect(redirectUrl)
     }
 
     @PostMapping("/password-reset")
