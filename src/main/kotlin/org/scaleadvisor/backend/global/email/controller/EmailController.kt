@@ -6,7 +6,6 @@ import org.scaleadvisor.backend.global.email.dto.PwdResetRequest
 import org.scaleadvisor.backend.global.email.service.EmailService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.view.RedirectView
 
 @RestController
 @RequestMapping("/auth")
@@ -23,9 +22,9 @@ class EmailController(
 
     @GetMapping("/password-reset")
     fun verifyResetToken(@RequestParam token: String, response: HttpServletResponse
-    ): RedirectView {
+    ) {
         val redirectUrl = emailService.confirmResetToken(token)!!
-        return RedirectView(redirectUrl)
+        response.sendRedirect(redirectUrl)
     }
 
     @PostMapping("/password-reset")

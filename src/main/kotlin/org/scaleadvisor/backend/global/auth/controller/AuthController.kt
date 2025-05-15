@@ -2,7 +2,6 @@ package org.scaleadvisor.backend.global.auth.controller
 
 import jakarta.servlet.http.HttpServletResponse
 import org.scaleadvisor.backend.global.auth.dto.*
-import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
 import org.scaleadvisor.backend.global.auth.service.AuthService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -35,13 +34,6 @@ class AuthController(
     ): ResponseEntity<LoginResponse> {
         val refreshed = authService.refreshToken(refreshToken, response)
         return ResponseEntity.ok().body(refreshed)
-    }
-
-    @RequestMapping("/kakao/callback", method = [RequestMethod.GET, RequestMethod.POST])
-    fun kakaoLogin(@RequestParam code: String, response: HttpServletResponse)
-    : ResponseEntity<LoginResponse> {
-        val result= authService.kakaoLogin(KakaoCallbackRequest(code), response)
-        return ResponseEntity.ok().body(result)
     }
 }
 

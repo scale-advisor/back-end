@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
+import org.springframework.web.util.UriComponentsBuilder
 import java.net.URLEncoder
 
 @Component
@@ -26,6 +27,9 @@ class KakaoCallbackService(
     @Value("\${kakao.login-redirect-url}")
     private val kakaoLoginRedirectUrl: String? = null
 
+    @Value("\${kakao.authorize-url}")
+    private lateinit var kakaoAuthorizeUrl:String
+
     @Value("\${kakao.code-callback-url}")
     private lateinit var kakaoCodeUrl: String
 
@@ -34,6 +38,19 @@ class KakaoCallbackService(
 
     @Value("\${kakao.token-expire-url}")
     private lateinit var kakaoExpireTokenUrl: String
+
+    fun getKakaoAuthorizeUrl(): String {
+        val kakaoAuthUrl = UriComponentsBuilder
+            .fromHttpUrl(kakaoAuthorizeUrl)
+            .queryParam("response_type", "code")
+            .queryParam("client_id", kakaoApiKey)
+            .queryParam("redirect_uri", kakaoLoginRedirectUrl)
+            .build()
+            .encode()
+            .toUriString()
+
+        return kakaoAuthUrl
+    }
 
     fun getKakaoToken(code: String): String {
         val headers = HttpHeaders().apply {
