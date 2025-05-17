@@ -25,6 +25,7 @@ public class User implements Serializable {
     private String confirmed;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
 
     public User() {}
 
@@ -38,6 +39,7 @@ public class User implements Serializable {
         this.confirmed = value.confirmed;
         this.createdAt = value.createdAt;
         this.updatedAt = value.updatedAt;
+        this.deletedAt = value.deletedAt;
     }
 
     public User(
@@ -49,7 +51,8 @@ public class User implements Serializable {
         String loginType,
         String confirmed,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        LocalDateTime deletedAt
     ) {
         this.userId = userId;
         this.email = email;
@@ -60,17 +63,18 @@ public class User implements Serializable {
         this.confirmed = confirmed;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 
     /**
-     * Getter for <code>scale_advisor.user.user_id</code>.
+     * Getter for <code>scale_advisor.USER.user_id</code>.
      */
     public Long getUserId() {
         return this.userId;
     }
 
     /**
-     * Setter for <code>scale_advisor.user.user_id</code>.
+     * Setter for <code>scale_advisor.USER.user_id</code>.
      */
     public User setUserId(Long userId) {
         this.userId = userId;
@@ -78,14 +82,14 @@ public class User implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.email</code>.
+     * Getter for <code>scale_advisor.USER.email</code>.
      */
     public String getEmail() {
         return this.email;
     }
 
     /**
-     * Setter for <code>scale_advisor.user.email</code>.
+     * Setter for <code>scale_advisor.USER.email</code>.
      */
     public User setEmail(String email) {
         this.email = email;
@@ -93,14 +97,14 @@ public class User implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.password</code>.
+     * Getter for <code>scale_advisor.USER.password</code>.
      */
     public String getPassword() {
         return this.password;
     }
 
     /**
-     * Setter for <code>scale_advisor.user.password</code>.
+     * Setter for <code>scale_advisor.USER.password</code>.
      */
     public User setPassword(String password) {
         this.password = password;
@@ -108,14 +112,14 @@ public class User implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.name</code>.
+     * Getter for <code>scale_advisor.USER.name</code>.
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * Setter for <code>scale_advisor.user.name</code>.
+     * Setter for <code>scale_advisor.USER.name</code>.
      */
     public User setName(String name) {
         this.name = name;
@@ -123,14 +127,14 @@ public class User implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.social_id</code>.
+     * Getter for <code>scale_advisor.USER.social_id</code>.
      */
     public String getSocialId() {
         return this.socialId;
     }
 
     /**
-     * Setter for <code>scale_advisor.user.social_id</code>.
+     * Setter for <code>scale_advisor.USER.social_id</code>.
      */
     public User setSocialId(String socialId) {
         this.socialId = socialId;
@@ -138,14 +142,14 @@ public class User implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.login_type</code>.
+     * Getter for <code>scale_advisor.USER.login_type</code>.
      */
     public String getLoginType() {
         return this.loginType;
     }
 
     /**
-     * Setter for <code>scale_advisor.user.login_type</code>.
+     * Setter for <code>scale_advisor.USER.login_type</code>.
      */
     public User setLoginType(String loginType) {
         this.loginType = loginType;
@@ -153,14 +157,14 @@ public class User implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.confirmed</code>.
+     * Getter for <code>scale_advisor.USER.confirmed</code>.
      */
     public String getConfirmed() {
         return this.confirmed;
     }
 
     /**
-     * Setter for <code>scale_advisor.user.confirmed</code>.
+     * Setter for <code>scale_advisor.USER.confirmed</code>.
      */
     public User setConfirmed(String confirmed) {
         this.confirmed = confirmed;
@@ -168,14 +172,14 @@ public class User implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.created_at</code>.
+     * Getter for <code>scale_advisor.USER.created_at</code>.
      */
     public LocalDateTime getCreatedAt() {
         return this.createdAt;
     }
 
     /**
-     * Setter for <code>scale_advisor.user.created_at</code>.
+     * Setter for <code>scale_advisor.USER.created_at</code>.
      */
     public User setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
@@ -183,17 +187,32 @@ public class User implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.updated_at</code>.
+     * Getter for <code>scale_advisor.USER.updated_at</code>.
      */
     public LocalDateTime getUpdatedAt() {
         return this.updatedAt;
     }
 
     /**
-     * Setter for <code>scale_advisor.user.updated_at</code>.
+     * Setter for <code>scale_advisor.USER.updated_at</code>.
      */
     public User setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.USER.deleted_at</code>.
+     */
+    public LocalDateTime getDeletedAt() {
+        return this.deletedAt;
+    }
+
+    /**
+     * Setter for <code>scale_advisor.USER.deleted_at</code>.
+     */
+    public User setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
         return this;
     }
 
@@ -260,6 +279,12 @@ public class User implements Serializable {
         }
         else if (!this.updatedAt.equals(other.updatedAt))
             return false;
+        if (this.deletedAt == null) {
+            if (other.deletedAt != null)
+                return false;
+        }
+        else if (!this.deletedAt.equals(other.deletedAt))
+            return false;
         return true;
     }
 
@@ -276,6 +301,7 @@ public class User implements Serializable {
         result = prime * result + ((this.confirmed == null) ? 0 : this.confirmed.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.deletedAt == null) ? 0 : this.deletedAt.hashCode());
         return result;
     }
 
@@ -292,6 +318,7 @@ public class User implements Serializable {
         sb.append(", ").append(confirmed);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);
+        sb.append(", ").append(deletedAt);
 
         sb.append(")");
         return sb.toString();

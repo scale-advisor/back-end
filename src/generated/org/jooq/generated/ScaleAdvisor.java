@@ -27,7 +27,7 @@ public class ScaleAdvisor extends SchemaImpl {
     public static final ScaleAdvisor SCALE_ADVISOR = new ScaleAdvisor();
 
     /**
-     * The table <code>scale_advisor.user</code>.
+     * The table <code>scale_advisor.USER</code>.
      */
     public final User USER = User.USER;
 

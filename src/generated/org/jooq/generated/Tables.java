@@ -14,7 +14,7 @@ import org.jooq.generated.tables.User;
 public class Tables {
 
     /**
-     * The table <code>scale_advisor.user</code>.
+     * The table <code>scale_advisor.USER</code>.
      */
     public static final User USER = User.USER;
 }
