@@ -53,6 +53,9 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-batch")
+    implementation("org.springframework.boot:spring-boot-starter-quartz")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     //jwt

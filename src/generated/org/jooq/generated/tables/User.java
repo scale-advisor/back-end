@@ -39,7 +39,7 @@ public class User extends TableImpl<UserRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>scale_advisor.user</code>
+     * The reference instance of <code>scale_advisor.USER</code>
      */
     public static final User USER = new User();
 
@@ -52,49 +52,54 @@ public class User extends TableImpl<UserRecord> {
     }
 
     /**
-     * The column <code>scale_advisor.user.user_id</code>.
+     * The column <code>scale_advisor.USER.user_id</code>.
      */
     public final TableField<UserRecord, Long> USER_ID = createField(DSL.name("user_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.user.email</code>.
+     * The column <code>scale_advisor.USER.email</code>.
      */
     public final TableField<UserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.user.password</code>.
+     * The column <code>scale_advisor.USER.password</code>.
      */
     public final TableField<UserRecord, String> PASSWORD = createField(DSL.name("password"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.user.name</code>.
+     * The column <code>scale_advisor.USER.name</code>.
      */
     public final TableField<UserRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(100).nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.user.social_id</code>.
+     * The column <code>scale_advisor.USER.social_id</code>.
      */
     public final TableField<UserRecord, String> SOCIAL_ID = createField(DSL.name("social_id"), SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>scale_advisor.user.login_type</code>.
+     * The column <code>scale_advisor.USER.login_type</code>.
      */
     public final TableField<UserRecord, String> LOGIN_TYPE = createField(DSL.name("login_type"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.user.confirmed</code>.
+     * The column <code>scale_advisor.USER.confirmed</code>.
      */
     public final TableField<UserRecord, String> CONFIRMED = createField(DSL.name("confirmed"), SQLDataType.CHAR(1).nullable(false).defaultValue(DSL.inline("N", SQLDataType.CHAR)), this, "");
 
     /**
-     * The column <code>scale_advisor.user.created_at</code>.
+     * The column <code>scale_advisor.USER.created_at</code>.
      */
     public final TableField<UserRecord, LocalDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>scale_advisor.user.updated_at</code>.
+     * The column <code>scale_advisor.USER.updated_at</code>.
      */
     public final TableField<UserRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
+
+    /**
+     * The column <code>scale_advisor.USER.deleted_at</code>.
+     */
+    public final TableField<UserRecord, LocalDateTime> DELETED_AT = createField(DSL.name("deleted_at"), SQLDataType.LOCALDATETIME(0), this, "");
 
     private User(Name alias, Table<UserRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -105,24 +110,24 @@ public class User extends TableImpl<UserRecord> {
     }
 
     /**
-     * Create an aliased <code>scale_advisor.user</code> table reference
+     * Create an aliased <code>scale_advisor.USER</code> table reference
      */
     public User(String alias) {
         this(DSL.name(alias), USER);
     }
 
     /**
-     * Create an aliased <code>scale_advisor.user</code> table reference
+     * Create an aliased <code>scale_advisor.USER</code> table reference
      */
     public User(Name alias) {
         this(alias, USER);
     }
 
     /**
-     * Create a <code>scale_advisor.user</code> table reference
+     * Create a <code>scale_advisor.USER</code> table reference
      */
     public User() {
-        this(DSL.name("user"), null);
+        this(DSL.name("USER"), null);
     }
 
     @Override

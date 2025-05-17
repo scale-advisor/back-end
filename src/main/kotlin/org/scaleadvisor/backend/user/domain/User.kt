@@ -13,7 +13,8 @@ data class User private constructor(
     val loginType: LoginType,
     val confirmed: Confirmed,
     val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime
+    val updatedAt: LocalDateTime,
+    val deletedAt: LocalDateTime?
 ) {
     companion object {
         @JvmStatic
@@ -35,7 +36,8 @@ data class User private constructor(
                 loginType = loginType,
                 confirmed = confirmed,
                 createdAt = now,
-                updatedAt = now
+                updatedAt = now,
+                deletedAt = null
             )
         }
 
@@ -49,7 +51,8 @@ data class User private constructor(
             loginType: LoginType,
             confirmed: Confirmed,
             createdAt: LocalDateTime,
-            updatedAt: LocalDateTime
+            updatedAt: LocalDateTime,
+            deletedAt: LocalDateTime?
         ): User = User(
             userId = userId,
             email = email,
@@ -59,7 +62,8 @@ data class User private constructor(
             loginType = loginType,
             confirmed = confirmed,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
+            deletedAt = deletedAt
         )
     }
 

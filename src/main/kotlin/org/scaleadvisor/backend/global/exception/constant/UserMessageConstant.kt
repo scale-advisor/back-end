@@ -5,4 +5,5 @@ object UserMessageConstant {
     const val NOT_FOUND_EMAIL_MESSAGE = "존재하지 않거나 회원가입 승인이 완료되지 않은 email입니다: %s"
     const val INVALID_CREDENTIALS_MESSAGE = "비밀번호가 일치하지 않습니다."
     const val NOT_FOUND_USER_ID_MESSAGE = "존재하지 않는 회원입니다: %d"
+    const val INCORRECT_CREDENTIALS_VALID_MESSAGE = "새 비밀번호 확인을 잘못 입력하였습니다."
 }

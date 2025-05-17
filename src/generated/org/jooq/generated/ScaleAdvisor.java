@@ -9,6 +9,26 @@ import java.util.List;
 
 import org.jooq.Catalog;
 import org.jooq.Table;
+import org.jooq.generated.tables.BatchJobExecution;
+import org.jooq.generated.tables.BatchJobExecutionContext;
+import org.jooq.generated.tables.BatchJobExecutionParams;
+import org.jooq.generated.tables.BatchJobExecutionSeq;
+import org.jooq.generated.tables.BatchJobInstance;
+import org.jooq.generated.tables.BatchJobSeq;
+import org.jooq.generated.tables.BatchStepExecution;
+import org.jooq.generated.tables.BatchStepExecutionContext;
+import org.jooq.generated.tables.BatchStepExecutionSeq;
+import org.jooq.generated.tables.QrtzBlobTriggers;
+import org.jooq.generated.tables.QrtzCalendars;
+import org.jooq.generated.tables.QrtzCronTriggers;
+import org.jooq.generated.tables.QrtzFiredTriggers;
+import org.jooq.generated.tables.QrtzJobDetails;
+import org.jooq.generated.tables.QrtzLocks;
+import org.jooq.generated.tables.QrtzPausedTriggerGrps;
+import org.jooq.generated.tables.QrtzSchedulerState;
+import org.jooq.generated.tables.QrtzSimpleTriggers;
+import org.jooq.generated.tables.QrtzSimpropTriggers;
+import org.jooq.generated.tables.QrtzTriggers;
 import org.jooq.generated.tables.User;
 import org.jooq.impl.SchemaImpl;
 
@@ -27,7 +47,107 @@ public class ScaleAdvisor extends SchemaImpl {
     public static final ScaleAdvisor SCALE_ADVISOR = new ScaleAdvisor();
 
     /**
-     * The table <code>scale_advisor.user</code>.
+     * The table <code>scale_advisor.BATCH_JOB_EXECUTION</code>.
+     */
+    public final BatchJobExecution BATCH_JOB_EXECUTION = BatchJobExecution.BATCH_JOB_EXECUTION;
+
+    /**
+     * The table <code>scale_advisor.BATCH_JOB_EXECUTION_CONTEXT</code>.
+     */
+    public final BatchJobExecutionContext BATCH_JOB_EXECUTION_CONTEXT = BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT;
+
+    /**
+     * The table <code>scale_advisor.BATCH_JOB_EXECUTION_PARAMS</code>.
+     */
+    public final BatchJobExecutionParams BATCH_JOB_EXECUTION_PARAMS = BatchJobExecutionParams.BATCH_JOB_EXECUTION_PARAMS;
+
+    /**
+     * The table <code>scale_advisor.BATCH_JOB_EXECUTION_SEQ</code>.
+     */
+    public final BatchJobExecutionSeq BATCH_JOB_EXECUTION_SEQ = BatchJobExecutionSeq.BATCH_JOB_EXECUTION_SEQ;
+
+    /**
+     * The table <code>scale_advisor.BATCH_JOB_INSTANCE</code>.
+     */
+    public final BatchJobInstance BATCH_JOB_INSTANCE = BatchJobInstance.BATCH_JOB_INSTANCE;
+
+    /**
+     * The table <code>scale_advisor.BATCH_JOB_SEQ</code>.
+     */
+    public final BatchJobSeq BATCH_JOB_SEQ = BatchJobSeq.BATCH_JOB_SEQ;
+
+    /**
+     * The table <code>scale_advisor.BATCH_STEP_EXECUTION</code>.
+     */
+    public final BatchStepExecution BATCH_STEP_EXECUTION = BatchStepExecution.BATCH_STEP_EXECUTION;
+
+    /**
+     * The table <code>scale_advisor.BATCH_STEP_EXECUTION_CONTEXT</code>.
+     */
+    public final BatchStepExecutionContext BATCH_STEP_EXECUTION_CONTEXT = BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT;
+
+    /**
+     * The table <code>scale_advisor.BATCH_STEP_EXECUTION_SEQ</code>.
+     */
+    public final BatchStepExecutionSeq BATCH_STEP_EXECUTION_SEQ = BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ;
+
+    /**
+     * The table <code>scale_advisor.QRTZ_BLOB_TRIGGERS</code>.
+     */
+    public final QrtzBlobTriggers QRTZ_BLOB_TRIGGERS = QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS;
+
+    /**
+     * The table <code>scale_advisor.QRTZ_CALENDARS</code>.
+     */
+    public final QrtzCalendars QRTZ_CALENDARS = QrtzCalendars.QRTZ_CALENDARS;
+
+    /**
+     * The table <code>scale_advisor.QRTZ_CRON_TRIGGERS</code>.
+     */
+    public final QrtzCronTriggers QRTZ_CRON_TRIGGERS = QrtzCronTriggers.QRTZ_CRON_TRIGGERS;
+
+    /**
+     * The table <code>scale_advisor.QRTZ_FIRED_TRIGGERS</code>.
+     */
+    public final QrtzFiredTriggers QRTZ_FIRED_TRIGGERS = QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS;
+
+    /**
+     * The table <code>scale_advisor.QRTZ_JOB_DETAILS</code>.
+     */
+    public final QrtzJobDetails QRTZ_JOB_DETAILS = QrtzJobDetails.QRTZ_JOB_DETAILS;
+
+    /**
+     * The table <code>scale_advisor.QRTZ_LOCKS</code>.
+     */
+    public final QrtzLocks QRTZ_LOCKS = QrtzLocks.QRTZ_LOCKS;
+
+    /**
+     * The table <code>scale_advisor.QRTZ_PAUSED_TRIGGER_GRPS</code>.
+     */
+    public final QrtzPausedTriggerGrps QRTZ_PAUSED_TRIGGER_GRPS = QrtzPausedTriggerGrps.QRTZ_PAUSED_TRIGGER_GRPS;
+
+    /**
+     * The table <code>scale_advisor.QRTZ_SCHEDULER_STATE</code>.
+     */
+    public final QrtzSchedulerState QRTZ_SCHEDULER_STATE = QrtzSchedulerState.QRTZ_SCHEDULER_STATE;
+
+    /**
+     * The table <code>scale_advisor.QRTZ_SIMPLE_TRIGGERS</code>.
+     */
+    public final QrtzSimpleTriggers QRTZ_SIMPLE_TRIGGERS = QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS;
+
+    /**
+     * The table <code>scale_advisor.QRTZ_SIMPROP_TRIGGERS</code>.
+     */
+    public final QrtzSimpropTriggers QRTZ_SIMPROP_TRIGGERS = QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS;
+
+    /**
+     * The table <code>scale_advisor.QRTZ_TRIGGERS</code>.
+     */
+    public final QrtzTriggers QRTZ_TRIGGERS = QrtzTriggers.QRTZ_TRIGGERS;
+
+    /**
+     * The table <code>scale_advisor.USER</code>.
      */
     public final User USER = User.USER;
 
@@ -47,6 +167,26 @@ public class ScaleAdvisor extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            BatchJobExecution.BATCH_JOB_EXECUTION,
+            BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT,
+            BatchJobExecutionParams.BATCH_JOB_EXECUTION_PARAMS,
+            BatchJobExecutionSeq.BATCH_JOB_EXECUTION_SEQ,
+            BatchJobInstance.BATCH_JOB_INSTANCE,
+            BatchJobSeq.BATCH_JOB_SEQ,
+            BatchStepExecution.BATCH_STEP_EXECUTION,
+            BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT,
+            BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ,
+            QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS,
+            QrtzCalendars.QRTZ_CALENDARS,
+            QrtzCronTriggers.QRTZ_CRON_TRIGGERS,
+            QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS,
+            QrtzJobDetails.QRTZ_JOB_DETAILS,
+            QrtzLocks.QRTZ_LOCKS,
+            QrtzPausedTriggerGrps.QRTZ_PAUSED_TRIGGER_GRPS,
+            QrtzSchedulerState.QRTZ_SCHEDULER_STATE,
+            QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS,
+            QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS,
+            QrtzTriggers.QRTZ_TRIGGERS,
             User.USER
         );
     }

@@ -20,7 +20,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>scale_advisor.user.user_id</code>.
+     * Setter for <code>scale_advisor.USER.user_id</code>.
      */
     public UserRecord setUserId(Long value) {
         set(0, value);
@@ -28,14 +28,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.user_id</code>.
+     * Getter for <code>scale_advisor.USER.user_id</code>.
      */
     public Long getUserId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>scale_advisor.user.email</code>.
+     * Setter for <code>scale_advisor.USER.email</code>.
      */
     public UserRecord setEmail(String value) {
         set(1, value);
@@ -43,14 +43,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.email</code>.
+     * Getter for <code>scale_advisor.USER.email</code>.
      */
     public String getEmail() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>scale_advisor.user.password</code>.
+     * Setter for <code>scale_advisor.USER.password</code>.
      */
     public UserRecord setPassword(String value) {
         set(2, value);
@@ -58,14 +58,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.password</code>.
+     * Getter for <code>scale_advisor.USER.password</code>.
      */
     public String getPassword() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>scale_advisor.user.name</code>.
+     * Setter for <code>scale_advisor.USER.name</code>.
      */
     public UserRecord setName(String value) {
         set(3, value);
@@ -73,14 +73,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.name</code>.
+     * Getter for <code>scale_advisor.USER.name</code>.
      */
     public String getName() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>scale_advisor.user.social_id</code>.
+     * Setter for <code>scale_advisor.USER.social_id</code>.
      */
     public UserRecord setSocialId(String value) {
         set(4, value);
@@ -88,14 +88,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.social_id</code>.
+     * Getter for <code>scale_advisor.USER.social_id</code>.
      */
     public String getSocialId() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>scale_advisor.user.login_type</code>.
+     * Setter for <code>scale_advisor.USER.login_type</code>.
      */
     public UserRecord setLoginType(String value) {
         set(5, value);
@@ -103,14 +103,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.login_type</code>.
+     * Getter for <code>scale_advisor.USER.login_type</code>.
      */
     public String getLoginType() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>scale_advisor.user.confirmed</code>.
+     * Setter for <code>scale_advisor.USER.confirmed</code>.
      */
     public UserRecord setConfirmed(String value) {
         set(6, value);
@@ -118,14 +118,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.confirmed</code>.
+     * Getter for <code>scale_advisor.USER.confirmed</code>.
      */
     public String getConfirmed() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>scale_advisor.user.created_at</code>.
+     * Setter for <code>scale_advisor.USER.created_at</code>.
      */
     public UserRecord setCreatedAt(LocalDateTime value) {
         set(7, value);
@@ -133,14 +133,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.created_at</code>.
+     * Getter for <code>scale_advisor.USER.created_at</code>.
      */
     public LocalDateTime getCreatedAt() {
         return (LocalDateTime) get(7);
     }
 
     /**
-     * Setter for <code>scale_advisor.user.updated_at</code>.
+     * Setter for <code>scale_advisor.USER.updated_at</code>.
      */
     public UserRecord setUpdatedAt(LocalDateTime value) {
         set(8, value);
@@ -148,10 +148,25 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.user.updated_at</code>.
+     * Getter for <code>scale_advisor.USER.updated_at</code>.
      */
     public LocalDateTime getUpdatedAt() {
         return (LocalDateTime) get(8);
+    }
+
+    /**
+     * Setter for <code>scale_advisor.USER.deleted_at</code>.
+     */
+    public UserRecord setDeletedAt(LocalDateTime value) {
+        set(9, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.USER.deleted_at</code>.
+     */
+    public LocalDateTime getDeletedAt() {
+        return (LocalDateTime) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -177,7 +192,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     /**
      * Create a detached, initialised UserRecord
      */
-    public UserRecord(Long userId, String email, String password, String name, String socialId, String loginType, String confirmed, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public UserRecord(Long userId, String email, String password, String name, String socialId, String loginType, String confirmed, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
         super(User.USER);
 
         setUserId(userId);
@@ -189,6 +204,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
         setConfirmed(confirmed);
         setCreatedAt(createdAt);
         setUpdatedAt(updatedAt);
+        setDeletedAt(deletedAt);
         resetChangedOnNotNull();
     }
 
@@ -208,6 +224,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
             setConfirmed(value.getConfirmed());
             setCreatedAt(value.getCreatedAt());
             setUpdatedAt(value.getUpdatedAt());
+            setDeletedAt(value.getDeletedAt());
             resetChangedOnNotNull();
         }
     }

@@ -34,18 +34,27 @@ class UserRepository(
             .execute()
 
     fun deleteUser(userId: Long): Int =
-        dsl.deleteFrom(USER)
-            .where(USER.USER_ID.eq(userId))
+        dsl.update(USER)
+            .set(USER.DELETED_AT, LocalDateTime.now())
+            .set(USER.UPDATED_AT, LocalDateTime.now())
+            .where(
+                USER.USER_ID.eq(userId),
+                USER.DELETED_AT.isNull)
             .execute()
 
     fun findById(userId: Long): User? = dsl
         .selectFrom(USER)
-        .where(USER.USER_ID.eq(userId))
+        .where(
+            USER.USER_ID.eq(userId),
+            USER.DELETED_AT.isNull)
         .fetchOne { record -> mapRecordToUser(record) }
 
     fun findByEmail(email: String): User? = dsl
         .selectFrom(USER)
-        .where(USER.EMAIL.eq(email), USER.CONFIRMED.eq("Y"))
+        .where(
+            USER.EMAIL.eq(email),
+            USER.CONFIRMED.eq("Y"),
+            USER.DELETED_AT.isNull)
         .fetchOne { record -> mapRecordToUser(record) }
 
     fun existsByEmail(email: String): Boolean = dsl
@@ -57,6 +66,13 @@ class UserRepository(
         .set(USER.UPDATED_AT, LocalDateTime.now())
         .where(USER.EMAIL.eq(email))
         .execute()
+
+    fun updatePasswordById(userId: Long, newPassword: String) {
+        dsl.update(USER)
+            .set(USER.PASSWORD, newPassword)
+            .where(USER.USER_ID.eq(userId))
+            .execute()
+    }
 
     fun resetPasswordByEmail(email: String, newPassword: String): Int {
         return dsl
@@ -76,6 +92,7 @@ class UserRepository(
         loginType = User.LoginType.valueOf(r.loginType),
         confirmed = User.Confirmed.valueOf(r.confirmed),
         createdAt = r.createdAt,
-        updatedAt = r.updatedAt
+        updatedAt = r.updatedAt,
+        deletedAt = r.deletedAt
     )
 }

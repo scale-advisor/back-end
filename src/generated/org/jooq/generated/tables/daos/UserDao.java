@@ -201,4 +201,19 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     public List<org.jooq.generated.tables.pojos.User> fetchByUpdatedAt(LocalDateTime... values) {
         return fetch(User.USER.UPDATED_AT, values);
     }
+
+    /**
+     * Fetch records that have <code>deleted_at BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<org.jooq.generated.tables.pojos.User> fetchRangeOfDeletedAt(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
+        return fetchRange(User.USER.DELETED_AT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>deleted_at IN (values)</code>
+     */
+    public List<org.jooq.generated.tables.pojos.User> fetchByDeletedAt(LocalDateTime... values) {
+        return fetch(User.USER.DELETED_AT, values);
+    }
 }

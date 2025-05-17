@@ -4,9 +4,50 @@
 package org.jooq.generated;
 
 
+import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
+import org.jooq.generated.tables.BatchJobExecution;
+import org.jooq.generated.tables.BatchJobExecutionContext;
+import org.jooq.generated.tables.BatchJobExecutionParams;
+import org.jooq.generated.tables.BatchJobExecutionSeq;
+import org.jooq.generated.tables.BatchJobInstance;
+import org.jooq.generated.tables.BatchJobSeq;
+import org.jooq.generated.tables.BatchStepExecution;
+import org.jooq.generated.tables.BatchStepExecutionContext;
+import org.jooq.generated.tables.BatchStepExecutionSeq;
+import org.jooq.generated.tables.QrtzBlobTriggers;
+import org.jooq.generated.tables.QrtzCalendars;
+import org.jooq.generated.tables.QrtzCronTriggers;
+import org.jooq.generated.tables.QrtzFiredTriggers;
+import org.jooq.generated.tables.QrtzJobDetails;
+import org.jooq.generated.tables.QrtzLocks;
+import org.jooq.generated.tables.QrtzPausedTriggerGrps;
+import org.jooq.generated.tables.QrtzSchedulerState;
+import org.jooq.generated.tables.QrtzSimpleTriggers;
+import org.jooq.generated.tables.QrtzSimpropTriggers;
+import org.jooq.generated.tables.QrtzTriggers;
 import org.jooq.generated.tables.User;
+import org.jooq.generated.tables.records.BatchJobExecutionContextRecord;
+import org.jooq.generated.tables.records.BatchJobExecutionParamsRecord;
+import org.jooq.generated.tables.records.BatchJobExecutionRecord;
+import org.jooq.generated.tables.records.BatchJobExecutionSeqRecord;
+import org.jooq.generated.tables.records.BatchJobInstanceRecord;
+import org.jooq.generated.tables.records.BatchJobSeqRecord;
+import org.jooq.generated.tables.records.BatchStepExecutionContextRecord;
+import org.jooq.generated.tables.records.BatchStepExecutionRecord;
+import org.jooq.generated.tables.records.BatchStepExecutionSeqRecord;
+import org.jooq.generated.tables.records.QrtzBlobTriggersRecord;
+import org.jooq.generated.tables.records.QrtzCalendarsRecord;
+import org.jooq.generated.tables.records.QrtzCronTriggersRecord;
+import org.jooq.generated.tables.records.QrtzFiredTriggersRecord;
+import org.jooq.generated.tables.records.QrtzJobDetailsRecord;
+import org.jooq.generated.tables.records.QrtzLocksRecord;
+import org.jooq.generated.tables.records.QrtzPausedTriggerGrpsRecord;
+import org.jooq.generated.tables.records.QrtzSchedulerStateRecord;
+import org.jooq.generated.tables.records.QrtzSimpleTriggersRecord;
+import org.jooq.generated.tables.records.QrtzSimpropTriggersRecord;
+import org.jooq.generated.tables.records.QrtzTriggersRecord;
 import org.jooq.generated.tables.records.UserRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
@@ -23,6 +64,41 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<UserRecord> KEY_USER_EMAIL = Internal.createUniqueKey(User.USER, DSL.name("KEY_user_email"), new TableField[] { User.USER.EMAIL }, true);
-    public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = Internal.createUniqueKey(User.USER, DSL.name("KEY_user_PRIMARY"), new TableField[] { User.USER.USER_ID }, true);
+    public static final UniqueKey<BatchJobExecutionRecord> KEY_BATCH_JOB_EXECUTION_PRIMARY = Internal.createUniqueKey(BatchJobExecution.BATCH_JOB_EXECUTION, DSL.name("KEY_BATCH_JOB_EXECUTION_PRIMARY"), new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_EXECUTION_ID }, true);
+    public static final UniqueKey<BatchJobExecutionContextRecord> KEY_BATCH_JOB_EXECUTION_CONTEXT_PRIMARY = Internal.createUniqueKey(BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT, DSL.name("KEY_BATCH_JOB_EXECUTION_CONTEXT_PRIMARY"), new TableField[] { BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT.JOB_EXECUTION_ID }, true);
+    public static final UniqueKey<BatchJobExecutionSeqRecord> KEY_BATCH_JOB_EXECUTION_SEQ_UNIQUE_KEY_UN = Internal.createUniqueKey(BatchJobExecutionSeq.BATCH_JOB_EXECUTION_SEQ, DSL.name("KEY_BATCH_JOB_EXECUTION_SEQ_UNIQUE_KEY_UN"), new TableField[] { BatchJobExecutionSeq.BATCH_JOB_EXECUTION_SEQ.UNIQUE_KEY }, true);
+    public static final UniqueKey<BatchJobInstanceRecord> KEY_BATCH_JOB_INSTANCE_JOB_INST_UN = Internal.createUniqueKey(BatchJobInstance.BATCH_JOB_INSTANCE, DSL.name("KEY_BATCH_JOB_INSTANCE_JOB_INST_UN"), new TableField[] { BatchJobInstance.BATCH_JOB_INSTANCE.JOB_NAME, BatchJobInstance.BATCH_JOB_INSTANCE.JOB_KEY }, true);
+    public static final UniqueKey<BatchJobInstanceRecord> KEY_BATCH_JOB_INSTANCE_PRIMARY = Internal.createUniqueKey(BatchJobInstance.BATCH_JOB_INSTANCE, DSL.name("KEY_BATCH_JOB_INSTANCE_PRIMARY"), new TableField[] { BatchJobInstance.BATCH_JOB_INSTANCE.JOB_INSTANCE_ID }, true);
+    public static final UniqueKey<BatchJobSeqRecord> KEY_BATCH_JOB_SEQ_UNIQUE_KEY_UN = Internal.createUniqueKey(BatchJobSeq.BATCH_JOB_SEQ, DSL.name("KEY_BATCH_JOB_SEQ_UNIQUE_KEY_UN"), new TableField[] { BatchJobSeq.BATCH_JOB_SEQ.UNIQUE_KEY }, true);
+    public static final UniqueKey<BatchStepExecutionRecord> KEY_BATCH_STEP_EXECUTION_PRIMARY = Internal.createUniqueKey(BatchStepExecution.BATCH_STEP_EXECUTION, DSL.name("KEY_BATCH_STEP_EXECUTION_PRIMARY"), new TableField[] { BatchStepExecution.BATCH_STEP_EXECUTION.STEP_EXECUTION_ID }, true);
+    public static final UniqueKey<BatchStepExecutionContextRecord> KEY_BATCH_STEP_EXECUTION_CONTEXT_PRIMARY = Internal.createUniqueKey(BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT, DSL.name("KEY_BATCH_STEP_EXECUTION_CONTEXT_PRIMARY"), new TableField[] { BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT.STEP_EXECUTION_ID }, true);
+    public static final UniqueKey<BatchStepExecutionSeqRecord> KEY_BATCH_STEP_EXECUTION_SEQ_UNIQUE_KEY_UN = Internal.createUniqueKey(BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ, DSL.name("KEY_BATCH_STEP_EXECUTION_SEQ_UNIQUE_KEY_UN"), new TableField[] { BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ.UNIQUE_KEY }, true);
+    public static final UniqueKey<QrtzBlobTriggersRecord> KEY_QRTZ_BLOB_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS, DSL.name("KEY_QRTZ_BLOB_TRIGGERS_PRIMARY"), new TableField[] { QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS.SCHED_NAME, QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS.TRIGGER_NAME, QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS.TRIGGER_GROUP }, true);
+    public static final UniqueKey<QrtzCalendarsRecord> KEY_QRTZ_CALENDARS_PRIMARY = Internal.createUniqueKey(QrtzCalendars.QRTZ_CALENDARS, DSL.name("KEY_QRTZ_CALENDARS_PRIMARY"), new TableField[] { QrtzCalendars.QRTZ_CALENDARS.SCHED_NAME, QrtzCalendars.QRTZ_CALENDARS.CALENDAR_NAME }, true);
+    public static final UniqueKey<QrtzCronTriggersRecord> KEY_QRTZ_CRON_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzCronTriggers.QRTZ_CRON_TRIGGERS, DSL.name("KEY_QRTZ_CRON_TRIGGERS_PRIMARY"), new TableField[] { QrtzCronTriggers.QRTZ_CRON_TRIGGERS.SCHED_NAME, QrtzCronTriggers.QRTZ_CRON_TRIGGERS.TRIGGER_NAME, QrtzCronTriggers.QRTZ_CRON_TRIGGERS.TRIGGER_GROUP }, true);
+    public static final UniqueKey<QrtzFiredTriggersRecord> KEY_QRTZ_FIRED_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS, DSL.name("KEY_QRTZ_FIRED_TRIGGERS_PRIMARY"), new TableField[] { QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS.SCHED_NAME, QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS.ENTRY_ID }, true);
+    public static final UniqueKey<QrtzJobDetailsRecord> KEY_QRTZ_JOB_DETAILS_PRIMARY = Internal.createUniqueKey(QrtzJobDetails.QRTZ_JOB_DETAILS, DSL.name("KEY_QRTZ_JOB_DETAILS_PRIMARY"), new TableField[] { QrtzJobDetails.QRTZ_JOB_DETAILS.SCHED_NAME, QrtzJobDetails.QRTZ_JOB_DETAILS.JOB_NAME, QrtzJobDetails.QRTZ_JOB_DETAILS.JOB_GROUP }, true);
+    public static final UniqueKey<QrtzLocksRecord> KEY_QRTZ_LOCKS_PRIMARY = Internal.createUniqueKey(QrtzLocks.QRTZ_LOCKS, DSL.name("KEY_QRTZ_LOCKS_PRIMARY"), new TableField[] { QrtzLocks.QRTZ_LOCKS.SCHED_NAME, QrtzLocks.QRTZ_LOCKS.LOCK_NAME }, true);
+    public static final UniqueKey<QrtzPausedTriggerGrpsRecord> KEY_QRTZ_PAUSED_TRIGGER_GRPS_PRIMARY = Internal.createUniqueKey(QrtzPausedTriggerGrps.QRTZ_PAUSED_TRIGGER_GRPS, DSL.name("KEY_QRTZ_PAUSED_TRIGGER_GRPS_PRIMARY"), new TableField[] { QrtzPausedTriggerGrps.QRTZ_PAUSED_TRIGGER_GRPS.SCHED_NAME, QrtzPausedTriggerGrps.QRTZ_PAUSED_TRIGGER_GRPS.TRIGGER_GROUP }, true);
+    public static final UniqueKey<QrtzSchedulerStateRecord> KEY_QRTZ_SCHEDULER_STATE_PRIMARY = Internal.createUniqueKey(QrtzSchedulerState.QRTZ_SCHEDULER_STATE, DSL.name("KEY_QRTZ_SCHEDULER_STATE_PRIMARY"), new TableField[] { QrtzSchedulerState.QRTZ_SCHEDULER_STATE.SCHED_NAME, QrtzSchedulerState.QRTZ_SCHEDULER_STATE.INSTANCE_NAME }, true);
+    public static final UniqueKey<QrtzSimpleTriggersRecord> KEY_QRTZ_SIMPLE_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS, DSL.name("KEY_QRTZ_SIMPLE_TRIGGERS_PRIMARY"), new TableField[] { QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.SCHED_NAME, QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.TRIGGER_NAME, QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.TRIGGER_GROUP }, true);
+    public static final UniqueKey<QrtzSimpropTriggersRecord> KEY_QRTZ_SIMPROP_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS, DSL.name("KEY_QRTZ_SIMPROP_TRIGGERS_PRIMARY"), new TableField[] { QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.SCHED_NAME, QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.TRIGGER_NAME, QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.TRIGGER_GROUP }, true);
+    public static final UniqueKey<QrtzTriggersRecord> KEY_QRTZ_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzTriggers.QRTZ_TRIGGERS, DSL.name("KEY_QRTZ_TRIGGERS_PRIMARY"), new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_GROUP }, true);
+    public static final UniqueKey<UserRecord> KEY_USER_EMAIL = Internal.createUniqueKey(User.USER, DSL.name("KEY_USER_email"), new TableField[] { User.USER.EMAIL }, true);
+    public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = Internal.createUniqueKey(User.USER, DSL.name("KEY_USER_PRIMARY"), new TableField[] { User.USER.USER_ID }, true);
+
+    // -------------------------------------------------------------------------
+    // FOREIGN KEY definitions
+    // -------------------------------------------------------------------------
+
+    public static final ForeignKey<BatchJobExecutionRecord, BatchJobInstanceRecord> JOB_INST_EXEC_FK = Internal.createForeignKey(BatchJobExecution.BATCH_JOB_EXECUTION, DSL.name("JOB_INST_EXEC_FK"), new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_INSTANCE_ID }, Keys.KEY_BATCH_JOB_INSTANCE_PRIMARY, new TableField[] { BatchJobInstance.BATCH_JOB_INSTANCE.JOB_INSTANCE_ID }, true);
+    public static final ForeignKey<BatchJobExecutionContextRecord, BatchJobExecutionRecord> JOB_EXEC_CTX_FK = Internal.createForeignKey(BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT, DSL.name("JOB_EXEC_CTX_FK"), new TableField[] { BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT.JOB_EXECUTION_ID }, Keys.KEY_BATCH_JOB_EXECUTION_PRIMARY, new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_EXECUTION_ID }, true);
+    public static final ForeignKey<BatchJobExecutionParamsRecord, BatchJobExecutionRecord> JOB_EXEC_PARAMS_FK = Internal.createForeignKey(BatchJobExecutionParams.BATCH_JOB_EXECUTION_PARAMS, DSL.name("JOB_EXEC_PARAMS_FK"), new TableField[] { BatchJobExecutionParams.BATCH_JOB_EXECUTION_PARAMS.JOB_EXECUTION_ID }, Keys.KEY_BATCH_JOB_EXECUTION_PRIMARY, new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_EXECUTION_ID }, true);
+    public static final ForeignKey<BatchStepExecutionRecord, BatchJobExecutionRecord> JOB_EXEC_STEP_FK = Internal.createForeignKey(BatchStepExecution.BATCH_STEP_EXECUTION, DSL.name("JOB_EXEC_STEP_FK"), new TableField[] { BatchStepExecution.BATCH_STEP_EXECUTION.JOB_EXECUTION_ID }, Keys.KEY_BATCH_JOB_EXECUTION_PRIMARY, new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_EXECUTION_ID }, true);
+    public static final ForeignKey<BatchStepExecutionContextRecord, BatchStepExecutionRecord> STEP_EXEC_CTX_FK = Internal.createForeignKey(BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT, DSL.name("STEP_EXEC_CTX_FK"), new TableField[] { BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT.STEP_EXECUTION_ID }, Keys.KEY_BATCH_STEP_EXECUTION_PRIMARY, new TableField[] { BatchStepExecution.BATCH_STEP_EXECUTION.STEP_EXECUTION_ID }, true);
+    public static final ForeignKey<QrtzBlobTriggersRecord, QrtzTriggersRecord> QRTZ_BLOB_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS, DSL.name("qrtz_blob_triggers_ibfk_1"), new TableField[] { QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS.SCHED_NAME, QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS.TRIGGER_NAME, QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS.TRIGGER_GROUP }, Keys.KEY_QRTZ_TRIGGERS_PRIMARY, new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_GROUP }, true);
+    public static final ForeignKey<QrtzCronTriggersRecord, QrtzTriggersRecord> QRTZ_CRON_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzCronTriggers.QRTZ_CRON_TRIGGERS, DSL.name("qrtz_cron_triggers_ibfk_1"), new TableField[] { QrtzCronTriggers.QRTZ_CRON_TRIGGERS.SCHED_NAME, QrtzCronTriggers.QRTZ_CRON_TRIGGERS.TRIGGER_NAME, QrtzCronTriggers.QRTZ_CRON_TRIGGERS.TRIGGER_GROUP }, Keys.KEY_QRTZ_TRIGGERS_PRIMARY, new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_GROUP }, true);
+    public static final ForeignKey<QrtzSimpleTriggersRecord, QrtzTriggersRecord> QRTZ_SIMPLE_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS, DSL.name("qrtz_simple_triggers_ibfk_1"), new TableField[] { QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.SCHED_NAME, QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.TRIGGER_NAME, QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.TRIGGER_GROUP }, Keys.KEY_QRTZ_TRIGGERS_PRIMARY, new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_GROUP }, true);
+    public static final ForeignKey<QrtzSimpropTriggersRecord, QrtzTriggersRecord> QRTZ_SIMPROP_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS, DSL.name("qrtz_simprop_triggers_ibfk_1"), new TableField[] { QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.SCHED_NAME, QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.TRIGGER_NAME, QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.TRIGGER_GROUP }, Keys.KEY_QRTZ_TRIGGERS_PRIMARY, new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_GROUP }, true);
+    public static final ForeignKey<QrtzTriggersRecord, QrtzJobDetailsRecord> QRTZ_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzTriggers.QRTZ_TRIGGERS, DSL.name("qrtz_triggers_ibfk_1"), new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.JOB_NAME, QrtzTriggers.QRTZ_TRIGGERS.JOB_GROUP }, Keys.KEY_QRTZ_JOB_DETAILS_PRIMARY, new TableField[] { QrtzJobDetails.QRTZ_JOB_DETAILS.SCHED_NAME, QrtzJobDetails.QRTZ_JOB_DETAILS.JOB_NAME, QrtzJobDetails.QRTZ_JOB_DETAILS.JOB_GROUP }, true);
 }
