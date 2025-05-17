@@ -50,6 +50,8 @@ spring:
   batch:
     jdbc:
       initialize-schema: never
+    job:
+      enabled: false
 
   quartz:
     job-store-type: jdbc
