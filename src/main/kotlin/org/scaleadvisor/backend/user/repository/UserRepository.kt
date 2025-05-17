@@ -58,6 +58,13 @@ class UserRepository(
         .where(USER.EMAIL.eq(email))
         .execute()
 
+    fun updatePasswordById(userId: Long, newPassword: String) {
+        dsl.update(USER)
+            .set(USER.PASSWORD, newPassword)
+            .where(USER.USER_ID.eq(userId))
+            .execute()
+    }
+
     fun resetPasswordByEmail(email: String, newPassword: String): Int {
         return dsl
             .update(USER)
