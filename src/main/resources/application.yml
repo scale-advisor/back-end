@@ -26,7 +26,6 @@ spring:
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD:secret}
 
-
   cloud:
     aws:
       credentials:
@@ -48,6 +47,21 @@ spring:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
 
+  batch:
+    jdbc:
+      initialize-schema: never
+
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: QuartzScheduler
+          threadPool:
+            threadCount: 1
 
 logging:
   level:
