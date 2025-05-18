@@ -2,7 +2,7 @@ package org.scaleadvisor.backend.project.application.port.usecase
 
 import org.scaleadvisor.backend.project.domain.Project
 
-interface CreateProjectUseCase {
+fun interface CreateProjectUseCase {
     class CreateProjectCommand(
         val name: String,
         val description: String?
