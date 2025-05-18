@@ -24,6 +24,7 @@ interface UserAPI {
         description = "사용자 비밀번호 변경"
     )
     @PatchMapping("/change-pwd")
+    @ResponseStatus(HttpStatus.OK)
     fun updatePassword(@RequestBody request: ChangePwdRequest): ResponseEntity<String>
 
     @Operation(
@@ -31,5 +32,6 @@ interface UserAPI {
         description = "사용자 정보 삭제"
     )
     @DeleteMapping("/delete-user")
+    @ResponseStatus(HttpStatus.OK)
     fun deleteUser(): ResponseEntity<String>
 }
