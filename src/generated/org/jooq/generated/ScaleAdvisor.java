@@ -18,6 +18,7 @@ import org.jooq.generated.tables.BatchJobSeq;
 import org.jooq.generated.tables.BatchStepExecution;
 import org.jooq.generated.tables.BatchStepExecutionContext;
 import org.jooq.generated.tables.BatchStepExecutionSeq;
+import org.jooq.generated.tables.Project;
 import org.jooq.generated.tables.QrtzBlobTriggers;
 import org.jooq.generated.tables.QrtzCalendars;
 import org.jooq.generated.tables.QrtzCronTriggers;
@@ -90,6 +91,11 @@ public class ScaleAdvisor extends SchemaImpl {
      * The table <code>scale_advisor.BATCH_STEP_EXECUTION_SEQ</code>.
      */
     public final BatchStepExecutionSeq BATCH_STEP_EXECUTION_SEQ = BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ;
+
+    /**
+     * The table <code>scale_advisor.project</code>.
+     */
+    public final Project PROJECT = Project.PROJECT;
 
     /**
      * The table <code>scale_advisor.QRTZ_BLOB_TRIGGERS</code>.
@@ -176,6 +182,7 @@ public class ScaleAdvisor extends SchemaImpl {
             BatchStepExecution.BATCH_STEP_EXECUTION,
             BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT,
             BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ,
+            Project.PROJECT,
             QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS,
             QrtzCalendars.QRTZ_CALENDARS,
             QrtzCronTriggers.QRTZ_CRON_TRIGGERS,
