@@ -1,15 +1,14 @@
 package org.scaleadvisor.backend.global.util
 
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 object IdUtil {
     private val formatter: DateTimeFormatter =
-        DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS")
+        DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSSSS")
 
-    @JvmStatic
     fun generateId(): Long =
-        LocalDateTime.now()
-            .format(formatter)
-            .toLong()
+        LocalDateTime.now(ZoneId.systemDefault()).format(formatter).toLong()
+
 }
