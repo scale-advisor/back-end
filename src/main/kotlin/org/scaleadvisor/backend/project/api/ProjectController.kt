@@ -13,7 +13,7 @@ class ProjectController(
     private val createProjectUseCase: CreateProjectUseCase
 ) : ProjectAPI {
     override fun create(request: CreateProjectRequest): SuccessResponse<CreateProjectResponse> {
-        val project: Project = createProjectUseCase.execute(
+        val project: Project = createProjectUseCase.create(
             CreateProjectUseCase.CreateProjectCommand(
                 request.name,
                 request.description
