@@ -13,6 +13,7 @@ class UserRepository(
 ) {
 
     fun createUser(user: User, generatedId: Long): Long {
+
         dsl.insertInto(USER)
             .set(USER.USER_ID, generatedId)
             .set(USER.EMAIL, user.email)
