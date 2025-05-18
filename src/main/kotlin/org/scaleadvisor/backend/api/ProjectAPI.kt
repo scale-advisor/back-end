@@ -1,7 +1,8 @@
-package org.scaleadvisor.backend.project.api
+package org.scaleadvisor.backend.api
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.project.api.request.CreateProjectRequest
 import org.scaleadvisor.backend.project.api.response.CreateProjectResponse
 import org.springframework.http.HttpStatus
@@ -19,5 +20,6 @@ interface ProjectAPI {
     )
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(request: CreateProjectRequest): CreateProjectResponse
+    fun create(request: CreateProjectRequest): SuccessResponse<CreateProjectResponse>
+
 }
