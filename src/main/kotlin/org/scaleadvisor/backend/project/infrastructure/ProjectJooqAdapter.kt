@@ -12,7 +12,7 @@ class ProjectJooqAdapter(
 ) : CreateProjectRepository {
     override fun createProject(project: Project): Project {
         dsl.insertInto(PROJECT)
-            .set(PROJECT.PROJECT_ID, project.id.toLong())
+            .set(PROJECT.PROJECT_ID, project.id)
             .set(PROJECT.NAME, project.name)
             .set(PROJECT.DESCRIPTION, project.description)
             .set(PROJECT.CREATED_AT, project.createdAt.toLocalDateTime())
