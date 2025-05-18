@@ -72,7 +72,7 @@ public class Project extends TableImpl<ProjectRecord> {
     /**
      * The column <code>scale_advisor.project.updated_at</code>.
      */
-    public final TableField<ProjectRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(0).nullable(false), this, "");
+    public final TableField<ProjectRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(0), this, "");
 
     private Project(Name alias, Table<ProjectRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);

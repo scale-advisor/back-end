@@ -17,7 +17,7 @@ interface ProjectAPI {
         summary = "Project 생성",
         description = "규모 분석을 위한 새 프로젝트 생성"
     )
-    @PostMapping("/")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     fun create(request: CreateProjectRequest): CreateProjectResponse
 }

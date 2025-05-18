@@ -1,0 +1,1 @@
+ALTER TABLE project MODIFY COLUMN updated_at TIMESTAMP NULL;

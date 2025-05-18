@@ -22,7 +22,7 @@ class CreateProjectService(
             updatedAt = OffsetDateTime.now()
         )
 
-        return createProjectRepository.create(project)
+        return createProjectRepository.createProject(project)
     }
 
 }

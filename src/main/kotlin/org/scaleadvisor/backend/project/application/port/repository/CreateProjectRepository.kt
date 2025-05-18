@@ -4,6 +4,6 @@ import org.scaleadvisor.backend.project.domain.Project
 
 interface CreateProjectRepository {
 
-    fun create(project: Project): Project
+    fun createProject(project: Project): Project
 
 }
