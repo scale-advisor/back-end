@@ -4,13 +4,12 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.project.api.request.CreateProjectRequest
+import org.scaleadvisor.backend.project.api.request.UpdateProjectRequest
 import org.scaleadvisor.backend.project.api.response.CreateProjectResponse
 import org.scaleadvisor.backend.project.api.response.FindAllProjectResponse
+import org.scaleadvisor.backend.project.api.response.UpdateProjectResponse
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.*
 
 @Tag(name = "Project", description = "Project API")
 @RequestMapping("projects", produces = ["application/json;charset=utf-8"])
@@ -32,4 +31,14 @@ interface ProjectAPI {
     @ResponseStatus(HttpStatus.OK)
     fun findAll(): SuccessResponse<FindAllProjectResponse>
 
+    @Operation(
+        summary = "Project 기본 정보 수정",
+        description = "프로젝트 이름, 설명 수정"
+    )
+    @PutMapping("/{projectId}")
+    @ResponseStatus(HttpStatus.OK)
+    fun update(
+        @PathVariable("projectId") projectId: Long,
+        @RequestBody request: UpdateProjectRequest
+    ): SuccessResponse<UpdateProjectResponse>
 }
