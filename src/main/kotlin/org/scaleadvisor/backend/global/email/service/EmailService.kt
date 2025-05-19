@@ -63,7 +63,7 @@ class EmailService(
 
     fun sendConfirmationEmail(request: ConfirmMailRequest) {
         val token = generateMailToken(prefix = "signup:token", email = request.email, duration = 1)
-        val confirmLink = "${request.confirmSignupUrl}?email=${request.email}&token=$token"
+        val confirmLink = "${request.confirmSignupUrl}/apis/auth?email=${request.email}&token=$token"
 
         val content = buildString {
             append("<p>안녕하세요, $serviceName 입니다.</p>")
@@ -87,7 +87,7 @@ class EmailService(
             unit = TimeUnit.MINUTES
         )
 
-        val resetLink = "${request.pwdResetRedirectUrl}?token=$token"
+        val resetLink = "${request.pwdResetRedirectUrl}/apis/auth?token=$token"
         val content = buildString {
             append("<p>안녕하세요, $serviceName 입니다.</p>")
             append("<p>아래 링크를 클릭하여 비밀번호를 재설정하세요.(10분 동안 유효합니다):</p>")

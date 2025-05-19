@@ -27,8 +27,7 @@ class AuthService(
     private val jwtProvider: JwtProvider,
     private val securityConfig: SecurityConfig,
     private val redisTemplate: RedisTemplate<String, String>,
-    private val kakaoCallbackService: KakaoCallbackService,
-    private val emailService: EmailService
+    private val kakaoCallbackService: KakaoCallbackService
 ) {
     private val REFRESH_TOKEN_PREFIX = "RT:"
     private val SOCIAL_TOKEN_PREFIX = "ST:"
