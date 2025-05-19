@@ -1,6 +1,6 @@
 package org.scaleadvisor.backend.global.email.dto
 
-data class PwdResetRequest (
+data class ConfirmMailRequest(
     val email: String,
-    val pwdResetRedirectUrl: String
+    val confirmSignupUrl: String
 )

@@ -1,6 +1,7 @@
 package org.scaleadvisor.backend.global.email.controller
 
-import jakarta.servlet.http.HttpServletResponse
+import org.scaleadvisor.backend.global.email.dto.ConfirmMailRequest
+import org.scaleadvisor.backend.global.email.dto.ConfirmSignupRequest
 import org.scaleadvisor.backend.global.email.dto.PwdResetConfirmRequest
 import org.scaleadvisor.backend.global.email.dto.PwdResetRequest
 import org.scaleadvisor.backend.global.email.service.EmailService
@@ -12,19 +13,25 @@ import org.springframework.web.bind.annotation.*
 class EmailController(
     private val emailService: EmailService
 ) {
-    @GetMapping("/email-verification")
-    fun verifyEmail(@RequestParam email: String, @RequestParam token: String
-    ): ResponseEntity<String> = emailService.confirmSignup(email, token)
+    @PostMapping("/email-verification/request")
+    fun verifyEmail(@RequestBody request: ConfirmMailRequest
+    ): ResponseEntity<String> {
+        emailService.sendConfirmationEmail(request)
+        return ResponseEntity.ok().body("회원가입 승인 이메일을 발송했습니다.")
+    }
+
+    @PostMapping("/email-verification")
+    fun confirmSignup(@RequestBody request: ConfirmSignupRequest
+    ): ResponseEntity<String> {
+        emailService.confirmSignup(request)
+        return ResponseEntity.ok().body("회원가입 승인이 완료 되었습니다.")
+    }
 
     @PostMapping("/password-reset/request")
     fun resetPasswordEmail(@RequestBody request: PwdResetRequest
-    ): ResponseEntity<String> = emailService.sendResetPasswordEmail(request)
-
-    @GetMapping("/password-reset")
-    fun verifyResetToken(@RequestParam token: String, response: HttpServletResponse
-    ) {
-        val redirectUrl = emailService.confirmResetToken(token)!!
-        response.sendRedirect(redirectUrl)
+    ): ResponseEntity<String> {
+        emailService.sendResetPasswordEmail(request)
+        return ResponseEntity.ok().body("비밀번호 재설정 이메일을 발송했습니다.")
     }
 
     @PostMapping("/password-reset")
