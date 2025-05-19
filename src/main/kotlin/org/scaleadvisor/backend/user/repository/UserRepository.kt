@@ -12,7 +12,7 @@ class UserRepository(
     private val dsl: DSLContext
 ) {
 
-    fun createUser(user: User, generatedId: Long): Long {
+    fun createUser(user: User, generatedId: Long): String {
 
         dsl.insertInto(USER)
             .set(USER.USER_ID, generatedId)
@@ -24,7 +24,7 @@ class UserRepository(
             .set(USER.CONFIRMED, user.confirmed.name)
             .execute()
 
-        return generatedId
+        return user.email
     }
 
     fun updateNameById(userId: Long, newName: String): Int =
