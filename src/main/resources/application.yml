@@ -26,18 +26,6 @@ spring:
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD:secret}
 
-  cloud:
-    aws:
-      credentials:
-        access-key: ${AWS_ACCESS_KEY_ID}
-        secret-key: ${AWS_SECRET_ACCESS_KEY}
-      s3:
-        bucket: ${S3_BUCKET_NAME:bucket}
-      region:
-        static: ${AWS_REGION:ap-northeast-2}
-      stack:
-        auto: false
-
   mail:
     host: ${GOOGLE_EMAIL_HOST}
     port: ${GOOGLE_EMAIL_PORT}
@@ -65,12 +53,7 @@ spring:
           threadPool:
             threadCount: 1
 
-logging:
-  level:
-    org.jooq.tools.LoggerListener: DEBUG
-#  discord:
-#    webhook-url: ${WEB_HOOK_URL}
-#  config: classpath:logback.xml
+
 server:
   servlet:
     context-path: ${CONTEXT_PATH:/server}
@@ -87,10 +70,6 @@ springdoc:
 key:
   salt: ${SALT_KEY:your-very-very-very-very-very-very-very-very-very-long-sentence}
 
-jwt:
-  access-token-ttl: ${ACCESS_TOKEN_TTL}
-  refresh-token-ttl: ${REFRESH_TOKEN_TTL}
-
 kakao:
   api-key: ${KAKAO_API_KEY}
   authorize-url: ${KAKAO_AUTHORIZE_URL}
@@ -99,11 +78,53 @@ kakao:
   code-callback-url: ${KAKAO_CODE_CALLBACK_URL}
   userInfo-callback-url: ${KAKAO_USERINFO_CALLBACK_URL}
 
-app:
-  url: ${APP_URL}
+jwt:
+  access-token-ttl: ${ACCESS_TOKEN_TTL}
+  refresh-token-ttl: ${REFRESH_TOKEN_TTL}
 
 cookies:
   domain: ${COOKIES_DOMAIN}
 
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+logging:
+  level:
+    org.jooq.tools.LoggerListener: DEBUG
+
+app:
+  url: ${APP_URL}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_ACCESS_KEY_ID}
+        secret-key: ${AWS_SECRET_ACCESS_KEY}
+      s3:
+        bucket: ${S3_BUCKET_NAME:bucket}
+      region:
+        static: ${AWS_REGION:ap-northeast-2}
+      stack:
+        auto: false
+
+logging:
+  level:
+    org.jooq.tools.LoggerListener: DEBUG
+  discord:
+    webhook-url: ${WEB_HOOK_URL}
+  config: classpath:logback.xml
+
+app:
+  url: ${APP_URL}
