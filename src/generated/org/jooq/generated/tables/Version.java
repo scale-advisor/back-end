@@ -64,7 +64,7 @@ public class Version extends TableImpl<VersionRecord> {
     /**
      * The column <code>scale_advisor.VERSION.VERSION_NUMBER</code>.
      */
-    public final TableField<VersionRecord, Long> VERSION_NUMBER = createField(DSL.name("VERSION_NUMBER"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<VersionRecord, String> VERSION_NUMBER = createField(DSL.name("VERSION_NUMBER"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
      * The column <code>scale_advisor.VERSION.CREATED_AT</code>.

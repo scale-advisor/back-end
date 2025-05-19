@@ -37,7 +37,7 @@ public class VersionRecord extends UpdatableRecordImpl<VersionRecord> {
     /**
      * Setter for <code>scale_advisor.VERSION.VERSION_NUMBER</code>.
      */
-    public VersionRecord setVersionNumber(Long value) {
+    public VersionRecord setVersionNumber(String value) {
         set(1, value);
         return this;
     }
@@ -45,8 +45,8 @@ public class VersionRecord extends UpdatableRecordImpl<VersionRecord> {
     /**
      * Getter for <code>scale_advisor.VERSION.VERSION_NUMBER</code>.
      */
-    public Long getVersionNumber() {
-        return (Long) get(1);
+    public String getVersionNumber() {
+        return (String) get(1);
     }
 
     /**
@@ -69,7 +69,7 @@ public class VersionRecord extends UpdatableRecordImpl<VersionRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Record2<Long, Long> key() {
+    public Record2<Long, String> key() {
         return (Record2) super.key();
     }
 
@@ -87,7 +87,7 @@ public class VersionRecord extends UpdatableRecordImpl<VersionRecord> {
     /**
      * Create a detached, initialised VersionRecord
      */
-    public VersionRecord(Long projectId, Long versionNumber, LocalDateTime createdAt) {
+    public VersionRecord(Long projectId, String versionNumber, LocalDateTime createdAt) {
         super(Version.VERSION);
 
         setProjectId(projectId);

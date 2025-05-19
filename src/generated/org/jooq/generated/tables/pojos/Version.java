@@ -17,7 +17,7 @@ public class Version implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long projectId;
-    private Long versionNumber;
+    private String versionNumber;
     private LocalDateTime createdAt;
 
     public Version() {}
@@ -30,7 +30,7 @@ public class Version implements Serializable {
 
     public Version(
         Long projectId,
-        Long versionNumber,
+        String versionNumber,
         LocalDateTime createdAt
     ) {
         this.projectId = projectId;
@@ -56,14 +56,14 @@ public class Version implements Serializable {
     /**
      * Getter for <code>scale_advisor.VERSION.VERSION_NUMBER</code>.
      */
-    public Long getVersionNumber() {
+    public String getVersionNumber() {
         return this.versionNumber;
     }
 
     /**
      * Setter for <code>scale_advisor.VERSION.VERSION_NUMBER</code>.
      */
-    public Version setVersionNumber(Long versionNumber) {
+    public Version setVersionNumber(String versionNumber) {
         this.versionNumber = versionNumber;
         return this;
     }
