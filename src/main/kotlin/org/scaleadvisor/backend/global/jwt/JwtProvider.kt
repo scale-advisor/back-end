@@ -38,10 +38,11 @@ class JwtProvider {
 
     fun getSecretKey(): Key = secretKey
 
-    fun createAccessToken(email: String): String {
+    fun createAccessToken(email: String, name: String): String {
         val now = Date()
         val claims: Claims = Jwts.claims().apply {
             put("email", email)
+            put("name", name)
             put("loginType", User.LoginType.BASIC)
         }
         val token = Jwts.builder()
