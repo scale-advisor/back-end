@@ -1,12 +1,12 @@
-DROP TABLE IF EXISTS user;
+    DROP TABLE IF EXISTS `USER`;
 
-CREATE TABLE user (
-                      user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                      email VARCHAR(255) NOT NULL UNIQUE,
-                      password VARCHAR(255) NOT NULL,
-                      name VARCHAR(100) NOT NULL,
-                      social_id VARCHAR(255),
-                      login_type VARCHAR(255) NOT NULL,
-                      created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                      updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE `USER` (
+                      `USER_ID` BIGINT AUTO_INCREMENT PRIMARY KEY,
+                      `EMAIL` VARCHAR(255) NOT NULL UNIQUE,
+                      `PASSWORD` VARCHAR(255) NOT NULL,
+                      `NAME` VARCHAR(100) NOT NULL,
+                      `SOCIAL_ID` VARCHAR(255),
+                      `LOGIN_TYPE` VARCHAR(255) NOT NULL,
+                      `CREATED_AT` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                      `UPDATED_AT` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

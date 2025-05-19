@@ -1,11 +1,11 @@
-DROP TABLE IF EXISTS project;
+DROP TABLE IF EXISTS `PROJECT`;
 
-CREATE TABLE project
+CREATE TABLE `PROJECT`
 (
-    project_id  BIGINT       NOT NULL,
-    name        VARCHAR(255) NOT NULL,
-    description LONGTEXT     NOT NULL,
-    created_at  timestamp    NOT NULL,
-    updated_at  timestamp    NOT NULL,
-    CONSTRAINT pk_project PRIMARY KEY (project_id)
+    `PROJECT_ID`  BIGINT       NOT NULL,
+    `NAME`        VARCHAR(255) NOT NULL,
+    `DESCRIPTION` LONGTEXT     NOT NULL,
+    `CREATED_AT`  timestamp    NOT NULL,
+    `UPDATED_AT`  timestamp    NOT NULL,
+    CONSTRAINT `PK_PROJECT` PRIMARY KEY (`PROJECT_ID`)
 );
