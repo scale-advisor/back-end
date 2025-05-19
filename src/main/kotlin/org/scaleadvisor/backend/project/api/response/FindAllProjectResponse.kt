@@ -12,24 +12,22 @@ data class FindAllProjectResponse(
         val id: String,
         val name: String,
         val description: String?,
-        val createdAt: LocalDateTime,
-        val updatedAt: LocalDateTime
+        val updatedAt: LocalDateTime,
+        val versionList: List<String>
     ) {
         companion object {
-            fun from(project: Project): ProjectDTO = ProjectDTO(
+            fun of(project: Project, versionList: List<String>): ProjectDTO = ProjectDTO(
                 id = project.id.toString(),
                 name = project.name,
                 description = project.description,
-                createdAt = project.createdAt,
-                updatedAt = project.updatedAt!!
+                updatedAt = project.updatedAt!!,
+                versionList = versionList
             )
         }
     }
 
     companion object {
-        fun from(projects: List<Project>): FindAllProjectResponse =
-            FindAllProjectResponse(
-                projects.map { ProjectDTO.from(it) }
-            )
+        fun from(projects: List<ProjectDTO>): FindAllProjectResponse =
+            FindAllProjectResponse(projects)
     }
 }
