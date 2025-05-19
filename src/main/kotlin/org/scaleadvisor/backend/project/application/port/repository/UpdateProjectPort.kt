@@ -2,8 +2,8 @@ package org.scaleadvisor.backend.project.application.port.repository
 
 import org.scaleadvisor.backend.project.domain.Project
 
-fun interface CreateProjectRepository {
+fun interface UpdateProjectPort {
 
-    fun createProject(project: Project): Project
+    fun updateProject(project: Project)
 
 }

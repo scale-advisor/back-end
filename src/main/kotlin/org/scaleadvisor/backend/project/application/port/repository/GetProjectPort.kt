@@ -1,8 +1,11 @@
 package org.scaleadvisor.backend.project.application.port.repository
 
 import org.scaleadvisor.backend.project.domain.Project
+import org.scaleadvisor.backend.project.domain.id.ProjectId
 
-fun interface GetProjectRepository {
+interface GetProjectPort {
+
+    fun find(projectId: ProjectId): Project?
 
     fun findAll(userId: Long): List<Project>
 
