@@ -13,6 +13,7 @@ import org.jooq.generated.tables.BatchJobSeq;
 import org.jooq.generated.tables.BatchStepExecution;
 import org.jooq.generated.tables.BatchStepExecutionContext;
 import org.jooq.generated.tables.BatchStepExecutionSeq;
+import org.jooq.generated.tables.FpWeights;
 import org.jooq.generated.tables.Project;
 import org.jooq.generated.tables.QrtzBlobTriggers;
 import org.jooq.generated.tables.QrtzCalendars;
@@ -79,6 +80,11 @@ public class Tables {
      * The table <code>scale_advisor.BATCH_STEP_EXECUTION_SEQ</code>.
      */
     public static final BatchStepExecutionSeq BATCH_STEP_EXECUTION_SEQ = BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ;
+
+    /**
+     * The table <code>scale_advisor.FP_WEIGHTS</code>.
+     */
+    public static final FpWeights FP_WEIGHTS = FpWeights.FP_WEIGHTS;
 
     /**
      * The table <code>scale_advisor.PROJECT</code>.

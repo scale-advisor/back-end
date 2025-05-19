@@ -18,6 +18,7 @@ import org.jooq.generated.tables.BatchJobSeq;
 import org.jooq.generated.tables.BatchStepExecution;
 import org.jooq.generated.tables.BatchStepExecutionContext;
 import org.jooq.generated.tables.BatchStepExecutionSeq;
+import org.jooq.generated.tables.FpWeights;
 import org.jooq.generated.tables.Project;
 import org.jooq.generated.tables.QrtzBlobTriggers;
 import org.jooq.generated.tables.QrtzCalendars;
@@ -92,6 +93,11 @@ public class ScaleAdvisor extends SchemaImpl {
      * The table <code>scale_advisor.BATCH_STEP_EXECUTION_SEQ</code>.
      */
     public final BatchStepExecutionSeq BATCH_STEP_EXECUTION_SEQ = BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ;
+
+    /**
+     * The table <code>scale_advisor.FP_WEIGHTS</code>.
+     */
+    public final FpWeights FP_WEIGHTS = FpWeights.FP_WEIGHTS;
 
     /**
      * The table <code>scale_advisor.PROJECT</code>.
@@ -188,6 +194,7 @@ public class ScaleAdvisor extends SchemaImpl {
             BatchStepExecution.BATCH_STEP_EXECUTION,
             BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT,
             BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ,
+            FpWeights.FP_WEIGHTS,
             Project.PROJECT,
             QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS,
             QrtzCalendars.QRTZ_CALENDARS,
