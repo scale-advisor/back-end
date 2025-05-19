@@ -12,9 +12,9 @@ class AuthController(
     private val authService: AuthService
 ) {
     @PostMapping("/sign-up")
-    fun signUp(@RequestBody request: SignUpRequest): ResponseEntity<Long> {
-        val id = authService.signup(request)
-        return ResponseEntity.ok().body(id)
+    fun signUp(@RequestBody request: SignUpRequest): ResponseEntity<String> {
+        val email = authService.signup(request)
+        return ResponseEntity.ok().body(email)
     }
 
     @PostMapping("/login/email")

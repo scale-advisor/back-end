@@ -36,7 +36,7 @@ class AuthService(
     @Value("\${cookies.domain}")
     private lateinit var cookieDomain: String
 
-    fun signup(request: SignUpRequest): Long {
+    fun signup(request: SignUpRequest): String {
         if (userRepository.existsByEmail(request.email)) {
             throw ConflictException(String.format(UserMessageConstant.DUPLICATE_EMAIL_MESSAGE, request.email))
         }
@@ -51,7 +51,6 @@ class AuthService(
             loginType = User.LoginType.BASIC
         )
 
-        emailService.sendConfirmationEmail(request.email)
         return userRepository.createUser(newUser, generatedId)
     }
 
