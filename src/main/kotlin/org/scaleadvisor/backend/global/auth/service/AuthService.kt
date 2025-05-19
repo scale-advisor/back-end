@@ -77,7 +77,7 @@ class AuthService(
         val maxAgeSec = (jwtProvider.REFRESH_TOKEN_VALID_MILLISECOND.toLong() / 1000L).toInt()
         response.setHeader(
             "Set-Cookie",
-            "refreshToken=$refreshToken; HttpOnly; Secure; SameSite=None; Domain=$cookieDomain; Path=/; Max-Age=$maxAgeSec"
+            "refreshToken=$refreshToken; HttpOnly; SameSite=Lax; Path=/; Max-Age=$maxAgeSec"
         )
 
         return LoginResponse(accessToken = accessToken)
