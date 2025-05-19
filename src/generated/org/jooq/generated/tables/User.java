@@ -11,9 +11,13 @@ import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.ForeignKey;
+import org.jooq.InverseForeignKey;
 import org.jooq.Name;
+import org.jooq.Path;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
+import org.jooq.Record;
 import org.jooq.SQL;
 import org.jooq.Schema;
 import org.jooq.Select;
@@ -24,6 +28,8 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
+import org.jooq.generated.tables.Project.ProjectPath;
+import org.jooq.generated.tables.UserProject.UserProjectPath;
 import org.jooq.generated.tables.records.UserRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -130,6 +136,39 @@ public class User extends TableImpl<UserRecord> {
         this(DSL.name("USER"), null);
     }
 
+    public <O extends Record> User(Table<O> path, ForeignKey<O, UserRecord> childPath, InverseForeignKey<O, UserRecord> parentPath) {
+        super(path, childPath, parentPath, USER);
+    }
+
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    public static class UserPath extends User implements Path<UserRecord> {
+
+        private static final long serialVersionUID = 1L;
+        public <O extends Record> UserPath(Table<O> path, ForeignKey<O, UserRecord> childPath, InverseForeignKey<O, UserRecord> parentPath) {
+            super(path, childPath, parentPath);
+        }
+        private UserPath(Name alias, Table<UserRecord> aliased) {
+            super(alias, aliased);
+        }
+
+        @Override
+        public UserPath as(String alias) {
+            return new UserPath(DSL.name(alias), this);
+        }
+
+        @Override
+        public UserPath as(Name alias) {
+            return new UserPath(alias, this);
+        }
+
+        @Override
+        public UserPath as(Table<?> alias) {
+            return new UserPath(alias.getQualifiedName(), this);
+        }
+    }
+
     @Override
     public Schema getSchema() {
         return aliased() ? null : ScaleAdvisor.SCALE_ADVISOR;
@@ -143,6 +182,27 @@ public class User extends TableImpl<UserRecord> {
     @Override
     public List<UniqueKey<UserRecord>> getUniqueKeys() {
         return Arrays.asList(Keys.KEY_USER_EMAIL);
+    }
+
+    private transient UserProjectPath _userProject;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>scale_advisor.USER_PROJECT</code> table
+     */
+    public UserProjectPath userProject() {
+        if (_userProject == null)
+            _userProject = new UserProjectPath(this, null, Keys.FK_USER_PROJECT_USER_ID.getInverseKey());
+
+        return _userProject;
+    }
+
+    /**
+     * Get the implicit many-to-many join path to the
+     * <code>scale_advisor.PROJECT</code> table
+     */
+    public ProjectPath project() {
+        return userProject().project();
     }
 
     @Override

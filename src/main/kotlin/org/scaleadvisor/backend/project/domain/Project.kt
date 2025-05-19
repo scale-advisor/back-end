@@ -1,18 +1,17 @@
 package org.scaleadvisor.backend.project.domain
 
-import org.scaleadvisor.backend.project.domain.id.ProjectId
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 
 data class Project(
-    val id: ProjectId,
+    val id: Long,
     var name: String,
     var description: String?,
-    val createdAt: OffsetDateTime,
-    var updatedAt: OffsetDateTime?
+    val createdAt: LocalDateTime,
+    var updatedAt: LocalDateTime?
 ) {
     fun update(name: String, description: String?) {
         this.name = name
         this.description = description
-        this.updatedAt = OffsetDateTime.now()
+        this.updatedAt = LocalDateTime.now()
     }
 }

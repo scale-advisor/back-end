@@ -1,25 +1,25 @@
 package org.scaleadvisor.backend.project.application.service
 
+import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.project.application.port.repository.CreateProjectRepository
 import org.scaleadvisor.backend.project.application.port.usecase.CreateProjectUseCase
 import org.scaleadvisor.backend.project.domain.Project
-import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 
 @Service
-class CreateProjectService(
+private class CreateProjectService(
     private val createProjectRepository: CreateProjectRepository,
 ) : CreateProjectUseCase{
 
-    override fun execute(command: CreateProjectUseCase.CreateProjectCommand): Project {
+    override fun create(command: CreateProjectUseCase.CreateProjectCommand): Project {
 
         val project = Project(
-            id = ProjectId.newId(),
+            id = IdUtil.generateId(),
             name = command.name,
             description = command.description,
-            createdAt = OffsetDateTime.now(),
-            updatedAt = OffsetDateTime.now()
+            createdAt = LocalDateTime.now(),
+            updatedAt = LocalDateTime.now()
         )
 
         return createProjectRepository.createProject(project)

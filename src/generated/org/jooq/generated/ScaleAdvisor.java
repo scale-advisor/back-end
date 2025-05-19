@@ -31,6 +31,7 @@ import org.jooq.generated.tables.QrtzSimpleTriggers;
 import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
 import org.jooq.generated.tables.User;
+import org.jooq.generated.tables.UserProject;
 import org.jooq.impl.SchemaImpl;
 
 
@@ -158,6 +159,11 @@ public class ScaleAdvisor extends SchemaImpl {
     public final User USER = User.USER;
 
     /**
+     * The table <code>scale_advisor.USER_PROJECT</code>.
+     */
+    public final UserProject USER_PROJECT = UserProject.USER_PROJECT;
+
+    /**
      * No further instances allowed
      */
     private ScaleAdvisor() {
@@ -194,7 +200,8 @@ public class ScaleAdvisor extends SchemaImpl {
             QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS,
             QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS,
             QrtzTriggers.QRTZ_TRIGGERS,
-            User.USER
+            User.USER,
+            UserProject.USER_PROJECT
         );
     }
 }

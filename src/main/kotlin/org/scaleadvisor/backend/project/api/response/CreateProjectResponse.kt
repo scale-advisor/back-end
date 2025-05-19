@@ -1,24 +1,24 @@
 package org.scaleadvisor.backend.project.api.response
 
 import org.scaleadvisor.backend.project.domain.Project
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 
 data class CreateProjectResponse(
     val id: String,
     val name: String,
     val description: String?,
-    val createdAt: OffsetDateTime,
-    val updatedAt: OffsetDateTime
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime
 ) {
     companion object {
         @JvmStatic
         fun from(project: Project): CreateProjectResponse {
             return CreateProjectResponse(
-                id          = project.id.toString(),
-                name        = project.name,
+                id = project.id.toString(),
+                name = project.name,
                 description = project.description,
-                createdAt   = project.createdAt,
-                updatedAt   = project.updatedAt ?: project.createdAt
+                createdAt = project.createdAt,
+                updatedAt = project.updatedAt ?: project.createdAt
             )
         }
     }

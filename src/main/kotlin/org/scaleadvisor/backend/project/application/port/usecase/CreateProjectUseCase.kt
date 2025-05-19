@@ -8,6 +8,6 @@ fun interface CreateProjectUseCase {
         val description: String?
     )
 
-    fun execute(command: CreateProjectCommand): Project
+    fun create(command: CreateProjectCommand): Project
 
 }
