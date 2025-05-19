@@ -4,7 +4,6 @@ import org.jooq.DSLContext
 import org.jooq.generated.tables.Project.PROJECT
 import org.jooq.generated.tables.UserProject.USER_PROJECT
 import org.jooq.generated.tables.records.ProjectRecord
-import org.jooq.impl.DSL.deleteFrom
 import org.scaleadvisor.backend.project.application.port.repository.CreateProjectPort
 import org.scaleadvisor.backend.project.application.port.repository.DeleteProjectPort
 import org.scaleadvisor.backend.project.application.port.repository.GetProjectPort
