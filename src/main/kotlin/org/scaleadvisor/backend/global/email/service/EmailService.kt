@@ -67,7 +67,7 @@ class EmailService(
 
     fun sendConfirmationEmail(email: String) {
         val token = generateMailToken(prefix = "signup:token", email = email, duration = 1)
-        val confirmLink = "$appUrl/email-verification?email=$email&token=$token"
+        val confirmLink = "$appUrl/apis/auth/email-verification?email=$email&token=$token"
 
         val content = buildString {
             append("<p>안녕하세요, $serviceName 입니다.</p>")
@@ -91,7 +91,7 @@ class EmailService(
             unit = TimeUnit.MINUTES
         )
 
-        val resetLink = "${appUrl}/password-reset?email=$requestEmail&token=$token"
+        val resetLink = "${appUrl}/apis/auth/password-reset?email=$requestEmail&token=$token"
         val content = buildString {
             append("<p>안녕하세요, $serviceName 입니다.</p>")
             append("<p>아래 링크를 클릭하여 비밀번호를 재설정하세요.(10분 동안 유효합니다):</p>")
@@ -118,7 +118,7 @@ class EmailService(
     fun confirmResetToken(token: String): String? {
         val key = "password-reset:token:$token"
         if (redisTemplate.hasKey(key)) {
-            return "${appUrl}/password-reset.html?token=$token"
+            return "${appUrl}/apis/auth/password-reset.html?token=$token"
         } else{
             throw ValidationException("잘못된 요청입니다.")
         }
