@@ -4,10 +4,6 @@ import jakarta.servlet.http.HttpServletResponse
 import org.scaleadvisor.backend.global.config.SecurityConfig
 import org.scaleadvisor.backend.global.email.service.EmailService
 import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
-import org.scaleadvisor.backend.global.exception.model.ConflictException
-import org.scaleadvisor.backend.global.exception.model.InvalidTokenException
-import org.scaleadvisor.backend.global.exception.model.NotFoundException
-import org.scaleadvisor.backend.global.exception.model.ValidationException
 import org.scaleadvisor.backend.global.jwt.JwtProvider
 import org.scaleadvisor.backend.global.oauth.kakao.component.KakaoCallbackService
 import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
@@ -16,6 +12,7 @@ import org.scaleadvisor.backend.user.domain.User
 import org.scaleadvisor.backend.global.auth.dto.LoginRequest
 import org.scaleadvisor.backend.global.auth.dto.LoginResponse
 import org.scaleadvisor.backend.global.auth.dto.SignUpRequest
+import org.scaleadvisor.backend.global.exception.model.*
 import org.scaleadvisor.backend.user.repository.UserRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
@@ -124,7 +121,7 @@ class AuthService(
         val claims = jwtProvider.parseClaims(refreshToken)
         val email = claims["email"].toString()
         val user = userRepository.findByEmail(email)
-            ?:throw throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_ID_MESSAGE))
+            ?:throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_ID_MESSAGE))
         val expMillis = claims.expiration.time - System.currentTimeMillis()
         if (expMillis <= 0) return
 
@@ -153,7 +150,7 @@ class AuthService(
     fun refreshToken(refreshToken: String, response: HttpServletResponse
     ): LoginResponse {
         if (redisTemplate.opsForSet().isMember("BL:RT", refreshToken) == true) {
-            throw InvalidTokenException("이미 로그아웃된 유저 입니다.")
+            throw UnauthorizedException("이미 로그아웃된 유저 입니다. 재로그인이 필요합니다.")
         }
 
         val claims = jwtProvider.parseClaims(refreshToken)
@@ -161,7 +158,7 @@ class AuthService(
             ?: throw InvalidTokenException("토큰에 이메일 정보가 없습니다.")
         val redisKey = "$REFRESH_TOKEN_PREFIX$email"
         val savedToken = redisTemplate.opsForValue().get(redisKey)
-            ?: throw InvalidTokenException("만료되었거나 존재하지 않는 RefreshToken입니다.")
+            ?: throw UnauthorizedException("RefreshToken이 만료되었습니다. 재로그인이 필요합니다.")
         if (savedToken != refreshToken) throw InvalidTokenException("유효하지 않은 RefreshToken입니다.")
 
         val user = userRepository.findByEmail(email)

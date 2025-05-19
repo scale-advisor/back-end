@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
+import org.springframework.web.bind.MissingRequestCookieException
 import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -55,13 +56,19 @@ class GlobalExceptionHandler {
 
     /** Unauthorized Exception **/
     @ExceptionHandler(
-        UnauthorizedException::class,
+        UnauthorizedException::class
     )
     fun handleUnauthorizedExceptions(ex: CustomException): ResponseEntity<ErrorResponse> {
         logger.warn(UNAUTHORIZED_LOG_MESSAGE, ex)
+        val customEx = when (ex) {
+            is UnauthorizedException ->
+                ex
+            else ->
+                UnauthorizedException(ex.message ?: "Unauthorized Access")
+        }
         return ResponseEntity
             .status(HttpStatus.UNAUTHORIZED)
-            .body(ErrorResponse(ex))
+            .body(ErrorResponse(customEx))
     }
 
     /** Forbidden Exception **/
@@ -99,6 +106,14 @@ class GlobalExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.CONFLICT)
             .body(ErrorResponse(ex))
+    }
+
+    /** 지금 당장은 쿠키가 Refresh 외엔 없어서 이렇게 했는데, 나중에 쿠키 추가 되면 다른 방법으로 **/
+    @ExceptionHandler(MissingRequestCookieException::class)
+    fun handleMissingRefreshTokenCookie(ex: MissingRequestCookieException?): ResponseEntity<String> {
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body("Refresh token 쿠키가 없습니다. 재로그인이 필요합니다.")
     }
 
     /** Fallback for all other exceptions **/
