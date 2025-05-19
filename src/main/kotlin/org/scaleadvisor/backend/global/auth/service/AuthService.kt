@@ -2,7 +2,6 @@ package org.scaleadvisor.backend.global.auth.service
 
 import jakarta.servlet.http.HttpServletResponse
 import org.scaleadvisor.backend.global.config.SecurityConfig
-import org.scaleadvisor.backend.global.email.service.EmailService
 import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
 import org.scaleadvisor.backend.global.jwt.JwtProvider
 import org.scaleadvisor.backend.global.oauth.kakao.component.KakaoCallbackService
