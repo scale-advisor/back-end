@@ -61,7 +61,7 @@ class AuthService(
             throw ValidationException(UserMessageConstant.INVALID_CREDENTIALS_MESSAGE)
         }
 
-        val accessToken = jwtProvider.createAccessToken(user.email)
+        val accessToken = jwtProvider.createAccessToken(user.email, user.name)
         val refreshToken = jwtProvider.createRefreshToken(user.email)
 
         val redisKey = "$REFRESH_TOKEN_PREFIX${user.email}"
@@ -113,9 +113,9 @@ class AuthService(
         )
     }
 
-    fun logout(refreshToken: String, response: HttpServletResponse
+    fun logout(refreshToken: String?, response: HttpServletResponse
     ) {
-        val claims = jwtProvider.parseClaims(refreshToken)
+        val claims = jwtProvider.parseClaims(refreshToken!!)
         val email = claims["email"].toString()
         val user = userRepository.findByEmail(email)
             ?:throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_ID_MESSAGE))
@@ -160,7 +160,7 @@ class AuthService(
 
         val user = userRepository.findByEmail(email)
             ?: throw NotFoundException("존재하지 않는 사용자입니다.")
-        val newAccess = jwtProvider.createAccessToken(user.email)
+        val newAccess = jwtProvider.createAccessToken(user.email, user.name)
         val newRefresh = jwtProvider.createRefreshToken(user.email)
 
         redisTemplate.opsForValue()

@@ -3,6 +3,7 @@ package org.scaleadvisor.backend.global.auth.controller
 import jakarta.servlet.http.HttpServletResponse
 import org.scaleadvisor.backend.global.auth.dto.*
 import org.scaleadvisor.backend.global.auth.service.AuthService
+import org.scaleadvisor.backend.global.exception.model.UnauthorizedException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -24,15 +25,19 @@ class AuthController(
     }
 
     @PostMapping("/logout")
-    fun logout(@CookieValue("refreshToken") refreshToken: String, response: HttpServletResponse): ResponseEntity<Void> {
-        authService.logout(refreshToken, response)
+    fun logout(@CookieValue(value = "refreshToken", required = false) refreshToken: String?, response: HttpServletResponse): ResponseEntity<Void> {
+        val token = refreshToken
+            ?: throw UnauthorizedException("refreshToken 쿠키가 없습니다. 재로그인하세요.")
+        authService.logout(token, response)
         return ResponseEntity.noContent().build()
     }
 
     @PostMapping("/refresh")
-    fun refresh(@CookieValue("refreshToken") refreshToken: String, response: HttpServletResponse
+    fun refresh(@CookieValue(value = "refreshToken", required = false) refreshToken: String?, response: HttpServletResponse
     ): ResponseEntity<LoginResponse> {
-        val refreshed = authService.refreshToken(refreshToken, response)
+        val token = refreshToken
+            ?: throw UnauthorizedException("refreshToken 쿠키가 없습니다. 재로그인하세요.")
+        val refreshed = authService.refreshToken(token, response)
         return ResponseEntity.ok().body(refreshed)
     }
 }
