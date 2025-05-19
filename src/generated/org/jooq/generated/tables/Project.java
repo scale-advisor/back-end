@@ -9,9 +9,13 @@ import java.util.Collection;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.ForeignKey;
+import org.jooq.InverseForeignKey;
 import org.jooq.Name;
+import org.jooq.Path;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
+import org.jooq.Record;
 import org.jooq.SQL;
 import org.jooq.Schema;
 import org.jooq.Select;
@@ -22,6 +26,8 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
+import org.jooq.generated.tables.User.UserPath;
+import org.jooq.generated.tables.UserProject.UserProjectPath;
 import org.jooq.generated.tables.records.ProjectRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -103,6 +109,39 @@ public class Project extends TableImpl<ProjectRecord> {
         this(DSL.name("PROJECT"), null);
     }
 
+    public <O extends Record> Project(Table<O> path, ForeignKey<O, ProjectRecord> childPath, InverseForeignKey<O, ProjectRecord> parentPath) {
+        super(path, childPath, parentPath, PROJECT);
+    }
+
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    public static class ProjectPath extends Project implements Path<ProjectRecord> {
+
+        private static final long serialVersionUID = 1L;
+        public <O extends Record> ProjectPath(Table<O> path, ForeignKey<O, ProjectRecord> childPath, InverseForeignKey<O, ProjectRecord> parentPath) {
+            super(path, childPath, parentPath);
+        }
+        private ProjectPath(Name alias, Table<ProjectRecord> aliased) {
+            super(alias, aliased);
+        }
+
+        @Override
+        public ProjectPath as(String alias) {
+            return new ProjectPath(DSL.name(alias), this);
+        }
+
+        @Override
+        public ProjectPath as(Name alias) {
+            return new ProjectPath(alias, this);
+        }
+
+        @Override
+        public ProjectPath as(Table<?> alias) {
+            return new ProjectPath(alias.getQualifiedName(), this);
+        }
+    }
+
     @Override
     public Schema getSchema() {
         return aliased() ? null : ScaleAdvisor.SCALE_ADVISOR;
@@ -111,6 +150,27 @@ public class Project extends TableImpl<ProjectRecord> {
     @Override
     public UniqueKey<ProjectRecord> getPrimaryKey() {
         return Keys.KEY_PROJECT_PRIMARY;
+    }
+
+    private transient UserProjectPath _userProject;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>scale_advisor.USER_PROJECT</code> table
+     */
+    public UserProjectPath userProject() {
+        if (_userProject == null)
+            _userProject = new UserProjectPath(this, null, Keys.FK_USER_PROJECT_PROJECT_ID.getInverseKey());
+
+        return _userProject;
+    }
+
+    /**
+     * Get the implicit many-to-many join path to the
+     * <code>scale_advisor.USER</code> table
+     */
+    public UserPath user() {
+        return userProject().user();
     }
 
     @Override

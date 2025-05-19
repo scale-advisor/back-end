@@ -26,6 +26,7 @@ import org.jooq.generated.tables.QrtzSimpleTriggers;
 import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
 import org.jooq.generated.tables.User;
+import org.jooq.generated.tables.UserProject;
 
 
 /**
@@ -143,4 +144,9 @@ public class Tables {
      * The table <code>scale_advisor.USER</code>.
      */
     public static final User USER = User.USER;
+
+    /**
+     * The table <code>scale_advisor.USER_PROJECT</code>.
+     */
+    public static final UserProject USER_PROJECT = UserProject.USER_PROJECT;
 }
