@@ -10,6 +10,7 @@ import org.scaleadvisor.backend.project.api.response.CreateProjectResponse
 import org.scaleadvisor.backend.project.api.response.FindAllProjectResponse
 import org.scaleadvisor.backend.project.api.response.UpdateProjectResponse
 import org.scaleadvisor.backend.project.application.port.usecase.CreateProjectUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.DeleteProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.GetProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.UpdateProjectUseCase
 import org.scaleadvisor.backend.project.domain.Project
@@ -20,7 +21,8 @@ import org.springframework.web.bind.annotation.RestController
 private class ProjectController(
     private val createProjectUseCase: CreateProjectUseCase,
     private val getProjectUseCase: GetProjectUseCase,
-    private val updateProjectUseCase: UpdateProjectUseCase
+    private val updateProjectUseCase: UpdateProjectUseCase,
+    private val deleteProjectUseCase: DeleteProjectUseCase
 ) : ProjectAPI {
     override fun create(request: CreateProjectRequest): SuccessResponse<CreateProjectResponse> {
         val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
@@ -65,6 +67,16 @@ private class ProjectController(
 
         return SuccessResponse.from(
             UpdateProjectResponse.from(project)
+        )
+    }
+
+    override fun delete(projectId: Long) {
+        val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
+            ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
+
+        deleteProjectUseCase.delete(
+            userId = currentUserId,
+            projectId = ProjectId.of(projectId)
         )
     }
 }

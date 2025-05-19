@@ -4,6 +4,6 @@ import org.scaleadvisor.backend.project.domain.Project
 
 fun interface UpdateProjectPort {
 
-    fun updateProject(project: Project)
+    fun update(project: Project)
 
 }
