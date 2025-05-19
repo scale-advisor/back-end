@@ -93,7 +93,7 @@ public class ScaleAdvisor extends SchemaImpl {
     public final BatchStepExecutionSeq BATCH_STEP_EXECUTION_SEQ = BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ;
 
     /**
-     * The table <code>scale_advisor.project</code>.
+     * The table <code>scale_advisor.PROJECT</code>.
      */
     public final Project PROJECT = Project.PROJECT;
 

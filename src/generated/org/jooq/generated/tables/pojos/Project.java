@@ -47,14 +47,14 @@ public class Project implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.project.project_id</code>.
+     * Getter for <code>scale_advisor.PROJECT.PROJECT_ID</code>.
      */
     public Long getProjectId() {
         return this.projectId;
     }
 
     /**
-     * Setter for <code>scale_advisor.project.project_id</code>.
+     * Setter for <code>scale_advisor.PROJECT.PROJECT_ID</code>.
      */
     public Project setProjectId(Long projectId) {
         this.projectId = projectId;
@@ -62,14 +62,14 @@ public class Project implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.project.name</code>.
+     * Getter for <code>scale_advisor.PROJECT.NAME</code>.
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * Setter for <code>scale_advisor.project.name</code>.
+     * Setter for <code>scale_advisor.PROJECT.NAME</code>.
      */
     public Project setName(String name) {
         this.name = name;
@@ -77,14 +77,14 @@ public class Project implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.project.description</code>.
+     * Getter for <code>scale_advisor.PROJECT.DESCRIPTION</code>.
      */
     public String getDescription() {
         return this.description;
     }
 
     /**
-     * Setter for <code>scale_advisor.project.description</code>.
+     * Setter for <code>scale_advisor.PROJECT.DESCRIPTION</code>.
      */
     public Project setDescription(String description) {
         this.description = description;
@@ -92,14 +92,14 @@ public class Project implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.project.created_at</code>.
+     * Getter for <code>scale_advisor.PROJECT.CREATED_AT</code>.
      */
     public LocalDateTime getCreatedAt() {
         return this.createdAt;
     }
 
     /**
-     * Setter for <code>scale_advisor.project.created_at</code>.
+     * Setter for <code>scale_advisor.PROJECT.CREATED_AT</code>.
      */
     public Project setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
@@ -107,14 +107,14 @@ public class Project implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.project.updated_at</code>.
+     * Getter for <code>scale_advisor.PROJECT.UPDATED_AT</code>.
      */
     public LocalDateTime getUpdatedAt() {
         return this.updatedAt;
     }
 
     /**
-     * Setter for <code>scale_advisor.project.updated_at</code>.
+     * Setter for <code>scale_advisor.PROJECT.UPDATED_AT</code>.
      */
     public Project setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;

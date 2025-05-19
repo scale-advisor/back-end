@@ -6,7 +6,8 @@ import org.scaleadvisor.backend.global.email.constant.EmailTitleConstant
 import org.scaleadvisor.backend.global.email.dto.PwdResetConfirmRequest
 import org.scaleadvisor.backend.global.email.dto.PwdResetRequest
 import org.scaleadvisor.backend.global.exception.constant.TokenMessageConstant
-import org.scaleadvisor.backend.global.exception.model.InvalidTokenException
+import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
+import org.scaleadvisor.backend.global.exception.model.EmailTokenGoneException
 import org.scaleadvisor.backend.global.exception.model.MessagingException
 import org.scaleadvisor.backend.global.exception.model.ValidationException
 import org.scaleadvisor.backend.user.repository.UserRepository
@@ -127,7 +128,7 @@ class EmailService(
         val key = "password-reset:token:${request.token}"
         val storedEmail = valOps().get(key)
         if (redisTemplate.hasKey(request.token) && storedEmail != null) {
-            throw InvalidTokenException("잘못된 이메일 혹은 토큰 값입니다.")
+            throw EmailTokenGoneException(UserMessageConstant.EMAIL_TOKEN_GONE_MESSAGE)
         } else{
             val newEncodedPassword = securityConfig.passwordEncoder().encode(request.newPassword)
             userRepository.resetPasswordByEmail(storedEmail!!, newEncodedPassword)

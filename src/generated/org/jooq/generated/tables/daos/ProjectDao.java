@@ -40,7 +40,7 @@ public class ProjectDao extends DAOImpl<ProjectRecord, org.jooq.generated.tables
     }
 
     /**
-     * Fetch records that have <code>project_id BETWEEN lowerInclusive AND
+     * Fetch records that have <code>PROJECT_ID BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.Project> fetchRangeOfProjectId(Long lowerInclusive, Long upperInclusive) {
@@ -48,28 +48,28 @@ public class ProjectDao extends DAOImpl<ProjectRecord, org.jooq.generated.tables
     }
 
     /**
-     * Fetch records that have <code>project_id IN (values)</code>
+     * Fetch records that have <code>PROJECT_ID IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.Project> fetchByProjectId(Long... values) {
         return fetch(Project.PROJECT.PROJECT_ID, values);
     }
 
     /**
-     * Fetch a unique record that has <code>project_id = value</code>
+     * Fetch a unique record that has <code>PROJECT_ID = value</code>
      */
     public org.jooq.generated.tables.pojos.Project fetchOneByProjectId(Long value) {
         return fetchOne(Project.PROJECT.PROJECT_ID, value);
     }
 
     /**
-     * Fetch a unique record that has <code>project_id = value</code>
+     * Fetch a unique record that has <code>PROJECT_ID = value</code>
      */
     public Optional<org.jooq.generated.tables.pojos.Project> fetchOptionalByProjectId(Long value) {
         return fetchOptional(Project.PROJECT.PROJECT_ID, value);
     }
 
     /**
-     * Fetch records that have <code>name BETWEEN lowerInclusive AND
+     * Fetch records that have <code>NAME BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.Project> fetchRangeOfName(String lowerInclusive, String upperInclusive) {
@@ -77,14 +77,14 @@ public class ProjectDao extends DAOImpl<ProjectRecord, org.jooq.generated.tables
     }
 
     /**
-     * Fetch records that have <code>name IN (values)</code>
+     * Fetch records that have <code>NAME IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.Project> fetchByName(String... values) {
         return fetch(Project.PROJECT.NAME, values);
     }
 
     /**
-     * Fetch records that have <code>description BETWEEN lowerInclusive AND
+     * Fetch records that have <code>DESCRIPTION BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.Project> fetchRangeOfDescription(String lowerInclusive, String upperInclusive) {
@@ -92,14 +92,14 @@ public class ProjectDao extends DAOImpl<ProjectRecord, org.jooq.generated.tables
     }
 
     /**
-     * Fetch records that have <code>description IN (values)</code>
+     * Fetch records that have <code>DESCRIPTION IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.Project> fetchByDescription(String... values) {
         return fetch(Project.PROJECT.DESCRIPTION, values);
     }
 
     /**
-     * Fetch records that have <code>created_at BETWEEN lowerInclusive AND
+     * Fetch records that have <code>CREATED_AT BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.Project> fetchRangeOfCreatedAt(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
@@ -107,14 +107,14 @@ public class ProjectDao extends DAOImpl<ProjectRecord, org.jooq.generated.tables
     }
 
     /**
-     * Fetch records that have <code>created_at IN (values)</code>
+     * Fetch records that have <code>CREATED_AT IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.Project> fetchByCreatedAt(LocalDateTime... values) {
         return fetch(Project.PROJECT.CREATED_AT, values);
     }
 
     /**
-     * Fetch records that have <code>updated_at BETWEEN lowerInclusive AND
+     * Fetch records that have <code>UPDATED_AT BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.Project> fetchRangeOfUpdatedAt(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
@@ -122,7 +122,7 @@ public class ProjectDao extends DAOImpl<ProjectRecord, org.jooq.generated.tables
     }
 
     /**
-     * Fetch records that have <code>updated_at IN (values)</code>
+     * Fetch records that have <code>UPDATED_AT IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.Project> fetchByUpdatedAt(LocalDateTime... values) {
         return fetch(Project.PROJECT.UPDATED_AT, values);

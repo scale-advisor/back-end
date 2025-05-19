@@ -37,7 +37,7 @@ public class Project extends TableImpl<ProjectRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>scale_advisor.project</code>
+     * The reference instance of <code>scale_advisor.PROJECT</code>
      */
     public static final Project PROJECT = new Project();
 
@@ -50,29 +50,29 @@ public class Project extends TableImpl<ProjectRecord> {
     }
 
     /**
-     * The column <code>scale_advisor.project.project_id</code>.
+     * The column <code>scale_advisor.PROJECT.PROJECT_ID</code>.
      */
-    public final TableField<ProjectRecord, Long> PROJECT_ID = createField(DSL.name("project_id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<ProjectRecord, Long> PROJECT_ID = createField(DSL.name("PROJECT_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.project.name</code>.
+     * The column <code>scale_advisor.PROJECT.NAME</code>.
      */
-    public final TableField<ProjectRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<ProjectRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.project.description</code>.
+     * The column <code>scale_advisor.PROJECT.DESCRIPTION</code>.
      */
-    public final TableField<ProjectRecord, String> DESCRIPTION = createField(DSL.name("description"), SQLDataType.CLOB.nullable(false), this, "");
+    public final TableField<ProjectRecord, String> DESCRIPTION = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.project.created_at</code>.
+     * The column <code>scale_advisor.PROJECT.CREATED_AT</code>.
      */
-    public final TableField<ProjectRecord, LocalDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.LOCALDATETIME(0).nullable(false), this, "");
+    public final TableField<ProjectRecord, LocalDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.LOCALDATETIME(0).nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.project.updated_at</code>.
+     * The column <code>scale_advisor.PROJECT.UPDATED_AT</code>.
      */
-    public final TableField<ProjectRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(0), this, "");
+    public final TableField<ProjectRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.LOCALDATETIME(0), this, "");
 
     private Project(Name alias, Table<ProjectRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -83,24 +83,24 @@ public class Project extends TableImpl<ProjectRecord> {
     }
 
     /**
-     * Create an aliased <code>scale_advisor.project</code> table reference
+     * Create an aliased <code>scale_advisor.PROJECT</code> table reference
      */
     public Project(String alias) {
         this(DSL.name(alias), PROJECT);
     }
 
     /**
-     * Create an aliased <code>scale_advisor.project</code> table reference
+     * Create an aliased <code>scale_advisor.PROJECT</code> table reference
      */
     public Project(Name alias) {
         this(alias, PROJECT);
     }
 
     /**
-     * Create a <code>scale_advisor.project</code> table reference
+     * Create a <code>scale_advisor.PROJECT</code> table reference
      */
     public Project() {
-        this(DSL.name("project"), null);
+        this(DSL.name("PROJECT"), null);
     }
 
     @Override

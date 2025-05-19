@@ -20,7 +20,7 @@ public class ProjectRecord extends UpdatableRecordImpl<ProjectRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>scale_advisor.project.project_id</code>.
+     * Setter for <code>scale_advisor.PROJECT.PROJECT_ID</code>.
      */
     public ProjectRecord setProjectId(Long value) {
         set(0, value);
@@ -28,14 +28,14 @@ public class ProjectRecord extends UpdatableRecordImpl<ProjectRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.project.project_id</code>.
+     * Getter for <code>scale_advisor.PROJECT.PROJECT_ID</code>.
      */
     public Long getProjectId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>scale_advisor.project.name</code>.
+     * Setter for <code>scale_advisor.PROJECT.NAME</code>.
      */
     public ProjectRecord setName(String value) {
         set(1, value);
@@ -43,14 +43,14 @@ public class ProjectRecord extends UpdatableRecordImpl<ProjectRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.project.name</code>.
+     * Getter for <code>scale_advisor.PROJECT.NAME</code>.
      */
     public String getName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>scale_advisor.project.description</code>.
+     * Setter for <code>scale_advisor.PROJECT.DESCRIPTION</code>.
      */
     public ProjectRecord setDescription(String value) {
         set(2, value);
@@ -58,14 +58,14 @@ public class ProjectRecord extends UpdatableRecordImpl<ProjectRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.project.description</code>.
+     * Getter for <code>scale_advisor.PROJECT.DESCRIPTION</code>.
      */
     public String getDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>scale_advisor.project.created_at</code>.
+     * Setter for <code>scale_advisor.PROJECT.CREATED_AT</code>.
      */
     public ProjectRecord setCreatedAt(LocalDateTime value) {
         set(3, value);
@@ -73,14 +73,14 @@ public class ProjectRecord extends UpdatableRecordImpl<ProjectRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.project.created_at</code>.
+     * Getter for <code>scale_advisor.PROJECT.CREATED_AT</code>.
      */
     public LocalDateTime getCreatedAt() {
         return (LocalDateTime) get(3);
     }
 
     /**
-     * Setter for <code>scale_advisor.project.updated_at</code>.
+     * Setter for <code>scale_advisor.PROJECT.UPDATED_AT</code>.
      */
     public ProjectRecord setUpdatedAt(LocalDateTime value) {
         set(4, value);
@@ -88,7 +88,7 @@ public class ProjectRecord extends UpdatableRecordImpl<ProjectRecord> {
     }
 
     /**
-     * Getter for <code>scale_advisor.project.updated_at</code>.
+     * Getter for <code>scale_advisor.PROJECT.UPDATED_AT</code>.
      */
     public LocalDateTime getUpdatedAt() {
         return (LocalDateTime) get(4);
