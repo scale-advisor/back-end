@@ -6,4 +6,5 @@ object UserMessageConstant {
     const val INVALID_CREDENTIALS_MESSAGE = "비밀번호가 일치하지 않습니다."
     const val NOT_FOUND_USER_ID_MESSAGE = "존재하지 않는 회원입니다: %d"
     const val INCORRECT_CREDENTIALS_VALID_MESSAGE = "새 비밀번호 확인을 잘못 입력하였습니다."
+    const val EMAIL_TOKEN_GONE_MESSAGE = "이메일 토큰이 잘못되었습니다."
 }

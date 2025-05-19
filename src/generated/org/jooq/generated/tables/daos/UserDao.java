@@ -40,7 +40,7 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>user_id BETWEEN lowerInclusive AND
+     * Fetch records that have <code>USER_ID BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchRangeOfUserId(Long lowerInclusive, Long upperInclusive) {
@@ -48,28 +48,28 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>user_id IN (values)</code>
+     * Fetch records that have <code>USER_ID IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchByUserId(Long... values) {
         return fetch(User.USER.USER_ID, values);
     }
 
     /**
-     * Fetch a unique record that has <code>user_id = value</code>
+     * Fetch a unique record that has <code>USER_ID = value</code>
      */
     public org.jooq.generated.tables.pojos.User fetchOneByUserId(Long value) {
         return fetchOne(User.USER.USER_ID, value);
     }
 
     /**
-     * Fetch a unique record that has <code>user_id = value</code>
+     * Fetch a unique record that has <code>USER_ID = value</code>
      */
     public Optional<org.jooq.generated.tables.pojos.User> fetchOptionalByUserId(Long value) {
         return fetchOptional(User.USER.USER_ID, value);
     }
 
     /**
-     * Fetch records that have <code>email BETWEEN lowerInclusive AND
+     * Fetch records that have <code>EMAIL BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchRangeOfEmail(String lowerInclusive, String upperInclusive) {
@@ -77,28 +77,28 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>email IN (values)</code>
+     * Fetch records that have <code>EMAIL IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchByEmail(String... values) {
         return fetch(User.USER.EMAIL, values);
     }
 
     /**
-     * Fetch a unique record that has <code>email = value</code>
+     * Fetch a unique record that has <code>EMAIL = value</code>
      */
     public org.jooq.generated.tables.pojos.User fetchOneByEmail(String value) {
         return fetchOne(User.USER.EMAIL, value);
     }
 
     /**
-     * Fetch a unique record that has <code>email = value</code>
+     * Fetch a unique record that has <code>EMAIL = value</code>
      */
     public Optional<org.jooq.generated.tables.pojos.User> fetchOptionalByEmail(String value) {
         return fetchOptional(User.USER.EMAIL, value);
     }
 
     /**
-     * Fetch records that have <code>password BETWEEN lowerInclusive AND
+     * Fetch records that have <code>PASSWORD BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchRangeOfPassword(String lowerInclusive, String upperInclusive) {
@@ -106,14 +106,14 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>password IN (values)</code>
+     * Fetch records that have <code>PASSWORD IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchByPassword(String... values) {
         return fetch(User.USER.PASSWORD, values);
     }
 
     /**
-     * Fetch records that have <code>name BETWEEN lowerInclusive AND
+     * Fetch records that have <code>NAME BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchRangeOfName(String lowerInclusive, String upperInclusive) {
@@ -121,14 +121,14 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>name IN (values)</code>
+     * Fetch records that have <code>NAME IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchByName(String... values) {
         return fetch(User.USER.NAME, values);
     }
 
     /**
-     * Fetch records that have <code>social_id BETWEEN lowerInclusive AND
+     * Fetch records that have <code>SOCIAL_ID BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchRangeOfSocialId(String lowerInclusive, String upperInclusive) {
@@ -136,14 +136,14 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>social_id IN (values)</code>
+     * Fetch records that have <code>SOCIAL_ID IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchBySocialId(String... values) {
         return fetch(User.USER.SOCIAL_ID, values);
     }
 
     /**
-     * Fetch records that have <code>login_type BETWEEN lowerInclusive AND
+     * Fetch records that have <code>LOGIN_TYPE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchRangeOfLoginType(String lowerInclusive, String upperInclusive) {
@@ -151,14 +151,14 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>login_type IN (values)</code>
+     * Fetch records that have <code>LOGIN_TYPE IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchByLoginType(String... values) {
         return fetch(User.USER.LOGIN_TYPE, values);
     }
 
     /**
-     * Fetch records that have <code>confirmed BETWEEN lowerInclusive AND
+     * Fetch records that have <code>CONFIRMED BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchRangeOfConfirmed(String lowerInclusive, String upperInclusive) {
@@ -166,14 +166,14 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>confirmed IN (values)</code>
+     * Fetch records that have <code>CONFIRMED IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchByConfirmed(String... values) {
         return fetch(User.USER.CONFIRMED, values);
     }
 
     /**
-     * Fetch records that have <code>created_at BETWEEN lowerInclusive AND
+     * Fetch records that have <code>CREATED_AT BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchRangeOfCreatedAt(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
@@ -181,14 +181,14 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>created_at IN (values)</code>
+     * Fetch records that have <code>CREATED_AT IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchByCreatedAt(LocalDateTime... values) {
         return fetch(User.USER.CREATED_AT, values);
     }
 
     /**
-     * Fetch records that have <code>updated_at BETWEEN lowerInclusive AND
+     * Fetch records that have <code>UPDATED_AT BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchRangeOfUpdatedAt(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
@@ -196,14 +196,14 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>updated_at IN (values)</code>
+     * Fetch records that have <code>UPDATED_AT IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchByUpdatedAt(LocalDateTime... values) {
         return fetch(User.USER.UPDATED_AT, values);
     }
 
     /**
-     * Fetch records that have <code>deleted_at BETWEEN lowerInclusive AND
+     * Fetch records that have <code>DELETED_AT BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchRangeOfDeletedAt(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
@@ -211,7 +211,7 @@ public class UserDao extends DAOImpl<UserRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>deleted_at IN (values)</code>
+     * Fetch records that have <code>DELETED_AT IN (values)</code>
      */
     public List<org.jooq.generated.tables.pojos.User> fetchByDeletedAt(LocalDateTime... values) {
         return fetch(User.USER.DELETED_AT, values);
