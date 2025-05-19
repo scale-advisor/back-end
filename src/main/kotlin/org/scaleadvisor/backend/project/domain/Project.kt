@@ -1,7 +1,6 @@
 package org.scaleadvisor.backend.project.domain
 
 import java.time.LocalDateTime
-import java.time.OffsetDateTime
 
 data class Project(
     val id: Long,
