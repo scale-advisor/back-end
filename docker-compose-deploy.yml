@@ -8,6 +8,7 @@ services:
         read_only: true
     environment:
       - VERSION=${VERSION:-latest}
+      - SPRING_PROFILES_ACTIVE=prod
       - TZ=Asia/Seoul
     pull_policy: always
     env_file:

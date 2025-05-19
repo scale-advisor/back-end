@@ -5,12 +5,19 @@ import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.security.SecurityRequirement
 import io.swagger.v3.oas.models.security.SecurityScheme
+import io.swagger.v3.oas.models.servers.Server
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 
 @Configuration
 class SwaggerConfig {
+
+    @Value("\${app.url}")
+    private val appUrl: String = ""
+    @Value("\${server.servlet.context-path}")
+    private val contextPath: String = ""
 
     @Bean
     fun customOpenAPI(): OpenAPI {
@@ -28,7 +35,13 @@ class SwaggerConfig {
         val components = Components()
             .addSecuritySchemes(jwtSchemeName, securityScheme)
 
+        val server = Server()
+            .url("${appUrl}${contextPath}")
+            .description("Production Server")
+
+
         return OpenAPI()
+            .servers(listOf(server))
             .components(components)
             .addSecurityItem(securityRequirement)
             .info(
