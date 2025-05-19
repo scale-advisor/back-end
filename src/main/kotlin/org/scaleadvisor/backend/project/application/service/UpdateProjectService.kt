@@ -39,7 +39,7 @@ private class UpdateProjectService(
             updatedAt = LocalDateTime.now()
         )
 
-        updateProjectPort.updateProject(project)
+        updateProjectPort.update(project)
         return getProjectUseCase.find(project.id)
             ?: throw Exception("프로젝트 업데이트 과정에 문제가 발생했습니다.")
     }

@@ -26,11 +26,11 @@ private class CreateProjectService(
             updatedAt = LocalDateTime.now()
         )
 
-        createProjectPort.createProject(project)
+        createProjectPort.create(project)
         project = getProjectUseCase.find(project.id)
             ?: throw Exception("프로젝트 생성과정에 문제가 발생했습니다")
 
-        createUserProjectPort.createUserProject(command.userId, project.id)
+        createUserProjectPort.create(command.userId, project.id)
 
         return project
     }

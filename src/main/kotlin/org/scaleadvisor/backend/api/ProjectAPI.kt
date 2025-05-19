@@ -41,4 +41,14 @@ interface ProjectAPI {
         @PathVariable("projectId") projectId: Long,
         @RequestBody request: UpdateProjectRequest
     ): SuccessResponse<UpdateProjectResponse>
+
+    @Operation(
+        summary = "Project 삭제",
+        description = "프로젝트 삭제"
+    )
+    @DeleteMapping("/{projectId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(
+        @PathVariable("projectId") projectId: Long,
+    )
 }

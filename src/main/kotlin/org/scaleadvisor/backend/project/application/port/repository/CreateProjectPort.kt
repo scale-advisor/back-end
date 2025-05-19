@@ -4,6 +4,6 @@ import org.scaleadvisor.backend.project.domain.Project
 
 fun interface CreateProjectPort {
 
-    fun createProject(project: Project)
+    fun create(project: Project)
 
 }
