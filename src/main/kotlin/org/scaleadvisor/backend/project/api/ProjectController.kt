@@ -18,10 +18,14 @@ private class ProjectController(
     private val getProjectUseCase: GetProjectUseCase
 ) : ProjectAPI {
     override fun create(request: CreateProjectRequest): SuccessResponse<CreateProjectResponse> {
+        val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
+            ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
+
         val project: Project = createProjectUseCase.create(
             CreateProjectUseCase.CreateProjectCommand(
-                request.name,
-                request.description
+                userId = currentUserId,
+                name = request.name,
+                description = request.description
             )
         )
 
