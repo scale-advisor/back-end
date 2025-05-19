@@ -7,12 +7,10 @@ import org.scaleadvisor.backend.global.email.dto.ConfirmMailRequest
 import org.scaleadvisor.backend.global.email.dto.ConfirmSignupRequest
 import org.scaleadvisor.backend.global.email.dto.PwdResetConfirmRequest
 import org.scaleadvisor.backend.global.email.dto.PwdResetRequest
-import org.scaleadvisor.backend.global.exception.constant.TokenMessageConstant
 import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
 import org.scaleadvisor.backend.global.exception.model.EmailTokenGoneException
 import org.scaleadvisor.backend.global.exception.model.MessagingException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
-import org.scaleadvisor.backend.global.exception.model.ValidationException
 import org.scaleadvisor.backend.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Value
@@ -21,8 +19,6 @@ import org.springframework.mail.javamail.MimeMessageHelper
 import java.util.concurrent.TimeUnit
 import org.springframework.data.redis.core.ValueOperations
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import java.util.*
 
 @Service
