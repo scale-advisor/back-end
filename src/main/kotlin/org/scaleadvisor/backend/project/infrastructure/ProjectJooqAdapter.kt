@@ -42,7 +42,7 @@ private class ProjectJooqAdapter(
                 PROJECT.CREATED_AT,
                 PROJECT.UPDATED_AT)
             .from(PROJECT)
-            .leftOuterJoin(USER_PROJECT)
+            .innerJoin(USER_PROJECT)
             .on(USER_PROJECT.PROJECT_ID.eq(PROJECT.PROJECT_ID)
                 .and(USER_PROJECT.USER_ID.eq(userId)))
             .fetch{record -> record.into(PROJECT).toDomain()}
