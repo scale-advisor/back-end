@@ -52,54 +52,54 @@ public class User extends TableImpl<UserRecord> {
     }
 
     /**
-     * The column <code>scale_advisor.USER.user_id</code>.
+     * The column <code>scale_advisor.USER.USER_ID</code>.
      */
-    public final TableField<UserRecord, Long> USER_ID = createField(DSL.name("user_id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<UserRecord, Long> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.USER.email</code>.
+     * The column <code>scale_advisor.USER.EMAIL</code>.
      */
-    public final TableField<UserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<UserRecord, String> EMAIL = createField(DSL.name("EMAIL"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.USER.password</code>.
+     * The column <code>scale_advisor.USER.PASSWORD</code>.
      */
-    public final TableField<UserRecord, String> PASSWORD = createField(DSL.name("password"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<UserRecord, String> PASSWORD = createField(DSL.name("PASSWORD"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.USER.name</code>.
+     * The column <code>scale_advisor.USER.NAME</code>.
      */
-    public final TableField<UserRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(100).nullable(false), this, "");
+    public final TableField<UserRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(100).nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.USER.social_id</code>.
+     * The column <code>scale_advisor.USER.SOCIAL_ID</code>.
      */
-    public final TableField<UserRecord, String> SOCIAL_ID = createField(DSL.name("social_id"), SQLDataType.VARCHAR(255), this, "");
+    public final TableField<UserRecord, String> SOCIAL_ID = createField(DSL.name("SOCIAL_ID"), SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>scale_advisor.USER.login_type</code>.
+     * The column <code>scale_advisor.USER.LOGIN_TYPE</code>.
      */
-    public final TableField<UserRecord, String> LOGIN_TYPE = createField(DSL.name("login_type"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<UserRecord, String> LOGIN_TYPE = createField(DSL.name("LOGIN_TYPE"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.USER.confirmed</code>.
+     * The column <code>scale_advisor.USER.CONFIRMED</code>.
      */
-    public final TableField<UserRecord, String> CONFIRMED = createField(DSL.name("confirmed"), SQLDataType.CHAR(1).nullable(false).defaultValue(DSL.inline("N", SQLDataType.CHAR)), this, "");
+    public final TableField<UserRecord, String> CONFIRMED = createField(DSL.name("CONFIRMED"), SQLDataType.CHAR(1).nullable(false).defaultValue(DSL.inline("N", SQLDataType.CHAR)), this, "");
 
     /**
-     * The column <code>scale_advisor.USER.created_at</code>.
+     * The column <code>scale_advisor.USER.CREATED_AT</code>.
      */
-    public final TableField<UserRecord, LocalDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<UserRecord, LocalDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>scale_advisor.USER.updated_at</code>.
+     * The column <code>scale_advisor.USER.UPDATED_AT</code>.
      */
-    public final TableField<UserRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<UserRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>scale_advisor.USER.deleted_at</code>.
+     * The column <code>scale_advisor.USER.DELETED_AT</code>.
      */
-    public final TableField<UserRecord, LocalDateTime> DELETED_AT = createField(DSL.name("deleted_at"), SQLDataType.LOCALDATETIME(0), this, "");
+    public final TableField<UserRecord, LocalDateTime> DELETED_AT = createField(DSL.name("DELETED_AT"), SQLDataType.LOCALDATETIME(0), this, "");
 
     private User(Name alias, Table<UserRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
