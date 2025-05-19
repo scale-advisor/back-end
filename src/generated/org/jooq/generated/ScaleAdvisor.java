@@ -19,6 +19,8 @@ import org.jooq.generated.tables.BatchStepExecution;
 import org.jooq.generated.tables.BatchStepExecutionContext;
 import org.jooq.generated.tables.BatchStepExecutionSeq;
 import org.jooq.generated.tables.Project;
+import org.jooq.generated.tables.ProjectFactor;
+import org.jooq.generated.tables.ProjectLanguage;
 import org.jooq.generated.tables.QrtzBlobTriggers;
 import org.jooq.generated.tables.QrtzCalendars;
 import org.jooq.generated.tables.QrtzCronTriggers;
@@ -32,6 +34,7 @@ import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
 import org.jooq.generated.tables.User;
 import org.jooq.generated.tables.UserProject;
+import org.jooq.generated.tables.Version;
 import org.jooq.impl.SchemaImpl;
 
 
@@ -99,6 +102,16 @@ public class ScaleAdvisor extends SchemaImpl {
     public final Project PROJECT = Project.PROJECT;
 
     /**
+     * The table <code>scale_advisor.PROJECT_FACTOR</code>.
+     */
+    public final ProjectFactor PROJECT_FACTOR = ProjectFactor.PROJECT_FACTOR;
+
+    /**
+     * The table <code>scale_advisor.PROJECT_LANGUAGE</code>.
+     */
+    public final ProjectLanguage PROJECT_LANGUAGE = ProjectLanguage.PROJECT_LANGUAGE;
+
+    /**
      * The table <code>scale_advisor.QRTZ_BLOB_TRIGGERS</code>.
      */
     public final QrtzBlobTriggers QRTZ_BLOB_TRIGGERS = QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS;
@@ -164,6 +177,11 @@ public class ScaleAdvisor extends SchemaImpl {
     public final UserProject USER_PROJECT = UserProject.USER_PROJECT;
 
     /**
+     * The table <code>scale_advisor.VERSION</code>.
+     */
+    public final Version VERSION = Version.VERSION;
+
+    /**
      * No further instances allowed
      */
     private ScaleAdvisor() {
@@ -189,6 +207,8 @@ public class ScaleAdvisor extends SchemaImpl {
             BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT,
             BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ,
             Project.PROJECT,
+            ProjectFactor.PROJECT_FACTOR,
+            ProjectLanguage.PROJECT_LANGUAGE,
             QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS,
             QrtzCalendars.QRTZ_CALENDARS,
             QrtzCronTriggers.QRTZ_CRON_TRIGGERS,
@@ -201,7 +221,8 @@ public class ScaleAdvisor extends SchemaImpl {
             QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS,
             QrtzTriggers.QRTZ_TRIGGERS,
             User.USER,
-            UserProject.USER_PROJECT
+            UserProject.USER_PROJECT,
+            Version.VERSION
         );
     }
 }
