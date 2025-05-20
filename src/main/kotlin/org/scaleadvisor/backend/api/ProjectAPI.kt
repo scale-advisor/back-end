@@ -6,7 +6,7 @@ import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.project.api.request.CreateProjectRequest
 import org.scaleadvisor.backend.project.api.request.UpdateProjectRequest
 import org.scaleadvisor.backend.project.api.response.CreateProjectResponse
-import org.scaleadvisor.backend.project.api.response.FindAllProjectResponse
+import org.scaleadvisor.backend.project.api.response.GetAllProjectResponse
 import org.scaleadvisor.backend.project.api.response.UpdateProjectResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -29,7 +29,7 @@ interface ProjectAPI {
     )
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    fun findAll(): SuccessResponse<FindAllProjectResponse>
+    fun findAll(): SuccessResponse<GetAllProjectResponse>
 
     @Operation(
         summary = "Project 기본 정보 수정",

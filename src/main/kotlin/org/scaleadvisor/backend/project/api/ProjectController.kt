@@ -7,9 +7,8 @@ import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.project.api.request.CreateProjectRequest
 import org.scaleadvisor.backend.project.api.request.UpdateProjectRequest
 import org.scaleadvisor.backend.project.api.response.CreateProjectResponse
-import org.scaleadvisor.backend.project.api.response.FindAllProjectResponse
+import org.scaleadvisor.backend.project.api.response.GetAllProjectResponse
 import org.scaleadvisor.backend.project.api.response.UpdateProjectResponse
-import org.scaleadvisor.backend.project.application.port.usecase.*
 import org.scaleadvisor.backend.project.application.port.usecase.project.CreateProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.DeleteProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
@@ -44,12 +43,12 @@ private class ProjectController(
         )
     }
 
-    override fun findAll(): SuccessResponse<FindAllProjectResponse> {
+    override fun findAll(): SuccessResponse<GetAllProjectResponse> {
         val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
             ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
-        val projects : List<FindAllProjectResponse.ProjectDTO> = getProjectUseCase.findAll(currentUserId)
+        val projects : List<GetAllProjectResponse.ProjectDTO> = getProjectUseCase.findAll(currentUserId)
             .map { project ->
-                FindAllProjectResponse.ProjectDTO(
+                GetAllProjectResponse.ProjectDTO(
                     id = project.id.toString(),
                     name = project.name,
                     description = project.description,
@@ -58,7 +57,7 @@ private class ProjectController(
                 )
             }
 
-        return SuccessResponse.from(FindAllProjectResponse.from(projects))
+        return SuccessResponse.from(GetAllProjectResponse.from(projects))
     }
 
     override fun update(
