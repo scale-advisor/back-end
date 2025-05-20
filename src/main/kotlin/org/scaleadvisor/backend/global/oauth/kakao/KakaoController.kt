@@ -21,10 +21,10 @@ class KakaoController(
         return ResponseEntity.ok().body(KakaoAuthorizeResponse(kakaoAuthUrl))
     }
 
-    @GetMapping("/kakao/callback")
-    fun kakaoLogin(@RequestParam("code") code: String, response: HttpServletResponse)
+    @PostMapping("/kakao/login")
+    fun kakaoLogin(@RequestBody request: KakaoCallbackRequest, response: HttpServletResponse)
             : ResponseEntity<LoginResponse> {
-        val result= authService.kakaoLogin(code, response)
+        val result= authService.kakaoLogin(request.code, response)
         return ResponseEntity.ok().body(result)
     }
 }
