@@ -12,14 +12,14 @@ import org.scaleadvisor.backend.global.exception.model.EmailTokenGoneException
 import org.scaleadvisor.backend.global.exception.model.MessagingException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.user.repository.UserRepository
-import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.core.ValueOperations
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
-import java.util.concurrent.TimeUnit
-import org.springframework.data.redis.core.ValueOperations
-import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.stereotype.Service
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 @Service
 class EmailService(
@@ -87,7 +87,7 @@ class EmailService(
             unit = TimeUnit.MINUTES
         )
 
-        val resetLink = "${request.pwdResetRedirectUrl}/apis/auth?email=$requestEmail&token=$token"
+        val resetLink = "${request.pwdResetRedirectUrl}/apis/auth/reset-passwrod?email=$requestEmail&token=$token"
         val content = buildString {
             append("<p>안녕하세요, $serviceName 입니다.</p>")
             append("<p>아래 링크를 클릭하여 비밀번호를 재설정하세요.(10분 동안 유효합니다):</p>")
