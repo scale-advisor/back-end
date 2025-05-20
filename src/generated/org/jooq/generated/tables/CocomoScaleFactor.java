@@ -4,6 +4,7 @@
 package org.jooq.generated.tables;
 
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -90,6 +91,16 @@ public class CocomoScaleFactor extends TableImpl<CocomoScaleFactorRecord> {
      * The column <code>scale_advisor.COCOMO_SCALE_FACTOR.PMAT</code>.
      */
     public final TableField<CocomoScaleFactorRecord, String> PMAT = createField(DSL.name("PMAT"), SQLDataType.VARCHAR(20).nullable(false), this, "");
+
+    /**
+     * The column <code>scale_advisor.COCOMO_SCALE_FACTOR.CREATED_AT</code>.
+     */
+    public final TableField<CocomoScaleFactorRecord, LocalDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
+
+    /**
+     * The column <code>scale_advisor.COCOMO_SCALE_FACTOR.UPDATED_AT</code>.
+     */
+    public final TableField<CocomoScaleFactorRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     private CocomoScaleFactor(Name alias, Table<CocomoScaleFactorRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);

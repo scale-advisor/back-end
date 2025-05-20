@@ -5,6 +5,7 @@ package org.jooq.generated.tables.pojos;
 
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 
 /**
@@ -22,6 +23,8 @@ public class CocomoScaleFactor implements Serializable {
     private String resl;
     private String team;
     private String pmat;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public CocomoScaleFactor() {}
 
@@ -33,6 +36,8 @@ public class CocomoScaleFactor implements Serializable {
         this.resl = value.resl;
         this.team = value.team;
         this.pmat = value.pmat;
+        this.createdAt = value.createdAt;
+        this.updatedAt = value.updatedAt;
     }
 
     public CocomoScaleFactor(
@@ -42,7 +47,9 @@ public class CocomoScaleFactor implements Serializable {
         String flex,
         String resl,
         String team,
-        String pmat
+        String pmat,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
     ) {
         this.cocomoScaleFactorId = cocomoScaleFactorId;
         this.projectId = projectId;
@@ -51,6 +58,8 @@ public class CocomoScaleFactor implements Serializable {
         this.resl = resl;
         this.team = team;
         this.pmat = pmat;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     /**
@@ -160,6 +169,36 @@ public class CocomoScaleFactor implements Serializable {
         return this;
     }
 
+    /**
+     * Getter for <code>scale_advisor.COCOMO_SCALE_FACTOR.CREATED_AT</code>.
+     */
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    /**
+     * Setter for <code>scale_advisor.COCOMO_SCALE_FACTOR.CREATED_AT</code>.
+     */
+    public CocomoScaleFactor setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.COCOMO_SCALE_FACTOR.UPDATED_AT</code>.
+     */
+    public LocalDateTime getUpdatedAt() {
+        return this.updatedAt;
+    }
+
+    /**
+     * Setter for <code>scale_advisor.COCOMO_SCALE_FACTOR.UPDATED_AT</code>.
+     */
+    public CocomoScaleFactor setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+        return this;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -211,6 +250,18 @@ public class CocomoScaleFactor implements Serializable {
         }
         else if (!this.pmat.equals(other.pmat))
             return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
         return true;
     }
 
@@ -225,6 +276,8 @@ public class CocomoScaleFactor implements Serializable {
         result = prime * result + ((this.resl == null) ? 0 : this.resl.hashCode());
         result = prime * result + ((this.team == null) ? 0 : this.team.hashCode());
         result = prime * result + ((this.pmat == null) ? 0 : this.pmat.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
         return result;
     }
 
@@ -239,6 +292,8 @@ public class CocomoScaleFactor implements Serializable {
         sb.append(", ").append(resl);
         sb.append(", ").append(team);
         sb.append(", ").append(pmat);
+        sb.append(", ").append(createdAt);
+        sb.append(", ").append(updatedAt);
 
         sb.append(")");
         return sb.toString();

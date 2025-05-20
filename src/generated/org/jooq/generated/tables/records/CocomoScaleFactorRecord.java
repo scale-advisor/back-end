@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.records;
 
 
+import java.time.LocalDateTime;
+
 import org.jooq.Record1;
 import org.jooq.generated.tables.CocomoScaleFactor;
 import org.jooq.impl.UpdatableRecordImpl;
@@ -124,6 +126,36 @@ public class CocomoScaleFactorRecord extends UpdatableRecordImpl<CocomoScaleFact
         return (String) get(6);
     }
 
+    /**
+     * Setter for <code>scale_advisor.COCOMO_SCALE_FACTOR.CREATED_AT</code>.
+     */
+    public CocomoScaleFactorRecord setCreatedAt(LocalDateTime value) {
+        set(7, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.COCOMO_SCALE_FACTOR.CREATED_AT</code>.
+     */
+    public LocalDateTime getCreatedAt() {
+        return (LocalDateTime) get(7);
+    }
+
+    /**
+     * Setter for <code>scale_advisor.COCOMO_SCALE_FACTOR.UPDATED_AT</code>.
+     */
+    public CocomoScaleFactorRecord setUpdatedAt(LocalDateTime value) {
+        set(8, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.COCOMO_SCALE_FACTOR.UPDATED_AT</code>.
+     */
+    public LocalDateTime getUpdatedAt() {
+        return (LocalDateTime) get(8);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -147,7 +179,7 @@ public class CocomoScaleFactorRecord extends UpdatableRecordImpl<CocomoScaleFact
     /**
      * Create a detached, initialised CocomoScaleFactorRecord
      */
-    public CocomoScaleFactorRecord(Long cocomoScaleFactorId, Long projectId, String prec, String flex, String resl, String team, String pmat) {
+    public CocomoScaleFactorRecord(Long cocomoScaleFactorId, Long projectId, String prec, String flex, String resl, String team, String pmat, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(CocomoScaleFactor.COCOMO_SCALE_FACTOR);
 
         setCocomoScaleFactorId(cocomoScaleFactorId);
@@ -157,6 +189,8 @@ public class CocomoScaleFactorRecord extends UpdatableRecordImpl<CocomoScaleFact
         setResl(resl);
         setTeam(team);
         setPmat(pmat);
+        setCreatedAt(createdAt);
+        setUpdatedAt(updatedAt);
         resetChangedOnNotNull();
     }
 
@@ -174,6 +208,8 @@ public class CocomoScaleFactorRecord extends UpdatableRecordImpl<CocomoScaleFact
             setResl(value.getResl());
             setTeam(value.getTeam());
             setPmat(value.getPmat());
+            setCreatedAt(value.getCreatedAt());
+            setUpdatedAt(value.getUpdatedAt());
             resetChangedOnNotNull();
         }
     }

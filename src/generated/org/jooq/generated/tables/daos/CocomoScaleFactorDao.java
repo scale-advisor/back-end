@@ -4,6 +4,7 @@
 package org.jooq.generated.tables.daos;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -157,5 +158,35 @@ public class CocomoScaleFactorDao extends DAOImpl<CocomoScaleFactorRecord, org.j
      */
     public List<org.jooq.generated.tables.pojos.CocomoScaleFactor> fetchByPmat(String... values) {
         return fetch(CocomoScaleFactor.COCOMO_SCALE_FACTOR.PMAT, values);
+    }
+
+    /**
+     * Fetch records that have <code>CREATED_AT BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<org.jooq.generated.tables.pojos.CocomoScaleFactor> fetchRangeOfCreatedAt(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
+        return fetchRange(CocomoScaleFactor.COCOMO_SCALE_FACTOR.CREATED_AT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>CREATED_AT IN (values)</code>
+     */
+    public List<org.jooq.generated.tables.pojos.CocomoScaleFactor> fetchByCreatedAt(LocalDateTime... values) {
+        return fetch(CocomoScaleFactor.COCOMO_SCALE_FACTOR.CREATED_AT, values);
+    }
+
+    /**
+     * Fetch records that have <code>UPDATED_AT BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<org.jooq.generated.tables.pojos.CocomoScaleFactor> fetchRangeOfUpdatedAt(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
+        return fetchRange(CocomoScaleFactor.COCOMO_SCALE_FACTOR.UPDATED_AT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>UPDATED_AT IN (values)</code>
+     */
+    public List<org.jooq.generated.tables.pojos.CocomoScaleFactor> fetchByUpdatedAt(LocalDateTime... values) {
+        return fetch(CocomoScaleFactor.COCOMO_SCALE_FACTOR.UPDATED_AT, values);
     }
 }
