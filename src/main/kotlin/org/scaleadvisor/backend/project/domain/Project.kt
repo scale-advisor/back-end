@@ -9,11 +9,4 @@ data class Project(
     var description: String?,
     val createdAt: LocalDateTime,
     var updatedAt: LocalDateTime?
-) {
-    fun update(name: String, description: String?) {
-        this.name = name
-        this.description = description
-        this.updatedAt = LocalDateTime.now()
-    }
-
-}
+)
