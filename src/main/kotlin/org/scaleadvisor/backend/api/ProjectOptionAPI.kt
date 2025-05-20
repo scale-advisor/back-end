@@ -5,7 +5,8 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
-import org.scaleadvisor.backend.project.api.request.CreateProjectFactorRequest
+import org.scaleadvisor.backend.project.api.request.CreateProjectOptionRequest
+import org.scaleadvisor.backend.project.api.request.UpdateProjectOptionRequest
 import org.scaleadvisor.backend.project.api.response.GetProjectOptionResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -29,12 +30,12 @@ interface ProjectOptionAPI {
     @ResponseStatus(HttpStatus.CREATED)
     fun create(
         @PathVariable("projectId") projectId: Long,
-        @RequestBody request: CreateProjectFactorRequest
+        @RequestBody request: CreateProjectOptionRequest
     )
 
     @Operation(
-        summary = "Project Option 생성",
-        description = "규모 분석을 위한 프로젝트 옵션(project factor, project language) 정보 생성",
+        summary = "Project Option 조회",
+        description = "규모 분석을 위한 프로젝트 옵션(project factor, project language) 정보 조회",
         parameters = [
             Parameter(
                 name = "projectId",
@@ -48,5 +49,23 @@ interface ProjectOptionAPI {
     fun find(
         @PathVariable("projectId") projectId: Long
     ): SuccessResponse<GetProjectOptionResponse>
+
+    @Operation(
+        summary = "Project Option 수정",
+        description = "규모 분석을 위한 프로젝트 옵션(project factor, project language) 정보 수정",
+        parameters = [
+            Parameter(
+                name = "projectId",
+                required = true,
+                `in` = ParameterIn.PATH
+            )
+        ]
+    )
+    @PatchMapping("")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun update(
+        @PathVariable("projectId") projectId: Long,
+        @RequestBody request: UpdateProjectOptionRequest
+    )
 
 }
