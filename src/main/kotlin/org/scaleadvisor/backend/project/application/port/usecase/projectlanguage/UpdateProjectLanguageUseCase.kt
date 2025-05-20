@@ -3,14 +3,9 @@ package org.scaleadvisor.backend.project.application.port.usecase.projectlanguag
 import org.scaleadvisor.backend.project.domain.ProjectLanguage
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 
-interface CreateProjectLanguageUseCase {
+fun interface UpdateProjectLanguageUseCase {
 
-    fun createAllWithOutRate(
-        projectId: ProjectId,
-        languageList: List<String>
-    )
-
-    fun createAll(
+    fun updateAll(
         projectId: ProjectId,
         projectLanguageList: List<ProjectLanguage>
     )

@@ -5,7 +5,7 @@ import org.scaleadvisor.backend.project.domain.id.ProjectId
 
 data class ProjectFactor(
     val projectId: ProjectId,
-    var unitCost: Int,
-    var teamSize: Int,
-    var cocomoType: CocomoType,
+    var unitCost: Int?,
+    var teamSize: Int?,
+    var cocomoType: CocomoType?,
 )

@@ -9,7 +9,7 @@ import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
 
 @Service
-class GetProjectOptionService(
+private class GetProjectOptionService(
     private val getProjectFactorUseCase: GetProjectFactorUseCase,
     private val getProjectLanguageUseCase: GetProjectLanguageUseCase
 ) : GetProjectOptionUseCase {

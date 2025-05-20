@@ -5,6 +5,7 @@ import org.jooq.generated.Tables.PROJECT_LANGUAGE
 import org.jooq.generated.tables.records.ProjectLanguageRecord
 import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.project.application.port.repository.projectlanguage.CreateProjectLanguagePort
+import org.scaleadvisor.backend.project.application.port.repository.projectlanguage.DeleteProjectLanguagePort
 import org.scaleadvisor.backend.project.application.port.repository.projectlanguage.GetProjectLanguagePort
 import org.scaleadvisor.backend.project.domain.ProjectLanguage
 import org.scaleadvisor.backend.project.domain.enum.ProgramLanguage
@@ -15,15 +16,17 @@ import java.time.LocalDateTime
 @Repository
 private class ProjectLanguageJooqAdapter(
     private val dsl: DSLContext
-) : CreateProjectLanguagePort, GetProjectLanguagePort {
+) : CreateProjectLanguagePort, GetProjectLanguagePort, DeleteProjectLanguagePort {
 
     private fun ProjectLanguageRecord.toDomain() = ProjectLanguage(
-        projectId = ProjectId.of(this.projectId),
         language = ProgramLanguage.valueOf(this.language),
         rate = this.rate
     )
 
-    override fun createAll(projectLanguageList: List<ProjectLanguage>) {
+    override fun createAll(
+        projectId: ProjectId,
+        projectLanguageList: List<ProjectLanguage>
+    ) {
         val insertStep = dsl
             .insertInto(PROJECT_LANGUAGE,
                 PROJECT_LANGUAGE.PROJECT_LANGUAGE_ID,
@@ -37,7 +40,7 @@ private class ProjectLanguageJooqAdapter(
                 projectLanguageList.forEach { projectLanguage ->
                     values(
                         IdUtil.generateId(),
-                        projectLanguage.projectId.toLong(),
+                        projectId.toLong(),
                         projectLanguage.language.name,
                         projectLanguage.rate,
                         LocalDateTime.now(),
@@ -53,6 +56,13 @@ private class ProjectLanguageJooqAdapter(
         return dsl.selectFrom(PROJECT_LANGUAGE)
            .where(PROJECT_LANGUAGE.PROJECT_ID.eq(projectId.toLong()))
            .fetch { record -> record.into(PROJECT_LANGUAGE).toDomain() }
+    }
+
+    override fun deleteAll(projectId: ProjectId) {
+        dsl
+            .deleteFrom(PROJECT_LANGUAGE)
+            .where(PROJECT_LANGUAGE.PROJECT_ID.eq(projectId.toLong()))
+            .execute()
     }
 
 }

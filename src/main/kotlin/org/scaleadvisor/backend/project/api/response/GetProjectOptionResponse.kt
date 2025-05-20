@@ -29,9 +29,9 @@ data class GetProjectOptionResponse(
         fun from(result: GetProjectOptionUseCase.Result): GetProjectOptionResponse =
             GetProjectOptionResponse(
                 projectId = result.projectFactor.projectId,
-                unitCost = result.projectFactor.unitCost,
-                teamSize = result.projectFactor.teamSize,
-                cocomoType = result.projectFactor.cocomoType,
+                unitCost = result.projectFactor.unitCost!!,
+                teamSize = result.projectFactor.teamSize!!,
+                cocomoType = result.projectFactor.cocomoType!!,
                 languageList = result.projectLanguageList.map { ProjectLanguageDTO.from(it) }
             )
     }
