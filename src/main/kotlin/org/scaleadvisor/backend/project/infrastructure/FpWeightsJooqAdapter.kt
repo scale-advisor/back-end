@@ -4,7 +4,7 @@ import org.jooq.DSLContext
 import org.jooq.generated.Tables.FP_WEIGHTS
 import org.jooq.generated.tables.records.FpWeightsRecord
 import org.scaleadvisor.backend.project.application.port.repository.fpweights.CreateFpWeightsPort
-import org.scaleadvisor.backend.project.application.port.repository.fpweights.GetFpWeightsPort
+import org.scaleadvisor.backend.project.application.port.repository.fpweights.FindFpWeightsPort
 import org.scaleadvisor.backend.project.application.port.repository.fpweights.UpdateFpWeightsPort
 import org.scaleadvisor.backend.project.domain.FpWeights
 import org.scaleadvisor.backend.project.domain.id.FpWeightsId
@@ -15,7 +15,7 @@ import java.math.BigDecimal
 @Repository
 private class FpWeightsJooqAdapter(
     private val dsl: DSLContext
-): CreateFpWeightsPort, GetFpWeightsPort, UpdateFpWeightsPort {
+): CreateFpWeightsPort, FindFpWeightsPort, UpdateFpWeightsPort {
     private fun FpWeightsRecord.toDomain(): FpWeights =
         FpWeights(
             fpWeightsId = FpWeightsId.of(this.fpWeightsId),
@@ -43,9 +43,9 @@ private class FpWeightsJooqAdapter(
             .execute()
     }
 
-    override fun findById(id: FpWeightsId): FpWeights? {
+    override fun findByProjectId(projectId: ProjectId): FpWeights? {
         return dsl.selectFrom(FP_WEIGHTS)
-            .where(FP_WEIGHTS.FP_WEIGHTS_ID.eq(id.toLong()))
+            .where(FP_WEIGHTS.PROJECT_ID.eq(projectId.toLong()))
             .fetchOne { it.into(FP_WEIGHTS).toDomain() }
     }
 
