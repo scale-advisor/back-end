@@ -4,13 +4,13 @@ import org.scaleadvisor.backend.project.domain.enum.CocomoType
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 
 fun interface CreateProjectFactorUseCase {
-    class CreateProjectFactorCommand(
-        var projectId: ProjectId,
-        var unitCost: Int,
-        var teamSize: Int,
-        var cocomoType: CocomoType,
+    data class Command(
+        val projectId: ProjectId,
+        val unitCost: Int,
+        val teamSize: Int,
+        val cocomoType: CocomoType,
     )
 
-    fun create(command: CreateProjectFactorCommand)
+    fun create(command: Command)
 
 }

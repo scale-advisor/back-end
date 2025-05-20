@@ -7,6 +7,7 @@ import org.scaleadvisor.backend.project.api.request.CreateProjectFactorRequest
 import org.scaleadvisor.backend.project.api.response.GetProjectOptionResponse
 import org.scaleadvisor.backend.project.application.port.usecase.projectfactor.CreateProjectFactorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.projectfactor.GetProjectFactorUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.projectlanguage.CreateProjectLanguageUseCase
 import org.scaleadvisor.backend.project.domain.ProjectFactor
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.web.bind.annotation.RestController
@@ -14,18 +15,28 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 private class ProjectOptionController(
     private val createProjectFactorUseCase: CreateProjectFactorUseCase,
+    private val createProjectLanguageUseCase: CreateProjectLanguageUseCase,
     private val getProjectFactorUseCase: GetProjectFactorUseCase
 ) : ProjectOptionAPI {
     override fun create(
         projectId: Long,
         request: CreateProjectFactorRequest
     ) {
+        val projectId = ProjectId.of(projectId)
+
         createProjectFactorUseCase.create(
-            CreateProjectFactorUseCase.CreateProjectFactorCommand(
-                projectId = ProjectId.of(projectId),
+            CreateProjectFactorUseCase.Command(
+                projectId = projectId,
                 unitCost = request.unitCost,
                 teamSize = request.teamSize,
                 cocomoType = request.cocomoType
+            )
+        )
+
+        createProjectLanguageUseCase.create(
+            CreateProjectLanguageUseCase.Command(
+                projectId = projectId,
+                languageList = request.languageList
             )
         )
     }
