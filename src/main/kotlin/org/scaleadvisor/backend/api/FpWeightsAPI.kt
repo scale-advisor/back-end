@@ -3,8 +3,10 @@ package org.scaleadvisor.backend.api
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.project.api.request.CreateFpWeightsRequest
+import org.scaleadvisor.backend.project.api.request.UpdateFpWeightsRequest
 import org.scaleadvisor.backend.project.api.response.CreateFpWeightsResponse
 import org.scaleadvisor.backend.project.api.response.FindFpWeightsResponse
+import org.scaleadvisor.backend.project.api.response.UpdateFpWeightsResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -21,4 +23,10 @@ interface FpWeightsAPI {
     @GetMapping("/{projectId}/fp-weights")
     @ResponseStatus(HttpStatus.OK)
     fun find(@PathVariable projectId: Long): SuccessResponse<FindFpWeightsResponse>
+
+    @PutMapping("/{projectId}/fp-weights")
+    @ResponseStatus(HttpStatus.OK)
+    fun update(@PathVariable projectId: Long,
+               @RequestBody request: UpdateFpWeightsRequest
+    ): SuccessResponse<UpdateFpWeightsResponse>
 }
