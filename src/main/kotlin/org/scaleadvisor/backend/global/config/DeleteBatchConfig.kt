@@ -10,6 +10,8 @@ import org.springframework.batch.item.database.JdbcBatchItemWriter
 import org.springframework.batch.item.database.JdbcCursorItemReader
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder
 import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder
+import org.springframework.batch.item.support.CompositeItemWriter
+import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
@@ -29,25 +31,41 @@ class DeleteBatchConfig(
         JdbcCursorItemReaderBuilder<Long>()
             .name("deleteUserReader")
             .dataSource(dataSource)
-            .sql("""
-            SELECT user_id
-              FROM user
-             WHERE deleted_at IS NOT NULL
-               AND deleted_at < ?
-        """.trimIndent())
+            .sql(
+                """
+                SELECT USER_ID
+                  FROM `USER`
+                 WHERE DELETED_AT IS NOT NULL
+                   AND DELETED_AT < ?
+                """.trimIndent()
+            )
             .preparedStatementSetter { ps ->
                 val cutoff = LocalDateTime.now().minusDays(30)
                 ps.setObject(1, cutoff)
             }
-            .rowMapper { rs, _ -> rs.getLong("user_id") }
+            .rowMapper { rs, _ -> rs.getLong("USER_ID") }
+            .build()
+
+    @Bean
+    fun deleteUserProjectWriter(): JdbcBatchItemWriter<Long> =
+        JdbcBatchItemWriterBuilder<Long>()
+            .dataSource(dataSource)
+            .sql("DELETE FROM USER_PROJECT WHERE USER_ID = :userId")
+            .itemSqlParameterSourceProvider { MapSqlParameterSource("userId", it) }
             .build()
 
     @Bean
     fun deleteUserWriter(): JdbcBatchItemWriter<Long> =
         JdbcBatchItemWriterBuilder<Long>()
             .dataSource(dataSource)
-            .sql("DELETE FROM user WHERE user_id = :userId")
+            .sql("DELETE FROM `USER` WHERE USER_ID = :userId")
             .itemSqlParameterSourceProvider { MapSqlParameterSource("userId", it) }
+            .build()
+
+    @Bean
+    fun deleteUserCompositeWriter(): CompositeItemWriter<Long> =
+        CompositeItemWriterBuilder<Long>()
+            .delegates(listOf(deleteUserProjectWriter(), deleteUserWriter()))
             .build()
 
     @Bean
@@ -55,7 +73,7 @@ class DeleteBatchConfig(
         StepBuilder("deleteUserStep", jobRepository)
             .chunk<Long, Long>(100, transactionManager)
             .reader(deleteUserReader())
-            .writer(deleteUserWriter())
+            .writer(deleteUserCompositeWriter())
             .build()
 
     @Bean
