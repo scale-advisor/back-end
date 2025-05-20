@@ -13,7 +13,7 @@ private class CreateFpWeightsService(
     private val createFpWeightsPort: CreateFpWeightsPort
 ): CreateFpWeightsUseCase {
     override fun create(command: CreateFpWeightsUseCase.CreateFpWeightsCommand): FpWeights {
-        val newId = FpWeightsId.of(IdUtil.generateId())
+        val newId = FpWeightsId.newId()
         val now = LocalDateTime.now()
 
         val fpWeights = FpWeights(

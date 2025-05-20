@@ -26,6 +26,7 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
+import org.jooq.generated.tables.CocomoScaleFactor.CocomoScaleFactorPath;
 import org.jooq.generated.tables.FpWeights.FpWeightsPath;
 import org.jooq.generated.tables.ProjectFactor.ProjectFactorPath;
 import org.jooq.generated.tables.ProjectLanguage.ProjectLanguagePath;
@@ -154,6 +155,19 @@ public class Project extends TableImpl<ProjectRecord> {
     @Override
     public UniqueKey<ProjectRecord> getPrimaryKey() {
         return Keys.KEY_PROJECT_PRIMARY;
+    }
+
+    private transient CocomoScaleFactorPath _cocomoScaleFactor;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>scale_advisor.COCOMO_SCALE_FACTOR</code> table
+     */
+    public CocomoScaleFactorPath cocomoScaleFactor() {
+        if (_cocomoScaleFactor == null)
+            _cocomoScaleFactor = new CocomoScaleFactorPath(this, null, Keys.FK_COCOMO_SCALE_FACTOR_PROJECT_ID.getInverseKey());
+
+        return _cocomoScaleFactor;
     }
 
     private transient FpWeightsPath _fpWeights;

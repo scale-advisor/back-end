@@ -83,9 +83,9 @@ class AuthService(
         return LoginResponse(accessToken = accessToken)
     }
 
-    fun kakaoLogin(request: KakaoCallbackRequest, response: HttpServletResponse
+    fun kakaoLogin(code: String, response: HttpServletResponse
     ): LoginResponse {
-        val kakaoAccessToken = kakaoCallbackService.getKakaoToken(request.code)
+        val kakaoAccessToken = kakaoCallbackService.getKakaoToken(code)
         val userInfo = kakaoCallbackService.getUserInfoFromKakaoToken(kakaoAccessToken)
 
         val kakaoUserId = userInfo["id"].toString()

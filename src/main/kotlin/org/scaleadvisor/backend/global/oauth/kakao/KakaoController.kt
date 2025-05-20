@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse
 import org.scaleadvisor.backend.global.auth.dto.LoginResponse
 import org.scaleadvisor.backend.global.auth.service.AuthService
 import org.scaleadvisor.backend.global.oauth.kakao.component.KakaoCallbackService
+import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoAuthorizeResponse
 import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,15 +16,15 @@ class KakaoController(
     private val kakaoCallbackService: KakaoCallbackService
 ) {
     @GetMapping("/kakao/authorize")
-    fun kakaoLoginPage(response: HttpServletResponse){
+    fun kakaoLoginPage(): ResponseEntity<KakaoAuthorizeResponse>{
         val kakaoAuthUrl = kakaoCallbackService.getKakaoAuthorizeUrl()
-        response.sendRedirect(kakaoAuthUrl)
+        return ResponseEntity.ok().body(KakaoAuthorizeResponse(kakaoAuthUrl))
     }
 
-    @RequestMapping("/kakao/callback", method = [RequestMethod.GET, RequestMethod.POST])
-    fun kakaoLogin(@RequestParam code: String, response: HttpServletResponse)
+    @GetMapping("/kakao/callback")
+    fun kakaoLogin(@RequestParam("code") code: String, response: HttpServletResponse)
             : ResponseEntity<LoginResponse> {
-        val result= authService.kakaoLogin(KakaoCallbackRequest(code), response)
+        val result= authService.kakaoLogin(code, response)
         return ResponseEntity.ok().body(result)
     }
 }

@@ -18,6 +18,7 @@ import org.jooq.generated.tables.BatchJobSeq;
 import org.jooq.generated.tables.BatchStepExecution;
 import org.jooq.generated.tables.BatchStepExecutionContext;
 import org.jooq.generated.tables.BatchStepExecutionSeq;
+import org.jooq.generated.tables.CocomoScaleFactor;
 import org.jooq.generated.tables.FpWeights;
 import org.jooq.generated.tables.Project;
 import org.jooq.generated.tables.ProjectFactor;
@@ -96,6 +97,11 @@ public class ScaleAdvisor extends SchemaImpl {
      * The table <code>scale_advisor.BATCH_STEP_EXECUTION_SEQ</code>.
      */
     public final BatchStepExecutionSeq BATCH_STEP_EXECUTION_SEQ = BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ;
+
+    /**
+     * The table <code>scale_advisor.COCOMO_SCALE_FACTOR</code>.
+     */
+    public final CocomoScaleFactor COCOMO_SCALE_FACTOR = CocomoScaleFactor.COCOMO_SCALE_FACTOR;
 
     /**
      * The table <code>scale_advisor.FP_WEIGHTS</code>.
@@ -212,6 +218,7 @@ public class ScaleAdvisor extends SchemaImpl {
             BatchStepExecution.BATCH_STEP_EXECUTION,
             BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT,
             BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ,
+            CocomoScaleFactor.COCOMO_SCALE_FACTOR,
             FpWeights.FP_WEIGHTS,
             Project.PROJECT,
             ProjectFactor.PROJECT_FACTOR,

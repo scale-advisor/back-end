@@ -13,6 +13,7 @@ import org.jooq.generated.tables.BatchJobSeq;
 import org.jooq.generated.tables.BatchStepExecution;
 import org.jooq.generated.tables.BatchStepExecutionContext;
 import org.jooq.generated.tables.BatchStepExecutionSeq;
+import org.jooq.generated.tables.CocomoScaleFactor;
 import org.jooq.generated.tables.FpWeights;
 import org.jooq.generated.tables.Project;
 import org.jooq.generated.tables.ProjectFactor;
@@ -83,6 +84,11 @@ public class Tables {
      * The table <code>scale_advisor.BATCH_STEP_EXECUTION_SEQ</code>.
      */
     public static final BatchStepExecutionSeq BATCH_STEP_EXECUTION_SEQ = BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ;
+
+    /**
+     * The table <code>scale_advisor.COCOMO_SCALE_FACTOR</code>.
+     */
+    public static final CocomoScaleFactor COCOMO_SCALE_FACTOR = CocomoScaleFactor.COCOMO_SCALE_FACTOR;
 
     /**
      * The table <code>scale_advisor.FP_WEIGHTS</code>.
