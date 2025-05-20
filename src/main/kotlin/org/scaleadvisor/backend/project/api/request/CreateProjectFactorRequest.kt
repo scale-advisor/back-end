@@ -5,5 +5,6 @@ import org.scaleadvisor.backend.project.domain.enum.CocomoType
 data class CreateProjectFactorRequest(
     var unitCost: Int,
     var teamSize: Int,
-    var cocomoType: CocomoType
+    var cocomoType: CocomoType,
+    var languageList: List<String>
 )

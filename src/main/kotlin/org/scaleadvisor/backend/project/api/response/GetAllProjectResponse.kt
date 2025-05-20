@@ -1,12 +1,11 @@
 package org.scaleadvisor.backend.project.api.response
 
 import org.scaleadvisor.backend.project.domain.Project
-import java.io.Serializable
 import java.time.LocalDateTime
 
-data class FindAllProjectResponse(
+data class GetAllProjectResponse(
     val projects: List<ProjectDTO>
-) : Serializable {
+) {
 
     data class ProjectDTO(
         val id: String,
@@ -16,6 +15,7 @@ data class FindAllProjectResponse(
         val versionList: List<String>
     ) {
         companion object {
+            @JvmStatic
             fun of(project: Project, versionList: List<String>): ProjectDTO = ProjectDTO(
                 id = project.id.toString(),
                 name = project.name,
@@ -27,7 +27,8 @@ data class FindAllProjectResponse(
     }
 
     companion object {
-        fun from(projects: List<ProjectDTO>): FindAllProjectResponse =
-            FindAllProjectResponse(projects)
+        @JvmStatic
+        fun from(projects: List<ProjectDTO>): GetAllProjectResponse =
+            GetAllProjectResponse(projects)
     }
 }
