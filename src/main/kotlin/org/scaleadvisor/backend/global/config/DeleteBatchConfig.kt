@@ -34,8 +34,9 @@ class DeleteBatchConfig(
             .sql(
                 """
                 SELECT USER_ID
-                  FROM USER
-                 WHERE CREATED_AT < ?
+                  FROM `USER`
+                 WHERE DELETED_AT IS NOT NULL
+                   AND DELETED_AT < ?
                 """.trimIndent()
             )
             .preparedStatementSetter { ps ->
