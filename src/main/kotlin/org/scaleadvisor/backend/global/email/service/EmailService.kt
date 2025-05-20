@@ -63,7 +63,7 @@ class EmailService(
 
     fun sendConfirmationEmail(request: ConfirmMailRequest) {
         val token = generateMailToken(prefix = "signup:token", email = request.email, duration = 1)
-        val confirmLink = "${request.confirmSignupUrl}/apis/auth?email=${request.email}&token=$token"
+        val confirmLink = "${request.confirmSignupUrl}/auth?email=${request.email}&token=$token"
 
         val content = buildString {
             append("<p>안녕하세요, $serviceName 입니다.</p>")
