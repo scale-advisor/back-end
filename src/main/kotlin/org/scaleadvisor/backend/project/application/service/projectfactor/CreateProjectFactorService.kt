@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 private class CreateProjectFactorService(
     private val createProjectFactorPort: CreateProjectFactorPort
 ) : CreateProjectFactorUseCase {
-    override fun create(command: CreateProjectFactorUseCase.CreateProjectFactorCommand) {
+    override fun create(command: CreateProjectFactorUseCase.Command) {
         createProjectFactorPort.create(
             ProjectFactor(
                 projectId = command.projectId,
