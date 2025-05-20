@@ -15,6 +15,7 @@ data class GetAllProjectResponse(
         val versionList: List<String>
     ) {
         companion object {
+            @JvmStatic
             fun of(project: Project, versionList: List<String>): ProjectDTO = ProjectDTO(
                 id = project.id.toString(),
                 name = project.name,
