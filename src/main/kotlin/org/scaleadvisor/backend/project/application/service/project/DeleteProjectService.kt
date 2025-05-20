@@ -1,11 +1,11 @@
-package org.scaleadvisor.backend.project.application.service
+package org.scaleadvisor.backend.project.application.service.project
 
 import org.scaleadvisor.backend.global.exception.model.ValidationException
-import org.scaleadvisor.backend.project.application.port.repository.DeleteProjectPort
-import org.scaleadvisor.backend.project.application.port.repository.DeleteUserProjectPort
-import org.scaleadvisor.backend.project.application.port.usecase.CheckIsProjectMemberUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.DeleteProjectUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.GetProjectUseCase
+import org.scaleadvisor.backend.project.application.port.repository.project.DeleteProjectPort
+import org.scaleadvisor.backend.project.application.port.repository.member.DeleteUserProjectPort
+import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsProjectMemberUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.project.DeleteProjectUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.domain.Project
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service

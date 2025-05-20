@@ -1,11 +1,11 @@
-package org.scaleadvisor.backend.project.application.service
+package org.scaleadvisor.backend.project.application.service.project
 
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.global.exception.model.ValidationException
-import org.scaleadvisor.backend.project.application.port.repository.UpdateProjectPort
-import org.scaleadvisor.backend.project.application.port.usecase.CheckIsProjectMemberUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.GetProjectUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.UpdateProjectUseCase
+import org.scaleadvisor.backend.project.application.port.repository.project.UpdateProjectPort
+import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsProjectMemberUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.project.UpdateProjectUseCase
 import org.scaleadvisor.backend.project.domain.Project
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime

@@ -2,9 +2,9 @@ package org.scaleadvisor.backend.project.infrastructure
 
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.USER_PROJECT
-import org.scaleadvisor.backend.project.application.port.repository.CreateUserProjectPort
-import org.scaleadvisor.backend.project.application.port.repository.DeleteUserProjectPort
-import org.scaleadvisor.backend.project.application.port.repository.GetUserProjectPort
+import org.scaleadvisor.backend.project.application.port.repository.member.CreateUserProjectPort
+import org.scaleadvisor.backend.project.application.port.repository.member.DeleteUserProjectPort
+import org.scaleadvisor.backend.project.application.port.repository.member.GetUserProjectPort
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Repository
 

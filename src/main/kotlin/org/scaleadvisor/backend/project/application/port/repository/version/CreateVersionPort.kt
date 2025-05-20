@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.project.application.port.repository
+package org.scaleadvisor.backend.project.application.port.repository.version
 
 import org.scaleadvisor.backend.project.domain.Version
 

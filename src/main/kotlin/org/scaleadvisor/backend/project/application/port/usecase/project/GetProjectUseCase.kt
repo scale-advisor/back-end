@@ -1,9 +1,9 @@
-package org.scaleadvisor.backend.project.application.port.repository
+package org.scaleadvisor.backend.project.application.port.usecase.project
 
 import org.scaleadvisor.backend.project.domain.Project
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 
-interface GetProjectPort {
+interface GetProjectUseCase {
 
     fun find(projectId: ProjectId): Project?
 
