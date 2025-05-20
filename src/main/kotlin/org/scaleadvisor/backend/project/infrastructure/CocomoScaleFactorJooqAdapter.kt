@@ -4,6 +4,7 @@ import org.jooq.DSLContext
 import org.jooq.generated.Tables.COCOMO_SCALE_FACTOR
 import org.jooq.generated.tables.records.CocomoScaleFactorRecord
 import org.scaleadvisor.backend.project.application.port.repository.cocomoscalefactor.CreateCocomoScaleFactorPort
+import org.scaleadvisor.backend.project.application.port.repository.cocomoscalefactor.DeleteCocomoScaleFactorPort
 import org.scaleadvisor.backend.project.application.port.repository.cocomoscalefactor.FindCocomoScaleFactorPort
 import org.scaleadvisor.backend.project.application.port.repository.cocomoscalefactor.UpdateCocomoScaleFactorPort
 import org.scaleadvisor.backend.project.domain.CocomoScaleFactor
@@ -15,7 +16,10 @@ import org.springframework.stereotype.Repository
 @Repository
 private class CocomoScaleFactorAdapter(
     private val dsl: DSLContext
-): CreateCocomoScaleFactorPort, FindCocomoScaleFactorPort, UpdateCocomoScaleFactorPort {
+): CreateCocomoScaleFactorPort,
+    FindCocomoScaleFactorPort,
+    UpdateCocomoScaleFactorPort,
+    DeleteCocomoScaleFactorPort {
     private fun CocomoScaleFactorRecord.toDomain(): CocomoScaleFactor =
         CocomoScaleFactor(
             cocomoScaleFactorId = CocomoScaleFactorId.of(this.cocomoScaleFactorId),
@@ -61,4 +65,9 @@ private class CocomoScaleFactorAdapter(
             .execute()
     }
 
+    override fun delete(projectId: ProjectId) {
+        dsl.deleteFrom(COCOMO_SCALE_FACTOR)
+            .where(COCOMO_SCALE_FACTOR.PROJECT_ID.eq(projectId.toLong()))
+            .execute()
+    }
 }
