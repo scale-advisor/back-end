@@ -4,7 +4,9 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.project.api.request.CreateCocomoScaleFactorRequest
 import org.scaleadvisor.backend.project.api.response.CreateCocomoScaleFactorResponse
+import org.scaleadvisor.backend.project.api.response.FindCocomoScaleFactorResponse
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -20,4 +22,9 @@ interface CocomoApi {
     fun createCocomoScaleFactor(@PathVariable projectId: Long,
                                 @RequestBody request: CreateCocomoScaleFactorRequest
     ): SuccessResponse<CreateCocomoScaleFactorResponse>
+
+    @GetMapping("/{projectId}/cocomo-scale-factor")
+    @ResponseStatus(HttpStatus.OK)
+    fun findCocomoScaleFactor(@PathVariable projectId: Long
+    ): SuccessResponse<FindCocomoScaleFactorResponse>
 }
