@@ -3,8 +3,8 @@ package org.scaleadvisor.backend.project.infrastructure
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.VERSION
 import org.jooq.generated.tables.records.VersionRecord
-import org.scaleadvisor.backend.project.application.port.repository.CreateVersionPort
-import org.scaleadvisor.backend.project.application.port.repository.GetVersionPort
+import org.scaleadvisor.backend.project.application.port.repository.version.CreateVersionPort
+import org.scaleadvisor.backend.project.application.port.repository.version.GetVersionPort
 import org.scaleadvisor.backend.project.domain.Version
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Repository

@@ -10,6 +10,11 @@ import org.scaleadvisor.backend.project.api.response.CreateProjectResponse
 import org.scaleadvisor.backend.project.api.response.FindAllProjectResponse
 import org.scaleadvisor.backend.project.api.response.UpdateProjectResponse
 import org.scaleadvisor.backend.project.application.port.usecase.*
+import org.scaleadvisor.backend.project.application.port.usecase.project.CreateProjectUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.project.DeleteProjectUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.project.UpdateProjectUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.version.GetProjectVersionListUseCase
 import org.scaleadvisor.backend.project.domain.Project
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.web.bind.annotation.RestController

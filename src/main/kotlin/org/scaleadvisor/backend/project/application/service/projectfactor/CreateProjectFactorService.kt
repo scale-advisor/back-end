@@ -1,7 +1,7 @@
-package org.scaleadvisor.backend.project.application.service
+package org.scaleadvisor.backend.project.application.service.projectfactor
 
-import org.scaleadvisor.backend.project.application.port.repository.CreateProjectFactorPort
-import org.scaleadvisor.backend.project.application.port.usecase.CreateProjectFactorUseCase
+import org.scaleadvisor.backend.project.application.port.repository.projectfactor.CreateProjectFactorPort
+import org.scaleadvisor.backend.project.application.port.usecase.projectfactor.CreateProjectFactorUseCase
 import org.scaleadvisor.backend.project.domain.ProjectFactor
 import org.scaleadvisor.backend.project.domain.id.ProjectFactorId
 import org.springframework.stereotype.Service

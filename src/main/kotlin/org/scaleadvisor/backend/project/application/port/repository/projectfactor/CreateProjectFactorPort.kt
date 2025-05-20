@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.project.application.port.repository
+package org.scaleadvisor.backend.project.application.port.repository.projectfactor
 
 import org.scaleadvisor.backend.project.domain.ProjectFactor
 
