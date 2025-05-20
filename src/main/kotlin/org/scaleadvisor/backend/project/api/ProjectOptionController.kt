@@ -7,7 +7,7 @@ import org.scaleadvisor.backend.project.api.request.UpdateProjectOptionRequest
 import org.scaleadvisor.backend.project.api.response.GetProjectOptionResponse
 import org.scaleadvisor.backend.project.application.port.usecase.CreateProjectOptionUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.GetProjectOptionUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.projectfactor.UpdateProjectFactorUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.UpdateProjectOptionUseCase
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.web.bind.annotation.RestController
 
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 private class ProjectOptionController(
     private val createProjectOptionUseCase: CreateProjectOptionUseCase,
     private val getProjectOptionUseCase: GetProjectOptionUseCase,
-    private val updateProjectFactorUseCase: UpdateProjectFactorUseCase
+    private val updateProjectOptionUseCase: UpdateProjectOptionUseCase
 ) : ProjectOptionAPI {
     override fun create(
         projectId: Long,
@@ -42,12 +42,13 @@ private class ProjectOptionController(
     }
 
     override fun update(projectId: Long, request: UpdateProjectOptionRequest) {
-        updateProjectFactorUseCase.update(
-            UpdateProjectFactorUseCase.Command(
+        updateProjectOptionUseCase.update(
+            UpdateProjectOptionUseCase.Command(
                 projectId = ProjectId.of(projectId),
                 unitCost = request.unitCost,
                 teamSize = request.teamSize,
                 cocomoType = request.cocomoType,
+                projectLanguageList = request.projectLanguageList?.map { it.toDomain()}
             )
         )
     }

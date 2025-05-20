@@ -20,11 +20,9 @@ private class CreateProjectOptionService(
             )
         )
 
-        createProjectLanguageUseCase.create(
-            CreateProjectLanguageUseCase.Command(
-                projectId = command.projectId,
-                languageList = command.languageList
-            )
+        createProjectLanguageUseCase.createAllWithOutRate(
+            projectId = command.projectId,
+            languageList = command.languageList
         )
     }
 }
