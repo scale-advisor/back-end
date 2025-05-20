@@ -29,4 +29,8 @@ interface FpWeightsAPI {
     fun update(@PathVariable projectId: Long,
                @RequestBody request: UpdateFpWeightsRequest
     ): SuccessResponse<UpdateFpWeightsResponse>
+
+    @DeleteMapping("/{projectId}/fp-weights")
+    @ResponseStatus(HttpStatus.OK)
+    fun delete(@PathVariable projectId: Long)
 }
