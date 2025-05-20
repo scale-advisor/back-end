@@ -8,6 +8,7 @@ import org.scaleadvisor.backend.project.api.response.CreateCocomoScaleFactorResp
 import org.scaleadvisor.backend.project.api.response.FindCocomoScaleFactorResponse
 import org.scaleadvisor.backend.project.api.response.UpdateCocomoScaleFactorResponse
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -36,4 +37,8 @@ interface CocomoApi {
     fun updateCocomoScaleFactor(@PathVariable projectId: Long,
                                 @RequestBody request: UpdateCocomoScaleFactorRequest
     ): SuccessResponse<UpdateCocomoScaleFactorResponse>
+
+    @DeleteMapping("/{projectId}/cocomo-scale-factor")
+    @ResponseStatus(HttpStatus.OK)
+    fun deleteCocomoScaleFactor(@PathVariable projectId: Long)
 }

@@ -9,6 +9,7 @@ import org.scaleadvisor.backend.project.api.response.CreateCocomoScaleFactorResp
 import org.scaleadvisor.backend.project.api.response.FindCocomoScaleFactorResponse
 import org.scaleadvisor.backend.project.api.response.UpdateCocomoScaleFactorResponse
 import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefactor.CreateCocomoScaleFactorUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefactor.DeleteCocomoScaleFactorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefactor.FindCocomoScaleFactorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefactor.UpdateCocomoScaleFactorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
@@ -20,6 +21,7 @@ private class CocomoController(
     private val createCocomoScaleFactorUseCase: CreateCocomoScaleFactorUseCase,
     private val findCocomoScaleFactorUseCase: FindCocomoScaleFactorUseCase,
     private val updateCocomoScaleFactorUseCase: UpdateCocomoScaleFactorUseCase,
+    private val deleteCocomoScaleFactorUseCase: DeleteCocomoScaleFactorUseCase,
     private val getProjectUseCase: GetProjectUseCase
 ): CocomoApi {
 
@@ -75,5 +77,12 @@ private class CocomoController(
         return SuccessResponse.from(
             UpdateCocomoScaleFactorResponse.from(updated)
         )
+    }
+
+    override fun deleteCocomoScaleFactor(projectId: Long) {
+        getProjectUseCase.find(ProjectId.of(projectId))
+            ?:throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=$projectId)")
+
+        deleteCocomoScaleFactorUseCase.delete(ProjectId.of(projectId))
     }
 }
