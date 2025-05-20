@@ -7,7 +7,7 @@ import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
 
 @Service
-class GetProjectFactorService(
+private class GetProjectFactorService(
     private val getProjectFactorPort: GetProjectFactorPort
 ) : GetProjectFactorUseCase {
 
