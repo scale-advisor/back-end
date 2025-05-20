@@ -26,6 +26,7 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
+import org.jooq.generated.tables.FpWeights.FpWeightsPath;
 import org.jooq.generated.tables.ProjectFactor.ProjectFactorPath;
 import org.jooq.generated.tables.ProjectLanguage.ProjectLanguagePath;
 import org.jooq.generated.tables.User.UserPath;
@@ -153,6 +154,19 @@ public class Project extends TableImpl<ProjectRecord> {
     @Override
     public UniqueKey<ProjectRecord> getPrimaryKey() {
         return Keys.KEY_PROJECT_PRIMARY;
+    }
+
+    private transient FpWeightsPath _fpWeights;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>scale_advisor.FP_WEIGHTS</code> table
+     */
+    public FpWeightsPath fpWeights() {
+        if (_fpWeights == null)
+            _fpWeights = new FpWeightsPath(this, null, Keys.FK_FP_WEIGHTS_PROJECT_ID.getInverseKey());
+
+        return _fpWeights;
     }
 
     private transient ProjectFactorPath _projectFactor;

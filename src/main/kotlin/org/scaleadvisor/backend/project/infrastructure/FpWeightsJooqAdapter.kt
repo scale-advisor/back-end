@@ -3,9 +3,9 @@ package org.scaleadvisor.backend.project.infrastructure
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.FP_WEIGHTS
 import org.jooq.generated.tables.records.FpWeightsRecord
-import org.scaleadvisor.backend.project.application.port.repository.CreateFpWeightsPort
-import org.scaleadvisor.backend.project.application.port.repository.GetFpWeightsPort
-import org.scaleadvisor.backend.project.application.port.repository.UpdateFpWeightsPort
+import org.scaleadvisor.backend.project.application.port.repository.fpweights.CreateFpWeightsPort
+import org.scaleadvisor.backend.project.application.port.repository.fpweights.GetFpWeightsPort
+import org.scaleadvisor.backend.project.application.port.repository.fpweights.UpdateFpWeightsPort
 import org.scaleadvisor.backend.project.domain.FpWeights
 import org.scaleadvisor.backend.project.domain.id.FpWeightsId
 import org.scaleadvisor.backend.project.domain.id.ProjectId
