@@ -4,6 +4,7 @@ import org.jooq.DSLContext
 import org.jooq.generated.Tables.FP_WEIGHTS
 import org.jooq.generated.tables.records.FpWeightsRecord
 import org.scaleadvisor.backend.project.application.port.repository.fpweights.CreateFpWeightsPort
+import org.scaleadvisor.backend.project.application.port.repository.fpweights.DeleteFpWeightsPort
 import org.scaleadvisor.backend.project.application.port.repository.fpweights.FindFpWeightsPort
 import org.scaleadvisor.backend.project.application.port.repository.fpweights.UpdateFpWeightsPort
 import org.scaleadvisor.backend.project.domain.FpWeights
@@ -15,7 +16,7 @@ import java.math.BigDecimal
 @Repository
 private class FpWeightsJooqAdapter(
     private val dsl: DSLContext
-): CreateFpWeightsPort, FindFpWeightsPort, UpdateFpWeightsPort {
+): CreateFpWeightsPort, FindFpWeightsPort, UpdateFpWeightsPort, DeleteFpWeightsPort {
     private fun FpWeightsRecord.toDomain(): FpWeights =
         FpWeights(
             fpWeightsId = FpWeightsId.of(this.fpWeightsId),
@@ -58,6 +59,12 @@ private class FpWeightsJooqAdapter(
             .set(FP_WEIGHTS.EQ_WEIGHT,  BigDecimal.valueOf(fpWeights.eqWeight))
             .set(FP_WEIGHTS.UPDATED_AT, fpWeights.updatedAt!!)
             .where(FP_WEIGHTS.FP_WEIGHTS_ID.eq(fpWeights.fpWeightsId.toLong()))
+            .execute()
+    }
+
+    override fun delete(projectId: ProjectId) {
+        dsl.deleteFrom(FP_WEIGHTS)
+            .where(FP_WEIGHTS.PROJECT_ID.eq(projectId.toLong()))
             .execute()
     }
 }

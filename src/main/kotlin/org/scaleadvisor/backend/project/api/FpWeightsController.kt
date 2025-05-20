@@ -11,6 +11,7 @@ import org.scaleadvisor.backend.project.api.response.CreateFpWeightsResponse
 import org.scaleadvisor.backend.project.api.response.FindFpWeightsResponse
 import org.scaleadvisor.backend.project.api.response.UpdateFpWeightsResponse
 import org.scaleadvisor.backend.project.application.port.usecase.fpweights.CreateFpWeightsUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.fpweights.DeleteFpWeightsUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.fpweights.FindFpWeightsUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.fpweights.UpdateFpWeightsUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
@@ -22,7 +23,8 @@ private class FpWeightsController(
     private val createFpWeightsUseCase: CreateFpWeightsUseCase,
     private val getProjectUseCase: GetProjectUseCase,
     private val findFpWeightsUseCase: FindFpWeightsUseCase,
-    private val updateFpWeightsUseCase: UpdateFpWeightsUseCase
+    private val updateFpWeightsUseCase: UpdateFpWeightsUseCase,
+    private val deleteFpWeightsUseCase: DeleteFpWeightsUseCase
 ): FpWeightsAPI {
     override fun create(projectId: Long,
                         request: CreateFpWeightsRequest
@@ -83,5 +85,13 @@ private class FpWeightsController(
         return SuccessResponse.from(
             UpdateFpWeightsResponse.from(updated)
         )
+    }
+
+    override fun delete(projectId: Long) {
+        getProjectUseCase
+            .find(ProjectId.of(projectId))
+            ?: throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=$projectId)")
+
+        deleteFpWeightsUseCase.delete(ProjectId.of(projectId))
     }
 }
