@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
-class CreateFpWeightsService(
+private class CreateFpWeightsService(
     private val createFpWeightsPort: CreateFpWeightsPort
 ): CreateFpWeightsUseCase {
     override fun create(command: CreateFpWeightsUseCase.CreateFpWeightsCommand): FpWeights {
