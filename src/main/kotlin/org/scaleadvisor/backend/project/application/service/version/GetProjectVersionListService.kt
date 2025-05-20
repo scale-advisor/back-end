@@ -1,7 +1,7 @@
-package org.scaleadvisor.backend.project.application.service
+package org.scaleadvisor.backend.project.application.service.version
 
-import org.scaleadvisor.backend.project.application.port.repository.GetVersionPort
-import org.scaleadvisor.backend.project.application.port.usecase.GetProjectVersionListUseCase
+import org.scaleadvisor.backend.project.application.port.repository.version.GetVersionPort
+import org.scaleadvisor.backend.project.application.port.usecase.version.GetProjectVersionListUseCase
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
 

@@ -2,7 +2,7 @@ package org.scaleadvisor.backend.project.infrastructure
 
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.PROJECT_FACTOR
-import org.scaleadvisor.backend.project.application.port.repository.CreateProjectFactorPort
+import org.scaleadvisor.backend.project.application.port.repository.projectfactor.CreateProjectFactorPort
 import org.scaleadvisor.backend.project.domain.ProjectFactor
 import org.springframework.stereotype.Repository
 

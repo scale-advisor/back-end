@@ -4,10 +4,10 @@ import org.jooq.DSLContext
 import org.jooq.generated.tables.Project.PROJECT
 import org.jooq.generated.tables.UserProject.USER_PROJECT
 import org.jooq.generated.tables.records.ProjectRecord
-import org.scaleadvisor.backend.project.application.port.repository.CreateProjectPort
-import org.scaleadvisor.backend.project.application.port.repository.DeleteProjectPort
-import org.scaleadvisor.backend.project.application.port.repository.GetProjectPort
-import org.scaleadvisor.backend.project.application.port.repository.UpdateProjectPort
+import org.scaleadvisor.backend.project.application.port.repository.project.CreateProjectPort
+import org.scaleadvisor.backend.project.application.port.repository.project.DeleteProjectPort
+import org.scaleadvisor.backend.project.application.port.repository.project.GetProjectPort
+import org.scaleadvisor.backend.project.application.port.repository.project.UpdateProjectPort
 import org.scaleadvisor.backend.project.domain.Project
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Repository

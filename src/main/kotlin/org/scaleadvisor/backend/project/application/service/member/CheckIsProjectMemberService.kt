@@ -1,7 +1,7 @@
-package org.scaleadvisor.backend.project.application.service
+package org.scaleadvisor.backend.project.application.service.member
 
-import org.scaleadvisor.backend.project.application.port.repository.GetUserProjectPort
-import org.scaleadvisor.backend.project.application.port.usecase.CheckIsProjectMemberUseCase
+import org.scaleadvisor.backend.project.application.port.repository.member.GetUserProjectPort
+import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsProjectMemberUseCase
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
 
