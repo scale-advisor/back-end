@@ -7,7 +7,7 @@ import org.scaleadvisor.backend.project.domain.ProjectFactor
 import org.springframework.stereotype.Service
 
 @Service
-class UpdateProjectOptionService(
+private class UpdateProjectOptionService(
     private val updateProjectFactorUseCase: UpdateProjectFactorUseCase,
     private val updateProjectLanguageUseCase: UpdateProjectLanguageUseCase,
 ) : UpdateProjectOptionUseCase {

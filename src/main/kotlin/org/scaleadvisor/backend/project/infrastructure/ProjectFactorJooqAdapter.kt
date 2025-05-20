@@ -5,6 +5,7 @@ import org.jooq.generated.Tables.PROJECT_FACTOR
 import org.jooq.generated.tables.records.ProjectFactorRecord
 import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.project.application.port.repository.projectfactor.CreateProjectFactorPort
+import org.scaleadvisor.backend.project.application.port.repository.projectfactor.DeleteProjectFactorPort
 import org.scaleadvisor.backend.project.application.port.repository.projectfactor.GetProjectFactorPort
 import org.scaleadvisor.backend.project.application.port.repository.projectfactor.UpdateProjectFactorPort
 import org.scaleadvisor.backend.project.domain.ProjectFactor
@@ -16,8 +17,7 @@ import java.time.LocalDateTime
 @Repository
 private class ProjectFactorJooqAdapter(
     private val dsl: DSLContext
-) : CreateProjectFactorPort, GetProjectFactorPort, UpdateProjectFactorPort {
-
+) : CreateProjectFactorPort, GetProjectFactorPort, UpdateProjectFactorPort, DeleteProjectFactorPort {
     private fun ProjectFactorRecord.toDomain() = ProjectFactor(
         projectId = ProjectId.of(this.projectId),
         unitCost = this.unitCost,
@@ -68,6 +68,13 @@ private class ProjectFactorJooqAdapter(
                 .execute()
         }
 
+    }
+
+    override fun delete(projectId: ProjectId) {
+        dsl
+            .deleteFrom(PROJECT_FACTOR)
+            .where(PROJECT_FACTOR.PROJECT_ID.eq(projectId.toLong()))
+            .execute()
     }
 
 }
