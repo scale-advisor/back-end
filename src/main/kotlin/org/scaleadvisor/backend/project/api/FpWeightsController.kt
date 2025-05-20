@@ -7,7 +7,9 @@ import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.project.api.request.CreateFpWeightsRequest
 import org.scaleadvisor.backend.project.api.response.CreateFpWeightsResponse
+import org.scaleadvisor.backend.project.api.response.FindFpWeightsResponse
 import org.scaleadvisor.backend.project.application.port.usecase.fpweights.CreateFpWeightsUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.fpweights.FindFpWeightsUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.web.bind.annotation.RestController
@@ -15,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 private class FpWeightsController(
     private val createFpWeightsUseCase: CreateFpWeightsUseCase,
-    private val getProjectUseCase: GetProjectUseCase
+    private val getProjectUseCase: GetProjectUseCase,
+    private val findFpWeightsUseCase: FindFpWeightsUseCase
 ): FpWeightsAPI {
     override fun create(projectId: Long,
                         request: CreateFpWeightsRequest
@@ -41,5 +44,13 @@ private class FpWeightsController(
         return SuccessResponse.from(
             CreateFpWeightsResponse.from(fpWeights)
         )
+    }
+
+    override fun find(projectId: Long): SuccessResponse<FindFpWeightsResponse> {
+        val fpWeights = findFpWeightsUseCase
+            .find(ProjectId.of(projectId))
+            ?: throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=$projectId)")
+
+        return SuccessResponse.from(FindFpWeightsResponse.from(fpWeights))
     }
 }
