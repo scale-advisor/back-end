@@ -26,9 +26,11 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
-import org.jooq.generated.tables.FpWeights.FpWeightsPath;
+import org.jooq.generated.tables.ProjectFactor.ProjectFactorPath;
+import org.jooq.generated.tables.ProjectLanguage.ProjectLanguagePath;
 import org.jooq.generated.tables.User.UserPath;
 import org.jooq.generated.tables.UserProject.UserProjectPath;
+import org.jooq.generated.tables.Version.VersionPath;
 import org.jooq.generated.tables.records.ProjectRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -153,17 +155,30 @@ public class Project extends TableImpl<ProjectRecord> {
         return Keys.KEY_PROJECT_PRIMARY;
     }
 
-    private transient FpWeightsPath _fpWeights;
+    private transient ProjectFactorPath _projectFactor;
 
     /**
      * Get the implicit to-many join path to the
-     * <code>scale_advisor.FP_WEIGHTS</code> table
+     * <code>scale_advisor.PROJECT_FACTOR</code> table
      */
-    public FpWeightsPath fpWeights() {
-        if (_fpWeights == null)
-            _fpWeights = new FpWeightsPath(this, null, Keys.FK_FP_WEIGHTS_PROJECT_ID.getInverseKey());
+    public ProjectFactorPath projectFactor() {
+        if (_projectFactor == null)
+            _projectFactor = new ProjectFactorPath(this, null, Keys.FK_PROJECT_FACTOR_PROJECT_ID.getInverseKey());
 
-        return _fpWeights;
+        return _projectFactor;
+    }
+
+    private transient ProjectLanguagePath _projectLanguage;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>scale_advisor.PROJECT_LANGUAGE</code> table
+     */
+    public ProjectLanguagePath projectLanguage() {
+        if (_projectLanguage == null)
+            _projectLanguage = new ProjectLanguagePath(this, null, Keys.FK_PROJECT_LANGUAGE_PROJECT_ID.getInverseKey());
+
+        return _projectLanguage;
     }
 
     private transient UserProjectPath _userProject;
@@ -177,6 +192,19 @@ public class Project extends TableImpl<ProjectRecord> {
             _userProject = new UserProjectPath(this, null, Keys.FK_USER_PROJECT_PROJECT_ID.getInverseKey());
 
         return _userProject;
+    }
+
+    private transient VersionPath _version;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>scale_advisor.VERSION</code> table
+     */
+    public VersionPath version() {
+        if (_version == null)
+            _version = new VersionPath(this, null, Keys.FK_VERSION_PROJECT_ID.getInverseKey());
+
+        return _version;
     }
 
     /**

@@ -16,8 +16,9 @@ import org.jooq.generated.tables.BatchJobSeq;
 import org.jooq.generated.tables.BatchStepExecution;
 import org.jooq.generated.tables.BatchStepExecutionContext;
 import org.jooq.generated.tables.BatchStepExecutionSeq;
-import org.jooq.generated.tables.FpWeights;
 import org.jooq.generated.tables.Project;
+import org.jooq.generated.tables.ProjectFactor;
+import org.jooq.generated.tables.ProjectLanguage;
 import org.jooq.generated.tables.QrtzBlobTriggers;
 import org.jooq.generated.tables.QrtzCalendars;
 import org.jooq.generated.tables.QrtzCronTriggers;
@@ -31,6 +32,7 @@ import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
 import org.jooq.generated.tables.User;
 import org.jooq.generated.tables.UserProject;
+import org.jooq.generated.tables.Version;
 import org.jooq.generated.tables.records.BatchJobExecutionContextRecord;
 import org.jooq.generated.tables.records.BatchJobExecutionParamsRecord;
 import org.jooq.generated.tables.records.BatchJobExecutionRecord;
@@ -40,7 +42,8 @@ import org.jooq.generated.tables.records.BatchJobSeqRecord;
 import org.jooq.generated.tables.records.BatchStepExecutionContextRecord;
 import org.jooq.generated.tables.records.BatchStepExecutionRecord;
 import org.jooq.generated.tables.records.BatchStepExecutionSeqRecord;
-import org.jooq.generated.tables.records.FpWeightsRecord;
+import org.jooq.generated.tables.records.ProjectFactorRecord;
+import org.jooq.generated.tables.records.ProjectLanguageRecord;
 import org.jooq.generated.tables.records.ProjectRecord;
 import org.jooq.generated.tables.records.QrtzBlobTriggersRecord;
 import org.jooq.generated.tables.records.QrtzCalendarsRecord;
@@ -55,6 +58,7 @@ import org.jooq.generated.tables.records.QrtzSimpropTriggersRecord;
 import org.jooq.generated.tables.records.QrtzTriggersRecord;
 import org.jooq.generated.tables.records.UserProjectRecord;
 import org.jooq.generated.tables.records.UserRecord;
+import org.jooq.generated.tables.records.VersionRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
 
@@ -79,8 +83,9 @@ public class Keys {
     public static final UniqueKey<BatchStepExecutionRecord> KEY_BATCH_STEP_EXECUTION_PRIMARY = Internal.createUniqueKey(BatchStepExecution.BATCH_STEP_EXECUTION, DSL.name("KEY_BATCH_STEP_EXECUTION_PRIMARY"), new TableField[] { BatchStepExecution.BATCH_STEP_EXECUTION.STEP_EXECUTION_ID }, true);
     public static final UniqueKey<BatchStepExecutionContextRecord> KEY_BATCH_STEP_EXECUTION_CONTEXT_PRIMARY = Internal.createUniqueKey(BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT, DSL.name("KEY_BATCH_STEP_EXECUTION_CONTEXT_PRIMARY"), new TableField[] { BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT.STEP_EXECUTION_ID }, true);
     public static final UniqueKey<BatchStepExecutionSeqRecord> KEY_BATCH_STEP_EXECUTION_SEQ_UNIQUE_KEY_UN = Internal.createUniqueKey(BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ, DSL.name("KEY_BATCH_STEP_EXECUTION_SEQ_UNIQUE_KEY_UN"), new TableField[] { BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ.UNIQUE_KEY }, true);
-    public static final UniqueKey<FpWeightsRecord> KEY_FP_WEIGHTS_PRIMARY = Internal.createUniqueKey(FpWeights.FP_WEIGHTS, DSL.name("KEY_FP_WEIGHTS_PRIMARY"), new TableField[] { FpWeights.FP_WEIGHTS.FP_WEIGHTS_ID }, true);
     public static final UniqueKey<ProjectRecord> KEY_PROJECT_PRIMARY = Internal.createUniqueKey(Project.PROJECT, DSL.name("KEY_PROJECT_PRIMARY"), new TableField[] { Project.PROJECT.PROJECT_ID }, true);
+    public static final UniqueKey<ProjectFactorRecord> KEY_PROJECT_FACTOR_PRIMARY = Internal.createUniqueKey(ProjectFactor.PROJECT_FACTOR, DSL.name("KEY_PROJECT_FACTOR_PRIMARY"), new TableField[] { ProjectFactor.PROJECT_FACTOR.PROJECT_FACTOR_ID }, true);
+    public static final UniqueKey<ProjectLanguageRecord> KEY_PROJECT_LANGUAGE_PRIMARY = Internal.createUniqueKey(ProjectLanguage.PROJECT_LANGUAGE, DSL.name("KEY_PROJECT_LANGUAGE_PRIMARY"), new TableField[] { ProjectLanguage.PROJECT_LANGUAGE.PROJECT_LANGUAGE_ID }, true);
     public static final UniqueKey<QrtzBlobTriggersRecord> KEY_QRTZ_BLOB_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS, DSL.name("KEY_QRTZ_BLOB_TRIGGERS_PRIMARY"), new TableField[] { QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS.SCHED_NAME, QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS.TRIGGER_NAME, QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS.TRIGGER_GROUP }, true);
     public static final UniqueKey<QrtzCalendarsRecord> KEY_QRTZ_CALENDARS_PRIMARY = Internal.createUniqueKey(QrtzCalendars.QRTZ_CALENDARS, DSL.name("KEY_QRTZ_CALENDARS_PRIMARY"), new TableField[] { QrtzCalendars.QRTZ_CALENDARS.SCHED_NAME, QrtzCalendars.QRTZ_CALENDARS.CALENDAR_NAME }, true);
     public static final UniqueKey<QrtzCronTriggersRecord> KEY_QRTZ_CRON_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzCronTriggers.QRTZ_CRON_TRIGGERS, DSL.name("KEY_QRTZ_CRON_TRIGGERS_PRIMARY"), new TableField[] { QrtzCronTriggers.QRTZ_CRON_TRIGGERS.SCHED_NAME, QrtzCronTriggers.QRTZ_CRON_TRIGGERS.TRIGGER_NAME, QrtzCronTriggers.QRTZ_CRON_TRIGGERS.TRIGGER_GROUP }, true);
@@ -95,6 +100,7 @@ public class Keys {
     public static final UniqueKey<UserRecord> KEY_USER_EMAIL = Internal.createUniqueKey(User.USER, DSL.name("KEY_USER_EMAIL"), new TableField[] { User.USER.EMAIL }, true);
     public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = Internal.createUniqueKey(User.USER, DSL.name("KEY_USER_PRIMARY"), new TableField[] { User.USER.USER_ID }, true);
     public static final UniqueKey<UserProjectRecord> KEY_USER_PROJECT_PRIMARY = Internal.createUniqueKey(UserProject.USER_PROJECT, DSL.name("KEY_USER_PROJECT_PRIMARY"), new TableField[] { UserProject.USER_PROJECT.USER_ID, UserProject.USER_PROJECT.PROJECT_ID }, true);
+    public static final UniqueKey<VersionRecord> KEY_VERSION_PRIMARY = Internal.createUniqueKey(Version.VERSION, DSL.name("KEY_VERSION_PRIMARY"), new TableField[] { Version.VERSION.PROJECT_ID, Version.VERSION.VERSION_NUMBER }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -105,7 +111,8 @@ public class Keys {
     public static final ForeignKey<BatchJobExecutionParamsRecord, BatchJobExecutionRecord> JOB_EXEC_PARAMS_FK = Internal.createForeignKey(BatchJobExecutionParams.BATCH_JOB_EXECUTION_PARAMS, DSL.name("JOB_EXEC_PARAMS_FK"), new TableField[] { BatchJobExecutionParams.BATCH_JOB_EXECUTION_PARAMS.JOB_EXECUTION_ID }, Keys.KEY_BATCH_JOB_EXECUTION_PRIMARY, new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_EXECUTION_ID }, true);
     public static final ForeignKey<BatchStepExecutionRecord, BatchJobExecutionRecord> JOB_EXEC_STEP_FK = Internal.createForeignKey(BatchStepExecution.BATCH_STEP_EXECUTION, DSL.name("JOB_EXEC_STEP_FK"), new TableField[] { BatchStepExecution.BATCH_STEP_EXECUTION.JOB_EXECUTION_ID }, Keys.KEY_BATCH_JOB_EXECUTION_PRIMARY, new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_EXECUTION_ID }, true);
     public static final ForeignKey<BatchStepExecutionContextRecord, BatchStepExecutionRecord> STEP_EXEC_CTX_FK = Internal.createForeignKey(BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT, DSL.name("STEP_EXEC_CTX_FK"), new TableField[] { BatchStepExecutionContext.BATCH_STEP_EXECUTION_CONTEXT.STEP_EXECUTION_ID }, Keys.KEY_BATCH_STEP_EXECUTION_PRIMARY, new TableField[] { BatchStepExecution.BATCH_STEP_EXECUTION.STEP_EXECUTION_ID }, true);
-    public static final ForeignKey<FpWeightsRecord, ProjectRecord> FK_FP_WEIGHTS_PROJECT_ID = Internal.createForeignKey(FpWeights.FP_WEIGHTS, DSL.name("FK_FP_WEIGHTS_PROJECT_ID"), new TableField[] { FpWeights.FP_WEIGHTS.PROJECT_ID }, Keys.KEY_PROJECT_PRIMARY, new TableField[] { Project.PROJECT.PROJECT_ID }, true);
+    public static final ForeignKey<ProjectFactorRecord, ProjectRecord> FK_PROJECT_FACTOR_PROJECT_ID = Internal.createForeignKey(ProjectFactor.PROJECT_FACTOR, DSL.name("FK_PROJECT_FACTOR_PROJECT_ID"), new TableField[] { ProjectFactor.PROJECT_FACTOR.PROJECT_ID }, Keys.KEY_PROJECT_PRIMARY, new TableField[] { Project.PROJECT.PROJECT_ID }, true);
+    public static final ForeignKey<ProjectLanguageRecord, ProjectRecord> FK_PROJECT_LANGUAGE_PROJECT_ID = Internal.createForeignKey(ProjectLanguage.PROJECT_LANGUAGE, DSL.name("FK_PROJECT_LANGUAGE_PROJECT_ID"), new TableField[] { ProjectLanguage.PROJECT_LANGUAGE.PROJECT_ID }, Keys.KEY_PROJECT_PRIMARY, new TableField[] { Project.PROJECT.PROJECT_ID }, true);
     public static final ForeignKey<QrtzBlobTriggersRecord, QrtzTriggersRecord> QRTZ_BLOB_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS, DSL.name("qrtz_blob_triggers_ibfk_1"), new TableField[] { QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS.SCHED_NAME, QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS.TRIGGER_NAME, QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS.TRIGGER_GROUP }, Keys.KEY_QRTZ_TRIGGERS_PRIMARY, new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_GROUP }, true);
     public static final ForeignKey<QrtzCronTriggersRecord, QrtzTriggersRecord> QRTZ_CRON_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzCronTriggers.QRTZ_CRON_TRIGGERS, DSL.name("qrtz_cron_triggers_ibfk_1"), new TableField[] { QrtzCronTriggers.QRTZ_CRON_TRIGGERS.SCHED_NAME, QrtzCronTriggers.QRTZ_CRON_TRIGGERS.TRIGGER_NAME, QrtzCronTriggers.QRTZ_CRON_TRIGGERS.TRIGGER_GROUP }, Keys.KEY_QRTZ_TRIGGERS_PRIMARY, new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_GROUP }, true);
     public static final ForeignKey<QrtzSimpleTriggersRecord, QrtzTriggersRecord> QRTZ_SIMPLE_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS, DSL.name("qrtz_simple_triggers_ibfk_1"), new TableField[] { QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.SCHED_NAME, QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.TRIGGER_NAME, QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.TRIGGER_GROUP }, Keys.KEY_QRTZ_TRIGGERS_PRIMARY, new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_GROUP }, true);
@@ -113,4 +120,5 @@ public class Keys {
     public static final ForeignKey<QrtzTriggersRecord, QrtzJobDetailsRecord> QRTZ_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzTriggers.QRTZ_TRIGGERS, DSL.name("qrtz_triggers_ibfk_1"), new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.JOB_NAME, QrtzTriggers.QRTZ_TRIGGERS.JOB_GROUP }, Keys.KEY_QRTZ_JOB_DETAILS_PRIMARY, new TableField[] { QrtzJobDetails.QRTZ_JOB_DETAILS.SCHED_NAME, QrtzJobDetails.QRTZ_JOB_DETAILS.JOB_NAME, QrtzJobDetails.QRTZ_JOB_DETAILS.JOB_GROUP }, true);
     public static final ForeignKey<UserProjectRecord, ProjectRecord> FK_USER_PROJECT_PROJECT_ID = Internal.createForeignKey(UserProject.USER_PROJECT, DSL.name("FK_USER_PROJECT_PROJECT_ID"), new TableField[] { UserProject.USER_PROJECT.PROJECT_ID }, Keys.KEY_PROJECT_PRIMARY, new TableField[] { Project.PROJECT.PROJECT_ID }, true);
     public static final ForeignKey<UserProjectRecord, UserRecord> FK_USER_PROJECT_USER_ID = Internal.createForeignKey(UserProject.USER_PROJECT, DSL.name("FK_USER_PROJECT_USER_ID"), new TableField[] { UserProject.USER_PROJECT.USER_ID }, Keys.KEY_USER_PRIMARY, new TableField[] { User.USER.USER_ID }, true);
+    public static final ForeignKey<VersionRecord, ProjectRecord> FK_VERSION_PROJECT_ID = Internal.createForeignKey(Version.VERSION, DSL.name("FK_VERSION_PROJECT_ID"), new TableField[] { Version.VERSION.PROJECT_ID }, Keys.KEY_PROJECT_PRIMARY, new TableField[] { Project.PROJECT.PROJECT_ID }, true);
 }

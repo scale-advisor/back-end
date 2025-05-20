@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
 private class GetProjectService(
     private val getProjectPort: GetProjectPort
 ) : GetProjectUseCase {
+
     override fun find(projectId: ProjectId): Project? {
         return getProjectPort.find(projectId)
     }
@@ -17,4 +18,5 @@ private class GetProjectService(
     override fun findAll(userId: Long): List<Project> {
         return getProjectPort.findAll(userId)
     }
+
 }

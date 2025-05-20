@@ -6,7 +6,7 @@ fun interface CreateProjectUseCase {
     class CreateProjectCommand(
         val userId: Long,
         val name: String,
-        val description: String?
+        val description: String?,
     )
 
     fun create(command: CreateProjectCommand): Project

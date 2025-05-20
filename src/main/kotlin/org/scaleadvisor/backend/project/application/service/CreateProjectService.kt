@@ -2,9 +2,11 @@ package org.scaleadvisor.backend.project.application.service
 
 import org.scaleadvisor.backend.project.application.port.repository.CreateProjectPort
 import org.scaleadvisor.backend.project.application.port.repository.CreateUserProjectPort
+import org.scaleadvisor.backend.project.application.port.repository.CreateVersionPort
 import org.scaleadvisor.backend.project.application.port.usecase.CreateProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.GetProjectUseCase
 import org.scaleadvisor.backend.project.domain.Project
+import org.scaleadvisor.backend.project.domain.Version
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -13,7 +15,8 @@ import java.time.LocalDateTime
 private class CreateProjectService(
     private val getProjectUseCase: GetProjectUseCase,
     private val createProjectPort: CreateProjectPort,
-    private val createUserProjectPort: CreateUserProjectPort
+    private val createUserProjectPort: CreateUserProjectPort,
+    private val createVersionPort: CreateVersionPort
 ) : CreateProjectUseCase{
 
     override fun create(command: CreateProjectUseCase.CreateProjectCommand): Project {
@@ -31,6 +34,12 @@ private class CreateProjectService(
             ?: throw Exception("프로젝트 생성과정에 문제가 발생했습니다")
 
         createUserProjectPort.create(command.userId, project.id)
+
+        val version = Version(
+            projectId = project.id,
+            versionNumber = "1.0"
+        )
+        createVersionPort.create(version)
 
         return project
     }
