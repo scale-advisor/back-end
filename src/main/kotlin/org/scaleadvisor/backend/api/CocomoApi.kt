@@ -2,8 +2,10 @@ package org.scaleadvisor.backend.api
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
+import org.scaleadvisor.backend.project.api.request.CreateCocomoMultiplierRequest
 import org.scaleadvisor.backend.project.api.request.CreateCocomoScaleFactorRequest
 import org.scaleadvisor.backend.project.api.request.UpdateCocomoScaleFactorRequest
+import org.scaleadvisor.backend.project.api.response.CreateCocomoMultiplierResponse
 import org.scaleadvisor.backend.project.api.response.CreateCocomoScaleFactorResponse
 import org.scaleadvisor.backend.project.api.response.FindCocomoScaleFactorResponse
 import org.scaleadvisor.backend.project.api.response.UpdateCocomoScaleFactorResponse
@@ -41,4 +43,10 @@ interface CocomoApi {
     @DeleteMapping("/{projectId}/cocomo-scale-factor")
     @ResponseStatus(HttpStatus.OK)
     fun deleteCocomoScaleFactor(@PathVariable projectId: Long)
+
+    @PostMapping("/{projectId}/cocomo-multiplier")
+    @ResponseStatus(HttpStatus.OK)
+    fun createCocomoMultiplier(@PathVariable projectId: Long,
+                               @RequestBody request: CreateCocomoMultiplierRequest
+    ): SuccessResponse<CreateCocomoMultiplierResponse>
 }
