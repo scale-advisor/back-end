@@ -8,7 +8,7 @@ import org.scaleadvisor.backend.project.application.port.repository.cocomoscalef
 import org.scaleadvisor.backend.project.application.port.repository.cocomoscalefactor.FindCocomoScaleFactorPort
 import org.scaleadvisor.backend.project.application.port.repository.cocomoscalefactor.UpdateCocomoScaleFactorPort
 import org.scaleadvisor.backend.project.domain.CocomoScaleFactor
-import org.scaleadvisor.backend.project.domain.enum.CocomoScaleFactorLevel
+import org.scaleadvisor.backend.project.domain.enum.CocomoLevel
 import org.scaleadvisor.backend.project.domain.id.CocomoScaleFactorId
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Repository
@@ -24,11 +24,11 @@ private class CocomoScaleFactorAdapter(
         CocomoScaleFactor(
             cocomoScaleFactorId = CocomoScaleFactorId.of(this.cocomoScaleFactorId),
             projectId = ProjectId.of(this.projectId),
-            prec = CocomoScaleFactorLevel.valueOf(this.prec),
-            flex = CocomoScaleFactorLevel.valueOf(this.flex),
-            resl = CocomoScaleFactorLevel.valueOf(this.resl),
-            team = CocomoScaleFactorLevel.valueOf(this.team),
-            pmat = CocomoScaleFactorLevel.valueOf(this.pmat),
+            prec = CocomoLevel.valueOf(this.prec),
+            flex = CocomoLevel.valueOf(this.flex),
+            resl = CocomoLevel.valueOf(this.resl),
+            team = CocomoLevel.valueOf(this.team),
+            pmat = CocomoLevel.valueOf(this.pmat),
             createdAt = this.createdAt,
             updatedAt = this.updatedAt
         )
