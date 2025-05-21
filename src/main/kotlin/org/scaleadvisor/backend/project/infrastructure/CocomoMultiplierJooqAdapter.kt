@@ -4,6 +4,7 @@ import org.jooq.DSLContext
 import org.jooq.generated.Tables.COCOMO_MULTIPLIER
 import org.jooq.generated.tables.records.CocomoMultiplierRecord
 import org.scaleadvisor.backend.project.application.port.repository.cocomomultiplier.CreateCocomoMultiplierPort
+import org.scaleadvisor.backend.project.application.port.repository.cocomomultiplier.FindCocomoMultiplierPort
 import org.scaleadvisor.backend.project.domain.CocomoMultiplier
 import org.scaleadvisor.backend.project.domain.enum.CocomoLevel
 import org.scaleadvisor.backend.project.domain.id.CocomoMultiplierId
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Repository
 @Repository
 private class CocomoMultiplierJooqAdapter(
     private val dsl: DSLContext
-): CreateCocomoMultiplierPort {
+): CreateCocomoMultiplierPort,
+    FindCocomoMultiplierPort {
     private fun CocomoMultiplierRecord.toDomain(): CocomoMultiplier =
         CocomoMultiplier(
             cocomoMultiplierId = CocomoMultiplierId.of(this.cocomoMultiplierId),
@@ -41,5 +43,11 @@ private class CocomoMultiplierJooqAdapter(
             .set(COCOMO_MULTIPLIER.CREATED_AT, cocomoMultiplier.createdAt)
             .set(COCOMO_MULTIPLIER.UPDATED_AT, cocomoMultiplier.updatedAt)
             .execute()
+    }
+
+    override fun findByProjectId(projectId: ProjectId): CocomoMultiplier? {
+        return dsl.selectFrom(COCOMO_MULTIPLIER)
+            .where(COCOMO_MULTIPLIER.PROJECT_ID.eq(projectId.toLong()))
+            .fetchOne { it.into(COCOMO_MULTIPLIER).toDomain() }
     }
 }
