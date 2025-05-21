@@ -1,16 +1,14 @@
 package org.scaleadvisor.backend.project.api
 
-import org.scaleadvisor.backend.api.CocomoApi
+import org.scaleadvisor.backend.api.Cocomo2Api
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.project.api.request.CreateCocomoMultiplierRequest
 import org.scaleadvisor.backend.project.api.request.CreateCocomoScaleFactorRequest
 import org.scaleadvisor.backend.project.api.request.UpdateCocomoScaleFactorRequest
-import org.scaleadvisor.backend.project.api.response.CreateCocomoMultiplierResponse
-import org.scaleadvisor.backend.project.api.response.CreateCocomoScaleFactorResponse
-import org.scaleadvisor.backend.project.api.response.FindCocomoScaleFactorResponse
-import org.scaleadvisor.backend.project.api.response.UpdateCocomoScaleFactorResponse
+import org.scaleadvisor.backend.project.api.response.*
 import org.scaleadvisor.backend.project.application.port.usecase.cocomomultiplier.CreateCocomoMultiplierUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.cocomomultiplier.FindCocomoMultiplierUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefactor.CreateCocomoScaleFactorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefactor.DeleteCocomoScaleFactorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefactor.FindCocomoScaleFactorUseCase
@@ -26,8 +24,9 @@ private class CocomoController(
     private val updateCocomoScaleFactorUseCase: UpdateCocomoScaleFactorUseCase,
     private val deleteCocomoScaleFactorUseCase: DeleteCocomoScaleFactorUseCase,
     private val createCocomoMultiplierUseCase: CreateCocomoMultiplierUseCase,
+    private val findCocomoMultiplierUseCase: FindCocomoMultiplierUseCase,
     private val getProjectUseCase: GetProjectUseCase
-): CocomoApi {
+): Cocomo2Api {
 
     override fun createCocomoScaleFactor(
         projectId: Long,
@@ -108,6 +107,15 @@ private class CocomoController(
 
         return SuccessResponse.from(
             CreateCocomoMultiplierResponse.from(created)
+        )
+    }
+
+    override fun findCocomoMultiplier(projectId: Long): SuccessResponse<FindCocomoMultiplierResponse> {
+        val cocomoMultiplier = findCocomoMultiplierUseCase.find(ProjectId(projectId))
+            ?: throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=$projectId)")
+
+        return SuccessResponse.from(
+            FindCocomoMultiplierResponse.from(cocomoMultiplier)
         )
     }
 }

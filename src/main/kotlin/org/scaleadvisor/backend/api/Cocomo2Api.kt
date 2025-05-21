@@ -5,10 +5,7 @@ import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.project.api.request.CreateCocomoMultiplierRequest
 import org.scaleadvisor.backend.project.api.request.CreateCocomoScaleFactorRequest
 import org.scaleadvisor.backend.project.api.request.UpdateCocomoScaleFactorRequest
-import org.scaleadvisor.backend.project.api.response.CreateCocomoMultiplierResponse
-import org.scaleadvisor.backend.project.api.response.CreateCocomoScaleFactorResponse
-import org.scaleadvisor.backend.project.api.response.FindCocomoScaleFactorResponse
-import org.scaleadvisor.backend.project.api.response.UpdateCocomoScaleFactorResponse
+import org.scaleadvisor.backend.project.api.response.*
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 
-@Tag(name = "cocomo", description = "cocomo API")
+@Tag(name = "cocomo2", description = "cocomo2 API")
 @RequestMapping("projects", produces = ["application/json;charset=utf-8"])
-interface CocomoApi {
+interface Cocomo2Api {
 
     @PostMapping("/{projectId}/cocomo-scale-factor")
     @ResponseStatus(HttpStatus.OK)
@@ -49,4 +46,9 @@ interface CocomoApi {
     fun createCocomoMultiplier(@PathVariable projectId: Long,
                                @RequestBody request: CreateCocomoMultiplierRequest
     ): SuccessResponse<CreateCocomoMultiplierResponse>
+
+    @GetMapping("/{projectId}/cocomo-multiplier")
+    @ResponseStatus(HttpStatus.OK)
+    fun findCocomoMultiplier(@PathVariable projectId: Long
+    ): SuccessResponse<FindCocomoMultiplierResponse>
 }
