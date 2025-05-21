@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.project.api.request.CreateCocomoMultiplierRequest
 import org.scaleadvisor.backend.project.api.request.CreateCocomoScaleFactorRequest
+import org.scaleadvisor.backend.project.api.request.UpdateCocomoMultiplierRequest
 import org.scaleadvisor.backend.project.api.request.UpdateCocomoScaleFactorRequest
 import org.scaleadvisor.backend.project.api.response.*
 import org.springframework.http.HttpStatus
@@ -51,4 +52,10 @@ interface Cocomo2Api {
     @ResponseStatus(HttpStatus.OK)
     fun findCocomoMultiplier(@PathVariable projectId: Long
     ): SuccessResponse<FindCocomoMultiplierResponse>
+
+    @PutMapping("/{projectId}/cocomo-multiplier")
+    @ResponseStatus(HttpStatus.OK)
+    fun updateCocomoMultiplier(@PathVariable projectId: Long,
+                               @RequestBody request: UpdateCocomoMultiplierRequest
+    ): SuccessResponse<UpdateCocomoMultiplierResponse>
 }
