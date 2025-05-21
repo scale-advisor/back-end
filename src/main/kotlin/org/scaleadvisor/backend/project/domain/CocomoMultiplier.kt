@@ -1,6 +1,8 @@
-package org.scaleadvisor.backend.project.domain.id
+package org.scaleadvisor.backend.project.domain
 
 import org.scaleadvisor.backend.project.domain.enum.CocomoLevel
+import org.scaleadvisor.backend.project.domain.id.CocomoMultiplierId
+import org.scaleadvisor.backend.project.domain.id.ProjectId
 import java.time.LocalDateTime
 
 data class CocomoMultiplier(
