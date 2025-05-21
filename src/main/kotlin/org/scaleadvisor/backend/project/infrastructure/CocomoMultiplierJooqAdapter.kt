@@ -4,6 +4,7 @@ import org.jooq.DSLContext
 import org.jooq.generated.Tables.COCOMO_MULTIPLIER
 import org.jooq.generated.tables.records.CocomoMultiplierRecord
 import org.scaleadvisor.backend.project.application.port.repository.cocomomultiplier.CreateCocomoMultiplierPort
+import org.scaleadvisor.backend.project.application.port.repository.cocomomultiplier.DeleteCocomoMultiplierPort
 import org.scaleadvisor.backend.project.application.port.repository.cocomomultiplier.FindCocomoMultiplierPort
 import org.scaleadvisor.backend.project.application.port.repository.cocomomultiplier.UpdateCocomoMultiplierPort
 import org.scaleadvisor.backend.project.domain.CocomoMultiplier
@@ -17,7 +18,8 @@ private class CocomoMultiplierJooqAdapter(
     private val dsl: DSLContext
 ): CreateCocomoMultiplierPort,
     FindCocomoMultiplierPort,
-    UpdateCocomoMultiplierPort {
+    UpdateCocomoMultiplierPort,
+    DeleteCocomoMultiplierPort {
     private fun CocomoMultiplierRecord.toDomain(): CocomoMultiplier =
         CocomoMultiplier(
             cocomoMultiplierId = CocomoMultiplierId.of(this.cocomoMultiplierId),
@@ -63,6 +65,12 @@ private class CocomoMultiplierJooqAdapter(
             .set(COCOMO_MULTIPLIER.FCIL, cocomoMultiplier.fcil.name)
             .set(COCOMO_MULTIPLIER.UPDATED_AT, cocomoMultiplier.updatedAt)
             .where(COCOMO_MULTIPLIER.COCOMO_MULTIPLIER_ID.eq(cocomoMultiplier.cocomoMultiplierId.toLong()))
+            .execute()
+    }
+
+    override fun delete(projectId: ProjectId) {
+        dsl.deleteFrom(COCOMO_MULTIPLIER)
+            .where(COCOMO_MULTIPLIER.PROJECT_ID.eq(projectId.toLong()))
             .execute()
     }
 }
