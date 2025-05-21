@@ -5,6 +5,7 @@ import org.jooq.generated.Tables.COCOMO_MULTIPLIER
 import org.jooq.generated.tables.records.CocomoMultiplierRecord
 import org.scaleadvisor.backend.project.application.port.repository.cocomomultiplier.CreateCocomoMultiplierPort
 import org.scaleadvisor.backend.project.application.port.repository.cocomomultiplier.FindCocomoMultiplierPort
+import org.scaleadvisor.backend.project.application.port.repository.cocomomultiplier.UpdateCocomoMultiplierPort
 import org.scaleadvisor.backend.project.domain.CocomoMultiplier
 import org.scaleadvisor.backend.project.domain.enum.CocomoLevel
 import org.scaleadvisor.backend.project.domain.id.CocomoMultiplierId
@@ -15,7 +16,8 @@ import org.springframework.stereotype.Repository
 private class CocomoMultiplierJooqAdapter(
     private val dsl: DSLContext
 ): CreateCocomoMultiplierPort,
-    FindCocomoMultiplierPort {
+    FindCocomoMultiplierPort,
+    UpdateCocomoMultiplierPort {
     private fun CocomoMultiplierRecord.toDomain(): CocomoMultiplier =
         CocomoMultiplier(
             cocomoMultiplierId = CocomoMultiplierId.of(this.cocomoMultiplierId),
@@ -49,5 +51,18 @@ private class CocomoMultiplierJooqAdapter(
         return dsl.selectFrom(COCOMO_MULTIPLIER)
             .where(COCOMO_MULTIPLIER.PROJECT_ID.eq(projectId.toLong()))
             .fetchOne { it.into(COCOMO_MULTIPLIER).toDomain() }
+    }
+
+    override fun update(cocomoMultiplier: CocomoMultiplier) {
+        dsl.update(COCOMO_MULTIPLIER)
+            .set(COCOMO_MULTIPLIER.RCPX, cocomoMultiplier.rcpx.name)
+            .set(COCOMO_MULTIPLIER.RUSE, cocomoMultiplier.ruse.name)
+            .set(COCOMO_MULTIPLIER.PDIF, cocomoMultiplier.pdif.name)
+            .set(COCOMO_MULTIPLIER.PERS, cocomoMultiplier.pers.name)
+            .set(COCOMO_MULTIPLIER.SCED, cocomoMultiplier.sced.name)
+            .set(COCOMO_MULTIPLIER.FCIL, cocomoMultiplier.fcil.name)
+            .set(COCOMO_MULTIPLIER.UPDATED_AT, cocomoMultiplier.updatedAt)
+            .where(COCOMO_MULTIPLIER.COCOMO_MULTIPLIER_ID.eq(cocomoMultiplier.cocomoMultiplierId.toLong()))
+            .execute()
     }
 }
