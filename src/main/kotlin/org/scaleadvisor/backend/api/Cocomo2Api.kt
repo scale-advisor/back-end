@@ -58,4 +58,8 @@ interface Cocomo2Api {
     fun updateCocomoMultiplier(@PathVariable projectId: Long,
                                @RequestBody request: UpdateCocomoMultiplierRequest
     ): SuccessResponse<UpdateCocomoMultiplierResponse>
+
+    @DeleteMapping("/{projectId}/cocomo-multiplier")
+    @ResponseStatus(HttpStatus.OK)
+    fun deleteCocomoMultiplier(@PathVariable projectId: Long)
 }

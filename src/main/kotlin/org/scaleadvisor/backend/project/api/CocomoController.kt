@@ -9,6 +9,7 @@ import org.scaleadvisor.backend.project.api.request.UpdateCocomoMultiplierReques
 import org.scaleadvisor.backend.project.api.request.UpdateCocomoScaleFactorRequest
 import org.scaleadvisor.backend.project.api.response.*
 import org.scaleadvisor.backend.project.application.port.usecase.cocomomultiplier.CreateCocomoMultiplierUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.cocomomultiplier.DeleteCocomoMultiplierUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.cocomomultiplier.FindCocomoMultiplierUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.cocomomultiplier.UpdateCocomoMultiplierUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefactor.CreateCocomoScaleFactorUseCase
@@ -29,6 +30,7 @@ private class CocomoController(
     private val createCocomoMultiplierUseCase: CreateCocomoMultiplierUseCase,
     private val findCocomoMultiplierUseCase: FindCocomoMultiplierUseCase,
     private val updateCocomoMultiplierUseCase: UpdateCocomoMultiplierUseCase,
+    private val deleteCocomoMultiplierUseCase: DeleteCocomoMultiplierUseCase,
 
     private val getProjectUseCase: GetProjectUseCase
 ): Cocomo2Api {
@@ -146,5 +148,12 @@ private class CocomoController(
         return SuccessResponse.from(
             UpdateCocomoMultiplierResponse.from(updated)
         )
+    }
+
+    override fun deleteCocomoMultiplier(projectId: Long) {
+        getProjectUseCase.find(ProjectId.of(projectId))
+            ?:throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=$projectId)")
+
+        deleteCocomoMultiplierUseCase.delete(ProjectId.of(projectId))
     }
 }
