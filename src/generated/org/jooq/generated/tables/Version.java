@@ -28,6 +28,7 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
+import org.jooq.generated.tables.File.FilePath;
 import org.jooq.generated.tables.Project.ProjectPath;
 import org.jooq.generated.tables.records.VersionRecord;
 import org.jooq.impl.DSL;
@@ -159,6 +160,19 @@ public class Version extends TableImpl<VersionRecord> {
             _project = new ProjectPath(this, Keys.FK_VERSION_PROJECT_ID, null);
 
         return _project;
+    }
+
+    private transient FilePath _file;
+
+    /**
+     * Get the implicit to-many join path to the <code>scale_advisor.FILE</code>
+     * table
+     */
+    public FilePath file() {
+        if (_file == null)
+            _file = new FilePath(this, null, Keys.FK_FILE_VERSION.getInverseKey());
+
+        return _file;
     }
 
     @Override
