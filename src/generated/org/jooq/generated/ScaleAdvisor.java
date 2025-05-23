@@ -20,6 +20,7 @@ import org.jooq.generated.tables.BatchStepExecutionContext;
 import org.jooq.generated.tables.BatchStepExecutionSeq;
 import org.jooq.generated.tables.CocomoMultiplier;
 import org.jooq.generated.tables.CocomoScaleFactor;
+import org.jooq.generated.tables.File;
 import org.jooq.generated.tables.FpWeights;
 import org.jooq.generated.tables.Project;
 import org.jooq.generated.tables.ProjectFactor;
@@ -108,6 +109,11 @@ public class ScaleAdvisor extends SchemaImpl {
      * The table <code>scale_advisor.COCOMO_SCALE_FACTOR</code>.
      */
     public final CocomoScaleFactor COCOMO_SCALE_FACTOR = CocomoScaleFactor.COCOMO_SCALE_FACTOR;
+
+    /**
+     * The table <code>scale_advisor.FILE</code>.
+     */
+    public final File FILE = File.FILE;
 
     /**
      * The table <code>scale_advisor.FP_WEIGHTS</code>.
@@ -226,6 +232,7 @@ public class ScaleAdvisor extends SchemaImpl {
             BatchStepExecutionSeq.BATCH_STEP_EXECUTION_SEQ,
             CocomoMultiplier.COCOMO_MULTIPLIER,
             CocomoScaleFactor.COCOMO_SCALE_FACTOR,
+            File.FILE,
             FpWeights.FP_WEIGHTS,
             Project.PROJECT,
             ProjectFactor.PROJECT_FACTOR,
