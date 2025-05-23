@@ -2,8 +2,8 @@ package org.scaleadvisor.backend.project.application.port.repository.member
 
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 
-fun interface DeleteUserProjectPort {
+fun interface CreateProjectMemberPort {
 
-    fun delete(userId: Long, projectId: ProjectId)
+    fun create(userId: Long, projectId: ProjectId)
 
 }

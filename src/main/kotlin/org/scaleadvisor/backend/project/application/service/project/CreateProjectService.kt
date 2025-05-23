@@ -1,6 +1,6 @@
 package org.scaleadvisor.backend.project.application.service.project
 
-import org.scaleadvisor.backend.project.application.port.repository.member.CreateUserProjectPort
+import org.scaleadvisor.backend.project.application.port.repository.member.CreateProjectMemberPort
 import org.scaleadvisor.backend.project.application.port.repository.project.CreateProjectPort
 import org.scaleadvisor.backend.project.application.port.repository.version.CreateVersionPort
 import org.scaleadvisor.backend.project.application.port.usecase.project.CreateProjectUseCase
@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 private class CreateProjectService(
     private val getProjectUseCase: GetProjectUseCase,
     private val createProjectPort: CreateProjectPort,
-    private val createUserProjectPort: CreateUserProjectPort,
+    private val createProjectMemberPort: CreateProjectMemberPort,
     private val createVersionPort: CreateVersionPort
 ) : CreateProjectUseCase{
 
@@ -33,7 +33,7 @@ private class CreateProjectService(
         project = getProjectUseCase.find(project.id)
             ?: throw Exception("프로젝트 생성과정에 문제가 발생했습니다")
 
-        createUserProjectPort.create(command.userId, project.id)
+        createProjectMemberPort.create(command.userId, project.id)
 
         val version = Version(
             projectId = project.id,

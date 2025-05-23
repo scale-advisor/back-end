@@ -2,16 +2,16 @@ package org.scaleadvisor.backend.project.infrastructure
 
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.PROJECT_MEMBER
-import org.scaleadvisor.backend.project.application.port.repository.member.CreateUserProjectPort
-import org.scaleadvisor.backend.project.application.port.repository.member.DeleteUserProjectPort
-import org.scaleadvisor.backend.project.application.port.repository.member.GetUserProjectPort
+import org.scaleadvisor.backend.project.application.port.repository.member.CreateProjectMemberPort
+import org.scaleadvisor.backend.project.application.port.repository.member.DeleteProjectMemberPort
+import org.scaleadvisor.backend.project.application.port.repository.member.GetProjectMemberPort
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Repository
 
 @Repository
-private class UserProjectJooqAdapter(
+private class ProjectMemberMemberMemberJooqAdapter(
     private val dsl: DSLContext
-) : CreateUserProjectPort, GetUserProjectPort, DeleteUserProjectPort {
+) : CreateProjectMemberPort, GetProjectMemberPort, DeleteProjectMemberPort {
     override fun create(userId: Long, projectId: ProjectId) {
         dsl.insertInto(PROJECT_MEMBER)
             .set(PROJECT_MEMBER.USER_ID, userId)
