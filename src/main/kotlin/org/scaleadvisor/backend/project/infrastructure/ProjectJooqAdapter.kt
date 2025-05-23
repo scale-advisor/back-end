@@ -1,8 +1,8 @@
 package org.scaleadvisor.backend.project.infrastructure
 
 import org.jooq.DSLContext
+import org.jooq.generated.Tables.PROJECT
 import org.jooq.generated.Tables.PROJECT_MEMBER
-import org.jooq.generated.tables.Project.PROJECT
 import org.jooq.generated.tables.records.ProjectRecord
 import org.scaleadvisor.backend.project.application.port.repository.project.CreateProjectPort
 import org.scaleadvisor.backend.project.application.port.repository.project.DeleteProjectPort
