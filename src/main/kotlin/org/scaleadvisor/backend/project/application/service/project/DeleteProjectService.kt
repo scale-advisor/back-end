@@ -9,7 +9,7 @@ import org.scaleadvisor.backend.project.application.port.usecase.project.DeleteP
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.projectfactor.DeleteProjectFactorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.projectlanguage.DeleteProjectLanguageUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.version.DeleteProjectVersionListUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.version.DeleteVersionUseCase
 import org.scaleadvisor.backend.project.domain.Project
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
@@ -21,7 +21,7 @@ private class DeleteProjectService(
     private val getProjectUseCase: GetProjectUseCase,
     private val deleteProjectPort: DeleteProjectPort,
     private val deleteUserProjectPort: DeleteUserProjectPort,
-    private val deleteProjectVersionListUseCase: DeleteProjectVersionListUseCase,
+    private val deleteVersionUseCase: DeleteVersionUseCase,
     private val deleteProjectFactorUseCase: DeleteProjectFactorUseCase,
     private val deleteProjectLanguageUseCase: DeleteProjectLanguageUseCase,
     private val deleteFpWeightsUseCase: DeleteFpWeightsUseCase
@@ -43,7 +43,7 @@ private class DeleteProjectService(
         deleteFpWeightsUseCase.delete(projectId)
         deleteProjectLanguageUseCase.deleteAll(projectId)
         deleteProjectFactorUseCase.delete(projectId)
-        deleteProjectVersionListUseCase.deleteAll(projectId)
+        deleteVersionUseCase.deleteAll(projectId)
         deleteUserProjectPort.delete(userId, projectId)
         deleteProjectPort.delete(project.id)
     }

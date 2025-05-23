@@ -13,7 +13,7 @@ import org.scaleadvisor.backend.project.application.port.usecase.project.CreateP
 import org.scaleadvisor.backend.project.application.port.usecase.project.DeleteProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.UpdateProjectUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.version.GetProjectVersionListUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.version.GetVersionUseCase
 import org.scaleadvisor.backend.project.domain.Project
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.web.bind.annotation.RestController
@@ -24,7 +24,7 @@ private class ProjectController(
     private val getProjectUseCase: GetProjectUseCase,
     private val updateProjectUseCase: UpdateProjectUseCase,
     private val deleteProjectUseCase: DeleteProjectUseCase,
-    private val getProjectVersionListUseCase: GetProjectVersionListUseCase
+    private val getVersionUseCase: GetVersionUseCase
 ) : ProjectAPI {
     override fun create(request: CreateProjectRequest): SuccessResponse<CreateProjectResponse> {
         val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
@@ -53,7 +53,7 @@ private class ProjectController(
                     name = project.name,
                     description = project.description,
                     updatedAt = project.updatedAt!!,
-                    versionList = getProjectVersionListUseCase.findAll(project.id)
+                    versionList = getVersionUseCase.findAll(project.id)
                 )
             }
 
