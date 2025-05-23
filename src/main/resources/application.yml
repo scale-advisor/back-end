@@ -90,9 +90,9 @@ cors:
 
 gemini:
   api:
-    url: ${API_URL}
-    key: ${API_KEY}
-    model: ${API_MODEL}
+    url: ${API_URL:url}
+    key: ${API_KEY:key}
+    model: ${API_MODEL:model}
 
 ---
 spring:
