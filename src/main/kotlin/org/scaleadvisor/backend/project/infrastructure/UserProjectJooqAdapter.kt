@@ -1,7 +1,7 @@
 package org.scaleadvisor.backend.project.infrastructure
 
 import org.jooq.DSLContext
-import org.jooq.generated.Tables.USER_PROJECT
+import org.jooq.generated.Tables.PROJECT_MEMBER
 import org.scaleadvisor.backend.project.application.port.repository.member.CreateUserProjectPort
 import org.scaleadvisor.backend.project.application.port.repository.member.DeleteUserProjectPort
 import org.scaleadvisor.backend.project.application.port.repository.member.GetUserProjectPort
@@ -13,11 +13,11 @@ private class UserProjectJooqAdapter(
     private val dsl: DSLContext
 ) : CreateUserProjectPort, GetUserProjectPort, DeleteUserProjectPort {
     override fun create(userId: Long, projectId: ProjectId) {
-        dsl.insertInto(USER_PROJECT)
-            .set(USER_PROJECT.USER_ID, userId)
-            .set(USER_PROJECT.PROJECT_ID, projectId.toLong())
-            .set(USER_PROJECT.CREATED_AT, java.time.LocalDateTime.now())
-            .set(USER_PROJECT.UPDATED_AT, java.time.LocalDateTime.now())
+        dsl.insertInto(PROJECT_MEMBER)
+            .set(PROJECT_MEMBER.USER_ID, userId)
+            .set(PROJECT_MEMBER.PROJECT_ID, projectId.toLong())
+            .set(PROJECT_MEMBER.CREATED_AT, java.time.LocalDateTime.now())
+            .set(PROJECT_MEMBER.UPDATED_AT, java.time.LocalDateTime.now())
             .execute()
     }
 
@@ -26,9 +26,9 @@ private class UserProjectJooqAdapter(
         projectId: ProjectId
     ): Boolean {
         return dsl.fetchExists(
-            dsl.selectFrom(USER_PROJECT)
-                .where(USER_PROJECT.USER_ID.eq(userId))
-                .and(USER_PROJECT.PROJECT_ID.eq(projectId.toLong()))
+            dsl.selectFrom(PROJECT_MEMBER)
+                .where(PROJECT_MEMBER.USER_ID.eq(userId))
+                .and(PROJECT_MEMBER.PROJECT_ID.eq(projectId.toLong()))
         )
     }
 
@@ -36,9 +36,9 @@ private class UserProjectJooqAdapter(
         userId: Long,
         projectId: ProjectId
     ) {
-        dsl.deleteFrom(USER_PROJECT)
-            .where(USER_PROJECT.USER_ID.eq(userId))
-            .and(USER_PROJECT.PROJECT_ID.eq(projectId.toLong()))
+        dsl.deleteFrom(PROJECT_MEMBER)
+            .where(PROJECT_MEMBER.USER_ID.eq(userId))
+            .and(PROJECT_MEMBER.PROJECT_ID.eq(projectId.toLong()))
             .execute()
     }
 }

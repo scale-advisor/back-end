@@ -1,8 +1,8 @@
 package org.scaleadvisor.backend.project.infrastructure
 
 import org.jooq.DSLContext
+import org.jooq.generated.Tables.PROJECT_MEMBER
 import org.jooq.generated.tables.Project.PROJECT
-import org.jooq.generated.tables.UserProject.USER_PROJECT
 import org.jooq.generated.tables.records.ProjectRecord
 import org.scaleadvisor.backend.project.application.port.repository.project.CreateProjectPort
 import org.scaleadvisor.backend.project.application.port.repository.project.DeleteProjectPort
@@ -52,10 +52,10 @@ private class ProjectJooqAdapter(
                 PROJECT.UPDATED_AT
             )
             .from(PROJECT)
-            .innerJoin(USER_PROJECT)
+            .innerJoin(PROJECT_MEMBER)
             .on(
-                USER_PROJECT.PROJECT_ID.eq(PROJECT.PROJECT_ID)
-                    .and(USER_PROJECT.USER_ID.eq(userId))
+                PROJECT_MEMBER.PROJECT_ID.eq(PROJECT.PROJECT_ID)
+                    .and(PROJECT_MEMBER.USER_ID.eq(userId))
             )
             .fetch { record -> record.into(PROJECT).toDomain() }
     }

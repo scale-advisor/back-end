@@ -32,8 +32,8 @@ import org.jooq.generated.tables.File.FilePath;
 import org.jooq.generated.tables.FpWeights.FpWeightsPath;
 import org.jooq.generated.tables.ProjectFactor.ProjectFactorPath;
 import org.jooq.generated.tables.ProjectLanguage.ProjectLanguagePath;
+import org.jooq.generated.tables.ProjectMember.ProjectMemberPath;
 import org.jooq.generated.tables.User.UserPath;
-import org.jooq.generated.tables.UserProject.UserProjectPath;
 import org.jooq.generated.tables.Version.VersionPath;
 import org.jooq.generated.tables.records.ProjectRecord;
 import org.jooq.impl.DSL;
@@ -237,17 +237,17 @@ public class Project extends TableImpl<ProjectRecord> {
         return _projectLanguage;
     }
 
-    private transient UserProjectPath _userProject;
+    private transient ProjectMemberPath _projectMember;
 
     /**
      * Get the implicit to-many join path to the
-     * <code>scale_advisor.USER_PROJECT</code> table
+     * <code>scale_advisor.PROJECT_MEMBER</code> table
      */
-    public UserProjectPath userProject() {
-        if (_userProject == null)
-            _userProject = new UserProjectPath(this, null, Keys.FK_USER_PROJECT_PROJECT_ID.getInverseKey());
+    public ProjectMemberPath projectMember() {
+        if (_projectMember == null)
+            _projectMember = new ProjectMemberPath(this, null, Keys.FK_USER_PROJECT_PROJECT_ID.getInverseKey());
 
-        return _userProject;
+        return _projectMember;
     }
 
     private transient VersionPath _version;
@@ -268,7 +268,7 @@ public class Project extends TableImpl<ProjectRecord> {
      * <code>scale_advisor.USER</code> table
      */
     public UserPath user() {
-        return userProject().user();
+        return projectMember().user();
     }
 
     @Override
