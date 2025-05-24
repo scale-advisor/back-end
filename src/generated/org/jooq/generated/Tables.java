@@ -17,6 +17,7 @@ import org.jooq.generated.tables.CocomoMultiplier;
 import org.jooq.generated.tables.CocomoScaleFactor;
 import org.jooq.generated.tables.File;
 import org.jooq.generated.tables.FpWeights;
+import org.jooq.generated.tables.Invitation;
 import org.jooq.generated.tables.Project;
 import org.jooq.generated.tables.ProjectFactor;
 import org.jooq.generated.tables.ProjectLanguage;
@@ -106,6 +107,11 @@ public class Tables {
      * The table <code>scale_advisor.FP_WEIGHTS</code>.
      */
     public static final FpWeights FP_WEIGHTS = FpWeights.FP_WEIGHTS;
+
+    /**
+     * The table <code>scale_advisor.INVITATION</code>.
+     */
+    public static final Invitation INVITATION = Invitation.INVITATION;
 
     /**
      * The table <code>scale_advisor.PROJECT</code>.

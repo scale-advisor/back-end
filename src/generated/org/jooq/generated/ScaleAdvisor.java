@@ -22,6 +22,7 @@ import org.jooq.generated.tables.CocomoMultiplier;
 import org.jooq.generated.tables.CocomoScaleFactor;
 import org.jooq.generated.tables.File;
 import org.jooq.generated.tables.FpWeights;
+import org.jooq.generated.tables.Invitation;
 import org.jooq.generated.tables.Project;
 import org.jooq.generated.tables.ProjectFactor;
 import org.jooq.generated.tables.ProjectLanguage;
@@ -119,6 +120,11 @@ public class ScaleAdvisor extends SchemaImpl {
      * The table <code>scale_advisor.FP_WEIGHTS</code>.
      */
     public final FpWeights FP_WEIGHTS = FpWeights.FP_WEIGHTS;
+
+    /**
+     * The table <code>scale_advisor.INVITATION</code>.
+     */
+    public final Invitation INVITATION = Invitation.INVITATION;
 
     /**
      * The table <code>scale_advisor.PROJECT</code>.
@@ -234,6 +240,7 @@ public class ScaleAdvisor extends SchemaImpl {
             CocomoScaleFactor.COCOMO_SCALE_FACTOR,
             File.FILE,
             FpWeights.FP_WEIGHTS,
+            Invitation.INVITATION,
             Project.PROJECT,
             ProjectFactor.PROJECT_FACTOR,
             ProjectLanguage.PROJECT_LANGUAGE,
