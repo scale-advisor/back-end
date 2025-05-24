@@ -62,10 +62,7 @@ private class FileS3Adapter(
         return s3Utilities.getUrl(urlRequest).toExternalForm()
     }
 
-    override fun download(
-        projectId: ProjectId,
-        path: String
-    ): ByteArray {
+    override fun download(path: String): ByteArray {
         val getRequest = GetObjectRequest.builder()
             .bucket(bucket)
             .key(path)

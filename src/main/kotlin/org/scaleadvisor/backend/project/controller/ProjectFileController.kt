@@ -4,10 +4,10 @@ import org.scaleadvisor.backend.api.ProjectFileAPI
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.global.exception.model.ForbiddenException
 import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
-import org.scaleadvisor.backend.project.controller.response.file.GetFileResponse
 import org.scaleadvisor.backend.project.application.port.usecase.file.CreateFileUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.file.DownloadFileUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.file.GetFileUseCase
+import org.scaleadvisor.backend.project.controller.response.file.GetFileResponse
 import org.scaleadvisor.backend.project.domain.File
 import org.scaleadvisor.backend.project.domain.enum.FileType
 import org.scaleadvisor.backend.project.domain.id.ProjectId
@@ -69,12 +69,7 @@ private class ProjectFileController(
             )
         )
 
-        val fileData: ByteArray = downloadFileUseCase.download(
-            DownloadFileUseCase.Command(
-                projectId = file.projectId,
-                path = file.path
-            )
-        )
+        val fileData: ByteArray = downloadFileUseCase.download(file.path)
 
         val resource = ByteArrayResource(fileData)
 

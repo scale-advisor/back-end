@@ -48,10 +48,7 @@ private class FileLocalStorageAdapter(
         return destinationFile.toString()
     }
 
-    override fun download(
-        projectId: ProjectId,
-        path: String
-    ): ByteArray {
+    override fun download(path: String): ByteArray {
         return Files.readAllBytes(rootLocation.resolve(path))
     }
 
