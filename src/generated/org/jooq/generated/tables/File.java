@@ -180,6 +180,11 @@ public class File extends TableImpl<FileRecord> {
     }
 
     @Override
+    public List<UniqueKey<FileRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_FILE_UK_FILE_PROJECT_VERSION);
+    }
+
+    @Override
     public List<ForeignKey<FileRecord, ?>> getReferences() {
         return Arrays.asList(Keys.FK_FILE_PROJECT_ID, Keys.FK_FILE_VERSION);
     }
