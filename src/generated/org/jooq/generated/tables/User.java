@@ -29,7 +29,7 @@ import org.jooq.UniqueKey;
 import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
 import org.jooq.generated.tables.Project.ProjectPath;
-import org.jooq.generated.tables.UserProject.UserProjectPath;
+import org.jooq.generated.tables.ProjectMember.ProjectMemberPath;
 import org.jooq.generated.tables.records.UserRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -184,17 +184,17 @@ public class User extends TableImpl<UserRecord> {
         return Arrays.asList(Keys.KEY_USER_EMAIL);
     }
 
-    private transient UserProjectPath _userProject;
+    private transient ProjectMemberPath _projectMember;
 
     /**
      * Get the implicit to-many join path to the
-     * <code>scale_advisor.USER_PROJECT</code> table
+     * <code>scale_advisor.PROJECT_MEMBER</code> table
      */
-    public UserProjectPath userProject() {
-        if (_userProject == null)
-            _userProject = new UserProjectPath(this, null, Keys.FK_USER_PROJECT_USER_ID.getInverseKey());
+    public ProjectMemberPath projectMember() {
+        if (_projectMember == null)
+            _projectMember = new ProjectMemberPath(this, null, Keys.FK_USER_PROJECT_USER_ID.getInverseKey());
 
-        return _userProject;
+        return _projectMember;
     }
 
     /**
@@ -202,7 +202,7 @@ public class User extends TableImpl<UserRecord> {
      * <code>scale_advisor.PROJECT</code> table
      */
     public ProjectPath project() {
-        return userProject().project();
+        return projectMember().project();
     }
 
     @Override
