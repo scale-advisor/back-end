@@ -8,6 +8,7 @@ object IdUtil {
     private val formatter: DateTimeFormatter =
         DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSSSS")
 
+    @JvmStatic
     fun generateId(): Long =
         LocalDateTime.now(ZoneId.systemDefault()).format(formatter).toLong()
 
