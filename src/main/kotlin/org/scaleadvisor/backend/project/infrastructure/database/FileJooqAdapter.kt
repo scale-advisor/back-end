@@ -4,6 +4,7 @@ import org.jooq.DSLContext
 import org.jooq.generated.Tables.FILE
 import org.jooq.generated.tables.records.FileRecord
 import org.scaleadvisor.backend.project.application.port.repository.file.CreateFilePort
+import org.scaleadvisor.backend.project.application.port.repository.file.DeleteFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.GetFilePort
 import org.scaleadvisor.backend.project.domain.File
 import org.scaleadvisor.backend.project.domain.enum.FileType
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Repository
 @Repository
 private class FileJooqAdapter(
     private val dsl: DSLContext
-) : CreateFilePort, GetFilePort {
+) : CreateFilePort, GetFilePort, DeleteFilePort {
 
     private fun FileRecord.toDomain() = File(
         id = FileId.of(this.fileId),
@@ -52,6 +53,12 @@ private class FileJooqAdapter(
             .where(FILE.PROJECT_ID.eq(projectId.toLong()))
             .and(FILE.VERSION_NUMBER.eq(versionNumber))
             .fetchOne { record -> record.into(FILE).toDomain() }
+    }
+
+    override fun deleteAll(projectId: ProjectId) {
+        dsl.deleteFrom(FILE)
+            .where(FILE.PROJECT_ID.eq(projectId.toLong()))
+            .execute()
     }
 
 }

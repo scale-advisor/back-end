@@ -3,12 +3,14 @@ package org.scaleadvisor.backend.project.infrastructure.storage
 import jakarta.annotation.PostConstruct
 import org.scaleadvisor.backend.global.util.FileUtil
 import org.scaleadvisor.backend.project.application.port.repository.file.DownloadFilePort
+import org.scaleadvisor.backend.project.application.port.repository.file.RemoveFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.UploadFilePort
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -16,7 +18,7 @@ import java.nio.file.Paths
 @Component
 @Profile("local")
 private class FileLocalStorageAdapter(
-) : UploadFilePort, DownloadFilePort {
+) : UploadFilePort, DownloadFilePort, RemoveFilePort {
     @Value("\${storage.location}")
     private val location: String = ".storage"
 
@@ -50,6 +52,23 @@ private class FileLocalStorageAdapter(
 
     override fun download(path: String): ByteArray {
         return Files.readAllBytes(rootLocation.resolve(path))
+    }
+
+    override fun removeAll(projectId: ProjectId) {
+        val projectDir = Paths.get(location, projectId.toString())
+        if (Files.notExists(projectDir)) {
+            return
+        }
+
+        try {
+            Files.walk(projectDir)
+                .sorted(Comparator.reverseOrder())
+                .forEach { path ->
+                    Files.deleteIfExists(path)
+                }
+        } catch (e: IOException) {
+            throw RuntimeException("Failed to delete local files for project '$projectId'", e)
+        }
     }
 
 }
