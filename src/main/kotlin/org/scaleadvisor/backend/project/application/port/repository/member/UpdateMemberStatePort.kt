@@ -5,5 +5,5 @@ import org.scaleadvisor.backend.project.domain.enum.MemberState
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 
 fun interface UpdateMemberStatePort {
-    fun updateState(userId: Long, projectId: ProjectId, newState: MemberState): ProjectMember?
+    fun updateState(email: String, projectId: ProjectId, newState: MemberState): ProjectMember?
 }
