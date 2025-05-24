@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
-import org.scaleadvisor.backend.project.api.response.GetFileResponse
+import org.scaleadvisor.backend.project.controller.response.file.GetFileResponse
 import org.scaleadvisor.backend.project.domain.enum.FileType
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.http.HttpStatus
