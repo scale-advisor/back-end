@@ -3,10 +3,8 @@ package org.scaleadvisor.backend.global.email.service
 import jakarta.mail.internet.MimeMessage
 import org.scaleadvisor.backend.global.config.SecurityConfig
 import org.scaleadvisor.backend.global.email.constant.EmailTitleConstant
-import org.scaleadvisor.backend.global.email.dto.ConfirmMailRequest
-import org.scaleadvisor.backend.global.email.dto.ConfirmSignupRequest
-import org.scaleadvisor.backend.global.email.dto.PwdResetConfirmRequest
-import org.scaleadvisor.backend.global.email.dto.PwdResetRequest
+import org.scaleadvisor.backend.global.email.dto.*
+import org.scaleadvisor.backend.global.email.repository.InvitationEmailRepository
 import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
 import org.scaleadvisor.backend.global.exception.model.EmailTokenGoneException
 import org.scaleadvisor.backend.global.exception.model.MessagingException
@@ -26,7 +24,8 @@ class EmailService(
     private val userRepository: UserRepository,
     private val javaMailSender: JavaMailSender,
     private val redisTemplate: RedisTemplate<String, String>,
-    private val securityConfig: SecurityConfig
+    private val securityConfig: SecurityConfig,
+    private val invitationEmailRepository: InvitationEmailRepository
 ) {
 
     @Value("\${spring.mail.username}")
@@ -87,7 +86,7 @@ class EmailService(
             unit = TimeUnit.MINUTES
         )
 
-        val resetLink = "${request.pwdResetRedirectUrl}/apis/auth/reset-password-email?email=$requestEmail&token=$token"
+        val resetLink = "${request.pwdResetRedirectUrl}/auth/reset-password-email?email=$requestEmail&token=$token"
         val content = buildString {
             append("<p>안녕하세요, $serviceName 입니다.</p>")
             append("<p>아래 링크를 클릭하여 비밀번호를 재설정하세요.(10분 동안 유효합니다):</p>")
@@ -95,6 +94,25 @@ class EmailService(
         }
 
         sendMail(serviceName, request.email, content, EmailTitleConstant.RESET_CREDENTIAL_TITLE)
+    }
+
+    fun sendInvitaionEmail(request: InvitationMailRequest, projectId: Long) {
+        val requestEmail = request.email
+        if (!userRepository.existsByEmail(requestEmail)) {
+            throw NotFoundException("해당 이메일의 유저가 존재하지 않습니다.")
+        }
+
+        val token = generateMailToken(prefix = "invitation:token", email = request.email, duration = 1)
+        val invitationLink = "${request.invitationUrl}/invitation?projectId=$projectId&email=$requestEmail&token=$token"
+
+        val content = buildString {
+            append("<p>안녕하세요, $serviceName 입니다.</p>")
+            append("<p>아래 링크를 클릭하여 프로젝트 초대를 수락하세요.(10분 동안 유효합니다):</p>")
+            append("<a href=\"$invitationLink\">프로젝트 들어가기</a>")
+        }
+
+        sendMail(serviceName, request.email, content, EmailTitleConstant.INVITATION_TITLE)
+        invitationEmailRepository.inviteByEmail(requestEmail, projectId)
     }
 
     fun confirmSignup(request: ConfirmSignupRequest) {
@@ -117,6 +135,17 @@ class EmailService(
             val newEncodedPassword = securityConfig.passwordEncoder().encode(request.newPassword)
             userRepository.resetPasswordByEmail(storedEmail!!, newEncodedPassword)
             redisTemplate.delete(key)
+        }
+    }
+
+    fun acceptInvitation(request: AcceptInvitationRequest) {
+        val key = "invitation:token:${request.token}"
+        val storedEmail = valOps().get(key)
+        if (storedEmail == request.email) {
+            redisTemplate.delete(key)
+            invitationEmailRepository.acceptInvitation(request.email, request.projectId.toLong())
+        } else {
+            throw EmailTokenGoneException("이메일 혹은 이메일 토큰이 잘못 되었습니다.")
         }
     }
 }

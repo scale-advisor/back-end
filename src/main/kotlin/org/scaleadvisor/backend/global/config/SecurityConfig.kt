@@ -59,7 +59,8 @@ class SecurityConfig(
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
                         "/api-docs/**",
-                        "/api-docs/swagger-config").permitAll()
+                        "/api-docs/swagger-config",).permitAll()
+                    .requestMatchers("/invitation/**").permitAll()
                     .anyRequest().authenticated()
             }
 

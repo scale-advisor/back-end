@@ -26,6 +26,7 @@ class JwtAuthenticationFilter(
 
     private val excludedPatterns = listOf(
         "/auth/**",
+        "/invitation/**",
         "/swagger-ui/**",
         "/swagger-ui.html",
         "/v3/api-docs/**",
