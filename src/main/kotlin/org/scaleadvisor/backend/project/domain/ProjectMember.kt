@@ -6,7 +6,8 @@ import org.scaleadvisor.backend.project.domain.id.ProjectId
 import java.time.LocalDateTime
 
 data class ProjectMember (
-    val userId: Long,
+    val name: String,
+    val email: String,
     val projectId: ProjectId,
     var state: MemberState,
     var role: MemberRole,
