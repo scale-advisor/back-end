@@ -45,9 +45,15 @@ private class MemberJooqAdapter(
     }
 
     override fun delete(
-        userId: Long,
+        email: String,
         projectId: ProjectId
     ) {
+        val userId = dsl.select(USER.USER_ID)
+            .from(USER)
+            .where(USER.EMAIL.eq(email))
+            .fetchOne(USER.USER_ID)
+            ?: return
+
         dsl.deleteFrom(PROJECT_MEMBER)
             .where(PROJECT_MEMBER.USER_ID.eq(userId))
             .and(PROJECT_MEMBER.PROJECT_ID.eq(projectId.toLong()))
