@@ -4,7 +4,7 @@ import jakarta.mail.internet.MimeMessage
 import org.scaleadvisor.backend.global.config.SecurityConfig
 import org.scaleadvisor.backend.global.email.constant.EmailTitleConstant
 import org.scaleadvisor.backend.global.email.dto.*
-import org.scaleadvisor.backend.global.email.repository.MemberEmailRepository
+import org.scaleadvisor.backend.global.email.repository.InvitationEmailRepository
 import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
 import org.scaleadvisor.backend.global.exception.model.EmailTokenGoneException
 import org.scaleadvisor.backend.global.exception.model.MessagingException
@@ -25,7 +25,7 @@ class EmailService(
     private val javaMailSender: JavaMailSender,
     private val redisTemplate: RedisTemplate<String, String>,
     private val securityConfig: SecurityConfig,
-    private val memberEmailRepository: MemberEmailRepository
+    private val invitationEmailRepository: InvitationEmailRepository
 ) {
 
     @Value("\${spring.mail.username}")
@@ -112,7 +112,7 @@ class EmailService(
         }
 
         sendMail(serviceName, request.email, content, EmailTitleConstant.INVITATION_TITLE)
-        memberEmailRepository.inviteByEmail(requestEmail, projectId)
+        invitationEmailRepository.inviteByEmail(requestEmail, projectId)
     }
 
     fun confirmSignup(request: ConfirmSignupRequest) {
@@ -143,7 +143,7 @@ class EmailService(
         val storedEmail = valOps().get(key)
         if (storedEmail == request.email) {
             redisTemplate.delete(key)
-            memberEmailRepository.acceptInvitation(request.email, request.projectId.toLong())
+            invitationEmailRepository.acceptInvitation(request.email, request.projectId.toLong())
         } else {
             throw EmailTokenGoneException("이메일 혹은 이메일 토큰이 잘못 되었습니다.")
         }
