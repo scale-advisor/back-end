@@ -20,6 +20,7 @@ import org.jooq.generated.tables.FpWeights;
 import org.jooq.generated.tables.Project;
 import org.jooq.generated.tables.ProjectFactor;
 import org.jooq.generated.tables.ProjectLanguage;
+import org.jooq.generated.tables.ProjectMember;
 import org.jooq.generated.tables.QrtzBlobTriggers;
 import org.jooq.generated.tables.QrtzCalendars;
 import org.jooq.generated.tables.QrtzCronTriggers;
@@ -32,7 +33,6 @@ import org.jooq.generated.tables.QrtzSimpleTriggers;
 import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
 import org.jooq.generated.tables.User;
-import org.jooq.generated.tables.UserProject;
 import org.jooq.generated.tables.Version;
 
 
@@ -123,6 +123,11 @@ public class Tables {
     public static final ProjectLanguage PROJECT_LANGUAGE = ProjectLanguage.PROJECT_LANGUAGE;
 
     /**
+     * The table <code>scale_advisor.PROJECT_MEMBER</code>.
+     */
+    public static final ProjectMember PROJECT_MEMBER = ProjectMember.PROJECT_MEMBER;
+
+    /**
      * The table <code>scale_advisor.QRTZ_BLOB_TRIGGERS</code>.
      */
     public static final QrtzBlobTriggers QRTZ_BLOB_TRIGGERS = QrtzBlobTriggers.QRTZ_BLOB_TRIGGERS;
@@ -181,11 +186,6 @@ public class Tables {
      * The table <code>scale_advisor.USER</code>.
      */
     public static final User USER = User.USER;
-
-    /**
-     * The table <code>scale_advisor.USER_PROJECT</code>.
-     */
-    public static final UserProject USER_PROJECT = UserProject.USER_PROJECT;
 
     /**
      * The table <code>scale_advisor.VERSION</code>.

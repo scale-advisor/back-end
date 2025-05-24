@@ -1,7 +1,7 @@
 package org.scaleadvisor.backend.project.application.service.project
 
 import org.scaleadvisor.backend.global.exception.model.ValidationException
-import org.scaleadvisor.backend.project.application.port.repository.member.DeleteUserProjectPort
+import org.scaleadvisor.backend.project.application.port.repository.member.DeleteProjectMemberPort
 import org.scaleadvisor.backend.project.application.port.repository.project.DeleteProjectPort
 import org.scaleadvisor.backend.project.application.port.usecase.fpweights.DeleteFpWeightsUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsProjectMemberUseCase
@@ -20,7 +20,7 @@ private class DeleteProjectService(
     private val checkIsProjectMemberUseCase: CheckIsProjectMemberUseCase,
     private val getProjectUseCase: GetProjectUseCase,
     private val deleteProjectPort: DeleteProjectPort,
-    private val deleteUserProjectPort: DeleteUserProjectPort,
+    private val deleteProjectMemberPort: DeleteProjectMemberPort,
     private val deleteProjectVersionListUseCase: DeleteProjectVersionListUseCase,
     private val deleteProjectFactorUseCase: DeleteProjectFactorUseCase,
     private val deleteProjectLanguageUseCase: DeleteProjectLanguageUseCase,
@@ -44,7 +44,7 @@ private class DeleteProjectService(
         deleteProjectLanguageUseCase.deleteAll(projectId)
         deleteProjectFactorUseCase.delete(projectId)
         deleteProjectVersionListUseCase.deleteAll(projectId)
-        deleteUserProjectPort.delete(userId, projectId)
+        deleteProjectMemberPort.delete(userId, projectId)
         deleteProjectPort.delete(project.id)
     }
 }
