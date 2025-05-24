@@ -3,18 +3,13 @@ package org.scaleadvisor.backend.project.infrastructure
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.PROJECT_MEMBER
 import org.jooq.generated.Tables.USER
-import org.jooq.impl.DSL
-import org.scaleadvisor.backend.project.application.port.repository.member.CreateProjectMemberPort
-import org.scaleadvisor.backend.project.application.port.repository.member.DeleteProjectMemberPort
-import org.scaleadvisor.backend.project.application.port.repository.member.GetAllProjectMemberPort
-import org.scaleadvisor.backend.project.application.port.repository.member.GetProjectMemberPort
+import org.scaleadvisor.backend.project.application.port.repository.member.*
 import org.scaleadvisor.backend.project.domain.*
 import org.scaleadvisor.backend.project.domain.enum.MemberRole
 import org.scaleadvisor.backend.project.domain.enum.MemberState
 import org.scaleadvisor.backend.project.domain.id.ProjectId
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
-
+import java.time.LocalDateTime
 
 @Repository
 private class ProjectMemberJooqAdapter(
@@ -22,9 +17,9 @@ private class ProjectMemberJooqAdapter(
 ) : CreateProjectMemberPort,
     GetProjectMemberPort,
     DeleteProjectMemberPort,
-    GetAllProjectMemberPort{
-
-    private val log = LoggerFactory.getLogger(javaClass)
+    GetAllProjectMemberPort,
+    CheckProjectMemberRolePort,
+    UpdateProjectMemberStatePort{
 
     override fun create(userId: Long, projectId: ProjectId) {
         dsl.insertInto(PROJECT_MEMBER)
@@ -83,6 +78,31 @@ private class ProjectMemberJooqAdapter(
             .offset(offset)
             .limit(limit)
             .fetch { record -> mapToProjectMember(record) }
+    }
+
+    override fun isOwner(userId: Long, projectId: ProjectId): Boolean {
+        return dsl.fetchExists(
+            dsl.selectFrom(PROJECT_MEMBER)
+                .where(PROJECT_MEMBER.USER_ID.eq(userId))
+                .and(PROJECT_MEMBER.PROJECT_ID.eq(projectId.toLong()))
+                .and(PROJECT_MEMBER.ROLE.eq(MemberRole.OWNER.name))
+        )
+    }
+
+    override fun updateState(
+        userId: Long,
+        projectId: ProjectId,
+        newState: MemberState
+    ): MemberState? {
+        val updatedCount = dsl.update(PROJECT_MEMBER)
+            .set(PROJECT_MEMBER.STATE, newState.name)
+            .set(PROJECT_MEMBER.UPDATED_AT, LocalDateTime.now())
+            .where(PROJECT_MEMBER.USER_ID.eq(userId))
+            .and(PROJECT_MEMBER.PROJECT_ID.eq(projectId.toLong()))
+            .and(PROJECT_MEMBER.STATE.eq(MemberState.WAITING.name))
+            .execute()
+
+        return if (updatedCount > 0) newState else null
     }
 
     private fun mapToProjectMember(record: org.jooq.Record): ProjectMember =
