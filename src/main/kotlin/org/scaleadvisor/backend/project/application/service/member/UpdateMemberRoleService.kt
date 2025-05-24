@@ -6,7 +6,7 @@ import org.scaleadvisor.backend.project.domain.ProjectMember
 import org.springframework.stereotype.Service
 
 @Service
-class UpdateMemberRoleService(
+private class UpdateMemberRoleService(
     private val updateMemberRolePort: UpdateMemberRolePort
 ): UpdateMemberRoleUseCase {
 
