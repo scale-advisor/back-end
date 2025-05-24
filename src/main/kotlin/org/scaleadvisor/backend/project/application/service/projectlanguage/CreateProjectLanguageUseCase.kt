@@ -6,8 +6,10 @@ import org.scaleadvisor.backend.project.domain.ProjectLanguage
 import org.scaleadvisor.backend.project.domain.enum.ProgramLanguage
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class CreateProjectLanguageService(
     private val createProjectLanguagePort: CreateProjectLanguagePort
 ) : CreateProjectLanguageUseCase {

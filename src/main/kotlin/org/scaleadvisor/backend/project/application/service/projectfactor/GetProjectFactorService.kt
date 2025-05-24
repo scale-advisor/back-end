@@ -5,8 +5,10 @@ import org.scaleadvisor.backend.project.application.port.usecase.projectfactor.G
 import org.scaleadvisor.backend.project.domain.ProjectFactor
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true)
 private class GetProjectFactorService(
     private val getProjectFactorPort: GetProjectFactorPort
 ) : GetProjectFactorUseCase {

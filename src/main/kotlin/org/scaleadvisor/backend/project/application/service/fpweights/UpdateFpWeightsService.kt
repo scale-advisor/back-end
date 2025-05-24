@@ -6,12 +6,15 @@ import org.scaleadvisor.backend.project.application.port.usecase.fpweights.FindF
 import org.scaleadvisor.backend.project.application.port.usecase.fpweights.UpdateFpWeightsUseCase
 import org.scaleadvisor.backend.project.domain.FpWeights
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class UpdateFpWeightsService(
     private val findFpWeightsUseCase: FindFpWeightsUseCase,
     private val updateFpWeightsPort: UpdateFpWeightsPort
 ): UpdateFpWeightsUseCase {
+
     override fun update(command: UpdateFpWeightsUseCase.UpdateFpWeightsCommand): FpWeights {
         val fpWeights = findFpWeightsUseCase.find(command.projectId)
             ?: throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=$command.projectId)")

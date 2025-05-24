@@ -7,13 +7,16 @@ import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefact
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class DeleteCocomoScaleFactorService(
     private val deleteCocomoScaleFactorPort: DeleteCocomoScaleFactorPort,
     private val getProjectUseCase: GetProjectUseCase,
     private val findCocomoScaleFactorUseCase: FindCocomoScaleFactorUseCase
 ): DeleteCocomoScaleFactorUseCase {
+
     override fun delete(projectId: ProjectId) {
         getProjectUseCase.find(projectId)
             ?: throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=${projectId.value})")

@@ -5,8 +5,10 @@ import org.scaleadvisor.backend.project.application.port.usecase.projectfactor.U
 import org.scaleadvisor.backend.project.application.port.usecase.projectlanguage.UpdateProjectLanguageUseCase
 import org.scaleadvisor.backend.project.domain.ProjectFactor
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class UpdateProjectOptionService(
     private val updateProjectFactorUseCase: UpdateProjectFactorUseCase,
     private val updateProjectLanguageUseCase: UpdateProjectLanguageUseCase,
