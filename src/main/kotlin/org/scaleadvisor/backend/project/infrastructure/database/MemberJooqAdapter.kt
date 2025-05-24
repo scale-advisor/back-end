@@ -141,21 +141,29 @@ private class MemberJooqAdapter(
         projectId: ProjectId,
         newState: MemberState
     ): ProjectMember? {
+        val userId = dsl
+            .select(USER.USER_ID)
+            .from(USER)
+            .where(USER.EMAIL.eq(email))
+            .fetchOne(USER.USER_ID)
+            ?: return null
+
         val updated = dsl.update(PROJECT_MEMBER)
             .set(PROJECT_MEMBER.STATE, newState.name)
             .set(PROJECT_MEMBER.UPDATED_AT, LocalDateTime.now())
-            .from(USER)
             .where(
-                PROJECT_MEMBER.USER_ID.eq(USER.USER_ID),
-                USER.EMAIL.eq(email),
+                PROJECT_MEMBER.USER_ID.eq(userId),
                 PROJECT_MEMBER.PROJECT_ID.eq(projectId.toLong()),
                 PROJECT_MEMBER.STATE.eq(MemberState.LINK_WAITING.name)
             )
             .execute() > 0
 
-        return if (updated) memberSelect(email = email, projectId = projectId)
-            .fetchOne { rec -> mapToProjectMember(rec) }
-        else null
+        return if (updated) {
+            memberSelect(email = email, projectId = projectId)
+                .fetchOne { rec -> mapToProjectMember(rec) }
+        } else {
+            null
+        }
     }
 
     private fun memberSelect(
