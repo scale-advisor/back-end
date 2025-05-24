@@ -5,8 +5,10 @@ import org.scaleadvisor.backend.project.application.port.usecase.cocomomultiplie
 import org.scaleadvisor.backend.project.domain.CocomoMultiplier
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true)
 private class FindCocomoMultiplierService(
     private val findCocomoMultiplierPort: FindCocomoMultiplierPort
 ): FindCocomoMultiplierUseCase {
@@ -14,4 +16,5 @@ private class FindCocomoMultiplierService(
     override fun find(projectId: ProjectId): CocomoMultiplier? {
         return findCocomoMultiplierPort.findByProjectId(projectId)
     }
+
 }

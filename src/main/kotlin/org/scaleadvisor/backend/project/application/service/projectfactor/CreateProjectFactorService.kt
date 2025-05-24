@@ -4,8 +4,10 @@ import org.scaleadvisor.backend.project.application.port.repository.projectfacto
 import org.scaleadvisor.backend.project.application.port.usecase.projectfactor.CreateProjectFactorUseCase
 import org.scaleadvisor.backend.project.domain.ProjectFactor
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class CreateProjectFactorService(
     private val createProjectFactorPort: CreateProjectFactorPort
 ) : CreateProjectFactorUseCase {

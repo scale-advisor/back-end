@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class DeleteProjectService(
     private val checkIsProjectMemberUseCase: CheckIsProjectMemberUseCase,
     private val getProjectUseCase: GetProjectUseCase,
@@ -27,7 +28,6 @@ private class DeleteProjectService(
     private val deleteFpWeightsUseCase: DeleteFpWeightsUseCase
 ) : DeleteProjectUseCase {
 
-    @Transactional
     override fun delete(userId: Long, projectId: ProjectId) {
         val isProjectMember = checkIsProjectMemberUseCase.isProjectMember(
             userId = userId,

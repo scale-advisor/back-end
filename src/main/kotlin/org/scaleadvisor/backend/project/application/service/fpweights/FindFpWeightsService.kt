@@ -5,8 +5,10 @@ import org.scaleadvisor.backend.project.application.port.usecase.fpweights.FindF
 import org.scaleadvisor.backend.project.domain.FpWeights
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true)
 private class FindFpWeightsService(
     private val getFpWeightsPort: FindFpWeightsPort
 ): FindFpWeightsUseCase {
@@ -14,4 +16,5 @@ private class FindFpWeightsService(
     override fun find(projectId: ProjectId): FpWeights? {
         return getFpWeightsPort.findByProjectId(projectId)
     }
+
 }

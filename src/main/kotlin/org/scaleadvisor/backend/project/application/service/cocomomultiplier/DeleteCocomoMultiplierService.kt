@@ -7,13 +7,16 @@ import org.scaleadvisor.backend.project.application.port.usecase.cocomomultiplie
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class DeleteCocomoMultiplierService(
     private val deleteCocomoMultiplierPort: DeleteCocomoMultiplierPort,
     private val findCocomoMultiplierUseCase: FindCocomoMultiplierUseCase,
     private val getProjectUseCase: GetProjectUseCase
 ): DeleteCocomoMultiplierUseCase {
+
     override fun delete(projectId: ProjectId) {
         getProjectUseCase.find(projectId)
             ?: throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=${projectId.value})")
@@ -23,4 +26,5 @@ private class DeleteCocomoMultiplierService(
 
         deleteCocomoMultiplierPort.delete(projectId)
     }
+
 }

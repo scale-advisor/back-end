@@ -6,12 +6,15 @@ import org.scaleadvisor.backend.project.application.port.usecase.cocomomultiplie
 import org.scaleadvisor.backend.project.application.port.usecase.cocomomultiplier.UpdateCocomoMultiplierUseCase
 import org.scaleadvisor.backend.project.domain.CocomoMultiplier
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class UpdateCocomoMultiplierService(
     private val updateCocomoMultiplierPort: UpdateCocomoMultiplierPort,
     private val findCocomoMultiplierUseCase: FindCocomoMultiplierUseCase
 ): UpdateCocomoMultiplierUseCase {
+
     override fun update(command: UpdateCocomoMultiplierUseCase.UpdateCocomoMultiplierCommand
     ): CocomoMultiplier {
         val cocomoMultiplier = findCocomoMultiplierUseCase.find(command.projectId)
@@ -30,4 +33,5 @@ private class UpdateCocomoMultiplierService(
 
         return cocomoMultiplier
     }
+
 }

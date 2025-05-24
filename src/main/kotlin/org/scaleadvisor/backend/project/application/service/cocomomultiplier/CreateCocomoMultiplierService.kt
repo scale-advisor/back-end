@@ -4,11 +4,12 @@ import org.scaleadvisor.backend.project.application.port.repository.cocomomultip
 import org.scaleadvisor.backend.project.application.port.usecase.cocomomultiplier.CreateCocomoMultiplierUseCase
 import org.scaleadvisor.backend.project.domain.CocomoMultiplier
 import org.scaleadvisor.backend.project.domain.id.CocomoMultiplierId
-import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Service
+@Transactional
 private class CreateCocomoMultiplierService(
     private val createCocomoMultiplierPort: CreateCocomoMultiplierPort
 ): CreateCocomoMultiplierUseCase {

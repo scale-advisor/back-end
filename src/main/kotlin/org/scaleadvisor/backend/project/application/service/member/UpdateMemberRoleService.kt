@@ -4,8 +4,10 @@ import org.scaleadvisor.backend.project.application.port.repository.member.Updat
 import org.scaleadvisor.backend.project.application.port.usecase.member.UpdateMemberRoleUseCase
 import org.scaleadvisor.backend.project.domain.ProjectMember
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class UpdateMemberRoleService(
     private val updateMemberRolePort: UpdateMemberRolePort
 ): UpdateMemberRoleUseCase {
@@ -17,4 +19,5 @@ private class UpdateMemberRoleService(
             command.projectId,
             command.newRole
         )
+
 }

@@ -4,8 +4,10 @@ import org.scaleadvisor.backend.project.application.port.repository.projectfacto
 import org.scaleadvisor.backend.project.application.port.usecase.projectfactor.DeleteProjectFactorUseCase
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class DeleteProjectFactorService(
     private val deleteProjectFactorPort: DeleteProjectFactorPort
 ) : DeleteProjectFactorUseCase {
