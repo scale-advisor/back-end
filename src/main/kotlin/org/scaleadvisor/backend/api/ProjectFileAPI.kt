@@ -7,8 +7,10 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.project.api.response.GetFileResponse
 import org.scaleadvisor.backend.project.domain.enum.FileType
+import org.springframework.core.io.ByteArrayResource
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
@@ -53,5 +55,24 @@ interface ProjectFileAPI {
         @PathVariable projectId: Long,
         @RequestParam versionNumber: String
     ) : SuccessResponse<GetFileResponse>
+
+
+    @Operation(
+        summary = "Project File 다운로드",
+        description = "RFP or 요구사항 파일 다운로드",
+        parameters  = [
+            Parameter(
+                name = "projectId",
+                required = true,
+                `in` = ParameterIn.PATH
+            )
+        ]
+    )
+    @GetMapping("/download")
+    @ResponseStatus(HttpStatus.OK)
+    fun download(
+        @PathVariable projectId: Long,
+        @RequestParam versionNumber: String
+    ) : ResponseEntity<ByteArrayResource>
 
 }
