@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.scaleadvisor.backend.api.response.SuccessResponse
+import org.scaleadvisor.backend.project.api.response.GetFileResponse
 import org.scaleadvisor.backend.project.domain.enum.FileType
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -33,5 +35,23 @@ interface ProjectFileAPI {
         @RequestParam type: FileType,
         @RequestPart("file") file: MultipartFile
     )
+
+    @Operation(
+        summary = "Project File 정보 조회",
+        description = "RFP or 요구사항 파일 메타 정보 조회",
+        parameters  = [
+            Parameter(
+                name = "projectId",
+                required = true,
+                `in` = ParameterIn.PATH
+            )
+        ]
+    )
+    @GetMapping("")
+    @ResponseStatus(HttpStatus.OK)
+    fun find(
+        @PathVariable projectId: Long,
+        @RequestParam versionNumber: String
+    ) : SuccessResponse<GetFileResponse>
 
 }
