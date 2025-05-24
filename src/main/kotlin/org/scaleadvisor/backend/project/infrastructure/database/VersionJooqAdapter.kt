@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.project.infrastructure
+package org.scaleadvisor.backend.project.infrastructure.database
 
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.VERSION
@@ -28,6 +28,14 @@ private class VersionJooqAdapter(
             .set(VERSION.VERSION_NUMBER, version.versionNumber)
             .set(VERSION.CREATED_AT, LocalDateTime.now())
             .execute()
+    }
+
+    override fun findOrderByVersionNumberDesc(projectId: ProjectId): Version? {
+        return dsl
+            .selectFrom(VERSION)
+            .where(VERSION.PROJECT_ID.eq(projectId.toLong()))
+            .orderBy(VERSION.VERSION_NUMBER.desc())
+            .fetchOne { record -> record.into(VERSION).toDomain() }
     }
 
     override fun findAll(projectId: ProjectId): List<Version> {

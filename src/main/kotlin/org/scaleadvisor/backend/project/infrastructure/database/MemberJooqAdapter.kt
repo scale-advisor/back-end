@@ -1,13 +1,10 @@
-package org.scaleadvisor.backend.project.infrastructure
+package org.scaleadvisor.backend.project.infrastructure.database
 
-import org.jooq.Condition
-import org.jooq.DSLContext
-import org.jooq.Record7
-import org.jooq.SelectConditionStep
+import org.jooq.*
 import org.jooq.generated.Tables.PROJECT_MEMBER
 import org.jooq.generated.Tables.USER
 import org.scaleadvisor.backend.project.application.port.repository.member.*
-import org.scaleadvisor.backend.project.domain.*
+import org.scaleadvisor.backend.project.domain.ProjectMember
 import org.scaleadvisor.backend.project.domain.enum.MemberRole
 import org.scaleadvisor.backend.project.domain.enum.MemberState
 import org.scaleadvisor.backend.project.domain.id.ProjectId
@@ -164,7 +161,7 @@ private class MemberJooqAdapter(
             .where(*conditions.toTypedArray())
     }
 
-    private fun mapToProjectMember(record: org.jooq.Record): ProjectMember =
+    private fun mapToProjectMember(record: Record): ProjectMember =
         ProjectMember(
             name      = record.get(USER.NAME),
             email     = record.get(USER.EMAIL),

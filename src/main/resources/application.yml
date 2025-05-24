@@ -112,6 +112,9 @@ logging:
 app:
   url: ${APP_URL}
 
+storage:
+  location: .storage
+
 ---
 spring:
   config:
