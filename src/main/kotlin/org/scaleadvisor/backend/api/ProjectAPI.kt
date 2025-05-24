@@ -3,11 +3,11 @@ package org.scaleadvisor.backend.api
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
-import org.scaleadvisor.backend.project.api.request.CreateProjectRequest
-import org.scaleadvisor.backend.project.api.request.UpdateProjectRequest
-import org.scaleadvisor.backend.project.api.response.CreateProjectResponse
-import org.scaleadvisor.backend.project.api.response.GetAllProjectResponse
-import org.scaleadvisor.backend.project.api.response.UpdateProjectResponse
+import org.scaleadvisor.backend.project.controller.request.project.CreateProjectRequest
+import org.scaleadvisor.backend.project.controller.request.project.UpdateProjectRequest
+import org.scaleadvisor.backend.project.controller.response.project.CreateProjectResponse
+import org.scaleadvisor.backend.project.controller.response.project.GetAllProjectResponse
+import org.scaleadvisor.backend.project.controller.response.project.UpdateProjectResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
