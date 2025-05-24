@@ -6,12 +6,15 @@ import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefact
 import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefactor.UpdateCocomoScaleFactorUseCase
 import org.scaleadvisor.backend.project.domain.CocomoScaleFactor
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class UpdateScaleFactorService(
     private val updateCocomoScaleFactorPort: UpdateCocomoScaleFactorPort,
     private val findCocomoScaleFactorUseCase: FindCocomoScaleFactorUseCase
 ): UpdateCocomoScaleFactorUseCase {
+
     override fun update(command: UpdateCocomoScaleFactorUseCase.UpdateCocomoScaleFactorCommand): CocomoScaleFactor {
         val cocomoScaleFactor = findCocomoScaleFactorUseCase.find(command.projectId)
             ?: throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=$command.projectId)")
@@ -28,4 +31,5 @@ private class UpdateScaleFactorService(
 
         return cocomoScaleFactor
     }
+
 }

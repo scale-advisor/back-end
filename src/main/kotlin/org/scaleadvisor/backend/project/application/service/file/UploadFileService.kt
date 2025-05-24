@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service
 private class UploadFileService(
     private val uploadFilePort: UploadFilePort
 ) : UploadFileUseCase {
+
     override fun upload(command: UploadFileUseCase.Command) {
         uploadFilePort.upload(
             projectId = command.projectId,
@@ -16,7 +17,5 @@ private class UploadFileService(
             path = command.path
         )
     }
-
-
 
 }

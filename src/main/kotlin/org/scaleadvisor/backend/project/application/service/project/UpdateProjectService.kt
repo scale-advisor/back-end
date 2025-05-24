@@ -8,9 +8,11 @@ import org.scaleadvisor.backend.project.application.port.usecase.project.GetProj
 import org.scaleadvisor.backend.project.application.port.usecase.project.UpdateProjectUseCase
 import org.scaleadvisor.backend.project.domain.Project
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Service
+@Transactional
 private class UpdateProjectService(
     private val checkIsProjectMemberUseCase: CheckIsProjectMemberUseCase,
     private val getProjectUseCase: GetProjectUseCase,

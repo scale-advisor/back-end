@@ -16,6 +16,7 @@ import java.time.LocalDateTime
 
 
 @Service
+@Transactional
 private class CreateFileService(
     private val getProjectUseCase: GetProjectUseCase,
     private val getVersionUseCase: GetVersionUseCase,
@@ -23,7 +24,6 @@ private class CreateFileService(
     private val createFilePort: CreateFilePort
 ) : CreateFileUseCase {
 
-    @Transactional
     override fun create(command: CreateFileUseCase.Command) {
         val project: Project = getProjectUseCase.find(command.projectId)
             ?: throw NotFoundException("Project not found")

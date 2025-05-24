@@ -9,10 +9,9 @@ import org.springframework.stereotype.Service
 private class DownloadFileService(
     private val downloadFilePort: DownloadFilePort,
 ) : DownloadFileUseCase {
+
     override fun download(path: String): ByteArray {
         return downloadFilePort.download(path)
     }
-
-
 
 }

@@ -5,8 +5,10 @@ import org.scaleadvisor.backend.project.application.port.repository.file.GetFile
 import org.scaleadvisor.backend.project.application.port.usecase.file.GetFileUseCase
 import org.scaleadvisor.backend.project.domain.File
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true)
 private class GetFileService(
     private val getFilePort: GetFilePort
 ) : GetFileUseCase {

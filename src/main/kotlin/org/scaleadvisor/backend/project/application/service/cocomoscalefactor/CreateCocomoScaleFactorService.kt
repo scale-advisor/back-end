@@ -5,12 +5,15 @@ import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefact
 import org.scaleadvisor.backend.project.domain.CocomoScaleFactor
 import org.scaleadvisor.backend.project.domain.id.CocomoScaleFactorId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Service
+@Transactional
 private class CreateCocomoScaleFactorService(
     private val createCocomoScaleFactorPort: CreateCocomoScaleFactorPort
 ): CreateCocomoScaleFactorUseCase {
+
     override fun create(command: CreateCocomoScaleFactorUseCase.CreateCocomoScaleFactorCommand
     ): CocomoScaleFactor {
         val newId = CocomoScaleFactorId.newId()

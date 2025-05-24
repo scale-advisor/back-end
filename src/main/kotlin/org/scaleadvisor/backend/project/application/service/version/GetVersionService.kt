@@ -6,8 +6,10 @@ import org.scaleadvisor.backend.project.application.port.usecase.version.GetVers
 import org.scaleadvisor.backend.project.domain.Version
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true)
 private class GetVersionService(
     private val getVersionPort: GetVersionPort
 ) : GetVersionUseCase {
