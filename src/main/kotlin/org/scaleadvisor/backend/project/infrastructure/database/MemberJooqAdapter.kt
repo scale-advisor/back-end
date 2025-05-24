@@ -128,7 +128,7 @@ private class MemberJooqAdapter(
                 PROJECT_MEMBER.USER_ID.eq(USER.USER_ID),
                 USER.EMAIL.eq(email),
                 PROJECT_MEMBER.PROJECT_ID.eq(projectId.toLong()),
-                PROJECT_MEMBER.STATE.eq(MemberState.WAITING.name)
+                PROJECT_MEMBER.STATE.eq(MemberState.LINK_WAITING.name)
             )
             .execute() > 0
 

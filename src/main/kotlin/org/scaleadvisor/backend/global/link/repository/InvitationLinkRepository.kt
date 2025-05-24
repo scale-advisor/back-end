@@ -32,7 +32,7 @@ class InvitationLinkRepository (
             .set(PROJECT_MEMBER.USER_ID,    userId)
             .set(PROJECT_MEMBER.PROJECT_ID, projectId)
             .set(PROJECT_MEMBER.ROLE,       MemberRole.VIEWER.name)
-            .set(PROJECT_MEMBER.STATE,      MemberState.WAITING.name)
+            .set(PROJECT_MEMBER.STATE,      MemberState.LINK_WAITING.name)
             .set(PROJECT_MEMBER.CREATED_AT, now)
             .set(PROJECT_MEMBER.UPDATED_AT, now)
             .execute()
