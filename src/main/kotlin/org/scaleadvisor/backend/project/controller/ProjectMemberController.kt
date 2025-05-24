@@ -3,11 +3,14 @@ package org.scaleadvisor.backend.project.controller
 import org.scaleadvisor.backend.api.ProjectMemberAPI
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
+import org.scaleadvisor.backend.project.application.port.usecase.member.DeleteMemberUseCase
 import org.scaleadvisor.backend.project.controller.request.member.UpdateMemberRoleRequest
 import org.scaleadvisor.backend.project.controller.response.member.GetAllProjectMemberResponse
 import org.scaleadvisor.backend.project.controller.response.member.UpdateMemberRoleResponse
 import org.scaleadvisor.backend.project.application.port.usecase.member.GetAllProjectMemberUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.member.UpdateMemberRoleUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
+import org.scaleadvisor.backend.project.controller.request.member.DeleteMemberRequest
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.web.bind.annotation.RestController
 
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController
 private class ProjectMemberController(
     private val getAllProjectMemberUseCase: GetAllProjectMemberUseCase,
     private val updateMemberRoleUseCase: UpdateMemberRoleUseCase,
+    private val getProjectUseCase: GetProjectUseCase,
+    private val deleteMemberUseCase: DeleteMemberUseCase
 ) : ProjectMemberAPI {
 
     override fun findAll(
@@ -47,5 +52,12 @@ private class ProjectMemberController(
         return SuccessResponse.from(
             UpdateMemberRoleResponse.from(updated)
         )
+    }
+
+    override fun delete(projectId: Long, request: DeleteMemberRequest) {
+        getProjectUseCase.find(ProjectId.of(projectId))
+            ?: throw NotFoundException("해당 프로젝트는 존재하지 않습니다.")
+
+        deleteMemberUseCase.delete(request.email, projectId)
     }
 }

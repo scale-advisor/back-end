@@ -3,6 +3,7 @@ package org.scaleadvisor.backend.project.infrastructure.database
 import org.jooq.*
 import org.jooq.generated.Tables.PROJECT_MEMBER
 import org.jooq.generated.Tables.USER
+import org.jooq.impl.DSL
 import org.scaleadvisor.backend.project.application.port.repository.member.*
 import org.scaleadvisor.backend.project.domain.ProjectMember
 import org.scaleadvisor.backend.project.domain.enum.MemberRole
@@ -54,11 +55,31 @@ private class MemberJooqAdapter(
             .execute()
     }
 
+    override fun delete(email: String, projectId: Long) {
+        val userId = dsl.select(USER.USER_ID)
+            .from(USER)
+            .where(USER.EMAIL.eq(email))
+            .fetchOne(USER.USER_ID)
+            ?: return
+
+        dsl.deleteFrom(PROJECT_MEMBER)
+            .where(PROJECT_MEMBER.USER_ID.eq(userId))
+            .and(PROJECT_MEMBER.PROJECT_ID.eq(projectId))
+            .execute()
+    }
+
     override fun findAllByProjectId(
         projectId: ProjectId,
         offset: Int,
         limit: Int
     ): List<ProjectMember> {
+        val roleOrder = DSL
+            .`when`(PROJECT_MEMBER.ROLE.eq(MemberRole.OWNER.name), 1)
+            .`when`(PROJECT_MEMBER.ROLE.eq(MemberRole.EDITOR.name), 2)
+            .`when`(PROJECT_MEMBER.ROLE.eq(MemberRole.VIEWER.name), 3)
+            .otherwise(4)
+            .asc()
+
         return dsl
             .select(
                 USER.NAME,
@@ -73,7 +94,7 @@ private class MemberJooqAdapter(
             .join(USER).on(PROJECT_MEMBER.USER_ID.eq(USER.USER_ID))
             .where(PROJECT_MEMBER.PROJECT_ID.eq(projectId.toLong()))
             .orderBy(
-                PROJECT_MEMBER.ROLE.desc(),
+                roleOrder,
                 USER.NAME.asc()
             )
             .offset(offset)
@@ -128,7 +149,7 @@ private class MemberJooqAdapter(
                 PROJECT_MEMBER.USER_ID.eq(USER.USER_ID),
                 USER.EMAIL.eq(email),
                 PROJECT_MEMBER.PROJECT_ID.eq(projectId.toLong()),
-                PROJECT_MEMBER.STATE.eq(MemberState.WAITING.name)
+                PROJECT_MEMBER.STATE.eq(MemberState.LINK_WAITING.name)
             )
             .execute() > 0
 
