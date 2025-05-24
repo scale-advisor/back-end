@@ -5,9 +5,9 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
-import org.scaleadvisor.backend.project.api.request.CreateProjectOptionRequest
-import org.scaleadvisor.backend.project.api.request.UpdateProjectOptionRequest
-import org.scaleadvisor.backend.project.api.response.GetProjectOptionResponse
+import org.scaleadvisor.backend.project.controller.request.CreateProjectOptionRequest
+import org.scaleadvisor.backend.project.controller.request.UpdateProjectOptionRequest
+import org.scaleadvisor.backend.project.controller.response.GetProjectOptionResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 

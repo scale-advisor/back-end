@@ -2,11 +2,17 @@ package org.scaleadvisor.backend.api
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
-import org.scaleadvisor.backend.project.api.request.CreateCocomoMultiplierRequest
-import org.scaleadvisor.backend.project.api.request.CreateCocomoScaleFactorRequest
-import org.scaleadvisor.backend.project.api.request.UpdateCocomoMultiplierRequest
-import org.scaleadvisor.backend.project.api.request.UpdateCocomoScaleFactorRequest
-import org.scaleadvisor.backend.project.api.response.*
+import org.scaleadvisor.backend.project.controller.request.cocomomultiplier.CreateCocomoMultiplierRequest
+import org.scaleadvisor.backend.project.controller.request.cocomoscalefactor.CreateCocomoScaleFactorRequest
+import org.scaleadvisor.backend.project.controller.request.cocomomultiplier.UpdateCocomoMultiplierRequest
+import org.scaleadvisor.backend.project.controller.request.cocomoscalefactor.UpdateCocomoScaleFactorRequest
+import org.scaleadvisor.backend.project.controller.response.*
+import org.scaleadvisor.backend.project.controller.response.cocomomultiplier.CreateCocomoMultiplierResponse
+import org.scaleadvisor.backend.project.controller.response.cocomomultiplier.FindCocomoMultiplierResponse
+import org.scaleadvisor.backend.project.controller.response.cocomomultiplier.UpdateCocomoMultiplierResponse
+import org.scaleadvisor.backend.project.controller.response.cocomoscalefactor.CreateCocomoScaleFactorResponse
+import org.scaleadvisor.backend.project.controller.response.cocomoscalefactor.FindCocomoScaleFactorResponse
+import org.scaleadvisor.backend.project.controller.response.cocomoscalefactor.UpdateCocomoScaleFactorResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping

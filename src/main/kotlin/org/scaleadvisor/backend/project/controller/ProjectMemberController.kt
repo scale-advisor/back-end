@@ -1,0 +1,51 @@
+package org.scaleadvisor.backend.project.controller
+
+import org.scaleadvisor.backend.api.ProjectMemberAPI
+import org.scaleadvisor.backend.api.response.SuccessResponse
+import org.scaleadvisor.backend.global.exception.model.NotFoundException
+import org.scaleadvisor.backend.project.controller.request.member.UpdateMemberRoleRequest
+import org.scaleadvisor.backend.project.controller.response.member.GetAllProjectMemberResponse
+import org.scaleadvisor.backend.project.controller.response.member.UpdateMemberRoleResponse
+import org.scaleadvisor.backend.project.application.port.usecase.member.GetAllProjectMemberUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.member.UpdateMemberRoleUseCase
+import org.scaleadvisor.backend.project.domain.id.ProjectId
+import org.springframework.web.bind.annotation.RestController
+
+
+@RestController
+private class ProjectMemberController(
+    private val getAllProjectMemberUseCase: GetAllProjectMemberUseCase,
+    private val updateMemberRoleUseCase: UpdateMemberRoleUseCase,
+) : ProjectMemberAPI {
+
+    override fun findAll(
+        projectId: Long,
+        offset: Int,
+        limit: Int
+    ): SuccessResponse<GetAllProjectMemberResponse> {
+
+        val members = getAllProjectMemberUseCase
+            .findAllByProjectId(ProjectId.of(projectId), offset, limit)
+
+        return SuccessResponse.from(
+            GetAllProjectMemberResponse.from(members)
+        )
+    }
+
+    override fun updateMemberRole(
+        projectId: Long,
+        request: UpdateMemberRoleRequest
+    ): SuccessResponse<UpdateMemberRoleResponse> {
+        val updated = updateMemberRoleUseCase.update(
+            UpdateMemberRoleUseCase.UpdateMemberRoleCommand(
+                email = request.email,
+                projectId = ProjectId.of(projectId),
+                newRole = request.newRole
+            )
+        ) ?: throw NotFoundException("해당 멤버는 잘못된 멤버입니다.")
+
+        return SuccessResponse.from(
+            UpdateMemberRoleResponse.from(updated)
+        )
+    }
+}

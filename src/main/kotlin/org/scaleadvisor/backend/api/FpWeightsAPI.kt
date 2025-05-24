@@ -3,11 +3,11 @@ package org.scaleadvisor.backend.api
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
-import org.scaleadvisor.backend.project.api.request.CreateFpWeightsRequest
-import org.scaleadvisor.backend.project.api.request.UpdateFpWeightsRequest
-import org.scaleadvisor.backend.project.api.response.CreateFpWeightsResponse
-import org.scaleadvisor.backend.project.api.response.FindFpWeightsResponse
-import org.scaleadvisor.backend.project.api.response.UpdateFpWeightsResponse
+import org.scaleadvisor.backend.project.controller.request.fpweights.CreateFpWeightsRequest
+import org.scaleadvisor.backend.project.controller.request.fpweights.UpdateFpWeightsRequest
+import org.scaleadvisor.backend.project.controller.response.fpweights.CreateFpWeightsResponse
+import org.scaleadvisor.backend.project.controller.response.fpweights.FindFpWeightsResponse
+import org.scaleadvisor.backend.project.controller.response.fpweights.UpdateFpWeightsResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
