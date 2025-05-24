@@ -53,6 +53,11 @@ spring:
           threadPool:
             threadCount: 1
 
+  servlet:
+    multipart:
+      max-file-size: 50MB       # 업로드 1개 파일 최대 10 MB
+      max-request-size: 50MB    # 한 요청(multipart/form-data) 전체 합계 10 MB
+      file-size-threshold: 2MB  # 2 MB 넘으면 바로 디스크에 쓴다(메모리 절약, 선택)
 
 server:
   servlet:
@@ -106,6 +111,9 @@ logging:
 
 app:
   url: ${APP_URL}
+
+storage:
+  location: .storage
 
 ---
 spring:

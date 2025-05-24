@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.project.infrastructure
+package org.scaleadvisor.backend.project.infrastructure.database
 
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.PROJECT
