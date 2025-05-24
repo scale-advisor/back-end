@@ -3,12 +3,15 @@ package org.scaleadvisor.backend.project.controller
 import org.scaleadvisor.backend.api.ProjectMemberAPI
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
+import org.scaleadvisor.backend.project.api.request.UpdateMemberStateRequest
+import org.scaleadvisor.backend.project.api.response.UpdateMemberStateResponse
 import org.scaleadvisor.backend.project.application.port.usecase.member.DeleteMemberUseCase
 import org.scaleadvisor.backend.project.controller.request.member.UpdateMemberRoleRequest
 import org.scaleadvisor.backend.project.controller.response.member.GetAllProjectMemberResponse
 import org.scaleadvisor.backend.project.controller.response.member.UpdateMemberRoleResponse
 import org.scaleadvisor.backend.project.application.port.usecase.member.GetAllProjectMemberUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.member.UpdateMemberRoleUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.member.UpdateMemberStateUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.controller.request.member.DeleteMemberRequest
 import org.scaleadvisor.backend.project.domain.id.ProjectId
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 private class ProjectMemberController(
     private val getAllProjectMemberUseCase: GetAllProjectMemberUseCase,
     private val updateMemberRoleUseCase: UpdateMemberRoleUseCase,
+    private val updateMemberStateUseCase: UpdateMemberStateUseCase,
     private val getProjectUseCase: GetProjectUseCase,
     private val deleteMemberUseCase: DeleteMemberUseCase
 ) : ProjectMemberAPI {
@@ -51,6 +55,23 @@ private class ProjectMemberController(
 
         return SuccessResponse.from(
             UpdateMemberRoleResponse.from(updated)
+        )
+    }
+
+    override fun updateMemberState(
+        projectId: Long,
+        request: UpdateMemberStateRequest
+    ): SuccessResponse<UpdateMemberStateResponse> {
+        val updated = updateMemberStateUseCase.update(
+            UpdateMemberStateUseCase.UpdateMemberStateCommand(
+                email = request.email,
+                projectId = ProjectId.of(projectId),
+                newState = request.newState
+            )
+        ) ?: throw NotFoundException("해당 멤버는 잘못된 멤버입니다.")
+
+        return SuccessResponse.from(
+            UpdateMemberStateResponse.from(updated)
         )
     }
 
