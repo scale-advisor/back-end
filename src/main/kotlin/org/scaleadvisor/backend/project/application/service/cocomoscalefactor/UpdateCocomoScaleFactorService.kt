@@ -2,8 +2,6 @@ package org.scaleadvisor.backend.project.application.service.cocomoscalefactor
 
 import org.scaleadvisor.backend.global.exception.model.ForbiddenException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
-import org.scaleadvisor.backend.global.exception.model.UnauthorizedException
-import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.project.application.port.repository.cocomoscalefactor.UpdateCocomoScaleFactorPort
 import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefactor.FindCocomoScaleFactorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.cocomoscalefactor.UpdateCocomoScaleFactorUseCase

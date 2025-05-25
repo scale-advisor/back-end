@@ -2,8 +2,6 @@ package org.scaleadvisor.backend.project.application.service.fpweights
 
 import org.scaleadvisor.backend.global.exception.model.ForbiddenException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
-import org.scaleadvisor.backend.global.exception.model.UnauthorizedException
-import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.project.application.port.repository.fpweights.UpdateFpWeightsPort
 import org.scaleadvisor.backend.project.application.port.usecase.fpweights.FindFpWeightsUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.fpweights.UpdateFpWeightsUseCase

@@ -1,8 +1,6 @@
 package org.scaleadvisor.backend.project.application.service.projectlanguage
 
 import org.scaleadvisor.backend.global.exception.model.ForbiddenException
-import org.scaleadvisor.backend.global.exception.model.UnauthorizedException
-import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.project.application.port.repository.projectlanguage.DeleteProjectLanguagePort
 import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsEditorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.projectlanguage.DeleteProjectLanguageUseCase
