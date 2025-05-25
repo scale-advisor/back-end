@@ -1,6 +1,7 @@
 package org.scaleadvisor.backend.project.controller.response.project
 
 import org.scaleadvisor.backend.project.domain.Project
+import org.scaleadvisor.backend.project.domain.VersionNumber
 import java.time.LocalDateTime
 
 data class GetAllProjectResponse(
@@ -16,12 +17,12 @@ data class GetAllProjectResponse(
     ) {
         companion object {
             @JvmStatic
-            fun of(project: Project, versionList: List<String>): ProjectDTO = ProjectDTO(
+            fun of(project: Project, versionList: List<VersionNumber>): ProjectDTO = ProjectDTO(
                 id = project.id.toString(),
                 name = project.name,
                 description = project.description,
                 updatedAt = project.updatedAt!!,
-                versionList = versionList
+                versionList = versionList.map { it.toString() }
             )
         }
     }

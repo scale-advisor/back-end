@@ -7,6 +7,7 @@ import org.scaleadvisor.backend.project.application.port.usecase.project.CreateP
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.domain.Project
 import org.scaleadvisor.backend.project.domain.Version
+import org.scaleadvisor.backend.project.domain.VersionNumber
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -39,7 +40,7 @@ private class CreateProjectService(
 
         val version = Version(
             projectId = project.id,
-            versionNumber = "1.0"
+            versionNumber = VersionNumber.INITIAL
         )
         createVersionPort.create(version)
 

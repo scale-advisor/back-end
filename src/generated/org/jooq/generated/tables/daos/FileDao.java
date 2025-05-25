@@ -84,18 +84,33 @@ public class FileDao extends DAOImpl<FileRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>VERSION_NUMBER BETWEEN lowerInclusive AND
+     * Fetch records that have <code>MAJOR_NUMBER BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<org.jooq.generated.tables.pojos.File> fetchRangeOfVersionNumber(String lowerInclusive, String upperInclusive) {
-        return fetchRange(File.FILE.VERSION_NUMBER, lowerInclusive, upperInclusive);
+    public List<org.jooq.generated.tables.pojos.File> fetchRangeOfMajorNumber(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(File.FILE.MAJOR_NUMBER, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>VERSION_NUMBER IN (values)</code>
+     * Fetch records that have <code>MAJOR_NUMBER IN (values)</code>
      */
-    public List<org.jooq.generated.tables.pojos.File> fetchByVersionNumber(String... values) {
-        return fetch(File.FILE.VERSION_NUMBER, values);
+    public List<org.jooq.generated.tables.pojos.File> fetchByMajorNumber(Integer... values) {
+        return fetch(File.FILE.MAJOR_NUMBER, values);
+    }
+
+    /**
+     * Fetch records that have <code>MINOR_NUMBER BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<org.jooq.generated.tables.pojos.File> fetchRangeOfMinorNumber(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(File.FILE.MINOR_NUMBER, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>MINOR_NUMBER IN (values)</code>
+     */
+    public List<org.jooq.generated.tables.pojos.File> fetchByMinorNumber(Integer... values) {
+        return fetch(File.FILE.MINOR_NUMBER, values);
     }
 
     /**

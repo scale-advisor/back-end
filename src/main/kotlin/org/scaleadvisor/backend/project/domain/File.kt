@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 data class File (
     val id: FileId,
     val projectId: ProjectId,
-    val versionNumber: String,
+    val versionNumber: VersionNumber,
     var name: String,
     var type: FileType,
     var uploaderId: Long,

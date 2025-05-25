@@ -9,6 +9,7 @@ import org.scaleadvisor.backend.project.application.port.usecase.project.GetProj
 import org.scaleadvisor.backend.project.application.port.usecase.version.GetVersionUseCase
 import org.scaleadvisor.backend.project.domain.File
 import org.scaleadvisor.backend.project.domain.Project
+import org.scaleadvisor.backend.project.domain.VersionNumber
 import org.scaleadvisor.backend.project.domain.id.FileId
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -28,7 +29,7 @@ private class CreateFileService(
         val project: Project = getProjectUseCase.find(command.projectId)
             ?: throw NotFoundException("Project not found")
 
-        val versionNumber: String = getVersionUseCase.findLatest(project.id)
+        val versionNumber: VersionNumber = getVersionUseCase.findLatest(project.id)
         val path: String = project.id.toString() + "/" + versionNumber + "/" + command.file.originalFilename
 
         val file = File(
