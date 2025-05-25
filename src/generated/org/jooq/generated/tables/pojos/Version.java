@@ -17,28 +17,28 @@ public class Version implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long projectId;
-    private Integer majorNumber;
-    private Integer minorNumber;
+    private Integer versionMajorNumber;
+    private Integer versionMinorNumber;
     private LocalDateTime createdAt;
 
     public Version() {}
 
     public Version(Version value) {
         this.projectId = value.projectId;
-        this.majorNumber = value.majorNumber;
-        this.minorNumber = value.minorNumber;
+        this.versionMajorNumber = value.versionMajorNumber;
+        this.versionMinorNumber = value.versionMinorNumber;
         this.createdAt = value.createdAt;
     }
 
     public Version(
         Long projectId,
-        Integer majorNumber,
-        Integer minorNumber,
+        Integer versionMajorNumber,
+        Integer versionMinorNumber,
         LocalDateTime createdAt
     ) {
         this.projectId = projectId;
-        this.majorNumber = majorNumber;
-        this.minorNumber = minorNumber;
+        this.versionMajorNumber = versionMajorNumber;
+        this.versionMinorNumber = versionMinorNumber;
         this.createdAt = createdAt;
     }
 
@@ -58,32 +58,32 @@ public class Version implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.VERSION.MAJOR_NUMBER</code>.
+     * Getter for <code>scale_advisor.VERSION.VERSION_MAJOR_NUMBER</code>.
      */
-    public Integer getMajorNumber() {
-        return this.majorNumber;
+    public Integer getVersionMajorNumber() {
+        return this.versionMajorNumber;
     }
 
     /**
-     * Setter for <code>scale_advisor.VERSION.MAJOR_NUMBER</code>.
+     * Setter for <code>scale_advisor.VERSION.VERSION_MAJOR_NUMBER</code>.
      */
-    public Version setMajorNumber(Integer majorNumber) {
-        this.majorNumber = majorNumber;
+    public Version setVersionMajorNumber(Integer versionMajorNumber) {
+        this.versionMajorNumber = versionMajorNumber;
         return this;
     }
 
     /**
-     * Getter for <code>scale_advisor.VERSION.MINOR_NUMBER</code>.
+     * Getter for <code>scale_advisor.VERSION.VERSION_MINOR_NUMBER</code>.
      */
-    public Integer getMinorNumber() {
-        return this.minorNumber;
+    public Integer getVersionMinorNumber() {
+        return this.versionMinorNumber;
     }
 
     /**
-     * Setter for <code>scale_advisor.VERSION.MINOR_NUMBER</code>.
+     * Setter for <code>scale_advisor.VERSION.VERSION_MINOR_NUMBER</code>.
      */
-    public Version setMinorNumber(Integer minorNumber) {
-        this.minorNumber = minorNumber;
+    public Version setVersionMinorNumber(Integer versionMinorNumber) {
+        this.versionMinorNumber = versionMinorNumber;
         return this;
     }
 
@@ -117,17 +117,17 @@ public class Version implements Serializable {
         }
         else if (!this.projectId.equals(other.projectId))
             return false;
-        if (this.majorNumber == null) {
-            if (other.majorNumber != null)
+        if (this.versionMajorNumber == null) {
+            if (other.versionMajorNumber != null)
                 return false;
         }
-        else if (!this.majorNumber.equals(other.majorNumber))
+        else if (!this.versionMajorNumber.equals(other.versionMajorNumber))
             return false;
-        if (this.minorNumber == null) {
-            if (other.minorNumber != null)
+        if (this.versionMinorNumber == null) {
+            if (other.versionMinorNumber != null)
                 return false;
         }
-        else if (!this.minorNumber.equals(other.minorNumber))
+        else if (!this.versionMinorNumber.equals(other.versionMinorNumber))
             return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
@@ -143,8 +143,8 @@ public class Version implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.projectId == null) ? 0 : this.projectId.hashCode());
-        result = prime * result + ((this.majorNumber == null) ? 0 : this.majorNumber.hashCode());
-        result = prime * result + ((this.minorNumber == null) ? 0 : this.minorNumber.hashCode());
+        result = prime * result + ((this.versionMajorNumber == null) ? 0 : this.versionMajorNumber.hashCode());
+        result = prime * result + ((this.versionMinorNumber == null) ? 0 : this.versionMinorNumber.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         return result;
     }
@@ -154,8 +154,8 @@ public class Version implements Serializable {
         StringBuilder sb = new StringBuilder("Version (");
 
         sb.append(projectId);
-        sb.append(", ").append(majorNumber);
-        sb.append(", ").append(minorNumber);
+        sb.append(", ").append(versionMajorNumber);
+        sb.append(", ").append(versionMinorNumber);
         sb.append(", ").append(createdAt);
 
         sb.append(")");

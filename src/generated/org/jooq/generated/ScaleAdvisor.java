@@ -38,6 +38,7 @@ import org.jooq.generated.tables.QrtzSchedulerState;
 import org.jooq.generated.tables.QrtzSimpleTriggers;
 import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
+import org.jooq.generated.tables.Requirement;
 import org.jooq.generated.tables.User;
 import org.jooq.generated.tables.Version;
 import org.jooq.impl.SchemaImpl;
@@ -202,6 +203,11 @@ public class ScaleAdvisor extends SchemaImpl {
     public final QrtzTriggers QRTZ_TRIGGERS = QrtzTriggers.QRTZ_TRIGGERS;
 
     /**
+     * The table <code>scale_advisor.REQUIREMENT</code>.
+     */
+    public final Requirement REQUIREMENT = Requirement.REQUIREMENT;
+
+    /**
      * The table <code>scale_advisor.USER</code>.
      */
     public final User USER = User.USER;
@@ -256,6 +262,7 @@ public class ScaleAdvisor extends SchemaImpl {
             QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS,
             QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS,
             QrtzTriggers.QRTZ_TRIGGERS,
+            Requirement.REQUIREMENT,
             User.USER,
             Version.VERSION
         );
