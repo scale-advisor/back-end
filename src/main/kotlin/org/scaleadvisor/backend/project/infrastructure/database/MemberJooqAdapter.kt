@@ -21,6 +21,7 @@ private class MemberJooqAdapter(
     GetAllProjectMemberPort,
     CheckProjectMemberRolePort,
     CheckIsEditorPort,
+    CheckIsOwnerPort,
     UpdateMemberRolePort,
     UpdateMemberStatePort{
 
@@ -59,6 +60,20 @@ private class MemberJooqAdapter(
                         MemberRole.OWNER.name,
                         MemberRole.EDITOR.name
                     )
+                )
+        )
+    }
+
+    override fun checkIsOwner(
+        projectId: Long,
+        userId: Long
+    ): Boolean {
+        return dsl.fetchExists(
+            dsl.selectFrom(PROJECT_MEMBER)
+                .where(PROJECT_MEMBER.USER_ID.eq(userId))
+                .and(PROJECT_MEMBER.PROJECT_ID.eq(projectId))
+                .and(
+                    PROJECT_MEMBER.ROLE.eq(MemberRole.OWNER.name),
                 )
         )
     }
