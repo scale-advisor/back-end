@@ -69,9 +69,7 @@ private class MemberJooqAdapter(
     }
 
     override fun findAllByProjectId(
-        projectId: ProjectId,
-        offset: Int,
-        limit: Int
+        projectId: ProjectId
     ): List<ProjectMember> {
         val roleOrder = DSL
             .`when`(PROJECT_MEMBER.ROLE.eq(MemberRole.OWNER.name), 1)
@@ -97,8 +95,6 @@ private class MemberJooqAdapter(
                 roleOrder,
                 USER.NAME.asc()
             )
-            .offset(offset)
-            .limit(limit)
             .fetch { record -> mapToProjectMember(record) }
     }
 

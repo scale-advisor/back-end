@@ -28,13 +28,11 @@ private class ProjectMemberController(
 ) : ProjectMemberAPI {
 
     override fun findAll(
-        projectId: Long,
-        offset: Int,
-        limit: Int
+        projectId: Long
     ): SuccessResponse<GetAllProjectMemberResponse> {
 
         val members = getAllProjectMemberUseCase
-            .findAllByProjectId(ProjectId.of(projectId), offset, limit)
+            .findAllByProjectId(ProjectId.of(projectId))
 
         return SuccessResponse.from(
             GetAllProjectMemberResponse.from(members)
