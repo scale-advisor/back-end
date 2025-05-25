@@ -30,6 +30,7 @@ import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
 import org.jooq.generated.tables.File.FilePath;
 import org.jooq.generated.tables.Project.ProjectPath;
+import org.jooq.generated.tables.Requirement.RequirementPath;
 import org.jooq.generated.tables.records.VersionRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -63,14 +64,14 @@ public class Version extends TableImpl<VersionRecord> {
     public final TableField<VersionRecord, Long> PROJECT_ID = createField(DSL.name("PROJECT_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.VERSION.MAJOR_NUMBER</code>.
+     * The column <code>scale_advisor.VERSION.VERSION_MAJOR_NUMBER</code>.
      */
-    public final TableField<VersionRecord, Integer> MAJOR_NUMBER = createField(DSL.name("MAJOR_NUMBER"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<VersionRecord, Integer> VERSION_MAJOR_NUMBER = createField(DSL.name("VERSION_MAJOR_NUMBER"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.VERSION.MINOR_NUMBER</code>.
+     * The column <code>scale_advisor.VERSION.VERSION_MINOR_NUMBER</code>.
      */
-    public final TableField<VersionRecord, Integer> MINOR_NUMBER = createField(DSL.name("MINOR_NUMBER"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<VersionRecord, Integer> VERSION_MINOR_NUMBER = createField(DSL.name("VERSION_MINOR_NUMBER"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>scale_advisor.VERSION.CREATED_AT</code>.
@@ -178,6 +179,19 @@ public class Version extends TableImpl<VersionRecord> {
             _file = new FilePath(this, null, Keys.FK_FILE_VERSION.getInverseKey());
 
         return _file;
+    }
+
+    private transient RequirementPath _requirement;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>scale_advisor.REQUIREMENT</code> table
+     */
+    public RequirementPath requirement() {
+        if (_requirement == null)
+            _requirement = new RequirementPath(this, null, Keys.FK_REQUIREMENT_VERSION.getInverseKey());
+
+        return _requirement;
     }
 
     @Override

@@ -22,7 +22,7 @@ private class FileJooqAdapter(
     private fun FileRecord.toDomain() = File(
         id = FileId.of(this.fileId),
         projectId = ProjectId.of(this.projectId),
-        versionNumber = VersionNumber.of(this.majorNumber, this.minorNumber),
+        versionNumber = VersionNumber.of(this.versionMajorNumber, this.versionMinorNumber),
         name = this.name,
         type = FileType.valueOf(this.type),
         uploaderId = this.uploaderId,
@@ -36,8 +36,8 @@ private class FileJooqAdapter(
         dsl.insertInto(FILE)
             .set(FILE.FILE_ID, file.id.toLong())
             .set(FILE.PROJECT_ID, file.projectId.toLong())
-            .set(FILE.MAJOR_NUMBER, file.versionNumber.major)
-            .set(FILE.MINOR_NUMBER, file.versionNumber.minor)
+            .set(FILE.VERSION_MAJOR_NUMBER, file.versionNumber.major)
+            .set(FILE.VERSION_MINOR_NUMBER, file.versionNumber.minor)
             .set(FILE.NAME, file.name)
             .set(FILE.TYPE, file.type.name)
             .set(FILE.UPLOADER_ID, file.uploaderId)
@@ -54,16 +54,16 @@ private class FileJooqAdapter(
     ): File? {
         return dsl.selectFrom(FILE)
             .where(FILE.PROJECT_ID.eq(projectId.toLong()))
-            .and(FILE.MAJOR_NUMBER.eq(versionNumber.major))
-            .and(FILE.MINOR_NUMBER.eq(versionNumber.minor))
+            .and(FILE.VERSION_MAJOR_NUMBER.eq(versionNumber.major))
+            .and(FILE.VERSION_MINOR_NUMBER.eq(versionNumber.minor))
             .fetchOne { record -> record.into(FILE).toDomain() }
     }
 
     override fun delete(version: Version) {
         dsl.deleteFrom(FILE)
             .where(FILE.PROJECT_ID.eq(version.projectId.toLong()))
-            .and(FILE.MAJOR_NUMBER.eq(version.versionNumber.major))
-            .and(FILE.MINOR_NUMBER.eq(version.versionNumber.minor))
+            .and(FILE.VERSION_MAJOR_NUMBER.eq(version.versionNumber.major))
+            .and(FILE.VERSION_MINOR_NUMBER.eq(version.versionNumber.minor))
             .execute()
     }
 

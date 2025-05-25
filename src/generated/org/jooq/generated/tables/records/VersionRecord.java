@@ -35,32 +35,32 @@ public class VersionRecord extends UpdatableRecordImpl<VersionRecord> {
     }
 
     /**
-     * Setter for <code>scale_advisor.VERSION.MAJOR_NUMBER</code>.
+     * Setter for <code>scale_advisor.VERSION.VERSION_MAJOR_NUMBER</code>.
      */
-    public VersionRecord setMajorNumber(Integer value) {
+    public VersionRecord setVersionMajorNumber(Integer value) {
         set(1, value);
         return this;
     }
 
     /**
-     * Getter for <code>scale_advisor.VERSION.MAJOR_NUMBER</code>.
+     * Getter for <code>scale_advisor.VERSION.VERSION_MAJOR_NUMBER</code>.
      */
-    public Integer getMajorNumber() {
+    public Integer getVersionMajorNumber() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>scale_advisor.VERSION.MINOR_NUMBER</code>.
+     * Setter for <code>scale_advisor.VERSION.VERSION_MINOR_NUMBER</code>.
      */
-    public VersionRecord setMinorNumber(Integer value) {
+    public VersionRecord setVersionMinorNumber(Integer value) {
         set(2, value);
         return this;
     }
 
     /**
-     * Getter for <code>scale_advisor.VERSION.MINOR_NUMBER</code>.
+     * Getter for <code>scale_advisor.VERSION.VERSION_MINOR_NUMBER</code>.
      */
-    public Integer getMinorNumber() {
+    public Integer getVersionMinorNumber() {
         return (Integer) get(2);
     }
 
@@ -102,12 +102,12 @@ public class VersionRecord extends UpdatableRecordImpl<VersionRecord> {
     /**
      * Create a detached, initialised VersionRecord
      */
-    public VersionRecord(Long projectId, Integer majorNumber, Integer minorNumber, LocalDateTime createdAt) {
+    public VersionRecord(Long projectId, Integer versionMajorNumber, Integer versionMinorNumber, LocalDateTime createdAt) {
         super(Version.VERSION);
 
         setProjectId(projectId);
-        setMajorNumber(majorNumber);
-        setMinorNumber(minorNumber);
+        setVersionMajorNumber(versionMajorNumber);
+        setVersionMinorNumber(versionMinorNumber);
         setCreatedAt(createdAt);
         resetChangedOnNotNull();
     }
@@ -120,8 +120,8 @@ public class VersionRecord extends UpdatableRecordImpl<VersionRecord> {
 
         if (value != null) {
             setProjectId(value.getProjectId());
-            setMajorNumber(value.getMajorNumber());
-            setMinorNumber(value.getMinorNumber());
+            setVersionMajorNumber(value.getVersionMajorNumber());
+            setVersionMinorNumber(value.getVersionMinorNumber());
             setCreatedAt(value.getCreatedAt());
             resetChangedOnNotNull();
         }
