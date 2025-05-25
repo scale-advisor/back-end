@@ -16,7 +16,7 @@ private class GetFileService(
     override fun find(command: GetFileUseCase.Command): File {
         return getFilePort.find(
             projectId = command.projectId,
-            versionNumber = command.versionNumber
+            projectVersion = command.projectVersion
         ) ?: throw NotFoundException("File not found")
     }
 

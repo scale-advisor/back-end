@@ -5,7 +5,7 @@ import org.scaleadvisor.backend.global.util.FileUtil
 import org.scaleadvisor.backend.project.application.port.repository.file.DownloadFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.RemoveFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.UploadFilePort
-import org.scaleadvisor.backend.project.domain.Version
+import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
@@ -55,8 +55,8 @@ private class FileLocalStorageAdapter(
         return Files.readAllBytes(rootLocation.resolve(path))
     }
 
-    override fun remove(version: Version) {
-        val projectDir = Paths.get(location, version.projectId.toString(), version.versionNumber.toString())
+    override fun remove(projectId: ProjectId, projectVersion: ProjectVersion) {
+        val projectDir = Paths.get(location, projectId.toString(), projectVersion.toString())
         if (Files.notExists(projectDir)) {
             return
         }
@@ -67,7 +67,7 @@ private class FileLocalStorageAdapter(
                     Files.deleteIfExists(path)
                 }
         } catch (e: IOException) {
-            throw RuntimeException("Failed to delete local files for project '${version.projectId}' and version '${version.versionNumber}'", e)
+            throw RuntimeException("Failed to delete local files for project '${projectId}' and version '${projectVersion}'", e)
         }
     }
 

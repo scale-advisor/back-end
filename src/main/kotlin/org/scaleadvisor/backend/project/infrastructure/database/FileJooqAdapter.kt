@@ -7,11 +7,10 @@ import org.scaleadvisor.backend.project.application.port.repository.file.CreateF
 import org.scaleadvisor.backend.project.application.port.repository.file.DeleteFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.GetFilePort
 import org.scaleadvisor.backend.project.domain.File
-import org.scaleadvisor.backend.project.domain.Version
+import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.enum.FileType
 import org.scaleadvisor.backend.project.domain.id.FileId
 import org.scaleadvisor.backend.project.domain.id.ProjectId
-import org.scaleadvisor.backend.project.domain.vo.VersionNumber
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -22,7 +21,7 @@ private class FileJooqAdapter(
     private fun FileRecord.toDomain() = File(
         id = FileId.of(this.fileId),
         projectId = ProjectId.of(this.projectId),
-        versionNumber = VersionNumber.of(this.versionMajorNumber, this.versionMinorNumber),
+        projectVersion = ProjectVersion.of(this.versionMajorNumber, this.versionMinorNumber),
         name = this.name,
         type = FileType.valueOf(this.type),
         uploaderId = this.uploaderId,
@@ -36,8 +35,8 @@ private class FileJooqAdapter(
         dsl.insertInto(FILE)
             .set(FILE.FILE_ID, file.id.toLong())
             .set(FILE.PROJECT_ID, file.projectId.toLong())
-            .set(FILE.VERSION_MAJOR_NUMBER, file.versionNumber.major)
-            .set(FILE.VERSION_MINOR_NUMBER, file.versionNumber.minor)
+            .set(FILE.VERSION_MAJOR_NUMBER, file.projectVersion.major)
+            .set(FILE.VERSION_MINOR_NUMBER, file.projectVersion.minor)
             .set(FILE.NAME, file.name)
             .set(FILE.TYPE, file.type.name)
             .set(FILE.UPLOADER_ID, file.uploaderId)
@@ -50,20 +49,20 @@ private class FileJooqAdapter(
 
     override fun find(
         projectId: ProjectId,
-        versionNumber: VersionNumber
+        projectVersion: ProjectVersion
     ): File? {
         return dsl.selectFrom(FILE)
             .where(FILE.PROJECT_ID.eq(projectId.toLong()))
-            .and(FILE.VERSION_MAJOR_NUMBER.eq(versionNumber.major))
-            .and(FILE.VERSION_MINOR_NUMBER.eq(versionNumber.minor))
+            .and(FILE.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+            .and(FILE.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
             .fetchOne { record -> record.into(FILE).toDomain() }
     }
 
-    override fun delete(version: Version) {
+    override fun delete(projectId: ProjectId, projectVersion: ProjectVersion) {
         dsl.deleteFrom(FILE)
-            .where(FILE.PROJECT_ID.eq(version.projectId.toLong()))
-            .and(FILE.VERSION_MAJOR_NUMBER.eq(version.versionNumber.major))
-            .and(FILE.VERSION_MINOR_NUMBER.eq(version.versionNumber.minor))
+            .where(FILE.PROJECT_ID.eq(projectId.toLong()))
+            .and(FILE.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+            .and(FILE.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
             .execute()
     }
 

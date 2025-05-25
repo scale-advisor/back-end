@@ -1,6 +1,6 @@
 package org.scaleadvisor.backend.project.controller.request.requirement
 
-import org.scaleadvisor.backend.project.domain.Requirement
+import org.scaleadvisor.backend.project.domain.ProjectRequirement
 
 data class CreateRequirementRequest (
     val requirementNumber: String,
@@ -10,7 +10,7 @@ data class CreateRequirementRequest (
     val requirementType: String,
     val note: String,
 ) {
-    fun toDomain(): Requirement = Requirement(
+    fun toDomain(): ProjectRequirement = ProjectRequirement(
         number = requirementNumber,
         name = requirementName,
         detailNumber = requirementDetailNumber,

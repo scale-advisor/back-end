@@ -1,6 +1,6 @@
 package org.scaleadvisor.backend.project.domain
 
-data class Requirement(
+data class ProjectRequirement(
     val number: String,
     val name: String,
     val detailNumber: String,

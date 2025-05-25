@@ -9,7 +9,7 @@ import org.scaleadvisor.backend.project.application.port.usecase.file.DownloadFi
 import org.scaleadvisor.backend.project.application.port.usecase.file.GetFileUseCase
 import org.scaleadvisor.backend.project.controller.response.file.GetFileResponse
 import org.scaleadvisor.backend.project.domain.File
-import org.scaleadvisor.backend.project.domain.vo.VersionNumber
+import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.enum.FileType
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.core.io.ByteArrayResource
@@ -52,7 +52,7 @@ private class ProjectFileController(
         val file = getFileUseCase.find(
             GetFileUseCase.Command(
                 projectId = ProjectId.of(projectId),
-                versionNumber = VersionNumber.of(versionNumber)
+                projectVersion = ProjectVersion.of(versionNumber)
             )
         )
 
@@ -66,7 +66,7 @@ private class ProjectFileController(
         val file: File = getFileUseCase.find(
             GetFileUseCase.Command(
                 projectId = ProjectId.of(projectId),
-                versionNumber = VersionNumber.of(versionNumber)
+                projectVersion = ProjectVersion.of(versionNumber)
             )
         )
 
