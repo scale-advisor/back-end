@@ -2,8 +2,8 @@ package org.scaleadvisor.backend.user.service
 
 import org.scaleadvisor.backend.global.config.SecurityConfig
 import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
-import org.scaleadvisor.backend.global.exception.model.ForbiddenException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
+import org.scaleadvisor.backend.global.exception.model.UnauthorizedException
 import org.scaleadvisor.backend.global.exception.model.ValidationException
 import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.user.dto.ChangePwdRequest
@@ -20,7 +20,7 @@ class UserService(
 
     private val currentUserId: Long
         get() = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
-            ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
+            ?: throw UnauthorizedException("만료 되거나 잘못된 인증 입니다.")
 
     fun updateName(request: UpdateNameRequest) {
         if (userRepository.updateNameById(currentUserId, request.newName) != 1){
