@@ -35,5 +35,7 @@ interface UserAPI {
     )
     @DeleteMapping("/delete-user")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteUser(@RequestBody request: DeleteUserRequest, response: HttpServletResponse)
+    fun deleteUser(@CookieValue(value = "refreshToken", required = false) refreshToken: String?,
+                   @RequestBody request: DeleteUserRequest,
+                   response: HttpServletResponse)
 }
