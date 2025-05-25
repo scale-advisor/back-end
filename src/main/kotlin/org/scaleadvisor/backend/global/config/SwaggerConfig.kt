@@ -12,12 +12,16 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 
 @Configuration
-class SwaggerConfig {
-
+class SwaggerConfig(
     @Value("\${app.url}")
-    private val appUrl: String = ""
+    private val appUrl: String,
+
+    @Value("\${app.dev-port:}")
+    private val devPort: String,
+
     @Value("\${server.servlet.context-path}")
-    private val contextPath: String = ""
+    private val contextPath: String
+) {
 
     @Bean
     fun customOpenAPI(): OpenAPI {
@@ -35,13 +39,24 @@ class SwaggerConfig {
         val components = Components()
             .addSecuritySchemes(jwtSchemeName, securityScheme)
 
-        val server = Server()
-            .url("${appUrl}${contextPath}")
-            .description("Production Server")
+        val servers = mutableListOf<Server>()
+
+        servers.add(
+            Server()
+                .url("${appUrl}${contextPath}")
+                .description("Production Server")
+        )
+        if (devPort.isNotEmpty()) {
+            servers.add(
+                Server()
+                    .url("${appUrl}:${devPort}${contextPath}")
+                    .description("Dev Server")
+            )
+        }
 
 
         return OpenAPI()
-            .servers(listOf(server))
+            .servers(servers)
             .components(components)
             .addSecurityItem(securityRequirement)
             .info(
