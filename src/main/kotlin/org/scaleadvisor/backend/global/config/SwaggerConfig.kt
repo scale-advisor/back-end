@@ -43,7 +43,7 @@ class SwaggerConfig(
         if (devPort.isNotEmpty()) {
             server = Server()
                 .url("${appUrl}:${devPort}${contextPath}")
-                .description("Dev Server")
+                .description("Production Server")
 
         } else {
             server = Server()
