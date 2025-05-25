@@ -2,6 +2,7 @@ package org.scaleadvisor.backend.api
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.servlet.http.HttpServletResponse
 import org.scaleadvisor.backend.user.dto.ChangePwdRequest
 import org.scaleadvisor.backend.user.dto.DeleteUserRequest
 import org.scaleadvisor.backend.user.dto.UpdateNameRequest
@@ -33,6 +34,6 @@ interface UserAPI {
         description = "사용자 정보 삭제"
     )
     @DeleteMapping("/delete-user")
-    @ResponseStatus(HttpStatus.OK)
-    fun deleteUser(@RequestBody request: DeleteUserRequest): ResponseEntity<String>
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteUser(@RequestBody request: DeleteUserRequest, response: HttpServletResponse)
 }

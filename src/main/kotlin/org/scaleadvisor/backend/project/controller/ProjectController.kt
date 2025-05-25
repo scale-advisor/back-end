@@ -2,7 +2,7 @@ package org.scaleadvisor.backend.project.controller
 
 import org.scaleadvisor.backend.api.ProjectAPI
 import org.scaleadvisor.backend.api.response.SuccessResponse
-import org.scaleadvisor.backend.global.exception.model.ForbiddenException
+import org.scaleadvisor.backend.global.exception.model.UnauthorizedException
 import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.project.application.port.usecase.project.CreateProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.DeleteProjectUseCase
@@ -28,7 +28,7 @@ private class ProjectController(
 ) : ProjectAPI {
     override fun create(request: CreateProjectRequest): SuccessResponse<CreateProjectResponse> {
         val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
-            ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
+            ?: throw UnauthorizedException("만료 되거나 잘못된 인증 입니다.")
 
         val project: Project = createProjectUseCase.create(
             CreateProjectUseCase.CreateProjectCommand(
@@ -45,7 +45,7 @@ private class ProjectController(
 
     override fun findAll(): SuccessResponse<GetAllProjectResponse> {
         val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
-            ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
+            ?: throw UnauthorizedException("만료 되거나 잘못된 인증 입니다.")
         val projects : List<GetAllProjectResponse.ProjectDTO> = getProjectUseCase.findAll(currentUserId)
             .map { project ->
                 GetAllProjectResponse.ProjectDTO.of(
@@ -62,7 +62,7 @@ private class ProjectController(
         request: UpdateProjectRequest
     ): SuccessResponse<UpdateProjectResponse> {
         val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
-            ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
+            ?: throw UnauthorizedException("만료 되거나 잘못된 인증 입니다.")
 
         val project: Project = updateProjectUseCase.update(
             UpdateProjectUseCase.UpdateProjectCommand(
@@ -80,7 +80,7 @@ private class ProjectController(
 
     override fun delete(projectId: Long) {
         val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
-            ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
+            ?: throw UnauthorizedException("만료 되거나 잘못된 인증 입니다.")
 
         deleteProjectUseCase.delete(
             userId = currentUserId,

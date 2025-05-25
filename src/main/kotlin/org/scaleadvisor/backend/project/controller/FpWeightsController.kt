@@ -2,9 +2,7 @@ package org.scaleadvisor.backend.project.controller
 
 import org.scaleadvisor.backend.api.FpWeightsAPI
 import org.scaleadvisor.backend.api.response.SuccessResponse
-import org.scaleadvisor.backend.global.exception.model.ForbiddenException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
-import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.project.controller.request.fpweights.CreateFpWeightsRequest
 import org.scaleadvisor.backend.project.controller.request.fpweights.UpdateFpWeightsRequest
 import org.scaleadvisor.backend.project.controller.response.fpweights.CreateFpWeightsResponse
@@ -29,12 +27,6 @@ private class FpWeightsController(
     override fun create(projectId: Long,
                         request: CreateFpWeightsRequest
     ): SuccessResponse<CreateFpWeightsResponse> {
-        val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
-            ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
-
-        val project = getProjectUseCase
-            .find(ProjectId(projectId))
-            ?: throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=$projectId)")
 
         val fpWeights = createFpWeightsUseCase.create(
             CreateFpWeightsUseCase.CreateFpWeightsCommand(
@@ -64,12 +56,6 @@ private class FpWeightsController(
         projectId: Long,
         request: UpdateFpWeightsRequest
     ): SuccessResponse<UpdateFpWeightsResponse> {
-        val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
-            ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
-
-        val project = getProjectUseCase
-            .find(ProjectId.of(projectId))
-            ?: throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=$projectId)")
 
         val updated = updateFpWeightsUseCase.update(
             UpdateFpWeightsUseCase.UpdateFpWeightsCommand(
