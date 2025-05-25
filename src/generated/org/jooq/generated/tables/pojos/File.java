@@ -18,7 +18,8 @@ public class File implements Serializable {
 
     private Long fileId;
     private Long projectId;
-    private String versionNumber;
+    private Integer majorNumber;
+    private Integer minorNumber;
     private String type;
     private String name;
     private Long uploaderId;
@@ -32,7 +33,8 @@ public class File implements Serializable {
     public File(File value) {
         this.fileId = value.fileId;
         this.projectId = value.projectId;
-        this.versionNumber = value.versionNumber;
+        this.majorNumber = value.majorNumber;
+        this.minorNumber = value.minorNumber;
         this.type = value.type;
         this.name = value.name;
         this.uploaderId = value.uploaderId;
@@ -45,7 +47,8 @@ public class File implements Serializable {
     public File(
         Long fileId,
         Long projectId,
-        String versionNumber,
+        Integer majorNumber,
+        Integer minorNumber,
         String type,
         String name,
         Long uploaderId,
@@ -56,7 +59,8 @@ public class File implements Serializable {
     ) {
         this.fileId = fileId;
         this.projectId = projectId;
-        this.versionNumber = versionNumber;
+        this.majorNumber = majorNumber;
+        this.minorNumber = minorNumber;
         this.type = type;
         this.name = name;
         this.uploaderId = uploaderId;
@@ -97,17 +101,32 @@ public class File implements Serializable {
     }
 
     /**
-     * Getter for <code>scale_advisor.FILE.VERSION_NUMBER</code>.
+     * Getter for <code>scale_advisor.FILE.MAJOR_NUMBER</code>.
      */
-    public String getVersionNumber() {
-        return this.versionNumber;
+    public Integer getMajorNumber() {
+        return this.majorNumber;
     }
 
     /**
-     * Setter for <code>scale_advisor.FILE.VERSION_NUMBER</code>.
+     * Setter for <code>scale_advisor.FILE.MAJOR_NUMBER</code>.
      */
-    public File setVersionNumber(String versionNumber) {
-        this.versionNumber = versionNumber;
+    public File setMajorNumber(Integer majorNumber) {
+        this.majorNumber = majorNumber;
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.FILE.MINOR_NUMBER</code>.
+     */
+    public Integer getMinorNumber() {
+        return this.minorNumber;
+    }
+
+    /**
+     * Setter for <code>scale_advisor.FILE.MINOR_NUMBER</code>.
+     */
+    public File setMinorNumber(Integer minorNumber) {
+        this.minorNumber = minorNumber;
         return this;
     }
 
@@ -237,11 +256,17 @@ public class File implements Serializable {
         }
         else if (!this.projectId.equals(other.projectId))
             return false;
-        if (this.versionNumber == null) {
-            if (other.versionNumber != null)
+        if (this.majorNumber == null) {
+            if (other.majorNumber != null)
                 return false;
         }
-        else if (!this.versionNumber.equals(other.versionNumber))
+        else if (!this.majorNumber.equals(other.majorNumber))
+            return false;
+        if (this.minorNumber == null) {
+            if (other.minorNumber != null)
+                return false;
+        }
+        else if (!this.minorNumber.equals(other.minorNumber))
             return false;
         if (this.type == null) {
             if (other.type != null)
@@ -294,7 +319,8 @@ public class File implements Serializable {
         int result = 1;
         result = prime * result + ((this.fileId == null) ? 0 : this.fileId.hashCode());
         result = prime * result + ((this.projectId == null) ? 0 : this.projectId.hashCode());
-        result = prime * result + ((this.versionNumber == null) ? 0 : this.versionNumber.hashCode());
+        result = prime * result + ((this.majorNumber == null) ? 0 : this.majorNumber.hashCode());
+        result = prime * result + ((this.minorNumber == null) ? 0 : this.minorNumber.hashCode());
         result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         result = prime * result + ((this.uploaderId == null) ? 0 : this.uploaderId.hashCode());
@@ -311,7 +337,8 @@ public class File implements Serializable {
 
         sb.append(fileId);
         sb.append(", ").append(projectId);
-        sb.append(", ").append(versionNumber);
+        sb.append(", ").append(majorNumber);
+        sb.append(", ").append(minorNumber);
         sb.append(", ").append(type);
         sb.append(", ").append(name);
         sb.append(", ").append(uploaderId);

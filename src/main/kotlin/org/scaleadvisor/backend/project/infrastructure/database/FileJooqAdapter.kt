@@ -7,6 +7,7 @@ import org.scaleadvisor.backend.project.application.port.repository.file.CreateF
 import org.scaleadvisor.backend.project.application.port.repository.file.DeleteFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.GetFilePort
 import org.scaleadvisor.backend.project.domain.File
+import org.scaleadvisor.backend.project.domain.VersionNumber
 import org.scaleadvisor.backend.project.domain.enum.FileType
 import org.scaleadvisor.backend.project.domain.id.FileId
 import org.scaleadvisor.backend.project.domain.id.ProjectId
@@ -20,7 +21,7 @@ private class FileJooqAdapter(
     private fun FileRecord.toDomain() = File(
         id = FileId.of(this.fileId),
         projectId = ProjectId.of(this.projectId),
-        versionNumber = this.versionNumber,
+        versionNumber = VersionNumber.of(this.majorNumber, this.minorNumber),
         name = this.name,
         type = FileType.valueOf(this.type),
         uploaderId = this.uploaderId,
@@ -34,7 +35,8 @@ private class FileJooqAdapter(
         dsl.insertInto(FILE)
             .set(FILE.FILE_ID, file.id.toLong())
             .set(FILE.PROJECT_ID, file.projectId.toLong())
-            .set(FILE.VERSION_NUMBER, file.versionNumber)
+            .set(FILE.MAJOR_NUMBER, file.versionNumber.major)
+            .set(FILE.MINOR_NUMBER, file.versionNumber.minor)
             .set(FILE.NAME, file.name)
             .set(FILE.TYPE, file.type.name)
             .set(FILE.UPLOADER_ID, file.uploaderId)
@@ -47,11 +49,12 @@ private class FileJooqAdapter(
 
     override fun find(
         projectId: ProjectId,
-        versionNumber: String
+        versionNumber: VersionNumber
     ): File? {
         return dsl.selectFrom(FILE)
             .where(FILE.PROJECT_ID.eq(projectId.toLong()))
-            .and(FILE.VERSION_NUMBER.eq(versionNumber))
+            .and(FILE.MAJOR_NUMBER.eq(versionNumber.major))
+            .and(FILE.MINOR_NUMBER.eq(versionNumber.minor))
             .fetchOne { record -> record.into(FILE).toDomain() }
     }
 

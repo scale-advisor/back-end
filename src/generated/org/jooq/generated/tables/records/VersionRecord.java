@@ -6,7 +6,7 @@ package org.jooq.generated.tables.records;
 
 import java.time.LocalDateTime;
 
-import org.jooq.Record2;
+import org.jooq.Record3;
 import org.jooq.generated.tables.Version;
 import org.jooq.impl.UpdatableRecordImpl;
 
@@ -35,25 +35,40 @@ public class VersionRecord extends UpdatableRecordImpl<VersionRecord> {
     }
 
     /**
-     * Setter for <code>scale_advisor.VERSION.VERSION_NUMBER</code>.
+     * Setter for <code>scale_advisor.VERSION.MAJOR_NUMBER</code>.
      */
-    public VersionRecord setVersionNumber(String value) {
+    public VersionRecord setMajorNumber(Integer value) {
         set(1, value);
         return this;
     }
 
     /**
-     * Getter for <code>scale_advisor.VERSION.VERSION_NUMBER</code>.
+     * Getter for <code>scale_advisor.VERSION.MAJOR_NUMBER</code>.
      */
-    public String getVersionNumber() {
-        return (String) get(1);
+    public Integer getMajorNumber() {
+        return (Integer) get(1);
+    }
+
+    /**
+     * Setter for <code>scale_advisor.VERSION.MINOR_NUMBER</code>.
+     */
+    public VersionRecord setMinorNumber(Integer value) {
+        set(2, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.VERSION.MINOR_NUMBER</code>.
+     */
+    public Integer getMinorNumber() {
+        return (Integer) get(2);
     }
 
     /**
      * Setter for <code>scale_advisor.VERSION.CREATED_AT</code>.
      */
     public VersionRecord setCreatedAt(LocalDateTime value) {
-        set(2, value);
+        set(3, value);
         return this;
     }
 
@@ -61,7 +76,7 @@ public class VersionRecord extends UpdatableRecordImpl<VersionRecord> {
      * Getter for <code>scale_advisor.VERSION.CREATED_AT</code>.
      */
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(2);
+        return (LocalDateTime) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -69,8 +84,8 @@ public class VersionRecord extends UpdatableRecordImpl<VersionRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Record2<Long, String> key() {
-        return (Record2) super.key();
+    public Record3<Long, Integer, Integer> key() {
+        return (Record3) super.key();
     }
 
     // -------------------------------------------------------------------------
@@ -87,11 +102,12 @@ public class VersionRecord extends UpdatableRecordImpl<VersionRecord> {
     /**
      * Create a detached, initialised VersionRecord
      */
-    public VersionRecord(Long projectId, String versionNumber, LocalDateTime createdAt) {
+    public VersionRecord(Long projectId, Integer majorNumber, Integer minorNumber, LocalDateTime createdAt) {
         super(Version.VERSION);
 
         setProjectId(projectId);
-        setVersionNumber(versionNumber);
+        setMajorNumber(majorNumber);
+        setMinorNumber(minorNumber);
         setCreatedAt(createdAt);
         resetChangedOnNotNull();
     }
@@ -104,7 +120,8 @@ public class VersionRecord extends UpdatableRecordImpl<VersionRecord> {
 
         if (value != null) {
             setProjectId(value.getProjectId());
-            setVersionNumber(value.getVersionNumber());
+            setMajorNumber(value.getMajorNumber());
+            setMinorNumber(value.getMinorNumber());
             setCreatedAt(value.getCreatedAt());
             resetChangedOnNotNull();
         }

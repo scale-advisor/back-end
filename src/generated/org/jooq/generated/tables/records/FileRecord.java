@@ -50,25 +50,40 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
     }
 
     /**
-     * Setter for <code>scale_advisor.FILE.VERSION_NUMBER</code>.
+     * Setter for <code>scale_advisor.FILE.MAJOR_NUMBER</code>.
      */
-    public FileRecord setVersionNumber(String value) {
+    public FileRecord setMajorNumber(Integer value) {
         set(2, value);
         return this;
     }
 
     /**
-     * Getter for <code>scale_advisor.FILE.VERSION_NUMBER</code>.
+     * Getter for <code>scale_advisor.FILE.MAJOR_NUMBER</code>.
      */
-    public String getVersionNumber() {
-        return (String) get(2);
+    public Integer getMajorNumber() {
+        return (Integer) get(2);
+    }
+
+    /**
+     * Setter for <code>scale_advisor.FILE.MINOR_NUMBER</code>.
+     */
+    public FileRecord setMinorNumber(Integer value) {
+        set(3, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.FILE.MINOR_NUMBER</code>.
+     */
+    public Integer getMinorNumber() {
+        return (Integer) get(3);
     }
 
     /**
      * Setter for <code>scale_advisor.FILE.TYPE</code>.
      */
     public FileRecord setType(String value) {
-        set(3, value);
+        set(4, value);
         return this;
     }
 
@@ -76,14 +91,14 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
      * Getter for <code>scale_advisor.FILE.TYPE</code>.
      */
     public String getType() {
-        return (String) get(3);
+        return (String) get(4);
     }
 
     /**
      * Setter for <code>scale_advisor.FILE.NAME</code>.
      */
     public FileRecord setName(String value) {
-        set(4, value);
+        set(5, value);
         return this;
     }
 
@@ -91,14 +106,14 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
      * Getter for <code>scale_advisor.FILE.NAME</code>.
      */
     public String getName() {
-        return (String) get(4);
+        return (String) get(5);
     }
 
     /**
      * Setter for <code>scale_advisor.FILE.UPLOADER_ID</code>.
      */
     public FileRecord setUploaderId(Long value) {
-        set(5, value);
+        set(6, value);
         return this;
     }
 
@@ -106,14 +121,14 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
      * Getter for <code>scale_advisor.FILE.UPLOADER_ID</code>.
      */
     public Long getUploaderId() {
-        return (Long) get(5);
+        return (Long) get(6);
     }
 
     /**
      * Setter for <code>scale_advisor.FILE.PATH</code>.
      */
     public FileRecord setPath(String value) {
-        set(6, value);
+        set(7, value);
         return this;
     }
 
@@ -121,14 +136,14 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
      * Getter for <code>scale_advisor.FILE.PATH</code>.
      */
     public String getPath() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
      * Setter for <code>scale_advisor.FILE.EXTENSION</code>.
      */
     public FileRecord setExtension(String value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -136,14 +151,14 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
      * Getter for <code>scale_advisor.FILE.EXTENSION</code>.
      */
     public String getExtension() {
-        return (String) get(7);
+        return (String) get(8);
     }
 
     /**
      * Setter for <code>scale_advisor.FILE.CREATED_AT</code>.
      */
     public FileRecord setCreatedAt(LocalDateTime value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -151,14 +166,14 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
      * Getter for <code>scale_advisor.FILE.CREATED_AT</code>.
      */
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(8);
+        return (LocalDateTime) get(9);
     }
 
     /**
      * Setter for <code>scale_advisor.FILE.UPDATED_AT</code>.
      */
     public FileRecord setUpdatedAt(LocalDateTime value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -166,7 +181,7 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
      * Getter for <code>scale_advisor.FILE.UPDATED_AT</code>.
      */
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(9);
+        return (LocalDateTime) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -192,12 +207,13 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
     /**
      * Create a detached, initialised FileRecord
      */
-    public FileRecord(Long fileId, Long projectId, String versionNumber, String type, String name, Long uploaderId, String path, String extension, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public FileRecord(Long fileId, Long projectId, Integer majorNumber, Integer minorNumber, String type, String name, Long uploaderId, String path, String extension, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(File.FILE);
 
         setFileId(fileId);
         setProjectId(projectId);
-        setVersionNumber(versionNumber);
+        setMajorNumber(majorNumber);
+        setMinorNumber(minorNumber);
         setType(type);
         setName(name);
         setUploaderId(uploaderId);
@@ -217,7 +233,8 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
         if (value != null) {
             setFileId(value.getFileId());
             setProjectId(value.getProjectId());
-            setVersionNumber(value.getVersionNumber());
+            setMajorNumber(value.getMajorNumber());
+            setMinorNumber(value.getMinorNumber());
             setType(value.getType());
             setName(value.getName());
             setUploaderId(value.getUploaderId());

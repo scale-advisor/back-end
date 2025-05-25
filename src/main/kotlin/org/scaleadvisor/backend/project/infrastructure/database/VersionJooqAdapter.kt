@@ -18,14 +18,16 @@ private class VersionJooqAdapter(
 
     private fun VersionRecord.toDomain() = Version(
         projectId = ProjectId.of(this.projectId),
-        versionNumber = this.versionNumber
+        major = this.majorNumber,
+        minor = this.minorNumber
     )
 
     override fun create(version: Version) {
         dsl
             .insertInto(VERSION)
             .set(VERSION.PROJECT_ID, version.projectId.toLong())
-            .set(VERSION.VERSION_NUMBER, version.versionNumber)
+            .set(VERSION.MAJOR_NUMBER, version.versionNumber.major)
+            .set(VERSION.MINOR_NUMBER, version.versionNumber.minor)
             .set(VERSION.CREATED_AT, LocalDateTime.now())
             .execute()
     }
@@ -34,7 +36,7 @@ private class VersionJooqAdapter(
         return dsl
             .selectFrom(VERSION)
             .where(VERSION.PROJECT_ID.eq(projectId.toLong()))
-            .orderBy(VERSION.VERSION_NUMBER.desc())
+            .orderBy(VERSION.MAJOR_NUMBER.desc(), VERSION.MINOR_NUMBER.desc())
             .fetchOne { record -> record.into(VERSION).toDomain() }
     }
 

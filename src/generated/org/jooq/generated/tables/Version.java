@@ -63,9 +63,14 @@ public class Version extends TableImpl<VersionRecord> {
     public final TableField<VersionRecord, Long> PROJECT_ID = createField(DSL.name("PROJECT_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.VERSION.VERSION_NUMBER</code>.
+     * The column <code>scale_advisor.VERSION.MAJOR_NUMBER</code>.
      */
-    public final TableField<VersionRecord, String> VERSION_NUMBER = createField(DSL.name("VERSION_NUMBER"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<VersionRecord, Integer> MAJOR_NUMBER = createField(DSL.name("MAJOR_NUMBER"), SQLDataType.INTEGER.nullable(false), this, "");
+
+    /**
+     * The column <code>scale_advisor.VERSION.MINOR_NUMBER</code>.
+     */
+    public final TableField<VersionRecord, Integer> MINOR_NUMBER = createField(DSL.name("MINOR_NUMBER"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>scale_advisor.VERSION.CREATED_AT</code>.
