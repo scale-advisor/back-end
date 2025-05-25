@@ -3,6 +3,7 @@ package org.scaleadvisor.backend.api
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.user.dto.ChangePwdRequest
+import org.scaleadvisor.backend.user.dto.DeleteUserRequest
 import org.scaleadvisor.backend.user.dto.UpdateNameRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -33,5 +34,5 @@ interface UserAPI {
     )
     @DeleteMapping("/delete-user")
     @ResponseStatus(HttpStatus.OK)
-    fun deleteUser(): ResponseEntity<String>
+    fun deleteUser(@RequestBody request: DeleteUserRequest): ResponseEntity<String>
 }

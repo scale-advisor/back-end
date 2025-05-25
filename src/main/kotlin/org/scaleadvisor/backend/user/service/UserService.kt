@@ -7,6 +7,7 @@ import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.global.exception.model.ValidationException
 import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.user.dto.ChangePwdRequest
+import org.scaleadvisor.backend.user.dto.DeleteUserRequest
 import org.scaleadvisor.backend.user.dto.UpdateNameRequest
 import org.scaleadvisor.backend.user.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -44,9 +45,14 @@ class UserService(
         )
     }
 
-    fun deleteUser() {
-        if (userRepository.deleteUser(currentUserId) != 1) {
-            throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_ID_MESSAGE, currentUserId))
+    fun deleteUser(request: DeleteUserRequest) {
+        val user = userRepository.findById(currentUserId)
+            ?: throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_ID_MESSAGE, currentUserId))
+
+        if (!securityConfig.passwordEncoder().matches(request.pwdRequest, user.password)) {
+            throw ValidationException(UserMessageConstant.INVALID_CREDENTIALS_MESSAGE)
         }
+
+        userRepository.deleteUser(currentUserId)
     }
 }
