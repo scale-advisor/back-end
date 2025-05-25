@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @Tag(name = "Project Requirement", description = "Project Requirement API")
-@RequestMapping("projects/{projectId}/versions", produces = ["application/json;charset=utf-8"])
+@RequestMapping("projects/{projectId}/requirements", produces = ["application/json;charset=utf-8"])
 interface ProjectRequirementAPI {
     @Operation(
         summary = "Project 요구사항 저장",
