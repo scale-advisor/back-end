@@ -1,6 +1,7 @@
 package org.scaleadvisor.backend.global.email.controller
 
 import org.scaleadvisor.backend.global.email.dto.AcceptInvitationRequest
+import org.scaleadvisor.backend.global.email.dto.AcceptInvitationResponse
 import org.scaleadvisor.backend.global.email.dto.InvitationMailRequest
 import org.scaleadvisor.backend.global.email.service.EmailService
 import org.springframework.http.ResponseEntity
@@ -24,8 +25,8 @@ class InvitationMailController(
 
     @PostMapping("/invitation/accept")
     fun acceptInvitation(@RequestBody request: AcceptInvitationRequest
-    ): ResponseEntity<String> {
-        emailService.acceptInvitation(request)
-        return ResponseEntity.ok().body("프로젝트 초대를 승인했습니다.")
+    ): ResponseEntity<AcceptInvitationResponse> {
+        val response = emailService.acceptInvitation(request)
+        return ResponseEntity.ok().body(response)
     }
 }
