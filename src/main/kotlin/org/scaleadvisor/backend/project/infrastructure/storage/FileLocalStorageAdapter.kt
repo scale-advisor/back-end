@@ -5,6 +5,7 @@ import org.scaleadvisor.backend.global.util.FileUtil
 import org.scaleadvisor.backend.project.application.port.repository.file.DownloadFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.RemoveFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.UploadFilePort
+import org.scaleadvisor.backend.project.domain.Version
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
@@ -52,6 +53,22 @@ private class FileLocalStorageAdapter(
 
     override fun download(path: String): ByteArray {
         return Files.readAllBytes(rootLocation.resolve(path))
+    }
+
+    override fun remove(version: Version) {
+        val projectDir = Paths.get(location, version.projectId.toString(), version.versionNumber.toString())
+        if (Files.notExists(projectDir)) {
+            return
+        }
+        try {
+            Files.walk(projectDir)
+                .sorted(Comparator.reverseOrder())
+                .forEach { path ->
+                    Files.deleteIfExists(path)
+                }
+        } catch (e: IOException) {
+            throw RuntimeException("Failed to delete local files for project '${version.projectId}' and version '${version.versionNumber}'", e)
+        }
     }
 
     override fun removeAll(projectId: ProjectId) {

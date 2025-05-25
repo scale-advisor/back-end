@@ -37,6 +37,7 @@ private class VersionJooqAdapter(
             .selectFrom(VERSION)
             .where(VERSION.PROJECT_ID.eq(projectId.toLong()))
             .orderBy(VERSION.MAJOR_NUMBER.desc(), VERSION.MINOR_NUMBER.desc())
+            .limit(1)
             .fetchOne { record -> record.into(VERSION).toDomain() }
     }
 
@@ -47,10 +48,28 @@ private class VersionJooqAdapter(
             .fetch { record -> record.into(VERSION).toDomain() }
     }
 
+    override fun delete(version: Version) {
+        dsl.deleteFrom(VERSION)
+            .where(VERSION.PROJECT_ID.eq(version.projectId.toLong()))
+            .and(VERSION.MAJOR_NUMBER.eq(version.versionNumber.major))
+            .and(VERSION.MINOR_NUMBER.eq(version.versionNumber.minor))
+            .execute()
+    }
+
     override fun deleteAll(projectId: ProjectId) {
         dsl
             .deleteFrom(VERSION)
             .where(VERSION.PROJECT_ID.eq(projectId.toLong()))
+            .execute()
+    }
+
+    override fun deleteAll(
+        projectId: ProjectId,
+        majorNumber: Int
+    ) {
+        dsl.deleteFrom(VERSION)
+            .where(VERSION.PROJECT_ID.eq(projectId.toLong()))
+            .and(VERSION.MAJOR_NUMBER.eq(majorNumber))
             .execute()
     }
 }

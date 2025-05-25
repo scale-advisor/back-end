@@ -3,7 +3,6 @@ package org.scaleadvisor.backend.project.application.service.project
 import org.scaleadvisor.backend.global.exception.model.ValidationException
 import org.scaleadvisor.backend.project.application.port.repository.member.DeleteProjectMemberPort
 import org.scaleadvisor.backend.project.application.port.repository.project.DeleteProjectPort
-import org.scaleadvisor.backend.project.application.port.usecase.file.DeleteFileUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.fpweights.DeleteFpWeightsUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsProjectMemberUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.DeleteProjectUseCase
@@ -27,7 +26,6 @@ private class DeleteProjectService(
     private val deleteProjectFactorUseCase: DeleteProjectFactorUseCase,
     private val deleteProjectLanguageUseCase: DeleteProjectLanguageUseCase,
     private val deleteFpWeightsUseCase: DeleteFpWeightsUseCase,
-    private val deleteFileUseCase: DeleteFileUseCase,
 ) : DeleteProjectUseCase {
 
     override fun delete(userId: Long, projectId: ProjectId) {
@@ -43,7 +41,6 @@ private class DeleteProjectService(
             ?: throw NoSuchElementException("해당 프로젝트가 존재하지 않습니다.")
 
         deleteFpWeightsUseCase.delete(projectId)
-        deleteFileUseCase.deleteAll(projectId)
         deleteProjectLanguageUseCase.deleteAll(projectId)
         deleteProjectFactorUseCase.delete(projectId)
         deleteVersionUseCase.deleteAll(projectId)

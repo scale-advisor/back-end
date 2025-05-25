@@ -7,10 +7,11 @@ import org.scaleadvisor.backend.project.application.port.repository.file.CreateF
 import org.scaleadvisor.backend.project.application.port.repository.file.DeleteFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.GetFilePort
 import org.scaleadvisor.backend.project.domain.File
-import org.scaleadvisor.backend.project.domain.vo.VersionNumber
+import org.scaleadvisor.backend.project.domain.Version
 import org.scaleadvisor.backend.project.domain.enum.FileType
 import org.scaleadvisor.backend.project.domain.id.FileId
 import org.scaleadvisor.backend.project.domain.id.ProjectId
+import org.scaleadvisor.backend.project.domain.vo.VersionNumber
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -56,6 +57,14 @@ private class FileJooqAdapter(
             .and(FILE.MAJOR_NUMBER.eq(versionNumber.major))
             .and(FILE.MINOR_NUMBER.eq(versionNumber.minor))
             .fetchOne { record -> record.into(FILE).toDomain() }
+    }
+
+    override fun delete(version: Version) {
+        dsl.deleteFrom(FILE)
+            .where(FILE.PROJECT_ID.eq(version.projectId.toLong()))
+            .and(FILE.MAJOR_NUMBER.eq(version.versionNumber.major))
+            .and(FILE.MINOR_NUMBER.eq(version.versionNumber.minor))
+            .execute()
     }
 
     override fun deleteAll(projectId: ProjectId) {
