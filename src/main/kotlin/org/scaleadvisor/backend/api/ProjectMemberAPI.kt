@@ -17,9 +17,7 @@ interface ProjectMemberAPI {
 
     @GetMapping("/{projectId}/users")
     @ResponseStatus(HttpStatus.OK)
-    fun findAll(@PathVariable("projectId") projectId: Long,
-                @RequestParam(name = "offset", defaultValue = "0") offset: Int,
-                @RequestParam(name = "limit", defaultValue = "20") limit: Int
+    fun findAll(@PathVariable("projectId") projectId: Long
     ): SuccessResponse<GetAllProjectMemberResponse>
 
     @DeleteMapping("/{projectId}/users")

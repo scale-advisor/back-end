@@ -13,11 +13,8 @@ private class GetAllProjectMemberService(
     private val getAllProjectMemberPort: GetAllProjectMemberPort
 ): GetAllProjectMemberUseCase {
 
-    override fun findAllByProjectId(
-        projectId: ProjectId,
-        offset: Int,
-        limit: Int
+    override fun findAllByProjectId(projectId: ProjectId
     ): List<ProjectMember> =
-        getAllProjectMemberPort.findAllByProjectId(projectId, offset, limit)
+        getAllProjectMemberPort.findAllByProjectId(projectId)
 
 }
