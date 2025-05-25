@@ -7,7 +7,7 @@ import org.scaleadvisor.backend.project.application.port.repository.file.CreateF
 import org.scaleadvisor.backend.project.application.port.repository.file.DeleteFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.GetFilePort
 import org.scaleadvisor.backend.project.domain.File
-import org.scaleadvisor.backend.project.domain.VersionNumber
+import org.scaleadvisor.backend.project.domain.vo.VersionNumber
 import org.scaleadvisor.backend.project.domain.enum.FileType
 import org.scaleadvisor.backend.project.domain.id.FileId
 import org.scaleadvisor.backend.project.domain.id.ProjectId

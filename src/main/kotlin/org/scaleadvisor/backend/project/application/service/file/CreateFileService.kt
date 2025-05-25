@@ -6,11 +6,11 @@ import org.scaleadvisor.backend.project.application.port.repository.file.CreateF
 import org.scaleadvisor.backend.project.application.port.usecase.file.CreateFileUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.file.UploadFileUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.version.GetVersionUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.version.GenerateVersionUseCase
 import org.scaleadvisor.backend.project.domain.File
 import org.scaleadvisor.backend.project.domain.Project
-import org.scaleadvisor.backend.project.domain.VersionNumber
 import org.scaleadvisor.backend.project.domain.id.FileId
+import org.scaleadvisor.backend.project.domain.vo.VersionNumber
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -20,7 +20,7 @@ import java.time.LocalDateTime
 @Transactional
 private class CreateFileService(
     private val getProjectUseCase: GetProjectUseCase,
-    private val getVersionUseCase: GetVersionUseCase,
+    private val generateVersionUseCase: GenerateVersionUseCase,
     private val uploadFileUseCase: UploadFileUseCase,
     private val createFilePort: CreateFilePort
 ) : CreateFileUseCase {
@@ -29,7 +29,10 @@ private class CreateFileService(
         val project: Project = getProjectUseCase.find(command.projectId)
             ?: throw NotFoundException("Project not found")
 
-        val versionNumber: VersionNumber = getVersionUseCase.findLatest(project.id)
+
+        val versionNumber: VersionNumber =
+            generateVersionUseCase.generateNextMajorVersion(project.id)
+
         val path: String = project.id.toString() + "/" + versionNumber + "/" + command.file.originalFilename
 
         val file = File(
