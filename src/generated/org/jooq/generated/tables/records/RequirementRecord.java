@@ -82,7 +82,7 @@ public class RequirementRecord extends UpdatableRecordImpl<RequirementRecord> {
     /**
      * Setter for <code>scale_advisor.REQUIREMENT.REQUIREMENT_NUMBER</code>.
      */
-    public RequirementRecord setRequirementNumber(Integer value) {
+    public RequirementRecord setRequirementNumber(String value) {
         set(4, value);
         return this;
     }
@@ -90,8 +90,8 @@ public class RequirementRecord extends UpdatableRecordImpl<RequirementRecord> {
     /**
      * Getter for <code>scale_advisor.REQUIREMENT.REQUIREMENT_NUMBER</code>.
      */
-    public Integer getRequirementNumber() {
-        return (Integer) get(4);
+    public String getRequirementNumber() {
+        return (String) get(4);
     }
 
     /**
@@ -113,7 +113,7 @@ public class RequirementRecord extends UpdatableRecordImpl<RequirementRecord> {
      * Setter for
      * <code>scale_advisor.REQUIREMENT.REQUIREMENT_DETAIL_NUMBER</code>.
      */
-    public RequirementRecord setRequirementDetailNumber(Integer value) {
+    public RequirementRecord setRequirementDetailNumber(String value) {
         set(6, value);
         return this;
     }
@@ -122,8 +122,8 @@ public class RequirementRecord extends UpdatableRecordImpl<RequirementRecord> {
      * Getter for
      * <code>scale_advisor.REQUIREMENT.REQUIREMENT_DETAIL_NUMBER</code>.
      */
-    public Integer getRequirementDetailNumber() {
-        return (Integer) get(6);
+    public String getRequirementDetailNumber() {
+        return (String) get(6);
     }
 
     /**
@@ -186,6 +186,21 @@ public class RequirementRecord extends UpdatableRecordImpl<RequirementRecord> {
         return (LocalDateTime) get(10);
     }
 
+    /**
+     * Setter for <code>scale_advisor.REQUIREMENT.NOTE</code>.
+     */
+    public RequirementRecord setNote(String value) {
+        set(11, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.REQUIREMENT.NOTE</code>.
+     */
+    public String getNote() {
+        return (String) get(11);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -209,7 +224,7 @@ public class RequirementRecord extends UpdatableRecordImpl<RequirementRecord> {
     /**
      * Create a detached, initialised RequirementRecord
      */
-    public RequirementRecord(Long requirementId, Long projectId, Integer versionMajorNumber, Integer versionMinorNumber, Integer requirementNumber, String requirementName, Integer requirementDetailNumber, String requirementDetail, String requirementType, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public RequirementRecord(Long requirementId, Long projectId, Integer versionMajorNumber, Integer versionMinorNumber, String requirementNumber, String requirementName, String requirementDetailNumber, String requirementDetail, String requirementType, LocalDateTime createdAt, LocalDateTime updatedAt, String note) {
         super(Requirement.REQUIREMENT);
 
         setRequirementId(requirementId);
@@ -223,6 +238,7 @@ public class RequirementRecord extends UpdatableRecordImpl<RequirementRecord> {
         setRequirementType(requirementType);
         setCreatedAt(createdAt);
         setUpdatedAt(updatedAt);
+        setNote(note);
         resetChangedOnNotNull();
     }
 
@@ -244,6 +260,7 @@ public class RequirementRecord extends UpdatableRecordImpl<RequirementRecord> {
             setRequirementType(value.getRequirementType());
             setCreatedAt(value.getCreatedAt());
             setUpdatedAt(value.getUpdatedAt());
+            setNote(value.getNote());
             resetChangedOnNotNull();
         }
     }
