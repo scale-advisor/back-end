@@ -8,7 +8,7 @@ import org.scaleadvisor.backend.project.application.port.usecase.project.CreateP
 import org.scaleadvisor.backend.project.application.port.usecase.project.DeleteProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.UpdateProjectUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.version.GetVersionUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.version.GetProjectVersionUseCase
 import org.scaleadvisor.backend.project.controller.request.project.CreateProjectRequest
 import org.scaleadvisor.backend.project.controller.request.project.UpdateProjectRequest
 import org.scaleadvisor.backend.project.controller.response.project.CreateProjectResponse
@@ -24,7 +24,7 @@ private class ProjectController(
     private val getProjectUseCase: GetProjectUseCase,
     private val updateProjectUseCase: UpdateProjectUseCase,
     private val deleteProjectUseCase: DeleteProjectUseCase,
-    private val getVersionUseCase: GetVersionUseCase
+    private val getProjectVersionUseCase: GetProjectVersionUseCase
 ) : ProjectAPI {
     override fun create(request: CreateProjectRequest): SuccessResponse<CreateProjectResponse> {
         val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
@@ -50,7 +50,7 @@ private class ProjectController(
             .map { project ->
                 GetAllProjectResponse.ProjectDTO.of(
                     project = project,
-                    versionList = getVersionUseCase.findAll(project.id)
+                    versionList = getProjectVersionUseCase.findAll(project.id)
                 )
             }
 

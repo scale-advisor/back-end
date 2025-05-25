@@ -8,11 +8,11 @@ import org.scaleadvisor.backend.project.application.port.usecase.file.CreateFile
 import org.scaleadvisor.backend.project.application.port.usecase.file.UploadFileUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsEditorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.version.GenerateVersionUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.version.GenerateProjectVersionUseCase
 import org.scaleadvisor.backend.project.domain.File
 import org.scaleadvisor.backend.project.domain.Project
+import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.FileId
-import org.scaleadvisor.backend.project.domain.vo.VersionNumber
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -23,7 +23,7 @@ import java.time.LocalDateTime
 private class CreateFileService(
     private val checkIsEditorUseCase: CheckIsEditorUseCase,
     private val getProjectUseCase: GetProjectUseCase,
-    private val generateVersionUseCase: GenerateVersionUseCase,
+    private val generateProjectVersionUseCase: GenerateProjectVersionUseCase,
     private val uploadFileUseCase: UploadFileUseCase,
     private val createFilePort: CreateFilePort
 ) : CreateFileUseCase {
@@ -37,15 +37,15 @@ private class CreateFileService(
             ?: throw NotFoundException("Project not found")
 
 
-        val versionNumber: VersionNumber =
-            generateVersionUseCase.generateNextMajorVersion(project.id)
+        val projectVersion: ProjectVersion =
+            generateProjectVersionUseCase.generateNextMajorVersion(project.id)
 
-        val path: String = project.id.toString() + "/" + versionNumber + "/" + command.file.originalFilename
+        val path: String = project.id.toString() + "/" + projectVersion + "/" + command.file.originalFilename
 
         val file = File(
             id = FileId.newId(),
             projectId = project.id,
-            versionNumber = versionNumber,
+            projectVersion = projectVersion,
             name = command.name,
             type = command.type,
             uploaderId = command.uploaderId,

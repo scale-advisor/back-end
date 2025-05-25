@@ -5,7 +5,7 @@ import org.scaleadvisor.backend.global.util.FileUtil
 import org.scaleadvisor.backend.project.application.port.repository.file.DownloadFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.RemoveFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.UploadFilePort
-import org.scaleadvisor.backend.project.domain.Version
+import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
@@ -75,8 +75,8 @@ private class FileS3Adapter(
         return response.asByteArray()
     }
 
-    override fun remove(version: Version) {
-        val prefix = "${version.projectId}/${version.versionNumber}"
+    override fun remove(projectId: ProjectId, projectVersion: ProjectVersion) {
+        val prefix = "${projectId}/${projectVersion}"
         this.removeFilesWithPrefix(prefix)
     }
 

@@ -1,11 +1,11 @@
-package org.scaleadvisor.backend.project.application.port.repository.version
+package org.scaleadvisor.backend.project.application.port.usecase.version
 
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 
-interface GetVersionPort {
+interface GetProjectVersionUseCase {
 
-    fun findOrderByVersionNumberDesc(projectId: ProjectId): ProjectVersion?
+    fun findLatest(projectId: ProjectId): ProjectVersion?
 
     fun findAll(projectId: ProjectId): List<ProjectVersion>
 

@@ -6,9 +6,9 @@ import org.jooq.generated.tables.records.RequirementRecord
 import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.project.application.port.repository.requirement.CreateRequirementPort
 import org.scaleadvisor.backend.project.application.port.repository.requirement.DeleteRequirementPort
-import org.scaleadvisor.backend.project.domain.Requirement
+import org.scaleadvisor.backend.project.domain.ProjectRequirement
+import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
-import org.scaleadvisor.backend.project.domain.vo.VersionNumber
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
@@ -17,7 +17,7 @@ private class RequirementJooqAdapter(
     private val dsl: DSLContext
 ) : CreateRequirementPort, DeleteRequirementPort {
 
-    private fun RequirementRecord.toDomain() = Requirement(
+    private fun RequirementRecord.toDomain() = ProjectRequirement(
         number = this.requirementNumber,
         name = this.requirementName,
         detailNumber = this.requirementDetailNumber,
@@ -28,8 +28,8 @@ private class RequirementJooqAdapter(
 
     override fun createAll(
         projectId: ProjectId,
-        versionNumber: VersionNumber,
-        requirementList: List<Requirement>
+        projectVersion: ProjectVersion,
+        projectRequirementList: List<ProjectRequirement>
     ) {
         val insertStep = dsl
             .insertInto(
@@ -48,12 +48,12 @@ private class RequirementJooqAdapter(
                 REQUIREMENT.UPDATED_AT
             )
             .apply {
-                requirementList.forEach { requirement ->
+                projectRequirementList.forEach { requirement ->
                     values(
                         IdUtil.generateId(),
                         projectId.toLong(),
-                        versionNumber.major,
-                        versionNumber.minor,
+                        projectVersion.major,
+                        projectVersion.minor,
                         requirement.number,
                         requirement.name,
                         requirement.detailNumber,
@@ -87,12 +87,12 @@ private class RequirementJooqAdapter(
 
     override fun deleteAll(
         projectId: ProjectId,
-        versionNumber: VersionNumber
+        projectVersion: ProjectVersion
     ) {
         dsl.deleteFrom(REQUIREMENT)
             .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
-            .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(versionNumber.major))
-            .and(REQUIREMENT.VERSION_MINOR_NUMBER.eq(versionNumber.minor))
+            .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+            .and(REQUIREMENT.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
             .execute()
     }
 
