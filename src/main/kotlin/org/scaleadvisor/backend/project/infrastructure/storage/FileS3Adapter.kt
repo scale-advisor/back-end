@@ -5,6 +5,7 @@ import org.scaleadvisor.backend.global.util.FileUtil
 import org.scaleadvisor.backend.project.application.port.repository.file.DownloadFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.RemoveFilePort
 import org.scaleadvisor.backend.project.application.port.repository.file.UploadFilePort
+import org.scaleadvisor.backend.project.domain.Version
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
@@ -74,8 +75,17 @@ private class FileS3Adapter(
         return response.asByteArray()
     }
 
+    override fun remove(version: Version) {
+        val prefix = "${version.projectId}/${version.versionNumber}"
+        this.removeFilesWithPrefix(prefix)
+    }
+
     override fun removeAll(projectId: ProjectId) {
         val prefix = "$projectId/"
+        this.removeFilesWithPrefix(prefix)
+    }
+
+    private fun removeFilesWithPrefix(prefix: String) {
         // 지정된 prefix 아래 모든 객체의 키를 수집
         val objectIdentifiers = mutableListOf<ObjectIdentifier>()
         val listReq = ListObjectsV2Request.builder()

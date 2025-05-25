@@ -9,7 +9,7 @@ import org.scaleadvisor.backend.project.application.port.usecase.file.DownloadFi
 import org.scaleadvisor.backend.project.application.port.usecase.file.GetFileUseCase
 import org.scaleadvisor.backend.project.controller.response.file.GetFileResponse
 import org.scaleadvisor.backend.project.domain.File
-import org.scaleadvisor.backend.project.domain.VersionNumber
+import org.scaleadvisor.backend.project.domain.vo.VersionNumber
 import org.scaleadvisor.backend.project.domain.enum.FileType
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.core.io.ByteArrayResource
