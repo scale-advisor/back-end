@@ -33,6 +33,7 @@ import org.jooq.generated.tables.QrtzSchedulerState;
 import org.jooq.generated.tables.QrtzSimpleTriggers;
 import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
+import org.jooq.generated.tables.Requirement;
 import org.jooq.generated.tables.User;
 import org.jooq.generated.tables.Version;
 
@@ -187,6 +188,11 @@ public class Tables {
      * The table <code>scale_advisor.QRTZ_TRIGGERS</code>.
      */
     public static final QrtzTriggers QRTZ_TRIGGERS = QrtzTriggers.QRTZ_TRIGGERS;
+
+    /**
+     * The table <code>scale_advisor.REQUIREMENT</code>.
+     */
+    public static final Requirement REQUIREMENT = Requirement.REQUIREMENT;
 
     /**
      * The table <code>scale_advisor.USER</code>.

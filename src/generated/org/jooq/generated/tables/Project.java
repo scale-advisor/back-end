@@ -33,6 +33,7 @@ import org.jooq.generated.tables.FpWeights.FpWeightsPath;
 import org.jooq.generated.tables.ProjectFactor.ProjectFactorPath;
 import org.jooq.generated.tables.ProjectLanguage.ProjectLanguagePath;
 import org.jooq.generated.tables.ProjectMember.ProjectMemberPath;
+import org.jooq.generated.tables.Requirement.RequirementPath;
 import org.jooq.generated.tables.User.UserPath;
 import org.jooq.generated.tables.Version.VersionPath;
 import org.jooq.generated.tables.records.ProjectRecord;
@@ -235,6 +236,19 @@ public class Project extends TableImpl<ProjectRecord> {
             _projectLanguage = new ProjectLanguagePath(this, null, Keys.FK_PROJECT_LANGUAGE_PROJECT_ID.getInverseKey());
 
         return _projectLanguage;
+    }
+
+    private transient RequirementPath _requirement;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>scale_advisor.REQUIREMENT</code> table
+     */
+    public RequirementPath requirement() {
+        if (_requirement == null)
+            _requirement = new RequirementPath(this, null, Keys.FK_REQUIREMENT_PROJECT_ID.getInverseKey());
+
+        return _requirement;
     }
 
     private transient ProjectMemberPath _projectMember;

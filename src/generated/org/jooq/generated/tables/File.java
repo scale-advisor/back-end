@@ -68,14 +68,14 @@ public class File extends TableImpl<FileRecord> {
     public final TableField<FileRecord, Long> PROJECT_ID = createField(DSL.name("PROJECT_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.FILE.MAJOR_NUMBER</code>.
+     * The column <code>scale_advisor.FILE.VERSION_MAJOR_NUMBER</code>.
      */
-    public final TableField<FileRecord, Integer> MAJOR_NUMBER = createField(DSL.name("MAJOR_NUMBER"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<FileRecord, Integer> VERSION_MAJOR_NUMBER = createField(DSL.name("VERSION_MAJOR_NUMBER"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>scale_advisor.FILE.MINOR_NUMBER</code>.
+     * The column <code>scale_advisor.FILE.VERSION_MINOR_NUMBER</code>.
      */
-    public final TableField<FileRecord, Integer> MINOR_NUMBER = createField(DSL.name("MINOR_NUMBER"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<FileRecord, Integer> VERSION_MINOR_NUMBER = createField(DSL.name("VERSION_MINOR_NUMBER"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>scale_advisor.FILE.TYPE</code>.

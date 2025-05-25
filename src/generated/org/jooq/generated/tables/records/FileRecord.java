@@ -50,32 +50,32 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
     }
 
     /**
-     * Setter for <code>scale_advisor.FILE.MAJOR_NUMBER</code>.
+     * Setter for <code>scale_advisor.FILE.VERSION_MAJOR_NUMBER</code>.
      */
-    public FileRecord setMajorNumber(Integer value) {
+    public FileRecord setVersionMajorNumber(Integer value) {
         set(2, value);
         return this;
     }
 
     /**
-     * Getter for <code>scale_advisor.FILE.MAJOR_NUMBER</code>.
+     * Getter for <code>scale_advisor.FILE.VERSION_MAJOR_NUMBER</code>.
      */
-    public Integer getMajorNumber() {
+    public Integer getVersionMajorNumber() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>scale_advisor.FILE.MINOR_NUMBER</code>.
+     * Setter for <code>scale_advisor.FILE.VERSION_MINOR_NUMBER</code>.
      */
-    public FileRecord setMinorNumber(Integer value) {
+    public FileRecord setVersionMinorNumber(Integer value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>scale_advisor.FILE.MINOR_NUMBER</code>.
+     * Getter for <code>scale_advisor.FILE.VERSION_MINOR_NUMBER</code>.
      */
-    public Integer getMinorNumber() {
+    public Integer getVersionMinorNumber() {
         return (Integer) get(3);
     }
 
@@ -207,13 +207,13 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
     /**
      * Create a detached, initialised FileRecord
      */
-    public FileRecord(Long fileId, Long projectId, Integer majorNumber, Integer minorNumber, String type, String name, Long uploaderId, String path, String extension, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public FileRecord(Long fileId, Long projectId, Integer versionMajorNumber, Integer versionMinorNumber, String type, String name, Long uploaderId, String path, String extension, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(File.FILE);
 
         setFileId(fileId);
         setProjectId(projectId);
-        setMajorNumber(majorNumber);
-        setMinorNumber(minorNumber);
+        setVersionMajorNumber(versionMajorNumber);
+        setVersionMinorNumber(versionMinorNumber);
         setType(type);
         setName(name);
         setUploaderId(uploaderId);
@@ -233,8 +233,8 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
         if (value != null) {
             setFileId(value.getFileId());
             setProjectId(value.getProjectId());
-            setMajorNumber(value.getMajorNumber());
-            setMinorNumber(value.getMinorNumber());
+            setVersionMajorNumber(value.getVersionMajorNumber());
+            setVersionMinorNumber(value.getVersionMinorNumber());
             setType(value.getType());
             setName(value.getName());
             setUploaderId(value.getUploaderId());

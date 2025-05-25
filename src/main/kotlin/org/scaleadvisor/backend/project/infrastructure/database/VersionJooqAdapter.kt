@@ -18,16 +18,16 @@ private class VersionJooqAdapter(
 
     private fun VersionRecord.toDomain() = Version(
         projectId = ProjectId.of(this.projectId),
-        major = this.majorNumber,
-        minor = this.minorNumber
+        major = this.versionMajorNumber,
+        minor = this.versionMinorNumber
     )
 
     override fun create(version: Version) {
         dsl
             .insertInto(VERSION)
             .set(VERSION.PROJECT_ID, version.projectId.toLong())
-            .set(VERSION.MAJOR_NUMBER, version.versionNumber.major)
-            .set(VERSION.MINOR_NUMBER, version.versionNumber.minor)
+            .set(VERSION.VERSION_MAJOR_NUMBER, version.versionNumber.major)
+            .set(VERSION.VERSION_MINOR_NUMBER, version.versionNumber.minor)
             .set(VERSION.CREATED_AT, LocalDateTime.now())
             .execute()
     }
@@ -36,7 +36,7 @@ private class VersionJooqAdapter(
         return dsl
             .selectFrom(VERSION)
             .where(VERSION.PROJECT_ID.eq(projectId.toLong()))
-            .orderBy(VERSION.MAJOR_NUMBER.desc(), VERSION.MINOR_NUMBER.desc())
+            .orderBy(VERSION.VERSION_MAJOR_NUMBER.desc(), VERSION.VERSION_MINOR_NUMBER.desc())
             .limit(1)
             .fetchOne { record -> record.into(VERSION).toDomain() }
     }
@@ -51,8 +51,8 @@ private class VersionJooqAdapter(
     override fun delete(version: Version) {
         dsl.deleteFrom(VERSION)
             .where(VERSION.PROJECT_ID.eq(version.projectId.toLong()))
-            .and(VERSION.MAJOR_NUMBER.eq(version.versionNumber.major))
-            .and(VERSION.MINOR_NUMBER.eq(version.versionNumber.minor))
+            .and(VERSION.VERSION_MAJOR_NUMBER.eq(version.versionNumber.major))
+            .and(VERSION.VERSION_MINOR_NUMBER.eq(version.versionNumber.minor))
             .execute()
     }
 
@@ -69,7 +69,7 @@ private class VersionJooqAdapter(
     ) {
         dsl.deleteFrom(VERSION)
             .where(VERSION.PROJECT_ID.eq(projectId.toLong()))
-            .and(VERSION.MAJOR_NUMBER.eq(majorNumber))
+            .and(VERSION.VERSION_MAJOR_NUMBER.eq(majorNumber))
             .execute()
     }
 }

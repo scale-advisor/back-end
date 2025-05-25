@@ -36,7 +36,7 @@ public class VersionDao extends DAOImpl<VersionRecord, org.jooq.generated.tables
 
     @Override
     public Record3<Long, Integer, Integer> getId(org.jooq.generated.tables.pojos.Version object) {
-        return compositeKeyRecord(object.getProjectId(), object.getMajorNumber(), object.getMinorNumber());
+        return compositeKeyRecord(object.getProjectId(), object.getVersionMajorNumber(), object.getVersionMinorNumber());
     }
 
     /**
@@ -55,33 +55,33 @@ public class VersionDao extends DAOImpl<VersionRecord, org.jooq.generated.tables
     }
 
     /**
-     * Fetch records that have <code>MAJOR_NUMBER BETWEEN lowerInclusive AND
-     * upperInclusive</code>
+     * Fetch records that have <code>VERSION_MAJOR_NUMBER BETWEEN lowerInclusive
+     * AND upperInclusive</code>
      */
-    public List<org.jooq.generated.tables.pojos.Version> fetchRangeOfMajorNumber(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(Version.VERSION.MAJOR_NUMBER, lowerInclusive, upperInclusive);
+    public List<org.jooq.generated.tables.pojos.Version> fetchRangeOfVersionMajorNumber(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(Version.VERSION.VERSION_MAJOR_NUMBER, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>MAJOR_NUMBER IN (values)</code>
+     * Fetch records that have <code>VERSION_MAJOR_NUMBER IN (values)</code>
      */
-    public List<org.jooq.generated.tables.pojos.Version> fetchByMajorNumber(Integer... values) {
-        return fetch(Version.VERSION.MAJOR_NUMBER, values);
+    public List<org.jooq.generated.tables.pojos.Version> fetchByVersionMajorNumber(Integer... values) {
+        return fetch(Version.VERSION.VERSION_MAJOR_NUMBER, values);
     }
 
     /**
-     * Fetch records that have <code>MINOR_NUMBER BETWEEN lowerInclusive AND
-     * upperInclusive</code>
+     * Fetch records that have <code>VERSION_MINOR_NUMBER BETWEEN lowerInclusive
+     * AND upperInclusive</code>
      */
-    public List<org.jooq.generated.tables.pojos.Version> fetchRangeOfMinorNumber(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(Version.VERSION.MINOR_NUMBER, lowerInclusive, upperInclusive);
+    public List<org.jooq.generated.tables.pojos.Version> fetchRangeOfVersionMinorNumber(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(Version.VERSION.VERSION_MINOR_NUMBER, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>MINOR_NUMBER IN (values)</code>
+     * Fetch records that have <code>VERSION_MINOR_NUMBER IN (values)</code>
      */
-    public List<org.jooq.generated.tables.pojos.Version> fetchByMinorNumber(Integer... values) {
-        return fetch(Version.VERSION.MINOR_NUMBER, values);
+    public List<org.jooq.generated.tables.pojos.Version> fetchByVersionMinorNumber(Integer... values) {
+        return fetch(Version.VERSION.VERSION_MINOR_NUMBER, values);
     }
 
     /**

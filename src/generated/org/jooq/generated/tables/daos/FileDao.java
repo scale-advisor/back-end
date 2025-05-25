@@ -84,33 +84,33 @@ public class FileDao extends DAOImpl<FileRecord, org.jooq.generated.tables.pojos
     }
 
     /**
-     * Fetch records that have <code>MAJOR_NUMBER BETWEEN lowerInclusive AND
-     * upperInclusive</code>
+     * Fetch records that have <code>VERSION_MAJOR_NUMBER BETWEEN lowerInclusive
+     * AND upperInclusive</code>
      */
-    public List<org.jooq.generated.tables.pojos.File> fetchRangeOfMajorNumber(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(File.FILE.MAJOR_NUMBER, lowerInclusive, upperInclusive);
+    public List<org.jooq.generated.tables.pojos.File> fetchRangeOfVersionMajorNumber(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(File.FILE.VERSION_MAJOR_NUMBER, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>MAJOR_NUMBER IN (values)</code>
+     * Fetch records that have <code>VERSION_MAJOR_NUMBER IN (values)</code>
      */
-    public List<org.jooq.generated.tables.pojos.File> fetchByMajorNumber(Integer... values) {
-        return fetch(File.FILE.MAJOR_NUMBER, values);
+    public List<org.jooq.generated.tables.pojos.File> fetchByVersionMajorNumber(Integer... values) {
+        return fetch(File.FILE.VERSION_MAJOR_NUMBER, values);
     }
 
     /**
-     * Fetch records that have <code>MINOR_NUMBER BETWEEN lowerInclusive AND
-     * upperInclusive</code>
+     * Fetch records that have <code>VERSION_MINOR_NUMBER BETWEEN lowerInclusive
+     * AND upperInclusive</code>
      */
-    public List<org.jooq.generated.tables.pojos.File> fetchRangeOfMinorNumber(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(File.FILE.MINOR_NUMBER, lowerInclusive, upperInclusive);
+    public List<org.jooq.generated.tables.pojos.File> fetchRangeOfVersionMinorNumber(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(File.FILE.VERSION_MINOR_NUMBER, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>MINOR_NUMBER IN (values)</code>
+     * Fetch records that have <code>VERSION_MINOR_NUMBER IN (values)</code>
      */
-    public List<org.jooq.generated.tables.pojos.File> fetchByMinorNumber(Integer... values) {
-        return fetch(File.FILE.MINOR_NUMBER, values);
+    public List<org.jooq.generated.tables.pojos.File> fetchByVersionMinorNumber(Integer... values) {
+        return fetch(File.FILE.VERSION_MINOR_NUMBER, values);
     }
 
     /**
