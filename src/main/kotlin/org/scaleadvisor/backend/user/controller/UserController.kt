@@ -1,5 +1,6 @@
 package org.scaleadvisor.backend.user.controller
 
+import jakarta.servlet.http.HttpServletResponse
 import org.scaleadvisor.backend.api.UserAPI
 import org.scaleadvisor.backend.user.dto.ChangePwdRequest
 import org.scaleadvisor.backend.user.dto.DeleteUserRequest
@@ -23,8 +24,7 @@ class UserController(
         return ResponseEntity.ok().body("유저 비밀번호가 변경되었습니다.")
     }
 
-    override fun deleteUser(@RequestBody request: DeleteUserRequest): ResponseEntity<String> {
-        userService.deleteUser(request)
-        return ResponseEntity.ok().body("유저 탈퇴가 완료 되었습니다.")
+    override fun deleteUser(@RequestBody request: DeleteUserRequest, response: HttpServletResponse) {
+        userService.deleteUser(request, response)
     }
 }

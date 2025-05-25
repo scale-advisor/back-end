@@ -1,8 +1,10 @@
 package org.scaleadvisor.backend.user.repository
 
 import org.jooq.DSLContext
+import org.jooq.generated.Tables.PROJECT_MEMBER
 import org.jooq.generated.tables.User.USER
 import org.jooq.generated.tables.records.UserRecord
+import org.jooq.impl.DSL
 import org.scaleadvisor.backend.user.domain.User
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
@@ -42,6 +44,18 @@ class UserRepository(
                 USER.USER_ID.eq(userId),
                 USER.DELETED_AT.isNull)
             .execute()
+
+    fun delete(userId: Long): Int = dsl.transactionResult { config ->
+        val tx = DSL.using(config)
+
+        tx.deleteFrom(PROJECT_MEMBER)
+            .where(PROJECT_MEMBER.USER_ID.eq(userId))
+            .execute()
+
+        tx.deleteFrom(USER)
+            .where(USER.USER_ID.eq(userId))
+            .execute()
+    }
 
     fun findById(userId: Long): User? = dsl
         .selectFrom(USER)

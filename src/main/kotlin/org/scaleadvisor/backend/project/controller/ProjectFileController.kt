@@ -2,7 +2,7 @@ package org.scaleadvisor.backend.project.controller
 
 import org.scaleadvisor.backend.api.ProjectFileAPI
 import org.scaleadvisor.backend.api.response.SuccessResponse
-import org.scaleadvisor.backend.global.exception.model.ForbiddenException
+import org.scaleadvisor.backend.global.exception.model.UnauthorizedException
 import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.project.application.port.usecase.file.CreateFileUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.file.DownloadFileUseCase
@@ -32,7 +32,7 @@ private class ProjectFileController(
         file: MultipartFile
     ) {
         val currentUserId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
-            ?: throw ForbiddenException("현재 인증이 되지 않은 접근 입니다.")
+            ?: throw UnauthorizedException("만료 되거나 잘못된 인증 입니다.")
 
         createFileUseCase.create(
             CreateFileUseCase.Command(

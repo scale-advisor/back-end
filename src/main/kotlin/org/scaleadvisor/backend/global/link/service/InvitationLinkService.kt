@@ -1,8 +1,8 @@
 package org.scaleadvisor.backend.global.link.service
 
 import org.scaleadvisor.backend.global.exception.model.ConflictException
-import org.scaleadvisor.backend.global.exception.model.ForbiddenException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
+import org.scaleadvisor.backend.global.exception.model.UnauthorizedException
 import org.scaleadvisor.backend.global.link.dto.InvitationLinkResponse
 import org.scaleadvisor.backend.global.link.dto.JoinProjectResponse
 import org.scaleadvisor.backend.global.link.repository.InvitationLinkRepository
@@ -40,7 +40,7 @@ class InvitationLinkService(
     fun joinProjectByToken(invitationToken: String
     ): JoinProjectResponse {
         val userId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
-            ?: throw ForbiddenException("로그인이 필요합니다.")
+            ?: throw UnauthorizedException("만료 되거나 잘못된 인증 입니다.")
 
         val invitation = invitationLinkRepository.findByToken(invitationToken)
             ?: throw NotFoundException("유효하지 않은 초대 토큰입니다.")
