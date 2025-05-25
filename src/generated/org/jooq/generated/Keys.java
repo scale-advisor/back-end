@@ -36,6 +36,7 @@ import org.jooq.generated.tables.QrtzSchedulerState;
 import org.jooq.generated.tables.QrtzSimpleTriggers;
 import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
+import org.jooq.generated.tables.Requirement;
 import org.jooq.generated.tables.User;
 import org.jooq.generated.tables.Version;
 import org.jooq.generated.tables.records.BatchJobExecutionContextRecord;
@@ -67,6 +68,7 @@ import org.jooq.generated.tables.records.QrtzSchedulerStateRecord;
 import org.jooq.generated.tables.records.QrtzSimpleTriggersRecord;
 import org.jooq.generated.tables.records.QrtzSimpropTriggersRecord;
 import org.jooq.generated.tables.records.QrtzTriggersRecord;
+import org.jooq.generated.tables.records.RequirementRecord;
 import org.jooq.generated.tables.records.UserRecord;
 import org.jooq.generated.tables.records.VersionRecord;
 import org.jooq.impl.DSL;
@@ -114,6 +116,7 @@ public class Keys {
     public static final UniqueKey<QrtzSimpleTriggersRecord> KEY_QRTZ_SIMPLE_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS, DSL.name("KEY_QRTZ_SIMPLE_TRIGGERS_PRIMARY"), new TableField[] { QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.SCHED_NAME, QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.TRIGGER_NAME, QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.TRIGGER_GROUP }, true);
     public static final UniqueKey<QrtzSimpropTriggersRecord> KEY_QRTZ_SIMPROP_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS, DSL.name("KEY_QRTZ_SIMPROP_TRIGGERS_PRIMARY"), new TableField[] { QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.SCHED_NAME, QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.TRIGGER_NAME, QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.TRIGGER_GROUP }, true);
     public static final UniqueKey<QrtzTriggersRecord> KEY_QRTZ_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzTriggers.QRTZ_TRIGGERS, DSL.name("KEY_QRTZ_TRIGGERS_PRIMARY"), new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_GROUP }, true);
+    public static final UniqueKey<RequirementRecord> KEY_REQUIREMENT_PRIMARY = Internal.createUniqueKey(Requirement.REQUIREMENT, DSL.name("KEY_REQUIREMENT_PRIMARY"), new TableField[] { Requirement.REQUIREMENT.REQUIREMENT_ID }, true);
     public static final UniqueKey<UserRecord> KEY_USER_EMAIL = Internal.createUniqueKey(User.USER, DSL.name("KEY_USER_EMAIL"), new TableField[] { User.USER.EMAIL }, true);
     public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = Internal.createUniqueKey(User.USER, DSL.name("KEY_USER_PRIMARY"), new TableField[] { User.USER.USER_ID }, true);
     public static final UniqueKey<VersionRecord> KEY_VERSION_PRIMARY = Internal.createUniqueKey(Version.VERSION, DSL.name("KEY_VERSION_PRIMARY"), new TableField[] { Version.VERSION.PROJECT_ID, Version.VERSION.VERSION_MAJOR_NUMBER, Version.VERSION.VERSION_MINOR_NUMBER }, true);
@@ -141,5 +144,7 @@ public class Keys {
     public static final ForeignKey<QrtzSimpleTriggersRecord, QrtzTriggersRecord> QRTZ_SIMPLE_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS, DSL.name("qrtz_simple_triggers_ibfk_1"), new TableField[] { QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.SCHED_NAME, QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.TRIGGER_NAME, QrtzSimpleTriggers.QRTZ_SIMPLE_TRIGGERS.TRIGGER_GROUP }, Keys.KEY_QRTZ_TRIGGERS_PRIMARY, new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_GROUP }, true);
     public static final ForeignKey<QrtzSimpropTriggersRecord, QrtzTriggersRecord> QRTZ_SIMPROP_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS, DSL.name("qrtz_simprop_triggers_ibfk_1"), new TableField[] { QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.SCHED_NAME, QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.TRIGGER_NAME, QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.TRIGGER_GROUP }, Keys.KEY_QRTZ_TRIGGERS_PRIMARY, new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_GROUP }, true);
     public static final ForeignKey<QrtzTriggersRecord, QrtzJobDetailsRecord> QRTZ_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzTriggers.QRTZ_TRIGGERS, DSL.name("qrtz_triggers_ibfk_1"), new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.JOB_NAME, QrtzTriggers.QRTZ_TRIGGERS.JOB_GROUP }, Keys.KEY_QRTZ_JOB_DETAILS_PRIMARY, new TableField[] { QrtzJobDetails.QRTZ_JOB_DETAILS.SCHED_NAME, QrtzJobDetails.QRTZ_JOB_DETAILS.JOB_NAME, QrtzJobDetails.QRTZ_JOB_DETAILS.JOB_GROUP }, true);
+    public static final ForeignKey<RequirementRecord, ProjectRecord> FK_REQUIREMENT_PROJECT_ID = Internal.createForeignKey(Requirement.REQUIREMENT, DSL.name("FK_REQUIREMENT_PROJECT_ID"), new TableField[] { Requirement.REQUIREMENT.PROJECT_ID }, Keys.KEY_PROJECT_PRIMARY, new TableField[] { Project.PROJECT.PROJECT_ID }, true);
+    public static final ForeignKey<RequirementRecord, VersionRecord> FK_REQUIREMENT_VERSION = Internal.createForeignKey(Requirement.REQUIREMENT, DSL.name("FK_REQUIREMENT_VERSION"), new TableField[] { Requirement.REQUIREMENT.PROJECT_ID, Requirement.REQUIREMENT.VERSION_MAJOR_NUMBER, Requirement.REQUIREMENT.VERSION_MINOR_NUMBER }, Keys.KEY_VERSION_PRIMARY, new TableField[] { Version.VERSION.PROJECT_ID, Version.VERSION.VERSION_MAJOR_NUMBER, Version.VERSION.VERSION_MINOR_NUMBER }, true);
     public static final ForeignKey<VersionRecord, ProjectRecord> FK_VERSION_PROJECT_ID = Internal.createForeignKey(Version.VERSION, DSL.name("FK_VERSION_PROJECT_ID"), new TableField[] { Version.VERSION.PROJECT_ID }, Keys.KEY_PROJECT_PRIMARY, new TableField[] { Project.PROJECT.PROJECT_ID }, true);
 }
