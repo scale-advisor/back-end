@@ -7,6 +7,7 @@ import org.scaleadvisor.backend.user.dto.DeleteUserRequest
 import org.scaleadvisor.backend.user.dto.UpdateNameRequest
 import org.scaleadvisor.backend.user.service.UserService
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CookieValue
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
@@ -24,7 +25,9 @@ class UserController(
         return ResponseEntity.ok().body("유저 비밀번호가 변경되었습니다.")
     }
 
-    override fun deleteUser(@RequestBody request: DeleteUserRequest, response: HttpServletResponse) {
-        userService.deleteUser(request, response)
+    override fun deleteUser(@CookieValue(value = "refreshToken", required = false) refreshToken: String?,
+                            @RequestBody request: DeleteUserRequest,
+                            response: HttpServletResponse) {
+        userService.deleteUser(request, response, refreshToken)
     }
 }

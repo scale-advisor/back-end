@@ -1,6 +1,7 @@
 package org.scaleadvisor.backend.user.service
 
 import jakarta.servlet.http.HttpServletResponse
+import org.scaleadvisor.backend.global.auth.service.AuthService
 import org.scaleadvisor.backend.global.config.SecurityConfig
 import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserService(
+    private val authService: AuthService,
     private val userRepository: UserRepository,
     private val securityConfig: SecurityConfig
 ) {
@@ -46,7 +48,11 @@ class UserService(
         )
     }
 
-    fun deleteUser(request: DeleteUserRequest, response: HttpServletResponse) {
+    fun deleteUser(request: DeleteUserRequest,
+                   response: HttpServletResponse,
+                   refreshToken: String?) {
+        authService.logout(refreshToken, response)
+
         val user = userRepository.findById(currentUserId)
             ?: throw NotFoundException(String.format(UserMessageConstant.NOT_FOUND_USER_ID_MESSAGE, currentUserId))
 
@@ -55,9 +61,5 @@ class UserService(
         }
 
         userRepository.delete(currentUserId)
-        response.setHeader(
-            "Set-Cookie",
-            "refreshToken=; HttpOnly; Secure; SameSite=None; Domain=; Path=/; Max-Age=0"
-        )
     }
 }
