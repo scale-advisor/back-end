@@ -2,8 +2,8 @@ package org.scaleadvisor.backend.api
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
-import org.scaleadvisor.backend.project.api.request.UpdateMemberStateRequest
-import org.scaleadvisor.backend.project.api.response.UpdateMemberStateResponse
+import org.scaleadvisor.backend.project.controller.request.member.UpdateMemberStateRequest
+import org.scaleadvisor.backend.project.controller.request.member.UpdateMemberStateResponse
 import org.scaleadvisor.backend.project.controller.request.member.DeleteMemberRequest
 import org.scaleadvisor.backend.project.controller.request.member.UpdateMemberRoleRequest
 import org.scaleadvisor.backend.project.controller.response.member.GetAllProjectMemberResponse

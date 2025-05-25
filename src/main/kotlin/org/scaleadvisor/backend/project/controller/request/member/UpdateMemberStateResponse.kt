@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.project.api.response
+package org.scaleadvisor.backend.project.controller.request.member
 
 import org.scaleadvisor.backend.project.domain.ProjectMember
 import org.scaleadvisor.backend.project.domain.enum.MemberRole
