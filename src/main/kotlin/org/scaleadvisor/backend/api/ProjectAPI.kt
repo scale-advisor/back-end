@@ -21,7 +21,7 @@ interface ProjectAPI {
     )
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(request: CreateProjectRequest): SuccessResponse<CreateProjectResponse>
+    fun create(@RequestBody request: CreateProjectRequest): SuccessResponse<CreateProjectResponse>
 
     @Operation(
         summary = "Project 목록 조회",
