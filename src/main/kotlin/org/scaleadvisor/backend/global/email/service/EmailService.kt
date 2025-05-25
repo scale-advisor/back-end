@@ -138,12 +138,17 @@ class EmailService(
         }
     }
 
-    fun acceptInvitation(request: AcceptInvitationRequest) {
+    fun acceptInvitation(request: AcceptInvitationRequest): AcceptInvitationResponse {
         val key = "invitation:token:${request.token}"
         val storedEmail = valOps().get(key)
         if (storedEmail == request.email) {
             redisTemplate.delete(key)
             invitationEmailRepository.acceptInvitation(request.email, request.projectId.toLong())
+
+            return AcceptInvitationResponse(
+                projectId = request.projectId
+            )
+
         } else {
             throw EmailTokenGoneException("이메일 혹은 이메일 토큰이 잘못 되었습니다.")
         }
