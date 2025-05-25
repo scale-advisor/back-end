@@ -20,13 +20,14 @@ public class Requirement implements Serializable {
     private Long projectId;
     private Integer versionMajorNumber;
     private Integer versionMinorNumber;
-    private Integer requirementNumber;
+    private String requirementNumber;
     private String requirementName;
-    private Integer requirementDetailNumber;
+    private String requirementDetailNumber;
     private String requirementDetail;
     private String requirementType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String note;
 
     public Requirement() {}
 
@@ -42,6 +43,7 @@ public class Requirement implements Serializable {
         this.requirementType = value.requirementType;
         this.createdAt = value.createdAt;
         this.updatedAt = value.updatedAt;
+        this.note = value.note;
     }
 
     public Requirement(
@@ -49,13 +51,14 @@ public class Requirement implements Serializable {
         Long projectId,
         Integer versionMajorNumber,
         Integer versionMinorNumber,
-        Integer requirementNumber,
+        String requirementNumber,
         String requirementName,
-        Integer requirementDetailNumber,
+        String requirementDetailNumber,
         String requirementDetail,
         String requirementType,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        String note
     ) {
         this.requirementId = requirementId;
         this.projectId = projectId;
@@ -68,6 +71,7 @@ public class Requirement implements Serializable {
         this.requirementType = requirementType;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.note = note;
     }
 
     /**
@@ -133,14 +137,14 @@ public class Requirement implements Serializable {
     /**
      * Getter for <code>scale_advisor.REQUIREMENT.REQUIREMENT_NUMBER</code>.
      */
-    public Integer getRequirementNumber() {
+    public String getRequirementNumber() {
         return this.requirementNumber;
     }
 
     /**
      * Setter for <code>scale_advisor.REQUIREMENT.REQUIREMENT_NUMBER</code>.
      */
-    public Requirement setRequirementNumber(Integer requirementNumber) {
+    public Requirement setRequirementNumber(String requirementNumber) {
         this.requirementNumber = requirementNumber;
         return this;
     }
@@ -164,7 +168,7 @@ public class Requirement implements Serializable {
      * Getter for
      * <code>scale_advisor.REQUIREMENT.REQUIREMENT_DETAIL_NUMBER</code>.
      */
-    public Integer getRequirementDetailNumber() {
+    public String getRequirementDetailNumber() {
         return this.requirementDetailNumber;
     }
 
@@ -172,7 +176,7 @@ public class Requirement implements Serializable {
      * Setter for
      * <code>scale_advisor.REQUIREMENT.REQUIREMENT_DETAIL_NUMBER</code>.
      */
-    public Requirement setRequirementDetailNumber(Integer requirementDetailNumber) {
+    public Requirement setRequirementDetailNumber(String requirementDetailNumber) {
         this.requirementDetailNumber = requirementDetailNumber;
         return this;
     }
@@ -234,6 +238,21 @@ public class Requirement implements Serializable {
      */
     public Requirement setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.REQUIREMENT.NOTE</code>.
+     */
+    public String getNote() {
+        return this.note;
+    }
+
+    /**
+     * Setter for <code>scale_advisor.REQUIREMENT.NOTE</code>.
+     */
+    public Requirement setNote(String note) {
+        this.note = note;
         return this;
     }
 
@@ -312,6 +331,12 @@ public class Requirement implements Serializable {
         }
         else if (!this.updatedAt.equals(other.updatedAt))
             return false;
+        if (this.note == null) {
+            if (other.note != null)
+                return false;
+        }
+        else if (!this.note.equals(other.note))
+            return false;
         return true;
     }
 
@@ -330,6 +355,7 @@ public class Requirement implements Serializable {
         result = prime * result + ((this.requirementType == null) ? 0 : this.requirementType.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.note == null) ? 0 : this.note.hashCode());
         return result;
     }
 
@@ -348,6 +374,7 @@ public class Requirement implements Serializable {
         sb.append(", ").append(requirementType);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);
+        sb.append(", ").append(note);
 
         sb.append(")");
         return sb.toString();

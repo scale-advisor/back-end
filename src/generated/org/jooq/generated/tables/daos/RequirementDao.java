@@ -117,14 +117,14 @@ public class RequirementDao extends DAOImpl<RequirementRecord, org.jooq.generate
      * Fetch records that have <code>REQUIREMENT_NUMBER BETWEEN lowerInclusive
      * AND upperInclusive</code>
      */
-    public List<org.jooq.generated.tables.pojos.Requirement> fetchRangeOfRequirementNumber(Integer lowerInclusive, Integer upperInclusive) {
+    public List<org.jooq.generated.tables.pojos.Requirement> fetchRangeOfRequirementNumber(String lowerInclusive, String upperInclusive) {
         return fetchRange(Requirement.REQUIREMENT.REQUIREMENT_NUMBER, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>REQUIREMENT_NUMBER IN (values)</code>
      */
-    public List<org.jooq.generated.tables.pojos.Requirement> fetchByRequirementNumber(Integer... values) {
+    public List<org.jooq.generated.tables.pojos.Requirement> fetchByRequirementNumber(String... values) {
         return fetch(Requirement.REQUIREMENT.REQUIREMENT_NUMBER, values);
     }
 
@@ -147,7 +147,7 @@ public class RequirementDao extends DAOImpl<RequirementRecord, org.jooq.generate
      * Fetch records that have <code>REQUIREMENT_DETAIL_NUMBER BETWEEN
      * lowerInclusive AND upperInclusive</code>
      */
-    public List<org.jooq.generated.tables.pojos.Requirement> fetchRangeOfRequirementDetailNumber(Integer lowerInclusive, Integer upperInclusive) {
+    public List<org.jooq.generated.tables.pojos.Requirement> fetchRangeOfRequirementDetailNumber(String lowerInclusive, String upperInclusive) {
         return fetchRange(Requirement.REQUIREMENT.REQUIREMENT_DETAIL_NUMBER, lowerInclusive, upperInclusive);
     }
 
@@ -155,7 +155,7 @@ public class RequirementDao extends DAOImpl<RequirementRecord, org.jooq.generate
      * Fetch records that have <code>REQUIREMENT_DETAIL_NUMBER IN
      * (values)</code>
      */
-    public List<org.jooq.generated.tables.pojos.Requirement> fetchByRequirementDetailNumber(Integer... values) {
+    public List<org.jooq.generated.tables.pojos.Requirement> fetchByRequirementDetailNumber(String... values) {
         return fetch(Requirement.REQUIREMENT.REQUIREMENT_DETAIL_NUMBER, values);
     }
 
@@ -217,5 +217,20 @@ public class RequirementDao extends DAOImpl<RequirementRecord, org.jooq.generate
      */
     public List<org.jooq.generated.tables.pojos.Requirement> fetchByUpdatedAt(LocalDateTime... values) {
         return fetch(Requirement.REQUIREMENT.UPDATED_AT, values);
+    }
+
+    /**
+     * Fetch records that have <code>NOTE BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<org.jooq.generated.tables.pojos.Requirement> fetchRangeOfNote(String lowerInclusive, String upperInclusive) {
+        return fetchRange(Requirement.REQUIREMENT.NOTE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>NOTE IN (values)</code>
+     */
+    public List<org.jooq.generated.tables.pojos.Requirement> fetchByNote(String... values) {
+        return fetch(Requirement.REQUIREMENT.NOTE, values);
     }
 }

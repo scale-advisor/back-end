@@ -80,7 +80,7 @@ public class Requirement extends TableImpl<RequirementRecord> {
     /**
      * The column <code>scale_advisor.REQUIREMENT.REQUIREMENT_NUMBER</code>.
      */
-    public final TableField<RequirementRecord, Integer> REQUIREMENT_NUMBER = createField(DSL.name("REQUIREMENT_NUMBER"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<RequirementRecord, String> REQUIREMENT_NUMBER = createField(DSL.name("REQUIREMENT_NUMBER"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
      * The column <code>scale_advisor.REQUIREMENT.REQUIREMENT_NAME</code>.
@@ -91,7 +91,7 @@ public class Requirement extends TableImpl<RequirementRecord> {
      * The column
      * <code>scale_advisor.REQUIREMENT.REQUIREMENT_DETAIL_NUMBER</code>.
      */
-    public final TableField<RequirementRecord, Integer> REQUIREMENT_DETAIL_NUMBER = createField(DSL.name("REQUIREMENT_DETAIL_NUMBER"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<RequirementRecord, String> REQUIREMENT_DETAIL_NUMBER = createField(DSL.name("REQUIREMENT_DETAIL_NUMBER"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
      * The column <code>scale_advisor.REQUIREMENT.REQUIREMENT_DETAIL</code>.
@@ -112,6 +112,11 @@ public class Requirement extends TableImpl<RequirementRecord> {
      * The column <code>scale_advisor.REQUIREMENT.UPDATED_AT</code>.
      */
     public final TableField<RequirementRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.LOCALDATETIME(0).nullable(false), this, "");
+
+    /**
+     * The column <code>scale_advisor.REQUIREMENT.NOTE</code>.
+     */
+    public final TableField<RequirementRecord, String> NOTE = createField(DSL.name("NOTE"), SQLDataType.CLOB, this, "");
 
     private Requirement(Name alias, Table<RequirementRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
