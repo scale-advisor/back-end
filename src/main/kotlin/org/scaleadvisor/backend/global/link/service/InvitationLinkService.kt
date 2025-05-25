@@ -1,55 +1,56 @@
 package org.scaleadvisor.backend.global.link.service
 
-import org.scaleadvisor.backend.global.exception.model.EmailTokenGoneException
+import org.scaleadvisor.backend.global.exception.model.ConflictException
 import org.scaleadvisor.backend.global.exception.model.ForbiddenException
+import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.global.link.dto.InvitationLinkResponse
+import org.scaleadvisor.backend.global.link.dto.JoinProjectResponse
 import org.scaleadvisor.backend.global.link.repository.InvitationLinkRepository
 import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
-import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.data.redis.core.ValueOperations
 import org.springframework.stereotype.Service
-import java.time.Duration
+import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 import java.util.*
 
 @Service
+@Transactional
 class InvitationLinkService(
-    private val redisTemplate: RedisTemplate<String, String>,
     private val invitationLinkRepository: InvitationLinkRepository
 ) {
-    private val TOKEN_TTL_SECONDS = 600L
-    private val valueOps: ValueOperations<String, String>
-        get() = redisTemplate.opsForValue()
+    fun generateInvitationLink(projectId: Long
+    ): InvitationLinkResponse {
+        val now = LocalDateTime.now()
+        val existing = invitationLinkRepository.findByProjectId(projectId)
 
-    fun generateInvitationLink(projectId: Long): InvitationLinkResponse {
-        val token = UUID.randomUUID().toString()
-        val key   = "invitation:token:$token"
-        valueOps.set(key, projectId.toString(), Duration.ofSeconds(TOKEN_TTL_SECONDS))
+        return if (existing != null && existing.expireDate.isAfter(now)) {
+            InvitationLinkResponse(
+                "/projects/join?invitationToken=${existing.invitationToken}")
+        } else {
+            val newToken = UUID.randomUUID().toString()
 
-        val link = "/projects/$projectId/join?invitationToken=$token"
-        return InvitationLinkResponse(
-            invitationLink   = link
-        )
+            if (existing != null) {
+                invitationLinkRepository.updateInvitation(projectId, newToken)
+            } else {
+                invitationLinkRepository.saveInvitation(projectId, newToken)
+            }
+            InvitationLinkResponse("/projects/join?invitationToken=$newToken")
+        }
     }
 
-    fun joinProjectByToken(projectId: Long, invitationToken: String) {
-        val key = "invitation:token:$invitationToken"
-        val stored = valueOps.get(key)
-            ?: throw EmailTokenGoneException("링크 토큰이 만료되었거나 유효하지 않습니다.")
-        val storedProjectId = stored.toLongOrNull()
-            ?: throw EmailTokenGoneException("링크 토큰 데이터가 손상되었습니다.")
-
-        if (storedProjectId != projectId) {
-            throw EmailTokenGoneException("링크 토큰의 프로젝트 정보가 일치하지 않습니다.")
-        }
-
-        redisTemplate.delete(key)
-
+    fun joinProjectByToken(invitationToken: String
+    ): JoinProjectResponse {
         val userId = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
             ?: throw ForbiddenException("로그인이 필요합니다.")
 
-        invitationLinkRepository.joinProjectByInvitation(
-            userId = userId,
-            projectId = projectId
-        )
+        val invitation = invitationLinkRepository.findByToken(invitationToken)
+            ?: throw NotFoundException("유효하지 않은 초대 토큰입니다.")
+
+        if (invitation.expireDate.isBefore(LocalDateTime.now())) {
+            throw ConflictException("초대 링크가 만료되었습니다.")
+        }
+
+        invitationLinkRepository.joinProject(userId, invitation.projectId)
+
+        return JoinProjectResponse(invitation.projectId.toString())
     }
 }
