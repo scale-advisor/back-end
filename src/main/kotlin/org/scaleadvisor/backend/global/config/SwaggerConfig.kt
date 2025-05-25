@@ -39,24 +39,21 @@ class SwaggerConfig(
         val components = Components()
             .addSecuritySchemes(jwtSchemeName, securityScheme)
 
-        val servers = mutableListOf<Server>()
-
-        servers.add(
-            Server()
-                .url("${appUrl}${contextPath}")
-                .description("Production Server")
-        )
+        val server: Server
         if (devPort.isNotEmpty()) {
-            servers.add(
-                Server()
-                    .url("${appUrl}:${devPort}${contextPath}")
-                    .description("Dev Server")
-            )
+            server = Server()
+                .url("${appUrl}:${devPort}${contextPath}")
+                .description("Dev Server")
+
+        } else {
+            server = Server()
+                .url("${appUrl}${contextPath}")
+                .description("Dev Server")
         }
 
 
         return OpenAPI()
-            .servers(servers)
+            .servers(listOf(server))
             .components(components)
             .addSecurityItem(securityRequirement)
             .info(
