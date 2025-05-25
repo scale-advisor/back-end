@@ -1,17 +1,10 @@
-package org.scaleadvisor.backend.project.domain
+package org.scaleadvisor.backend.project.domain.vo
 
 import java.io.Serializable
 
-/**
- * ``major.minor`` 형식을 캡슐화한 불변 값 타입.
- *
- *  - 자바에서 바로 `VersionNumber.of("1.2")`, `VersionNumber.of(1,2)` 로 생성 가능
- *  - toString() 은 항상 "major.minor"
- *  - Comparable 구현으로 정렬 가능 (1.10 > 1.2)
- */
 data class VersionNumber private constructor(
-    val major: Int,
-    val minor: Int,
+    var major: Int,
+    var minor: Int,
 ) : Comparable<VersionNumber>, Serializable {
 
     override fun toString(): String = "$major.$minor"
@@ -19,9 +12,12 @@ data class VersionNumber private constructor(
     override fun compareTo(other: VersionNumber): Int =
         if (major != other.major) major - other.major else minor - other.minor
 
+    fun nextMajor(): VersionNumber = VersionNumber(major + 1, 0)
+    fun nextMinor(): VersionNumber = VersionNumber(major, minor + 1)
+
     companion object {
         @JvmField
-        val INITIAL: VersionNumber = VersionNumber(1, 0)
+        val INITIAL_NUMBER: VersionNumber = VersionNumber(1, 0)
 
         @JvmStatic
         fun of(major: Int, minor: Int): VersionNumber =

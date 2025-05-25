@@ -6,8 +6,6 @@ import org.scaleadvisor.backend.project.application.port.repository.version.Crea
 import org.scaleadvisor.backend.project.application.port.usecase.project.CreateProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.domain.Project
-import org.scaleadvisor.backend.project.domain.Version
-import org.scaleadvisor.backend.project.domain.VersionNumber
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -37,12 +35,6 @@ private class CreateProjectService(
             ?: throw Exception("프로젝트 생성과정에 문제가 발생했습니다")
 
         createProjectMemberPort.create(command.userId, project.id)
-
-        val version = Version(
-            projectId = project.id,
-            versionNumber = VersionNumber.INITIAL
-        )
-        createVersionPort.create(version)
 
         return project
     }

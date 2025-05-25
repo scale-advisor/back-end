@@ -1,7 +1,7 @@
 package org.scaleadvisor.backend.project.controller.response.project
 
 import org.scaleadvisor.backend.project.domain.Project
-import org.scaleadvisor.backend.project.domain.VersionNumber
+import org.scaleadvisor.backend.project.domain.vo.VersionNumber
 import java.time.LocalDateTime
 
 data class GetAllProjectResponse(
