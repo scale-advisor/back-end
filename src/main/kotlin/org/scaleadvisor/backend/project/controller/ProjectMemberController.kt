@@ -3,8 +3,8 @@ package org.scaleadvisor.backend.project.controller
 import org.scaleadvisor.backend.api.ProjectMemberAPI
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
-import org.scaleadvisor.backend.project.api.request.UpdateMemberStateRequest
-import org.scaleadvisor.backend.project.api.response.UpdateMemberStateResponse
+import org.scaleadvisor.backend.project.controller.request.member.UpdateMemberStateRequest
+import org.scaleadvisor.backend.project.controller.request.member.UpdateMemberStateResponse
 import org.scaleadvisor.backend.project.application.port.usecase.member.DeleteMemberUseCase
 import org.scaleadvisor.backend.project.controller.request.member.UpdateMemberRoleRequest
 import org.scaleadvisor.backend.project.controller.response.member.GetAllProjectMemberResponse
