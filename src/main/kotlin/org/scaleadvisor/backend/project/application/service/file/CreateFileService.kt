@@ -1,10 +1,12 @@
 package org.scaleadvisor.backend.project.application.service.file
 
+import org.scaleadvisor.backend.global.exception.model.ForbiddenException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.global.util.FileUtil
 import org.scaleadvisor.backend.project.application.port.repository.file.CreateFilePort
 import org.scaleadvisor.backend.project.application.port.usecase.file.CreateFileUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.file.UploadFileUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsEditorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.version.GenerateVersionUseCase
 import org.scaleadvisor.backend.project.domain.File
@@ -19,6 +21,7 @@ import java.time.LocalDateTime
 @Service
 @Transactional
 private class CreateFileService(
+    private val checkIsEditorUseCase: CheckIsEditorUseCase,
     private val getProjectUseCase: GetProjectUseCase,
     private val generateVersionUseCase: GenerateVersionUseCase,
     private val uploadFileUseCase: UploadFileUseCase,
@@ -26,6 +29,10 @@ private class CreateFileService(
 ) : CreateFileUseCase {
 
     override fun create(command: CreateFileUseCase.Command) {
+        if (!checkIsEditorUseCase.checkIsEditor(command.projectId.toLong())) {
+            throw ForbiddenException("프로젝트 요소를 수정할 권한이 없습니다.")
+        }
+
         val project: Project = getProjectUseCase.find(command.projectId)
             ?: throw NotFoundException("Project not found")
 

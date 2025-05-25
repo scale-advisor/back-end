@@ -1,8 +1,10 @@
 package org.scaleadvisor.backend.project.application.service.project
 
+import org.scaleadvisor.backend.global.exception.model.ForbiddenException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.global.exception.model.ValidationException
 import org.scaleadvisor.backend.project.application.port.repository.project.UpdateProjectPort
+import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsEditorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsProjectMemberUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.UpdateProjectUseCase
@@ -16,6 +18,7 @@ import java.time.LocalDateTime
 private class UpdateProjectService(
     private val checkIsProjectMemberUseCase: CheckIsProjectMemberUseCase,
     private val getProjectUseCase: GetProjectUseCase,
+    private val checkIsEditorUseCase: CheckIsEditorUseCase,
     private val updateProjectPort: UpdateProjectPort
 ) : UpdateProjectUseCase {
 
@@ -31,6 +34,10 @@ private class UpdateProjectService(
         var project = getProjectUseCase.find(command.projectId)
         if (project == null) {
             throw NotFoundException("프로젝트가 존재하지 않습니다.")
+        }
+
+        if (!checkIsEditorUseCase.checkIsEditor(command.projectId.toLong())) {
+            throw ForbiddenException("프로젝트를 수정할 권한이 없습니다.")
         }
 
         project = Project(

@@ -1,9 +1,11 @@
 package org.scaleadvisor.backend.project.application.service.project
 
+import org.scaleadvisor.backend.global.exception.model.ForbiddenException
 import org.scaleadvisor.backend.global.exception.model.ValidationException
 import org.scaleadvisor.backend.project.application.port.repository.member.DeleteProjectMemberPort
 import org.scaleadvisor.backend.project.application.port.repository.project.DeleteProjectPort
 import org.scaleadvisor.backend.project.application.port.usecase.fpweights.DeleteFpWeightsUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsEditorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsProjectMemberUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.DeleteProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 private class DeleteProjectService(
     private val checkIsProjectMemberUseCase: CheckIsProjectMemberUseCase,
+    private val checkIsEditorUseCase: CheckIsEditorUseCase,
     private val getProjectUseCase: GetProjectUseCase,
     private val deleteProjectPort: DeleteProjectPort,
     private val deleteProjectMemberPort: DeleteProjectMemberPort,
@@ -39,6 +42,10 @@ private class DeleteProjectService(
 
         val project: Project = getProjectUseCase.find(projectId)
             ?: throw NoSuchElementException("해당 프로젝트가 존재하지 않습니다.")
+
+        if (!checkIsEditorUseCase.checkIsEditor(projectId.toLong())) {
+            throw ForbiddenException("프로젝트를 삭제할 권한이 없습니다.")
+        }
 
         deleteFpWeightsUseCase.delete(projectId)
         deleteProjectLanguageUseCase.deleteAll(projectId)
