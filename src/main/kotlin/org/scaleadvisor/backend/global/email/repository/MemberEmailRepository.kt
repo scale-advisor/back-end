@@ -7,7 +7,6 @@ import org.scaleadvisor.backend.global.exception.model.ConflictException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.project.domain.enum.MemberRole
 import org.scaleadvisor.backend.project.domain.enum.MemberState
-import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
@@ -15,6 +14,15 @@ import java.time.LocalDateTime
 class InvitationEmailRepository(
     private val dsl: DSLContext
 ) {
+    fun isOwner(userId: Long, projectId: Long): Boolean {
+        return dsl.fetchExists(
+            dsl.selectFrom(PROJECT_MEMBER)
+                .where(PROJECT_MEMBER.USER_ID.eq(userId))
+                .and(PROJECT_MEMBER.PROJECT_ID.eq(projectId))
+                .and(PROJECT_MEMBER.ROLE.eq(MemberRole.OWNER.name))
+        )
+    }
+
     fun inviteByEmail(
         email: String,
         projectId: Long
