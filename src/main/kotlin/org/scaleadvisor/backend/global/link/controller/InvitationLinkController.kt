@@ -1,11 +1,13 @@
 package org.scaleadvisor.backend.global.link.controller
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.global.link.dto.InvitationLinkResponse
 import org.scaleadvisor.backend.global.link.dto.JoinProjectResponse
 import org.scaleadvisor.backend.global.link.service.InvitationLinkService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+@Tag(name = "Invitation - Link")
 @RestController
 @RequestMapping("/projects")
 class InvitationLinkController(

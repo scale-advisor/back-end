@@ -14,13 +14,15 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
-@Tag(name = "Project File", description = "Project File API")
+@Tag(name = "Project File", description = "프로젝트 파일 관리 API")
 @RequestMapping("projects/{projectId}/files", produces = ["application/json;charset=utf-8"])
 interface ProjectFileAPI {
 
     @Operation(
         summary = "Project File 업로드",
-        description = "RFP or 요구사항 파일 업로드",
+        description = "RFP or 요구사항 파일 업로드.\n\n" +
+                "파일 업로드 시, 프로젝트 major version이 올라감. ex> 1.2 -> 2.0, 첫 업로드는 1.0.\n\n" +
+                "**FileType:** RFP, REQUIREMENTS",
         parameters  = [
             Parameter(
                 name = "projectId",
