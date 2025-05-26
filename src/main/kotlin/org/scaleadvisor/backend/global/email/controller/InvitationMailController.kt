@@ -1,6 +1,5 @@
 package org.scaleadvisor.backend.global.email.controller
 
-import org.scaleadvisor.backend.global.email.dto.AcceptInvitationRequest
 import org.scaleadvisor.backend.global.email.dto.AcceptInvitationResponse
 import org.scaleadvisor.backend.global.email.dto.InvitationMailRequest
 import org.scaleadvisor.backend.global.email.service.EmailService
@@ -8,6 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -24,9 +24,11 @@ class InvitationMailController(
     }
 
     @PostMapping("/invitation/accept")
-    fun acceptInvitation(@RequestBody request: AcceptInvitationRequest
+    fun acceptInvitation(@RequestParam projectId: Long,
+                         @RequestParam email: String,
+                         @RequestParam token: String
     ): ResponseEntity<AcceptInvitationResponse> {
-        val response = emailService.acceptInvitation(request)
+        val response = emailService.acceptInvitation(projectId, email, token)
         return ResponseEntity.ok().body(response)
     }
 }

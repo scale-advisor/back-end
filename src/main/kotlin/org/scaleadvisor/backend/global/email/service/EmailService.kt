@@ -103,7 +103,7 @@ class EmailService(
         }
 
         val token = generateMailToken(prefix = "invitation:token", email = request.email, duration = 1)
-        val invitationLink = "${request.invitationUrl}/invitation?projectId=$projectId&email=$requestEmail&token=$token"
+        val invitationLink = "${request.invitationUrl}/invitation/accept?projectId=$projectId&email=$requestEmail&token=$token"
 
         val content = buildString {
             append("<p>안녕하세요, $serviceName 입니다.</p>")
@@ -138,15 +138,15 @@ class EmailService(
         }
     }
 
-    fun acceptInvitation(request: AcceptInvitationRequest): AcceptInvitationResponse {
-        val key = "invitation:token:${request.token}"
+    fun acceptInvitation(projectId: Long, email: String, token: String): AcceptInvitationResponse {
+        val key = "invitation:token:${token}"
         val storedEmail = valOps().get(key)
-        if (storedEmail == request.email) {
+        if (storedEmail == email) {
             redisTemplate.delete(key)
-            invitationEmailRepository.acceptInvitation(request.email, request.projectId.toLong())
+            invitationEmailRepository.acceptInvitation(email, projectId)
 
             return AcceptInvitationResponse(
-                projectId = request.projectId
+                projectId = projectId.toString()
             )
 
         } else {
