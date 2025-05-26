@@ -13,8 +13,10 @@ import org.scaleadvisor.backend.user.dto.DeleteUserRequest
 import org.scaleadvisor.backend.user.dto.UpdateNameRequest
 import org.scaleadvisor.backend.user.repository.UserRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 class UserService(
     private val authService: AuthService,
     private val userRepository: UserRepository,
