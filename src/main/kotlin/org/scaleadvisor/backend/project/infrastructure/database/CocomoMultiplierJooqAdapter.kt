@@ -23,7 +23,7 @@ private class CocomoMultiplierJooqAdapter(
     private fun CocomoMultiplierRecord.toDomain(): CocomoMultiplier =
         CocomoMultiplier(
             cocomoMultiplierId = CocomoMultiplierId.of(this.cocomoMultiplierId),
-            projectId = ProjectId.of(this.projectId),
+            projectId = ProjectId.from(this.projectId),
             rcpx = CocomoLevel.valueOf(this.rcpx),
             ruse = CocomoLevel.valueOf(this.ruse),
             pdif = CocomoLevel.valueOf(this.pdif),

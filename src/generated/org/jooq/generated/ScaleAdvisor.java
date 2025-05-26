@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.jooq.Catalog;
 import org.jooq.Table;
+import org.jooq.generated.tables.AdjustmentFactor;
 import org.jooq.generated.tables.BatchJobExecution;
 import org.jooq.generated.tables.BatchJobExecutionContext;
 import org.jooq.generated.tables.BatchJobExecutionParams;
@@ -39,6 +40,8 @@ import org.jooq.generated.tables.QrtzSimpleTriggers;
 import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
 import org.jooq.generated.tables.Requirement;
+import org.jooq.generated.tables.RequirementUnitProcess;
+import org.jooq.generated.tables.UnitProcess;
 import org.jooq.generated.tables.User;
 import org.jooq.generated.tables.Version;
 import org.jooq.impl.SchemaImpl;
@@ -56,6 +59,11 @@ public class ScaleAdvisor extends SchemaImpl {
      * The reference instance of <code>scale_advisor</code>
      */
     public static final ScaleAdvisor SCALE_ADVISOR = new ScaleAdvisor();
+
+    /**
+     * The table <code>scale_advisor.ADJUSTMENT_FACTOR</code>.
+     */
+    public final AdjustmentFactor ADJUSTMENT_FACTOR = AdjustmentFactor.ADJUSTMENT_FACTOR;
 
     /**
      * The table <code>scale_advisor.BATCH_JOB_EXECUTION</code>.
@@ -208,6 +216,16 @@ public class ScaleAdvisor extends SchemaImpl {
     public final Requirement REQUIREMENT = Requirement.REQUIREMENT;
 
     /**
+     * The table <code>scale_advisor.REQUIREMENT_UNIT_PROCESS</code>.
+     */
+    public final RequirementUnitProcess REQUIREMENT_UNIT_PROCESS = RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS;
+
+    /**
+     * The table <code>scale_advisor.UNIT_PROCESS</code>.
+     */
+    public final UnitProcess UNIT_PROCESS = UnitProcess.UNIT_PROCESS;
+
+    /**
      * The table <code>scale_advisor.USER</code>.
      */
     public final User USER = User.USER;
@@ -233,6 +251,7 @@ public class ScaleAdvisor extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            AdjustmentFactor.ADJUSTMENT_FACTOR,
             BatchJobExecution.BATCH_JOB_EXECUTION,
             BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT,
             BatchJobExecutionParams.BATCH_JOB_EXECUTION_PARAMS,
@@ -263,6 +282,8 @@ public class ScaleAdvisor extends SchemaImpl {
             QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS,
             QrtzTriggers.QRTZ_TRIGGERS,
             Requirement.REQUIREMENT,
+            RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS,
+            UnitProcess.UNIT_PROCESS,
             User.USER,
             Version.VERSION
         );

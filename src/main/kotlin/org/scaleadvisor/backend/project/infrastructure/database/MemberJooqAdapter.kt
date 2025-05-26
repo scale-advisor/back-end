@@ -223,7 +223,7 @@ private class MemberJooqAdapter(
         ProjectMember(
             name      = record.get(USER.NAME),
             email     = record.get(USER.EMAIL),
-            projectId = ProjectId.of(record.get(PROJECT_MEMBER.PROJECT_ID)),
+            projectId = ProjectId.from(record.get(PROJECT_MEMBER.PROJECT_ID)),
             state     = MemberState.valueOf(record.get(PROJECT_MEMBER.STATE)),
             role      = MemberRole.valueOf(record.get(PROJECT_MEMBER.ROLE)),
             createdAt = record.get(PROJECT_MEMBER.CREATED_AT),

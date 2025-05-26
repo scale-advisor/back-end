@@ -3,28 +3,29 @@ package org.scaleadvisor.backend.project.infrastructure.database
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.VERSION
 import org.jooq.generated.tables.records.VersionRecord
-import org.scaleadvisor.backend.project.application.port.repository.version.CreateVersionPort
-import org.scaleadvisor.backend.project.application.port.repository.version.DeleteVersionPort
-import org.scaleadvisor.backend.project.application.port.repository.version.GetVersionPort
+import org.scaleadvisor.backend.project.application.port.repository.version.CreateProjectVersionPort
+import org.scaleadvisor.backend.project.application.port.repository.version.DeleteProjectVersionPort
+import org.scaleadvisor.backend.project.application.port.repository.version.GetProjectVersionPort
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
 @Repository
-private class VersionJooqAdapter(
+private class ProjectVersionJooqAdapter(
     private val dsl: DSLContext
-) : CreateVersionPort, GetVersionPort, DeleteVersionPort {
+) : CreateProjectVersionPort, GetProjectVersionPort, DeleteProjectVersionPort {
 
     private fun VersionRecord.toDomain() = ProjectVersion.of(
+        projectId = ProjectId.from(this.projectId),
         major = this.versionMajorNumber,
         minor = this.versionMinorNumber
     )
 
-    override fun create(projectId: ProjectId, projectVersion: ProjectVersion) {
+    override fun create(projectVersion: ProjectVersion) {
         dsl
             .insertInto(VERSION)
-            .set(VERSION.PROJECT_ID, projectId.toLong())
+            .set(VERSION.PROJECT_ID, projectVersion.projectId.toLong())
             .set(VERSION.VERSION_MAJOR_NUMBER, projectVersion.major)
             .set(VERSION.VERSION_MINOR_NUMBER, projectVersion.minor)
             .set(VERSION.CREATED_AT, LocalDateTime.now())
@@ -47,9 +48,9 @@ private class VersionJooqAdapter(
             .fetch { record -> record.into(VERSION).toDomain() }
     }
 
-    override fun delete(projectId: ProjectId, projectVersion: ProjectVersion) {
+    override fun delete(projectVersion: ProjectVersion) {
         dsl.deleteFrom(VERSION)
-            .where(VERSION.PROJECT_ID.eq(projectId.toLong()))
+            .where(VERSION.PROJECT_ID.eq(projectVersion.projectId.toLong()))
             .and(VERSION.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
             .and(VERSION.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
             .execute()

@@ -21,7 +21,7 @@ private class ProjectOptionController(
         projectId: Long,
         request: CreateProjectOptionRequest
     ) {
-        val projectId = ProjectId.of(projectId)
+        val projectId = ProjectId.from(projectId)
         createProjectOptionUseCase.create(
             CreateProjectOptionUseCase.Command(
                 projectId = projectId,
@@ -34,7 +34,7 @@ private class ProjectOptionController(
     }
 
     override fun find(projectId: Long): SuccessResponse<GetProjectOptionResponse> {
-        val projectId = ProjectId.of(projectId)
+        val projectId = ProjectId.from(projectId)
 
         val result = getProjectOptionUseCase.find(projectId)
 
@@ -44,7 +44,7 @@ private class ProjectOptionController(
     override fun update(projectId: Long, request: UpdateProjectOptionRequest) {
         updateProjectOptionUseCase.update(
             UpdateProjectOptionUseCase.Command(
-                projectId = ProjectId.of(projectId),
+                projectId = ProjectId.from(projectId),
                 unitCost = request.unitCost,
                 teamSize = request.teamSize,
                 cocomoType = request.cocomoType,

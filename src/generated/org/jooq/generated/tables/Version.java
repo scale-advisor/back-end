@@ -28,6 +28,7 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
+import org.jooq.generated.tables.AdjustmentFactor.AdjustmentFactorPath;
 import org.jooq.generated.tables.File.FilePath;
 import org.jooq.generated.tables.Project.ProjectPath;
 import org.jooq.generated.tables.Requirement.RequirementPath;
@@ -166,6 +167,19 @@ public class Version extends TableImpl<VersionRecord> {
             _project = new ProjectPath(this, Keys.FK_VERSION_PROJECT_ID, null);
 
         return _project;
+    }
+
+    private transient AdjustmentFactorPath _adjustmentFactor;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>scale_advisor.ADJUSTMENT_FACTOR</code> table
+     */
+    public AdjustmentFactorPath adjustmentFactor() {
+        if (_adjustmentFactor == null)
+            _adjustmentFactor = new AdjustmentFactorPath(this, null, Keys.FK_ADJUSTMENT_FACTOR_VERSION.getInverseKey());
+
+        return _adjustmentFactor;
     }
 
     private transient FilePath _file;

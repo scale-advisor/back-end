@@ -7,6 +7,7 @@ package org.jooq.generated;
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
+import org.jooq.generated.tables.AdjustmentFactor;
 import org.jooq.generated.tables.BatchJobExecution;
 import org.jooq.generated.tables.BatchJobExecutionContext;
 import org.jooq.generated.tables.BatchJobExecutionParams;
@@ -37,8 +38,11 @@ import org.jooq.generated.tables.QrtzSimpleTriggers;
 import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
 import org.jooq.generated.tables.Requirement;
+import org.jooq.generated.tables.RequirementUnitProcess;
+import org.jooq.generated.tables.UnitProcess;
 import org.jooq.generated.tables.User;
 import org.jooq.generated.tables.Version;
+import org.jooq.generated.tables.records.AdjustmentFactorRecord;
 import org.jooq.generated.tables.records.BatchJobExecutionContextRecord;
 import org.jooq.generated.tables.records.BatchJobExecutionParamsRecord;
 import org.jooq.generated.tables.records.BatchJobExecutionRecord;
@@ -69,6 +73,8 @@ import org.jooq.generated.tables.records.QrtzSimpleTriggersRecord;
 import org.jooq.generated.tables.records.QrtzSimpropTriggersRecord;
 import org.jooq.generated.tables.records.QrtzTriggersRecord;
 import org.jooq.generated.tables.records.RequirementRecord;
+import org.jooq.generated.tables.records.RequirementUnitProcessRecord;
+import org.jooq.generated.tables.records.UnitProcessRecord;
 import org.jooq.generated.tables.records.UserRecord;
 import org.jooq.generated.tables.records.VersionRecord;
 import org.jooq.impl.DSL;
@@ -86,6 +92,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<AdjustmentFactorRecord> KEY_ADJUSTMENT_FACTOR_PRIMARY = Internal.createUniqueKey(AdjustmentFactor.ADJUSTMENT_FACTOR, DSL.name("KEY_ADJUSTMENT_FACTOR_PRIMARY"), new TableField[] { AdjustmentFactor.ADJUSTMENT_FACTOR.ADJUSTMENT_FACTOR_ID }, true);
     public static final UniqueKey<BatchJobExecutionRecord> KEY_BATCH_JOB_EXECUTION_PRIMARY = Internal.createUniqueKey(BatchJobExecution.BATCH_JOB_EXECUTION, DSL.name("KEY_BATCH_JOB_EXECUTION_PRIMARY"), new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_EXECUTION_ID }, true);
     public static final UniqueKey<BatchJobExecutionContextRecord> KEY_BATCH_JOB_EXECUTION_CONTEXT_PRIMARY = Internal.createUniqueKey(BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT, DSL.name("KEY_BATCH_JOB_EXECUTION_CONTEXT_PRIMARY"), new TableField[] { BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT.JOB_EXECUTION_ID }, true);
     public static final UniqueKey<BatchJobExecutionSeqRecord> KEY_BATCH_JOB_EXECUTION_SEQ_UNIQUE_KEY_UN = Internal.createUniqueKey(BatchJobExecutionSeq.BATCH_JOB_EXECUTION_SEQ, DSL.name("KEY_BATCH_JOB_EXECUTION_SEQ_UNIQUE_KEY_UN"), new TableField[] { BatchJobExecutionSeq.BATCH_JOB_EXECUTION_SEQ.UNIQUE_KEY }, true);
@@ -117,6 +124,8 @@ public class Keys {
     public static final UniqueKey<QrtzSimpropTriggersRecord> KEY_QRTZ_SIMPROP_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS, DSL.name("KEY_QRTZ_SIMPROP_TRIGGERS_PRIMARY"), new TableField[] { QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.SCHED_NAME, QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.TRIGGER_NAME, QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS.TRIGGER_GROUP }, true);
     public static final UniqueKey<QrtzTriggersRecord> KEY_QRTZ_TRIGGERS_PRIMARY = Internal.createUniqueKey(QrtzTriggers.QRTZ_TRIGGERS, DSL.name("KEY_QRTZ_TRIGGERS_PRIMARY"), new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_NAME, QrtzTriggers.QRTZ_TRIGGERS.TRIGGER_GROUP }, true);
     public static final UniqueKey<RequirementRecord> KEY_REQUIREMENT_PRIMARY = Internal.createUniqueKey(Requirement.REQUIREMENT, DSL.name("KEY_REQUIREMENT_PRIMARY"), new TableField[] { Requirement.REQUIREMENT.REQUIREMENT_ID }, true);
+    public static final UniqueKey<RequirementUnitProcessRecord> KEY_REQUIREMENT_UNIT_PROCESS_PRIMARY = Internal.createUniqueKey(RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS, DSL.name("KEY_REQUIREMENT_UNIT_PROCESS_PRIMARY"), new TableField[] { RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID, RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID }, true);
+    public static final UniqueKey<UnitProcessRecord> KEY_UNIT_PROCESS_PRIMARY = Internal.createUniqueKey(UnitProcess.UNIT_PROCESS, DSL.name("KEY_UNIT_PROCESS_PRIMARY"), new TableField[] { UnitProcess.UNIT_PROCESS.UNIT_PROCESS_ID }, true);
     public static final UniqueKey<UserRecord> KEY_USER_EMAIL = Internal.createUniqueKey(User.USER, DSL.name("KEY_USER_EMAIL"), new TableField[] { User.USER.EMAIL }, true);
     public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = Internal.createUniqueKey(User.USER, DSL.name("KEY_USER_PRIMARY"), new TableField[] { User.USER.USER_ID }, true);
     public static final UniqueKey<VersionRecord> KEY_VERSION_PRIMARY = Internal.createUniqueKey(Version.VERSION, DSL.name("KEY_VERSION_PRIMARY"), new TableField[] { Version.VERSION.PROJECT_ID, Version.VERSION.VERSION_MAJOR_NUMBER, Version.VERSION.VERSION_MINOR_NUMBER }, true);
@@ -125,6 +134,7 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final ForeignKey<AdjustmentFactorRecord, VersionRecord> FK_ADJUSTMENT_FACTOR_VERSION = Internal.createForeignKey(AdjustmentFactor.ADJUSTMENT_FACTOR, DSL.name("FK_ADJUSTMENT_FACTOR_VERSION"), new TableField[] { AdjustmentFactor.ADJUSTMENT_FACTOR.PROJECT_ID, AdjustmentFactor.ADJUSTMENT_FACTOR.VERSION_MAJOR_NUMBER, AdjustmentFactor.ADJUSTMENT_FACTOR.VERSION_MINOR_NUMBER }, Keys.KEY_VERSION_PRIMARY, new TableField[] { Version.VERSION.PROJECT_ID, Version.VERSION.VERSION_MAJOR_NUMBER, Version.VERSION.VERSION_MINOR_NUMBER }, true);
     public static final ForeignKey<BatchJobExecutionRecord, BatchJobInstanceRecord> JOB_INST_EXEC_FK = Internal.createForeignKey(BatchJobExecution.BATCH_JOB_EXECUTION, DSL.name("JOB_INST_EXEC_FK"), new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_INSTANCE_ID }, Keys.KEY_BATCH_JOB_INSTANCE_PRIMARY, new TableField[] { BatchJobInstance.BATCH_JOB_INSTANCE.JOB_INSTANCE_ID }, true);
     public static final ForeignKey<BatchJobExecutionContextRecord, BatchJobExecutionRecord> JOB_EXEC_CTX_FK = Internal.createForeignKey(BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT, DSL.name("JOB_EXEC_CTX_FK"), new TableField[] { BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT.JOB_EXECUTION_ID }, Keys.KEY_BATCH_JOB_EXECUTION_PRIMARY, new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_EXECUTION_ID }, true);
     public static final ForeignKey<BatchJobExecutionParamsRecord, BatchJobExecutionRecord> JOB_EXEC_PARAMS_FK = Internal.createForeignKey(BatchJobExecutionParams.BATCH_JOB_EXECUTION_PARAMS, DSL.name("JOB_EXEC_PARAMS_FK"), new TableField[] { BatchJobExecutionParams.BATCH_JOB_EXECUTION_PARAMS.JOB_EXECUTION_ID }, Keys.KEY_BATCH_JOB_EXECUTION_PRIMARY, new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_EXECUTION_ID }, true);
@@ -146,5 +156,7 @@ public class Keys {
     public static final ForeignKey<QrtzTriggersRecord, QrtzJobDetailsRecord> QRTZ_TRIGGERS_IBFK_1 = Internal.createForeignKey(QrtzTriggers.QRTZ_TRIGGERS, DSL.name("qrtz_triggers_ibfk_1"), new TableField[] { QrtzTriggers.QRTZ_TRIGGERS.SCHED_NAME, QrtzTriggers.QRTZ_TRIGGERS.JOB_NAME, QrtzTriggers.QRTZ_TRIGGERS.JOB_GROUP }, Keys.KEY_QRTZ_JOB_DETAILS_PRIMARY, new TableField[] { QrtzJobDetails.QRTZ_JOB_DETAILS.SCHED_NAME, QrtzJobDetails.QRTZ_JOB_DETAILS.JOB_NAME, QrtzJobDetails.QRTZ_JOB_DETAILS.JOB_GROUP }, true);
     public static final ForeignKey<RequirementRecord, ProjectRecord> FK_REQUIREMENT_PROJECT_ID = Internal.createForeignKey(Requirement.REQUIREMENT, DSL.name("FK_REQUIREMENT_PROJECT_ID"), new TableField[] { Requirement.REQUIREMENT.PROJECT_ID }, Keys.KEY_PROJECT_PRIMARY, new TableField[] { Project.PROJECT.PROJECT_ID }, true);
     public static final ForeignKey<RequirementRecord, VersionRecord> FK_REQUIREMENT_VERSION = Internal.createForeignKey(Requirement.REQUIREMENT, DSL.name("FK_REQUIREMENT_VERSION"), new TableField[] { Requirement.REQUIREMENT.PROJECT_ID, Requirement.REQUIREMENT.VERSION_MAJOR_NUMBER, Requirement.REQUIREMENT.VERSION_MINOR_NUMBER }, Keys.KEY_VERSION_PRIMARY, new TableField[] { Version.VERSION.PROJECT_ID, Version.VERSION.VERSION_MAJOR_NUMBER, Version.VERSION.VERSION_MINOR_NUMBER }, true);
+    public static final ForeignKey<RequirementUnitProcessRecord, RequirementRecord> FK_REQUIREMENT_UNIT_PROCESS_REQUIREMENT_ID = Internal.createForeignKey(RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS, DSL.name("FK_REQUIREMENT_UNIT_PROCESS_REQUIREMENT_ID"), new TableField[] { RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID }, Keys.KEY_REQUIREMENT_PRIMARY, new TableField[] { Requirement.REQUIREMENT.REQUIREMENT_ID }, true);
+    public static final ForeignKey<RequirementUnitProcessRecord, UnitProcessRecord> FK_REQUIREMENT_UNIT_PROCESS_UNIT_PROCESS_ID = Internal.createForeignKey(RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS, DSL.name("FK_REQUIREMENT_UNIT_PROCESS_UNIT_PROCESS_ID"), new TableField[] { RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID }, Keys.KEY_UNIT_PROCESS_PRIMARY, new TableField[] { UnitProcess.UNIT_PROCESS.UNIT_PROCESS_ID }, true);
     public static final ForeignKey<VersionRecord, ProjectRecord> FK_VERSION_PROJECT_ID = Internal.createForeignKey(Version.VERSION, DSL.name("FK_VERSION_PROJECT_ID"), new TableField[] { Version.VERSION.PROJECT_ID }, Keys.KEY_PROJECT_PRIMARY, new TableField[] { Project.PROJECT.PROJECT_ID }, true);
 }

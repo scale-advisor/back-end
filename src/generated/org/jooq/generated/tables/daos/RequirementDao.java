@@ -233,4 +233,19 @@ public class RequirementDao extends DAOImpl<RequirementRecord, org.jooq.generate
     public List<org.jooq.generated.tables.pojos.Requirement> fetchByNote(String... values) {
         return fetch(Requirement.REQUIREMENT.NOTE, values);
     }
+
+    /**
+     * Fetch records that have <code>REQUIREMENT_DEFINITION BETWEEN
+     * lowerInclusive AND upperInclusive</code>
+     */
+    public List<org.jooq.generated.tables.pojos.Requirement> fetchRangeOfRequirementDefinition(String lowerInclusive, String upperInclusive) {
+        return fetchRange(Requirement.REQUIREMENT.REQUIREMENT_DEFINITION, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>REQUIREMENT_DEFINITION IN (values)</code>
+     */
+    public List<org.jooq.generated.tables.pojos.Requirement> fetchByRequirementDefinition(String... values) {
+        return fetch(Requirement.REQUIREMENT.REQUIREMENT_DEFINITION, values);
+    }
 }

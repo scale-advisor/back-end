@@ -1,36 +1,34 @@
 package org.scaleadvisor.backend.project.domain
 
+import ProjectVersionId
+import org.scaleadvisor.backend.project.domain.id.ProjectId
 import java.io.Serializable
 
 data class ProjectVersion private constructor(
-    var major: Int,
-    var minor: Int,
-) : Comparable<ProjectVersion>, Serializable {
+    val id: ProjectVersionId                                    // ← 식별자 VO
+) : Serializable {
 
-    override fun toString(): String = "$major.$minor"
+    val projectId: ProjectId get() = id.projectId
+    val major: Int        get() = id.major
+    val minor: Int        get() = id.minor
+    val versionNumber: String get() = "${id.major}.${id.minor}"
 
-    override fun compareTo(other: ProjectVersion): Int =
-        if (major != other.major) major - other.major else minor - other.minor
-
-    fun nextMajor(): ProjectVersion = ProjectVersion(major + 1, 0)
-    fun nextMinor(): ProjectVersion = ProjectVersion(major, minor + 1)
+    fun nextMajor() = of(projectId, major + 1, 0)
+    fun nextMinor() = of(projectId, major,     minor + 1)
 
     companion object {
-        @JvmField
-        val INITIAL_VERSION: ProjectVersion = ProjectVersion(1, 0)
+        fun init(projectId: ProjectId)        = of(projectId, 1, 0)
 
-        @JvmStatic
-        fun of(major: Int, minor: Int): ProjectVersion =
-            ProjectVersion(major, minor)
+        fun of(projectId: ProjectId, major: Int, minor: Int) =
+            ProjectVersion(ProjectVersionId.of(projectId, major, minor))
 
-        @JvmStatic
-        fun of(version: String): ProjectVersion {
-            val regex = """(\d+)\.(\d+)""".toRegex()
-            val m = regex.matchEntire(version)
-                ?: throw IllegalArgumentException("versionNumber must be like 2.3")
-
+        fun of(projectId: ProjectId, version: String): ProjectVersion {
+            val m = Regex("""(\d+)\.(\d+)""").matchEntire(version)
+                ?: throw IllegalArgumentException("Version must be like 2.3")
             val (maj, min) = m.destructured
-            return ProjectVersion(maj.toInt(), min.toInt())
+            return of(projectId, maj.toInt(), min.toInt())
         }
+
+        fun from(id: ProjectVersionId) = ProjectVersion(id)
     }
 }

@@ -19,7 +19,7 @@ data class GetFileResponse (
         fun from(file: File): GetFileResponse {
             return GetFileResponse(
                 projectId = file.projectId.toString(),
-                versionNumber = file.projectVersion.toString(),
+                versionNumber = file.projectVersion.versionNumber,
                 name = file.name,
                 type = file.type,
                 uploaderId = file.uploaderId.toString(),

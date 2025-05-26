@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service
 private class RemoveFileService(
     private val removeFilePort: RemoveFilePort
 ) : RemoveFileUseCase {
-    override fun remove(projectId: ProjectId, projectVersion: ProjectVersion) {
-        removeFilePort.remove(projectId, projectVersion)
+    override fun remove(projectVersion: ProjectVersion) {
+        removeFilePort.remove(projectVersion)
     }
 
     override fun removeAll(projectId: ProjectId) {

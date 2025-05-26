@@ -4,6 +4,7 @@
 package org.jooq.generated;
 
 
+import org.jooq.generated.tables.AdjustmentFactor;
 import org.jooq.generated.tables.BatchJobExecution;
 import org.jooq.generated.tables.BatchJobExecutionContext;
 import org.jooq.generated.tables.BatchJobExecutionParams;
@@ -34,6 +35,8 @@ import org.jooq.generated.tables.QrtzSimpleTriggers;
 import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
 import org.jooq.generated.tables.Requirement;
+import org.jooq.generated.tables.RequirementUnitProcess;
+import org.jooq.generated.tables.UnitProcess;
 import org.jooq.generated.tables.User;
 import org.jooq.generated.tables.Version;
 
@@ -43,6 +46,11 @@ import org.jooq.generated.tables.Version;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>scale_advisor.ADJUSTMENT_FACTOR</code>.
+     */
+    public static final AdjustmentFactor ADJUSTMENT_FACTOR = AdjustmentFactor.ADJUSTMENT_FACTOR;
 
     /**
      * The table <code>scale_advisor.BATCH_JOB_EXECUTION</code>.
@@ -193,6 +201,16 @@ public class Tables {
      * The table <code>scale_advisor.REQUIREMENT</code>.
      */
     public static final Requirement REQUIREMENT = Requirement.REQUIREMENT;
+
+    /**
+     * The table <code>scale_advisor.REQUIREMENT_UNIT_PROCESS</code>.
+     */
+    public static final RequirementUnitProcess REQUIREMENT_UNIT_PROCESS = RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS;
+
+    /**
+     * The table <code>scale_advisor.UNIT_PROCESS</code>.
+     */
+    public static final UnitProcess UNIT_PROCESS = UnitProcess.UNIT_PROCESS;
 
     /**
      * The table <code>scale_advisor.USER</code>.

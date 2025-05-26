@@ -55,8 +55,8 @@ private class FileLocalStorageAdapter(
         return Files.readAllBytes(rootLocation.resolve(path))
     }
 
-    override fun remove(projectId: ProjectId, projectVersion: ProjectVersion) {
-        val projectDir = Paths.get(location, projectId.toString(), projectVersion.toString())
+    override fun remove(projectVersion: ProjectVersion) {
+        val projectDir = Paths.get(location, projectVersion.projectId.toString(), projectVersion.versionNumber)
         if (Files.notExists(projectDir)) {
             return
         }
@@ -67,7 +67,7 @@ private class FileLocalStorageAdapter(
                     Files.deleteIfExists(path)
                 }
         } catch (e: IOException) {
-            throw RuntimeException("Failed to delete local files for project '${projectId}' and version '${projectVersion}'", e)
+            throw RuntimeException("Failed to delete local files for project '${projectVersion.projectId}' and version '${projectVersion}'", e)
         }
     }
 

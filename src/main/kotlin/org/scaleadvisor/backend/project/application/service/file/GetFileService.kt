@@ -4,6 +4,7 @@ import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.project.application.port.repository.file.GetFilePort
 import org.scaleadvisor.backend.project.application.port.usecase.file.GetFileUseCase
 import org.scaleadvisor.backend.project.domain.File
+import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -13,10 +14,9 @@ private class GetFileService(
     private val getFilePort: GetFilePort
 ) : GetFileUseCase {
 
-    override fun find(command: GetFileUseCase.Command): File {
+    override fun find(projectVersion: ProjectVersion): File {
         return getFilePort.find(
-            projectId = command.projectId,
-            projectVersion = command.projectVersion
+            projectVersion = projectVersion
         ) ?: throw NotFoundException("File not found")
     }
 

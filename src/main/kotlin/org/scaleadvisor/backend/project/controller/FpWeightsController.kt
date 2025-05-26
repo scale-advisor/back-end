@@ -46,7 +46,7 @@ private class FpWeightsController(
 
     override fun find(projectId: Long): SuccessResponse<FindFpWeightsResponse> {
         val fpWeights = findFpWeightsUseCase
-            .find(ProjectId.of(projectId))
+            .find(ProjectId.from(projectId))
             ?: throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=$projectId)")
 
         return SuccessResponse.from(FindFpWeightsResponse.from(fpWeights))
@@ -59,7 +59,7 @@ private class FpWeightsController(
 
         val updated = updateFpWeightsUseCase.update(
             UpdateFpWeightsUseCase.UpdateFpWeightsCommand(
-                projectId = ProjectId.of(projectId),
+                projectId = ProjectId.from(projectId),
                 ilfWeight = request.ilfWeight,
                 eifWeight = request.eifWeight,
                 eiWeight  = request.eiWeight,
@@ -75,9 +75,9 @@ private class FpWeightsController(
 
     override fun delete(projectId: Long) {
         getProjectUseCase
-            .find(ProjectId.of(projectId))
+            .find(ProjectId.from(projectId))
             ?: throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=$projectId)")
 
-        deleteFpWeightsUseCase.delete(ProjectId.of(projectId))
+        deleteFpWeightsUseCase.delete(ProjectId.from(projectId))
     }
 }

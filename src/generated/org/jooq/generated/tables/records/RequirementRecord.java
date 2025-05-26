@@ -201,6 +201,21 @@ public class RequirementRecord extends UpdatableRecordImpl<RequirementRecord> {
         return (String) get(11);
     }
 
+    /**
+     * Setter for <code>scale_advisor.REQUIREMENT.REQUIREMENT_DEFINITION</code>.
+     */
+    public RequirementRecord setRequirementDefinition(String value) {
+        set(12, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.REQUIREMENT.REQUIREMENT_DEFINITION</code>.
+     */
+    public String getRequirementDefinition() {
+        return (String) get(12);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -224,7 +239,7 @@ public class RequirementRecord extends UpdatableRecordImpl<RequirementRecord> {
     /**
      * Create a detached, initialised RequirementRecord
      */
-    public RequirementRecord(Long requirementId, Long projectId, Integer versionMajorNumber, Integer versionMinorNumber, String requirementNumber, String requirementName, String requirementDetailNumber, String requirementDetail, String requirementType, LocalDateTime createdAt, LocalDateTime updatedAt, String note) {
+    public RequirementRecord(Long requirementId, Long projectId, Integer versionMajorNumber, Integer versionMinorNumber, String requirementNumber, String requirementName, String requirementDetailNumber, String requirementDetail, String requirementType, LocalDateTime createdAt, LocalDateTime updatedAt, String note, String requirementDefinition) {
         super(Requirement.REQUIREMENT);
 
         setRequirementId(requirementId);
@@ -239,6 +254,7 @@ public class RequirementRecord extends UpdatableRecordImpl<RequirementRecord> {
         setCreatedAt(createdAt);
         setUpdatedAt(updatedAt);
         setNote(note);
+        setRequirementDefinition(requirementDefinition);
         resetChangedOnNotNull();
     }
 
@@ -261,6 +277,7 @@ public class RequirementRecord extends UpdatableRecordImpl<RequirementRecord> {
             setCreatedAt(value.getCreatedAt());
             setUpdatedAt(value.getUpdatedAt());
             setNote(value.getNote());
+            setRequirementDefinition(value.getRequirementDefinition());
             resetChangedOnNotNull();
         }
     }

@@ -75,8 +75,8 @@ private class FileS3Adapter(
         return response.asByteArray()
     }
 
-    override fun remove(projectId: ProjectId, projectVersion: ProjectVersion) {
-        val prefix = "${projectId}/${projectVersion}"
+    override fun remove(projectVersion: ProjectVersion) {
+        val prefix = "${projectVersion.projectId}/${projectVersion.versionNumber}"
         this.removeFilesWithPrefix(prefix)
     }
 

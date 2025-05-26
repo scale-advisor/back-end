@@ -23,7 +23,7 @@ private class CocomoScaleFactorAdapter(
     private fun CocomoScaleFactorRecord.toDomain(): CocomoScaleFactor =
         CocomoScaleFactor(
             cocomoScaleFactorId = CocomoScaleFactorId.of(this.cocomoScaleFactorId),
-            projectId = ProjectId.of(this.projectId),
+            projectId = ProjectId.from(this.projectId),
             prec = CocomoLevel.valueOf(this.prec),
             flex = CocomoLevel.valueOf(this.flex),
             resl = CocomoLevel.valueOf(this.resl),

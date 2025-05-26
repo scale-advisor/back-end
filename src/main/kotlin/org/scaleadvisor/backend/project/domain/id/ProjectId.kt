@@ -8,7 +8,7 @@ value class ProjectId(val value: Long) {
     fun toLong(): Long = value
     companion object {
         fun newId() = ProjectId(IdUtil.generateId())
-        fun of(id: String) = ProjectId(id.toLong())
-        fun of(id: Long) = ProjectId(id)
+        fun from(id: String) = ProjectId(id.toLong())
+        fun from(id: Long) = ProjectId(id)
     }
 }

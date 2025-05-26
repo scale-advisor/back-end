@@ -9,6 +9,6 @@ interface DeleteRequirementPort {
 
     fun deleteAll(projectId: ProjectId, versionMajorNumber: Int)
 
-    fun deleteAll(projectId: ProjectId, projectVersion: ProjectVersion)
+    fun deleteAll(projectVersion: ProjectVersion)
 
 }

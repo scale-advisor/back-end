@@ -20,8 +20,12 @@ private class FileJooqAdapter(
 
     private fun FileRecord.toDomain() = File(
         id = FileId.of(this.fileId),
-        projectId = ProjectId.of(this.projectId),
-        projectVersion = ProjectVersion.of(this.versionMajorNumber, this.versionMinorNumber),
+        projectId = ProjectId.from(this.projectId),
+        projectVersion = ProjectVersion.of(
+            ProjectId.from(this.projectId),
+            this.versionMajorNumber,
+            this.versionMinorNumber
+        ),
         name = this.name,
         type = FileType.valueOf(this.type),
         uploaderId = this.uploaderId,
@@ -47,20 +51,17 @@ private class FileJooqAdapter(
             .execute()
     }
 
-    override fun find(
-        projectId: ProjectId,
-        projectVersion: ProjectVersion
-    ): File? {
+    override fun find(projectVersion: ProjectVersion): File? {
         return dsl.selectFrom(FILE)
-            .where(FILE.PROJECT_ID.eq(projectId.toLong()))
+            .where(FILE.PROJECT_ID.eq(projectVersion.projectId.toLong()))
             .and(FILE.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
             .and(FILE.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
             .fetchOne { record -> record.into(FILE).toDomain() }
     }
 
-    override fun delete(projectId: ProjectId, projectVersion: ProjectVersion) {
+    override fun delete(projectVersion: ProjectVersion) {
         dsl.deleteFrom(FILE)
-            .where(FILE.PROJECT_ID.eq(projectId.toLong()))
+            .where(FILE.PROJECT_ID.eq(projectVersion.projectId.toLong()))
             .and(FILE.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
             .and(FILE.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
             .execute()

@@ -19,7 +19,7 @@ private class ProjectFactorJooqAdapter(
     private val dsl: DSLContext
 ) : CreateProjectFactorPort, GetProjectFactorPort, UpdateProjectFactorPort, DeleteProjectFactorPort {
     private fun ProjectFactorRecord.toDomain() = ProjectFactor(
-        projectId = ProjectId.of(this.projectId),
+        projectId = ProjectId.from(this.projectId),
         unitCost = this.unitCost,
         teamSize = this.teamSize,
         cocomoType = CocomoType.valueOf(this.cocomoType),

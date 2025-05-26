@@ -14,9 +14,9 @@ private class DeleteFileService(
     private val removeFileUseCase: RemoveFileUseCase,
     private val deleteFilePort: DeleteFilePort,
 ) : DeleteFileUseCase {
-    override fun delete(projectId: ProjectId, projectVersion: ProjectVersion) {
-        deleteFilePort.delete(projectId, projectVersion)
-        removeFileUseCase.remove(projectId, projectVersion)
+    override fun delete(projectVersion: ProjectVersion) {
+        deleteFilePort.delete(projectVersion)
+        removeFileUseCase.remove(projectVersion)
     }
 
     override fun deleteAll(projectId: ProjectId) {

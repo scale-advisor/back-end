@@ -36,7 +36,7 @@ private class ProjectFileController(
 
         createFileUseCase.create(
             CreateFileUseCase.Command(
-                projectId = ProjectId.of(projectId),
+                projectId = ProjectId.from(projectId),
                 name = name,
                 type = type,
                 uploaderId = currentUserId,
@@ -50,9 +50,9 @@ private class ProjectFileController(
         versionNumber: String
     ): SuccessResponse<GetFileResponse> {
         val file = getFileUseCase.find(
-            GetFileUseCase.Command(
-                projectId = ProjectId.of(projectId),
-                projectVersion = ProjectVersion.of(versionNumber)
+            ProjectVersion.of(
+                ProjectId.from(projectId),
+                versionNumber
             )
         )
 
@@ -64,9 +64,9 @@ private class ProjectFileController(
         versionNumber: String
     ): ResponseEntity<ByteArrayResource> {
         val file: File = getFileUseCase.find(
-            GetFileUseCase.Command(
-                projectId = ProjectId.of(projectId),
-                projectVersion = ProjectVersion.of(versionNumber)
+            projectVersion = ProjectVersion.of(
+                ProjectId.from(projectId),
+                versionNumber
             )
         )
 
