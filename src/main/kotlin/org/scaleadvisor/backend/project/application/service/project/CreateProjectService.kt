@@ -17,7 +17,6 @@ private class CreateProjectService(
     private val getProjectUseCase: GetProjectUseCase,
     private val createProjectPort: CreateProjectPort,
     private val createProjectMemberPort: CreateProjectMemberPort,
-    private val createProjectVersionPort: CreateProjectVersionPort
 ) : CreateProjectUseCase{
 
     override fun create(command: CreateProjectUseCase.CreateProjectCommand): Project {
