@@ -29,6 +29,8 @@ import org.jooq.UniqueKey;
 import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
 import org.jooq.generated.tables.Project.ProjectPath;
+import org.jooq.generated.tables.RequirementUnitProcess.RequirementUnitProcessPath;
+import org.jooq.generated.tables.UnitProcess.UnitProcessPath;
 import org.jooq.generated.tables.Version.VersionPath;
 import org.jooq.generated.tables.records.RequirementRecord;
 import org.jooq.impl.DSL;
@@ -219,6 +221,27 @@ public class Requirement extends TableImpl<RequirementRecord> {
             _version = new VersionPath(this, Keys.FK_REQUIREMENT_VERSION, null);
 
         return _version;
+    }
+
+    private transient RequirementUnitProcessPath _requirementUnitProcess;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS</code> table
+     */
+    public RequirementUnitProcessPath requirementUnitProcess() {
+        if (_requirementUnitProcess == null)
+            _requirementUnitProcess = new RequirementUnitProcessPath(this, null, Keys.FK_REQUIREMENT_UNIT_PROCESS_REQUIREMENT_ID.getInverseKey());
+
+        return _requirementUnitProcess;
+    }
+
+    /**
+     * Get the implicit many-to-many join path to the
+     * <code>scale_advisor.UNIT_PROCESS</code> table
+     */
+    public UnitProcessPath unitProcess() {
+        return requirementUnitProcess().unitProcess();
     }
 
     @Override

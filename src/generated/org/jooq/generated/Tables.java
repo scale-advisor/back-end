@@ -34,6 +34,8 @@ import org.jooq.generated.tables.QrtzSimpleTriggers;
 import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
 import org.jooq.generated.tables.Requirement;
+import org.jooq.generated.tables.RequirementUnitProcess;
+import org.jooq.generated.tables.UnitProcess;
 import org.jooq.generated.tables.User;
 import org.jooq.generated.tables.Version;
 
@@ -193,6 +195,16 @@ public class Tables {
      * The table <code>scale_advisor.REQUIREMENT</code>.
      */
     public static final Requirement REQUIREMENT = Requirement.REQUIREMENT;
+
+    /**
+     * The table <code>scale_advisor.REQUIREMENT_UNIT_PROCESS</code>.
+     */
+    public static final RequirementUnitProcess REQUIREMENT_UNIT_PROCESS = RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS;
+
+    /**
+     * The table <code>scale_advisor.UNIT_PROCESS</code>.
+     */
+    public static final UnitProcess UNIT_PROCESS = UnitProcess.UNIT_PROCESS;
 
     /**
      * The table <code>scale_advisor.USER</code>.
