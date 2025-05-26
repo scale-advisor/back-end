@@ -7,7 +7,6 @@ import org.scaleadvisor.backend.global.exception.model.ConflictException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.project.domain.enum.MemberRole
 import org.scaleadvisor.backend.project.domain.enum.MemberState
-import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
