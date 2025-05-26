@@ -4,5 +4,5 @@ import org.scaleadvisor.backend.project.domain.FpWeights
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 
 fun interface FindFpWeightsPort {
-    fun findByProjectId(projectId: ProjectId): FpWeights?
+    fun find(projectId: ProjectId): FpWeights?
 }
