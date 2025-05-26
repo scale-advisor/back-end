@@ -15,10 +15,12 @@ import org.springframework.data.redis.core.ValueOperations
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 @Service
+@Transactional
 class EmailService(
     private val userRepository: UserRepository,
     private val javaMailSender: JavaMailSender,
