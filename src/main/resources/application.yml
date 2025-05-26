@@ -69,8 +69,8 @@ springdoc:
 
   swagger-ui:
     path: /swagger-ui
-    operations-sorter: method
     tags-sorter: alpha
+    operations-sorter: method
 
 key:
   salt: ${SALT_KEY:your-very-very-very-very-very-very-very-very-very-long-sentence}

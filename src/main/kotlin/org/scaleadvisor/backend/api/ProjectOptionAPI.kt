@@ -11,13 +11,14 @@ import org.scaleadvisor.backend.project.controller.response.GetProjectOptionResp
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
-@Tag(name = "Project Option", description = "Project Option API")
+@Tag(name = "Project Option", description = "프로젝트 옵션 관리 API")
 @RequestMapping("projects/{projectId}/options", produces = ["application/json;charset=utf-8"])
 interface ProjectOptionAPI {
 
     @Operation(
         summary = "Project Option 생성",
-        description = "규모 분석을 위한 프로젝트 옵션(project factor, project language) 정보 생성",
+        description = "규모 분석을 위한 프로젝트 옵션(project factor, project language) 정보 생성. \n\n" +
+                "**CocomoType:** ORGANIC, SEMI_DETACHED, EMBEDDED",
         parameters  = [
             Parameter(
                 name = "projectId",
@@ -52,7 +53,8 @@ interface ProjectOptionAPI {
 
     @Operation(
         summary = "Project Option 수정",
-        description = "규모 분석을 위한 프로젝트 옵션(project factor, project language) 정보 수정",
+        description = "규모 분석을 위한 프로젝트 옵션(project factor, project language) 정보 수정\n\n" +
+                "**CocomoType:** ORGANIC, SEMI_DETACHED, EMBEDDED",
         parameters = [
             Parameter(
                 name = "projectId",

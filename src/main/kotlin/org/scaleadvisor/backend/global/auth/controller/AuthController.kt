@@ -1,12 +1,16 @@
 package org.scaleadvisor.backend.global.auth.controller
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletResponse
-import org.scaleadvisor.backend.global.auth.dto.*
+import org.scaleadvisor.backend.global.auth.dto.LoginRequest
+import org.scaleadvisor.backend.global.auth.dto.LoginResponse
+import org.scaleadvisor.backend.global.auth.dto.SignUpRequest
 import org.scaleadvisor.backend.global.auth.service.AuthService
 import org.scaleadvisor.backend.global.exception.model.UnauthorizedException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+@Tag(name = "Auth")
 @RestController
 @RequestMapping("/auth")
 class AuthController(

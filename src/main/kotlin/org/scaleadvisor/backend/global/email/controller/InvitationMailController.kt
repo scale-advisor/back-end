@@ -1,5 +1,6 @@
 package org.scaleadvisor.backend.global.email.controller
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.global.email.dto.AcceptInvitationRequest
 import org.scaleadvisor.backend.global.email.dto.AcceptInvitationResponse
 import org.scaleadvisor.backend.global.email.dto.InvitationMailRequest
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
+@Tag(name = "Invitation - Send Email")
 @RestController
 class InvitationMailController(
     private val emailService: EmailService

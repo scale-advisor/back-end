@@ -1,13 +1,18 @@
 package org.scaleadvisor.backend.global.email.controller
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.global.email.dto.ConfirmMailRequest
 import org.scaleadvisor.backend.global.email.dto.ConfirmSignupRequest
 import org.scaleadvisor.backend.global.email.dto.PwdResetConfirmRequest
 import org.scaleadvisor.backend.global.email.dto.PwdResetRequest
 import org.scaleadvisor.backend.global.email.service.EmailService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
+@Tag(name = "Auth - Send Email")
 @RestController
 @RequestMapping("/auth")
 class EmailController(

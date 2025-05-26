@@ -8,7 +8,7 @@ import org.scaleadvisor.backend.project.controller.request.requirement.CreateReq
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
-@Tag(name = "Project Requirement", description = "Project Requirement API")
+@Tag(name = "Project Requirement", description = "프로젝트 요구사항 관리 API")
 @RequestMapping("projects/{projectId}/requirements", produces = ["application/json;charset=utf-8"])
 interface ProjectRequirementAPI {
     @Operation(
