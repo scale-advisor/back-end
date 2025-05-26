@@ -7,6 +7,7 @@ fun interface CreateRequirementUseCase {
     data class RequirementDTO(
         val number: String,
         val name: String,
+        val definition: String,
         val detailNumber: String,
         val detail: String,
         val type: String,

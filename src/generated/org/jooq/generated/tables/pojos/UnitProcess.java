@@ -21,6 +21,7 @@ public class UnitProcess implements Serializable {
     private String functionType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Byte isAmbiguous;
 
     public UnitProcess() {}
 
@@ -30,6 +31,7 @@ public class UnitProcess implements Serializable {
         this.functionType = value.functionType;
         this.createdAt = value.createdAt;
         this.updatedAt = value.updatedAt;
+        this.isAmbiguous = value.isAmbiguous;
     }
 
     public UnitProcess(
@@ -37,13 +39,15 @@ public class UnitProcess implements Serializable {
         String unitProcessName,
         String functionType,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        Byte isAmbiguous
     ) {
         this.unitProcessId = unitProcessId;
         this.unitProcessName = unitProcessName;
         this.functionType = functionType;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.isAmbiguous = isAmbiguous;
     }
 
     /**
@@ -121,6 +125,21 @@ public class UnitProcess implements Serializable {
         return this;
     }
 
+    /**
+     * Getter for <code>scale_advisor.UNIT_PROCESS.IS_AMBIGUOUS</code>.
+     */
+    public Byte getIsAmbiguous() {
+        return this.isAmbiguous;
+    }
+
+    /**
+     * Setter for <code>scale_advisor.UNIT_PROCESS.IS_AMBIGUOUS</code>.
+     */
+    public UnitProcess setIsAmbiguous(Byte isAmbiguous) {
+        this.isAmbiguous = isAmbiguous;
+        return this;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -160,6 +179,12 @@ public class UnitProcess implements Serializable {
         }
         else if (!this.updatedAt.equals(other.updatedAt))
             return false;
+        if (this.isAmbiguous == null) {
+            if (other.isAmbiguous != null)
+                return false;
+        }
+        else if (!this.isAmbiguous.equals(other.isAmbiguous))
+            return false;
         return true;
     }
 
@@ -172,6 +197,7 @@ public class UnitProcess implements Serializable {
         result = prime * result + ((this.functionType == null) ? 0 : this.functionType.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.isAmbiguous == null) ? 0 : this.isAmbiguous.hashCode());
         return result;
     }
 
@@ -184,6 +210,7 @@ public class UnitProcess implements Serializable {
         sb.append(", ").append(functionType);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);
+        sb.append(", ").append(isAmbiguous);
 
         sb.append(")");
         return sb.toString();

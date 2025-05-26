@@ -94,6 +94,21 @@ public class UnitProcessRecord extends UpdatableRecordImpl<UnitProcessRecord> {
         return (LocalDateTime) get(4);
     }
 
+    /**
+     * Setter for <code>scale_advisor.UNIT_PROCESS.IS_AMBIGUOUS</code>.
+     */
+    public UnitProcessRecord setIsAmbiguous(Byte value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.UNIT_PROCESS.IS_AMBIGUOUS</code>.
+     */
+    public Byte getIsAmbiguous() {
+        return (Byte) get(5);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -117,7 +132,7 @@ public class UnitProcessRecord extends UpdatableRecordImpl<UnitProcessRecord> {
     /**
      * Create a detached, initialised UnitProcessRecord
      */
-    public UnitProcessRecord(Long unitProcessId, String unitProcessName, String functionType, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public UnitProcessRecord(Long unitProcessId, String unitProcessName, String functionType, LocalDateTime createdAt, LocalDateTime updatedAt, Byte isAmbiguous) {
         super(UnitProcess.UNIT_PROCESS);
 
         setUnitProcessId(unitProcessId);
@@ -125,6 +140,7 @@ public class UnitProcessRecord extends UpdatableRecordImpl<UnitProcessRecord> {
         setFunctionType(functionType);
         setCreatedAt(createdAt);
         setUpdatedAt(updatedAt);
+        setIsAmbiguous(isAmbiguous);
         resetChangedOnNotNull();
     }
 
@@ -140,6 +156,7 @@ public class UnitProcessRecord extends UpdatableRecordImpl<UnitProcessRecord> {
             setFunctionType(value.getFunctionType());
             setCreatedAt(value.getCreatedAt());
             setUpdatedAt(value.getUpdatedAt());
+            setIsAmbiguous(value.getIsAmbiguous());
             resetChangedOnNotNull();
         }
     }

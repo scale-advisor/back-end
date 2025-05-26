@@ -21,6 +21,7 @@ private class ProjectRequirementController(
                 CreateRequirementUseCase.RequirementDTO(
                     number = it.requirementNumber,
                     name = it.requirementName,
+                    definition = it.requirementDefinition,
                     detailNumber = it.requirementDetailNumber,
                     detail = it.requirementDetail,
                     type = it.requirementType,
