@@ -127,4 +127,19 @@ public class UnitProcessDao extends DAOImpl<UnitProcessRecord, org.jooq.generate
     public List<org.jooq.generated.tables.pojos.UnitProcess> fetchByUpdatedAt(LocalDateTime... values) {
         return fetch(UnitProcess.UNIT_PROCESS.UPDATED_AT, values);
     }
+
+    /**
+     * Fetch records that have <code>IS_AMBIGUOUS BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<org.jooq.generated.tables.pojos.UnitProcess> fetchRangeOfIsAmbiguous(Byte lowerInclusive, Byte upperInclusive) {
+        return fetchRange(UnitProcess.UNIT_PROCESS.IS_AMBIGUOUS, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>IS_AMBIGUOUS IN (values)</code>
+     */
+    public List<org.jooq.generated.tables.pojos.UnitProcess> fetchByIsAmbiguous(Byte... values) {
+        return fetch(UnitProcess.UNIT_PROCESS.IS_AMBIGUOUS, values);
+    }
 }

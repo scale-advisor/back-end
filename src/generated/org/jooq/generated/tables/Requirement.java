@@ -120,6 +120,11 @@ public class Requirement extends TableImpl<RequirementRecord> {
      */
     public final TableField<RequirementRecord, String> NOTE = createField(DSL.name("NOTE"), SQLDataType.CLOB, this, "");
 
+    /**
+     * The column <code>scale_advisor.REQUIREMENT.REQUIREMENT_DEFINITION</code>.
+     */
+    public final TableField<RequirementRecord, String> REQUIREMENT_DEFINITION = createField(DSL.name("REQUIREMENT_DEFINITION"), SQLDataType.CLOB, this, "");
+
     private Requirement(Name alias, Table<RequirementRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
     }

@@ -29,6 +29,7 @@ private class CreateRequirementService(
                 projectVersionId = projectVersion.id,
                 number = it.number,
                 name = it.name,
+                definition = it.definition,
                 detailNumber = it.detailNumber,
                 detail = it.detail,
                 type = it.type,

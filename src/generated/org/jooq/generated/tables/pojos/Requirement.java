@@ -28,6 +28,7 @@ public class Requirement implements Serializable {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String note;
+    private String requirementDefinition;
 
     public Requirement() {}
 
@@ -44,6 +45,7 @@ public class Requirement implements Serializable {
         this.createdAt = value.createdAt;
         this.updatedAt = value.updatedAt;
         this.note = value.note;
+        this.requirementDefinition = value.requirementDefinition;
     }
 
     public Requirement(
@@ -58,7 +60,8 @@ public class Requirement implements Serializable {
         String requirementType,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        String note
+        String note,
+        String requirementDefinition
     ) {
         this.requirementId = requirementId;
         this.projectId = projectId;
@@ -72,6 +75,7 @@ public class Requirement implements Serializable {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.note = note;
+        this.requirementDefinition = requirementDefinition;
     }
 
     /**
@@ -256,6 +260,21 @@ public class Requirement implements Serializable {
         return this;
     }
 
+    /**
+     * Getter for <code>scale_advisor.REQUIREMENT.REQUIREMENT_DEFINITION</code>.
+     */
+    public String getRequirementDefinition() {
+        return this.requirementDefinition;
+    }
+
+    /**
+     * Setter for <code>scale_advisor.REQUIREMENT.REQUIREMENT_DEFINITION</code>.
+     */
+    public Requirement setRequirementDefinition(String requirementDefinition) {
+        this.requirementDefinition = requirementDefinition;
+        return this;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -337,6 +356,12 @@ public class Requirement implements Serializable {
         }
         else if (!this.note.equals(other.note))
             return false;
+        if (this.requirementDefinition == null) {
+            if (other.requirementDefinition != null)
+                return false;
+        }
+        else if (!this.requirementDefinition.equals(other.requirementDefinition))
+            return false;
         return true;
     }
 
@@ -356,6 +381,7 @@ public class Requirement implements Serializable {
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
         result = prime * result + ((this.note == null) ? 0 : this.note.hashCode());
+        result = prime * result + ((this.requirementDefinition == null) ? 0 : this.requirementDefinition.hashCode());
         return result;
     }
 
@@ -375,6 +401,7 @@ public class Requirement implements Serializable {
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);
         sb.append(", ").append(note);
+        sb.append(", ").append(requirementDefinition);
 
         sb.append(")");
         return sb.toString();

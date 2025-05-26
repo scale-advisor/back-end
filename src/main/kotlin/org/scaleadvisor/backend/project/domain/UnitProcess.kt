@@ -7,4 +7,5 @@ data class UnitProcess(
     val id: UnitProcessId,
     val name: String,
     val functionType: FunctionType,
+    val isAmbiguous: Boolean,
 )

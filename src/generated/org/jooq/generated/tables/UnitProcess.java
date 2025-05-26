@@ -80,6 +80,11 @@ public class UnitProcess extends TableImpl<UnitProcessRecord> {
      */
     public final TableField<UnitProcessRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.LOCALDATETIME(0).nullable(false), this, "");
 
+    /**
+     * The column <code>scale_advisor.UNIT_PROCESS.IS_AMBIGUOUS</code>.
+     */
+    public final TableField<UnitProcessRecord, Byte> IS_AMBIGUOUS = createField(DSL.name("IS_AMBIGUOUS"), SQLDataType.TINYINT, this, "");
+
     private UnitProcess(Name alias, Table<UnitProcessRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
     }
