@@ -10,8 +10,10 @@ import org.scaleadvisor.backend.project.domain.Requirement
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.scaleadvisor.backend.project.domain.id.RequirementId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class CreateRequirementService(
     private val getProjectVersionUseCase: GetProjectVersionUseCase,
     private val createRequirementPort: CreateRequirementPort,

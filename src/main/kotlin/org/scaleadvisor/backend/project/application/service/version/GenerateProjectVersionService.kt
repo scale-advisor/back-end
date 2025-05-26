@@ -7,8 +7,10 @@ import org.scaleadvisor.backend.project.application.port.usecase.version.GetProj
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class GenerateProjectVersionService(
     private val getProjectVersionUseCase: GetProjectVersionUseCase,
     private val createProjectVersionPort: CreateProjectVersionPort
