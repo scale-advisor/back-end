@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.jooq.Catalog;
 import org.jooq.Table;
+import org.jooq.generated.tables.AdjustmentFactor;
 import org.jooq.generated.tables.BatchJobExecution;
 import org.jooq.generated.tables.BatchJobExecutionContext;
 import org.jooq.generated.tables.BatchJobExecutionParams;
@@ -58,6 +59,11 @@ public class ScaleAdvisor extends SchemaImpl {
      * The reference instance of <code>scale_advisor</code>
      */
     public static final ScaleAdvisor SCALE_ADVISOR = new ScaleAdvisor();
+
+    /**
+     * The table <code>scale_advisor.ADJUSTMENT_FACTOR</code>.
+     */
+    public final AdjustmentFactor ADJUSTMENT_FACTOR = AdjustmentFactor.ADJUSTMENT_FACTOR;
 
     /**
      * The table <code>scale_advisor.BATCH_JOB_EXECUTION</code>.
@@ -245,6 +251,7 @@ public class ScaleAdvisor extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            AdjustmentFactor.ADJUSTMENT_FACTOR,
             BatchJobExecution.BATCH_JOB_EXECUTION,
             BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT,
             BatchJobExecutionParams.BATCH_JOB_EXECUTION_PARAMS,

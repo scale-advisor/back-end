@@ -4,6 +4,7 @@
 package org.jooq.generated;
 
 
+import org.jooq.generated.tables.AdjustmentFactor;
 import org.jooq.generated.tables.BatchJobExecution;
 import org.jooq.generated.tables.BatchJobExecutionContext;
 import org.jooq.generated.tables.BatchJobExecutionParams;
@@ -45,6 +46,11 @@ import org.jooq.generated.tables.Version;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>scale_advisor.ADJUSTMENT_FACTOR</code>.
+     */
+    public static final AdjustmentFactor ADJUSTMENT_FACTOR = AdjustmentFactor.ADJUSTMENT_FACTOR;
 
     /**
      * The table <code>scale_advisor.BATCH_JOB_EXECUTION</code>.
