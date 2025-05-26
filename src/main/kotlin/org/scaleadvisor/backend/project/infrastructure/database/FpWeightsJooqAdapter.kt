@@ -20,7 +20,7 @@ private class FpWeightsJooqAdapter(
     private fun FpWeightsRecord.toDomain(): FpWeights =
         FpWeights(
             fpWeightsId = FpWeightsId.of(this.fpWeightsId),
-            projectId   = ProjectId.of(this.projectId),
+            projectId   = ProjectId.from(this.projectId),
             ilfWeight   = this.ilfWeight.toDouble(),
             eifWeight   = this.eifWeight.toDouble(),
             eiWeight    = this.eiWeight.toDouble(),

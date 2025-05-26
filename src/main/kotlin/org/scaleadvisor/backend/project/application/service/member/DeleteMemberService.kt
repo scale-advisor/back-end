@@ -20,7 +20,7 @@ private class DeleteMemberService(
             throw ForbiddenException("프로젝트 요소를 수정할 권한이 없습니다.")
         }
 
-        getProjectUseCase.find(ProjectId.of(projectId))
+        getProjectUseCase.find(ProjectId.from(projectId))
             ?: throw NotFoundException("프로젝트 $projectId 가 존재하지 않습니다.")
 
         deleteProjectMemberPort.delete(email, projectId)

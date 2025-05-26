@@ -18,7 +18,7 @@ private class ProjectJooqAdapter(
 ) : CreateProjectPort, GetProjectPort, UpdateProjectPort, DeleteProjectPort {
 
     private fun ProjectRecord.toDomain() = Project(
-        id = ProjectId.of(this.projectId),
+        id = ProjectId.from(this.projectId),
         name = this.name,
         description = this.description,
         createdAt = this.createdAt,

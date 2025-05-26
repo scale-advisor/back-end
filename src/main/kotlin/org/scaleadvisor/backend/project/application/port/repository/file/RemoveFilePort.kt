@@ -5,7 +5,7 @@ import org.scaleadvisor.backend.project.domain.id.ProjectId
 
 interface RemoveFilePort {
 
-    fun remove(projectId: ProjectId, projectVersion: ProjectVersion)
+    fun remove(projectVersion: ProjectVersion)
     fun removeAll(projectId: ProjectId)
 
 }

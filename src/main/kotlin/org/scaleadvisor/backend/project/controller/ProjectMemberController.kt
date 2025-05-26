@@ -32,7 +32,7 @@ private class ProjectMemberController(
     ): SuccessResponse<GetAllProjectMemberResponse> {
 
         val members = getAllProjectMemberUseCase
-            .findAllByProjectId(ProjectId.of(projectId))
+            .findAllByProjectId(ProjectId.from(projectId))
 
         return SuccessResponse.from(
             GetAllProjectMemberResponse.from(members)
@@ -46,7 +46,7 @@ private class ProjectMemberController(
         val updated = updateMemberRoleUseCase.update(
             UpdateMemberRoleUseCase.UpdateMemberRoleCommand(
                 email = request.email,
-                projectId = ProjectId.of(projectId),
+                projectId = ProjectId.from(projectId),
                 newRole = request.newRole
             )
         ) ?: throw NotFoundException("해당 멤버는 잘못된 멤버입니다.")
@@ -63,7 +63,7 @@ private class ProjectMemberController(
         val updated = updateMemberStateUseCase.update(
             UpdateMemberStateUseCase.UpdateMemberStateCommand(
                 email = request.email,
-                projectId = ProjectId.of(projectId),
+                projectId = ProjectId.from(projectId),
                 newState = request.newState
             )
         ) ?: throw NotFoundException("해당 멤버는 잘못된 멤버입니다.")
@@ -74,7 +74,7 @@ private class ProjectMemberController(
     }
 
     override fun delete(projectId: Long, request: DeleteMemberRequest) {
-        getProjectUseCase.find(ProjectId.of(projectId))
+        getProjectUseCase.find(ProjectId.from(projectId))
             ?: throw NotFoundException("해당 프로젝트는 존재하지 않습니다.")
 
         deleteMemberUseCase.delete(request.email, projectId)
