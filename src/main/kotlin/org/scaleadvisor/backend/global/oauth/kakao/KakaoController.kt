@@ -1,5 +1,6 @@
 package org.scaleadvisor.backend.global.oauth.kakao
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletResponse
 import org.scaleadvisor.backend.global.auth.dto.LoginResponse
 import org.scaleadvisor.backend.global.auth.service.AuthService
@@ -9,6 +10,7 @@ import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+@Tag(name = "Auth - Kakao")
 @RestController
 @RequestMapping("/auth")
 class KakaoController(

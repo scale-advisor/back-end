@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@Tag(name = "User", description = "User API")
+@Tag(name = "User", description = "사용자 관리 API")
 @RequestMapping("users", produces = ["application/json;charset=utf-8"])
 interface UserAPI {
     @Operation(

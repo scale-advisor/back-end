@@ -11,7 +11,7 @@ import org.scaleadvisor.backend.project.controller.response.project.UpdateProjec
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
-@Tag(name = "Project", description = "Project API")
+@Tag(name = "Project", description = "프로젝트 기본 관리 API")
 @RequestMapping("projects", produces = ["application/json;charset=utf-8"])
 interface ProjectAPI {
 
