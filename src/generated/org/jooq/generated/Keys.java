@@ -7,6 +7,7 @@ package org.jooq.generated;
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
+import org.jooq.generated.tables.AdjustmentFactor;
 import org.jooq.generated.tables.BatchJobExecution;
 import org.jooq.generated.tables.BatchJobExecutionContext;
 import org.jooq.generated.tables.BatchJobExecutionParams;
@@ -41,6 +42,7 @@ import org.jooq.generated.tables.RequirementUnitProcess;
 import org.jooq.generated.tables.UnitProcess;
 import org.jooq.generated.tables.User;
 import org.jooq.generated.tables.Version;
+import org.jooq.generated.tables.records.AdjustmentFactorRecord;
 import org.jooq.generated.tables.records.BatchJobExecutionContextRecord;
 import org.jooq.generated.tables.records.BatchJobExecutionParamsRecord;
 import org.jooq.generated.tables.records.BatchJobExecutionRecord;
@@ -90,6 +92,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<AdjustmentFactorRecord> KEY_ADJUSTMENT_FACTOR_PRIMARY = Internal.createUniqueKey(AdjustmentFactor.ADJUSTMENT_FACTOR, DSL.name("KEY_ADJUSTMENT_FACTOR_PRIMARY"), new TableField[] { AdjustmentFactor.ADJUSTMENT_FACTOR.ADJUSTMENT_FACTOR_ID }, true);
     public static final UniqueKey<BatchJobExecutionRecord> KEY_BATCH_JOB_EXECUTION_PRIMARY = Internal.createUniqueKey(BatchJobExecution.BATCH_JOB_EXECUTION, DSL.name("KEY_BATCH_JOB_EXECUTION_PRIMARY"), new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_EXECUTION_ID }, true);
     public static final UniqueKey<BatchJobExecutionContextRecord> KEY_BATCH_JOB_EXECUTION_CONTEXT_PRIMARY = Internal.createUniqueKey(BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT, DSL.name("KEY_BATCH_JOB_EXECUTION_CONTEXT_PRIMARY"), new TableField[] { BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT.JOB_EXECUTION_ID }, true);
     public static final UniqueKey<BatchJobExecutionSeqRecord> KEY_BATCH_JOB_EXECUTION_SEQ_UNIQUE_KEY_UN = Internal.createUniqueKey(BatchJobExecutionSeq.BATCH_JOB_EXECUTION_SEQ, DSL.name("KEY_BATCH_JOB_EXECUTION_SEQ_UNIQUE_KEY_UN"), new TableField[] { BatchJobExecutionSeq.BATCH_JOB_EXECUTION_SEQ.UNIQUE_KEY }, true);
@@ -131,6 +134,7 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final ForeignKey<AdjustmentFactorRecord, VersionRecord> FK_ADJUSTMENT_FACTOR_VERSION = Internal.createForeignKey(AdjustmentFactor.ADJUSTMENT_FACTOR, DSL.name("FK_ADJUSTMENT_FACTOR_VERSION"), new TableField[] { AdjustmentFactor.ADJUSTMENT_FACTOR.PROJECT_ID, AdjustmentFactor.ADJUSTMENT_FACTOR.VERSION_MAJOR_NUMBER, AdjustmentFactor.ADJUSTMENT_FACTOR.VERSION_MINOR_NUMBER }, Keys.KEY_VERSION_PRIMARY, new TableField[] { Version.VERSION.PROJECT_ID, Version.VERSION.VERSION_MAJOR_NUMBER, Version.VERSION.VERSION_MINOR_NUMBER }, true);
     public static final ForeignKey<BatchJobExecutionRecord, BatchJobInstanceRecord> JOB_INST_EXEC_FK = Internal.createForeignKey(BatchJobExecution.BATCH_JOB_EXECUTION, DSL.name("JOB_INST_EXEC_FK"), new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_INSTANCE_ID }, Keys.KEY_BATCH_JOB_INSTANCE_PRIMARY, new TableField[] { BatchJobInstance.BATCH_JOB_INSTANCE.JOB_INSTANCE_ID }, true);
     public static final ForeignKey<BatchJobExecutionContextRecord, BatchJobExecutionRecord> JOB_EXEC_CTX_FK = Internal.createForeignKey(BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT, DSL.name("JOB_EXEC_CTX_FK"), new TableField[] { BatchJobExecutionContext.BATCH_JOB_EXECUTION_CONTEXT.JOB_EXECUTION_ID }, Keys.KEY_BATCH_JOB_EXECUTION_PRIMARY, new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_EXECUTION_ID }, true);
     public static final ForeignKey<BatchJobExecutionParamsRecord, BatchJobExecutionRecord> JOB_EXEC_PARAMS_FK = Internal.createForeignKey(BatchJobExecutionParams.BATCH_JOB_EXECUTION_PARAMS, DSL.name("JOB_EXEC_PARAMS_FK"), new TableField[] { BatchJobExecutionParams.BATCH_JOB_EXECUTION_PARAMS.JOB_EXECUTION_ID }, Keys.KEY_BATCH_JOB_EXECUTION_PRIMARY, new TableField[] { BatchJobExecution.BATCH_JOB_EXECUTION.JOB_EXECUTION_ID }, true);
