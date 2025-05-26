@@ -3,16 +3,17 @@ package org.scaleadvisor.backend.project.controller
 import org.scaleadvisor.backend.api.FpWeightsAPI
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
+import org.scaleadvisor.backend.project.application.port.usecase.fpweights.CreateFpWeightsUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.fpweights.DeleteFpWeightsUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.fpweights.GetFpWeightsUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.fpweights.UpdateFpWeightsUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.controller.request.fpweights.CreateFpWeightsRequest
 import org.scaleadvisor.backend.project.controller.request.fpweights.UpdateFpWeightsRequest
 import org.scaleadvisor.backend.project.controller.response.fpweights.CreateFpWeightsResponse
 import org.scaleadvisor.backend.project.controller.response.fpweights.FindFpWeightsResponse
 import org.scaleadvisor.backend.project.controller.response.fpweights.UpdateFpWeightsResponse
-import org.scaleadvisor.backend.project.application.port.usecase.fpweights.CreateFpWeightsUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.fpweights.DeleteFpWeightsUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.fpweights.FindFpWeightsUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.fpweights.UpdateFpWeightsUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
+import org.scaleadvisor.backend.project.domain.FpWeights
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.web.bind.annotation.RestController
 
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 private class FpWeightsController(
     private val createFpWeightsUseCase: CreateFpWeightsUseCase,
     private val getProjectUseCase: GetProjectUseCase,
-    private val findFpWeightsUseCase: FindFpWeightsUseCase,
+    private val getFpWeightsUseCase: GetFpWeightsUseCase,
     private val updateFpWeightsUseCase: UpdateFpWeightsUseCase,
     private val deleteFpWeightsUseCase: DeleteFpWeightsUseCase
 ): FpWeightsAPI {
@@ -45,9 +46,9 @@ private class FpWeightsController(
     }
 
     override fun find(projectId: Long): SuccessResponse<FindFpWeightsResponse> {
-        val fpWeights = findFpWeightsUseCase
-            .find(ProjectId.from(projectId))
-            ?: throw NotFoundException("프로젝트를 찾을 수 없습니다. (id=$projectId)")
+        val projectId = ProjectId.from(projectId)
+        val fpWeights = getFpWeightsUseCase.find(projectId)
+            ?: FpWeights.getGovStandard(projectId)
 
         return SuccessResponse.from(FindFpWeightsResponse.from(fpWeights))
     }

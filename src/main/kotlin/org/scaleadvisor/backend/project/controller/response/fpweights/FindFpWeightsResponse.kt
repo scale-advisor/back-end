@@ -9,7 +9,8 @@ data class FindFpWeightsResponse(
     val eifWeight: Double,
     val eiWeight: Double,
     val eoWeight: Double,
-    val eqWeight: Double
+    val eqWeight: Double,
+    val isGovStandard: Boolean,
 ) {
     companion object {
         @JvmStatic
@@ -21,7 +22,8 @@ data class FindFpWeightsResponse(
                 eifWeight = fpWeights.eifWeight,
                 eiWeight = fpWeights.eiWeight,
                 eoWeight = fpWeights.eoWeight,
-                eqWeight = fpWeights.eqWeight
+                eqWeight = fpWeights.eqWeight,
+                isGovStandard = fpWeights.isGovStandard
             )
         }
     }

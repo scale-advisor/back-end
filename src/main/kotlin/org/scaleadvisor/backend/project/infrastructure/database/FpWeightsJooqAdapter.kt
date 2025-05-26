@@ -32,7 +32,7 @@ private class FpWeightsJooqAdapter(
 
     override fun create(fpWeights: FpWeights) {
         dsl.insertInto(FP_WEIGHTS)
-            .set(FP_WEIGHTS.FP_WEIGHTS_ID, fpWeights.fpWeightsId.toLong())
+            .set(FP_WEIGHTS.FP_WEIGHTS_ID, fpWeights.fpWeightsId?.toLong())
             .set(FP_WEIGHTS.PROJECT_ID, fpWeights.projectId.toLong())
             .set(FP_WEIGHTS.ILF_WEIGHT, BigDecimal.valueOf(fpWeights.ilfWeight))
             .set(FP_WEIGHTS.EIF_WEIGHT, BigDecimal.valueOf(fpWeights.eifWeight))
@@ -44,7 +44,7 @@ private class FpWeightsJooqAdapter(
             .execute()
     }
 
-    override fun findByProjectId(projectId: ProjectId): FpWeights? {
+    override fun find(projectId: ProjectId): FpWeights? {
         return dsl.selectFrom(FP_WEIGHTS)
             .where(FP_WEIGHTS.PROJECT_ID.eq(projectId.toLong()))
             .fetchOne { it.into(FP_WEIGHTS).toDomain() }
@@ -58,7 +58,7 @@ private class FpWeightsJooqAdapter(
             .set(FP_WEIGHTS.EO_WEIGHT,  BigDecimal.valueOf(fpWeights.eoWeight))
             .set(FP_WEIGHTS.EQ_WEIGHT,  BigDecimal.valueOf(fpWeights.eqWeight))
             .set(FP_WEIGHTS.UPDATED_AT, fpWeights.updatedAt!!)
-            .where(FP_WEIGHTS.FP_WEIGHTS_ID.eq(fpWeights.fpWeightsId.toLong()))
+            .where(FP_WEIGHTS.FP_WEIGHTS_ID.eq(fpWeights.fpWeightsId?.toLong()))
             .execute()
     }
 
