@@ -15,7 +15,7 @@ private class ProjectVersionController(
         versionNumber: String
     ) {
         deleteProjectVersionUseCase.delete(
-            projectId = ProjectId.of(projectId),
+            projectId = ProjectId.from(projectId),
             versionNumber = versionNumber
         )
     }

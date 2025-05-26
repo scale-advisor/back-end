@@ -2,7 +2,7 @@ package org.scaleadvisor.backend.project.application.service.project
 
 import org.scaleadvisor.backend.project.application.port.repository.member.CreateProjectMemberPort
 import org.scaleadvisor.backend.project.application.port.repository.project.CreateProjectPort
-import org.scaleadvisor.backend.project.application.port.repository.version.CreateVersionPort
+import org.scaleadvisor.backend.project.application.port.repository.version.CreateProjectVersionPort
 import org.scaleadvisor.backend.project.application.port.usecase.project.CreateProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.domain.Project
@@ -17,7 +17,7 @@ private class CreateProjectService(
     private val getProjectUseCase: GetProjectUseCase,
     private val createProjectPort: CreateProjectPort,
     private val createProjectMemberPort: CreateProjectMemberPort,
-    private val createVersionPort: CreateVersionPort
+    private val createProjectVersionPort: CreateProjectVersionPort
 ) : CreateProjectUseCase{
 
     override fun create(command: CreateProjectUseCase.CreateProjectCommand): Project {

@@ -50,7 +50,7 @@ private class ProjectController(
             .map { project ->
                 GetAllProjectResponse.ProjectDTO.of(
                     project = project,
-                    versionList = getProjectVersionUseCase.findAll(project.id)
+                    projectVersionList = getProjectVersionUseCase.findAll(project.id)
                 )
             }
 
@@ -67,7 +67,7 @@ private class ProjectController(
         val project: Project = updateProjectUseCase.update(
             UpdateProjectUseCase.UpdateProjectCommand(
                 userId = currentUserId,
-                projectId = ProjectId.of(projectId),
+                projectId = ProjectId.from(projectId),
                 name = request.name,
                 description = request.description
             )
@@ -84,7 +84,7 @@ private class ProjectController(
 
         deleteProjectUseCase.delete(
             userId = currentUserId,
-            projectId = ProjectId.of(projectId)
+            projectId = ProjectId.from(projectId)
         )
     }
 }

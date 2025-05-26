@@ -5,7 +5,7 @@ import org.scaleadvisor.backend.project.domain.id.ProjectId
 
 interface DeleteFileUseCase {
 
-    fun delete(projectId: ProjectId, projectVersion: ProjectVersion)
+    fun delete(projectVersion: ProjectVersion)
 
     fun deleteAll(projectId: ProjectId)
 

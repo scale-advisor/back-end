@@ -2,10 +2,9 @@ package org.scaleadvisor.backend.project.application.port.repository.file
 
 import org.scaleadvisor.backend.project.domain.File
 import org.scaleadvisor.backend.project.domain.ProjectVersion
-import org.scaleadvisor.backend.project.domain.id.ProjectId
 
 fun interface GetFilePort {
 
-    fun find(projectId: ProjectId, projectVersion: ProjectVersion): File?
+    fun find(projectVersion: ProjectVersion): File?
 
 }

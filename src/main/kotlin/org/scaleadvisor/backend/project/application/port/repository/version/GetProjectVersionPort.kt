@@ -3,8 +3,10 @@ package org.scaleadvisor.backend.project.application.port.repository.version
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 
-fun interface CreateVersionPort {
+interface GetProjectVersionPort {
 
-    fun create(projectId: ProjectId, projectVersion: ProjectVersion)
+    fun findOrderByVersionNumberDesc(projectId: ProjectId): ProjectVersion?
+
+    fun findAll(projectId: ProjectId): List<ProjectVersion>
 
 }
