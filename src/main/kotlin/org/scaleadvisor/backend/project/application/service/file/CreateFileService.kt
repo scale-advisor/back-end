@@ -40,7 +40,7 @@ private class CreateFileService(
         val projectVersion: ProjectVersion =
             generateProjectVersionUseCase.generateNextMajorVersion(project.id)
 
-        val path: String = project.id.toString() + "/" + projectVersion + "/" + command.file.originalFilename
+        val path: String = project.id.toString() + "/" + projectVersion.versionNumber + "/" + command.file.originalFilename
 
         val file = File(
             id = FileId.newId(),
