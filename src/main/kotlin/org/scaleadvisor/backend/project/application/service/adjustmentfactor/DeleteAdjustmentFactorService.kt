@@ -1,7 +1,6 @@
 package org.scaleadvisor.backend.project.application.service.adjustmentfactor
 
 import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.DeleteAdjustmentFactorPort
-import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.UpdateAdjustmentFactorPort
 import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.DeleteAdjustmentFactorUseCase
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
