@@ -37,4 +37,8 @@ interface ProjectMemberAPI {
     fun updateMemberState(@PathVariable projectId: Long,
                          @RequestBody request: UpdateMemberStateRequest
     ): SuccessResponse<UpdateMemberStateResponse>
+
+    @DeleteMapping("/{projectId}/users/exit")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun exitProject(@PathVariable projectId: Long)
 }

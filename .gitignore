@@ -51,3 +51,4 @@ src/main/resources/application.properties
 .env_prod
 qodana.yaml
 .storage/
+unit_process_prompt.txt
