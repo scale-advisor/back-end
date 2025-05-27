@@ -2,6 +2,8 @@ package org.scaleadvisor.backend.project.application.service.member
 
 import org.scaleadvisor.backend.global.exception.model.ForbiddenException
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
+import org.scaleadvisor.backend.global.exception.model.UnauthorizedException
+import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.project.application.port.repository.member.DeleteProjectMemberPort
 import org.scaleadvisor.backend.project.application.port.usecase.member.CheckIsOwnerUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.member.DeleteMemberUseCase
@@ -24,5 +26,12 @@ private class DeleteMemberService(
             ?: throw NotFoundException("프로젝트 $projectId 가 존재하지 않습니다.")
 
         deleteProjectMemberPort.delete(email, projectId)
+    }
+
+    override fun delete(projectId: Long) {
+        val currentUser = CurrentUserIdExtractor.getCurrentUserIdFromSecurity()
+            ?: throw UnauthorizedException("만료 되거나 잘못된 인증 입니다.")
+
+        deleteProjectMemberPort.delete(currentUser, ProjectId.from(projectId))
     }
 }

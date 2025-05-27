@@ -79,4 +79,11 @@ private class ProjectMemberController(
 
         deleteMemberUseCase.delete(request.email, projectId)
     }
+
+    override fun exitProject(projectId: Long) {
+        getProjectUseCase.find(ProjectId.from(projectId))
+            ?: throw NotFoundException("해당 프로젝트는 존재하지 않습니다.")
+
+        deleteMemberUseCase.delete(projectId)
+    }
 }
