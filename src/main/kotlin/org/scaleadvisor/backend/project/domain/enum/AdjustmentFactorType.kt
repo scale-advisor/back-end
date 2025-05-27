@@ -7,6 +7,6 @@ enum class AdjustmentFactorType(private val valuesByLevel: Array<String>) {
     SECURITY(arrayOf("0.97", "1.00", "1.03", "1.06", "1.08"));
 
     fun valueFor(level: Int): String =
-        valuesByLevel.getOrNull(level)
+        valuesByLevel.getOrNull(level-1)
             ?: throw IllegalArgumentException("Unsupported level: $level (0‒${valuesByLevel.lastIndex})")
 }

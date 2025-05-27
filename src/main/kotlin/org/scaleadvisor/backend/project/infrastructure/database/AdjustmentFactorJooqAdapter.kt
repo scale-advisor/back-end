@@ -5,6 +5,8 @@ import org.jooq.DSLContext
 import org.jooq.generated.Tables.ADJUSTMENT_FACTOR
 import org.jooq.generated.tables.records.AdjustmentFactorRecord
 import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.GetAdjustmentFactorPort
+import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.UpdateAdjustmentFactorPort
+import org.scaleadvisor.backend.project.application.service.adjustmentfactor.dto.UpdateAdjustmentFactorDTO
 import org.scaleadvisor.backend.project.domain.AdjustmentFactor
 import org.scaleadvisor.backend.project.domain.enum.AdjustmentFactorType
 import org.scaleadvisor.backend.project.domain.id.AdjustmentFactorId
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Repository
 @Repository
 private class AdjustmentFactorJooqAdapter(
     private val dsl: DSLContext
-): GetAdjustmentFactorPort {
+): GetAdjustmentFactorPort, UpdateAdjustmentFactorPort {
 
     private fun AdjustmentFactorRecord.toDomain() = AdjustmentFactor(
         id = AdjustmentFactorId.from(this.adjustmentFactorId),
@@ -33,6 +35,15 @@ private class AdjustmentFactorJooqAdapter(
             .and(ADJUSTMENT_FACTOR.VERSION_MAJOR_NUMBER.eq(projectVersionId.major))
             .and(ADJUSTMENT_FACTOR.VERSION_MINOR_NUMBER.eq(projectVersionId.minor))
             .fetch { record -> record.into(ADJUSTMENT_FACTOR).toDomain() }
+    }
+
+    override fun updateAll(command: List<UpdateAdjustmentFactorDTO>) {
+        dsl.batchUpdate(command.map {
+            dsl.newRecord(ADJUSTMENT_FACTOR).apply {
+                adjustmentFactorId = it.id.toLong()
+                adjustmentFactorLevel = it.level
+            }
+        }).execute()
     }
 
 }
