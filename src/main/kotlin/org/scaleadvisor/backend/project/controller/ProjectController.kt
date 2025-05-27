@@ -2,6 +2,7 @@ package org.scaleadvisor.backend.project.controller
 
 import org.scaleadvisor.backend.api.ProjectAPI
 import org.scaleadvisor.backend.api.response.SuccessResponse
+import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.global.exception.model.UnauthorizedException
 import org.scaleadvisor.backend.global.security.CurrentUserIdExtractor
 import org.scaleadvisor.backend.project.application.port.usecase.project.CreateProjectUseCase
@@ -13,8 +14,10 @@ import org.scaleadvisor.backend.project.controller.request.project.CreateProject
 import org.scaleadvisor.backend.project.controller.request.project.UpdateProjectRequest
 import org.scaleadvisor.backend.project.controller.response.project.CreateProjectResponse
 import org.scaleadvisor.backend.project.controller.response.project.GetAllProjectResponse
+import org.scaleadvisor.backend.project.controller.response.project.GetProjectResponse
 import org.scaleadvisor.backend.project.controller.response.project.UpdateProjectResponse
 import org.scaleadvisor.backend.project.domain.Project
+import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.web.bind.annotation.RestController
 
@@ -55,6 +58,16 @@ private class ProjectController(
             }
 
         return SuccessResponse.from(GetAllProjectResponse.from(projects))
+    }
+
+
+    override fun find(projectId: Long): SuccessResponse<GetProjectResponse> {
+        val project: Project = getProjectUseCase.find(ProjectId.from(projectId))
+            ?: throw NotFoundException("Project not found")
+
+        val versionList: List<ProjectVersion> = getProjectVersionUseCase.findAll(project.id)
+
+        return SuccessResponse.from(GetProjectResponse.of(project, versionList))
     }
 
     override fun update(
