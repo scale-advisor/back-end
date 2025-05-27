@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.project.controller.request.adjustmentfactor.UpdateAdjustmentFactorRequest
-import org.scaleadvisor.backend.project.controller.response.adjustmentfactor.GetAdjustmentFactorResponse
+import org.scaleadvisor.backend.project.controller.response.adjustmentfactor.GetProjectAdjustmentFactorResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -29,7 +29,7 @@ interface ProjectAdjustmentFactorAPI {
     fun findAll(
         @PathVariable("projectId") projectId: Long,
         @RequestParam versionNumber: String
-    ): SuccessResponse<GetAdjustmentFactorResponse>
+    ): SuccessResponse<GetProjectAdjustmentFactorResponse>
 
     @Operation(
         summary = "Project 보정계수 수정",

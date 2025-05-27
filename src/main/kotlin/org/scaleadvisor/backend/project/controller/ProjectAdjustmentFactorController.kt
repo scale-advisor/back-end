@@ -6,7 +6,7 @@ import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfacto
 import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.UpdateAdjustmentFactorUseCase
 import org.scaleadvisor.backend.project.application.service.adjustmentfactor.dto.UpdateAdjustmentFactorDTO
 import org.scaleadvisor.backend.project.controller.request.adjustmentfactor.UpdateAdjustmentFactorRequest
-import org.scaleadvisor.backend.project.controller.response.adjustmentfactor.GetAdjustmentFactorResponse
+import org.scaleadvisor.backend.project.controller.response.adjustmentfactor.GetProjectAdjustmentFactorResponse
 import org.scaleadvisor.backend.project.domain.AdjustmentFactor
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.AdjustmentFactorId
@@ -22,7 +22,7 @@ private class ProjectAdjustmentFactorController(
     override fun findAll(
         projectId: Long,
         versionNumber: String
-    ): SuccessResponse<GetAdjustmentFactorResponse> {
+    ): SuccessResponse<GetProjectAdjustmentFactorResponse> {
         val adjustmentFactorList: List<AdjustmentFactor> = getAdjustmentFactorUseCase.findAll(
             ProjectVersion.of(
                 ProjectId.from(projectId),
@@ -31,7 +31,7 @@ private class ProjectAdjustmentFactorController(
         )
 
         return SuccessResponse.from(
-            GetAdjustmentFactorResponse.from(adjustmentFactorList)
+            GetProjectAdjustmentFactorResponse.from(adjustmentFactorList)
         )
     }
 
