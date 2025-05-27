@@ -1,6 +1,7 @@
 package org.scaleadvisor.backend.project.application.service.version
 
 import org.scaleadvisor.backend.project.application.port.repository.version.DeleteProjectVersionPort
+import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.DeleteAdjustmentFactorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.file.DeleteFileUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.requirement.DeleteRequirementUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.version.DeleteProjectVersionUseCase
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 private class DeleteProjectVersionService(
+    private val deleteAdjustmentFactorUseCase: DeleteAdjustmentFactorUseCase,
     private val deleteRequirementUseCase: DeleteRequirementUseCase,
     private val deleteFileUseCase: DeleteFileUseCase,
     private val deleteProjectVersionPort: DeleteProjectVersionPort,
@@ -23,6 +25,7 @@ private class DeleteProjectVersionService(
     ) {
         val projectVersion = ProjectVersion.of(projectId, versionNumber)
 
+        deleteAdjustmentFactorUseCase.deleteAll(projectVersion)
         deleteRequirementUseCase.deleteAll(projectVersion)
         if (projectVersion.minor == 0) {
             deleteFileUseCase.delete(projectVersion)
@@ -33,6 +36,7 @@ private class DeleteProjectVersionService(
     }
 
     override fun deleteAll(projectId: ProjectId) {
+        deleteAdjustmentFactorUseCase.deleteAll(projectId)
         deleteRequirementUseCase.deleteAll(projectId)
         deleteFileUseCase.deleteAll(projectId)
         deleteProjectVersionPort.deleteAll(projectId)
