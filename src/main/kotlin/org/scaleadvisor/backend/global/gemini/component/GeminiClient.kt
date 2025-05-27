@@ -18,8 +18,8 @@ class GeminiClient(
 ) {
     fun generate(
         prompt: String,
-        temperature: Double = 0.8,
-        maxOutputTokens: Int = 256
+        temperature: Double = 0.0,
+        maxOutputTokens: Int = 100000
     ): String {
         val requestUrl = UriComponentsBuilder
             .fromHttpUrl(apiUrl)
