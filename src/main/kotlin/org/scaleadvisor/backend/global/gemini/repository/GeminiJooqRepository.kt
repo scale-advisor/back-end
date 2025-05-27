@@ -42,18 +42,18 @@ class GeminiJooqRepository(
     ) {
         val now = LocalDateTime.now()
 
-        dto.forEach { dto ->
+        dto.forEach { d ->
             val unitProcessId = IdUtil.generateId()
             dsl.insertInto(UNIT_PROCESS)
                 .set(UNIT_PROCESS.UNIT_PROCESS_ID,   unitProcessId)
-                .set(UNIT_PROCESS.UNIT_PROCESS_NAME, dto.unitProcess)
+                .set(UNIT_PROCESS.UNIT_PROCESS_NAME, d.unitProcess)
                 .set(UNIT_PROCESS.FUNCTION_TYPE,     "UNDEFINED")
                 .set(UNIT_PROCESS.CREATED_AT,        now)
                 .set(UNIT_PROCESS.UPDATED_AT,        now)
                 .set(UNIT_PROCESS.IS_AMBIGUOUS,      0)
                 .execute()
 
-            dto.detailIds.forEach { detailNum ->
+            d.detailIds.forEach { detailNum ->
                 val requirementId = reqMap[detailNum]
                     ?: return
                 dsl.insertInto(REQUIREMENT_UNIT_PROCESS)
