@@ -32,7 +32,6 @@ private class FileS3Adapter(
         path: String
     ): String {
         FileUtil.fileValidator(file)
-        FileUtil.extensionValidator(file)
 
         try {
             val putObjectRequest = PutObjectRequest.builder()

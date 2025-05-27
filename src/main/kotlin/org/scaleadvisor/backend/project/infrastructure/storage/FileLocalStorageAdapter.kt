@@ -38,7 +38,6 @@ private class FileLocalStorageAdapter(
     ): String {
 
         FileUtil.fileValidator(file)
-        FileUtil.extensionValidator(file)
 
         val destinationFile = rootLocation.resolve(path)
 
