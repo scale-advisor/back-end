@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional()
+@Transactional
 private class UpdateAdjustmentFactorService(
     private val updateAdjustmentFactorPort: UpdateAdjustmentFactorPort,
 ): UpdateAdjustmentFactorUseCase {
