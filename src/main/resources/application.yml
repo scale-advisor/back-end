@@ -99,6 +99,14 @@ gemini:
     key: ${API_KEY:key}
     model: ${API_MODEL:model}
 
+unit-process:
+  prompt:
+    resource: ${UNIT_PROCESS_TXT_LOCATION}
+
+validation:
+  prompt:
+    resource: ${VALIDATION_TXT_LOCATION}
+
 ---
 spring:
   config:

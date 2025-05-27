@@ -52,3 +52,4 @@ src/main/resources/application.properties
 qodana.yaml
 .storage/
 unit_process_prompt.txt
+validation_prompt.txt
