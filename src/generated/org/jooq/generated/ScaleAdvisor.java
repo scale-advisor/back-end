@@ -40,6 +40,7 @@ import org.jooq.generated.tables.QrtzSimpleTriggers;
 import org.jooq.generated.tables.QrtzSimpropTriggers;
 import org.jooq.generated.tables.QrtzTriggers;
 import org.jooq.generated.tables.Requirement;
+import org.jooq.generated.tables.RequirementCategory;
 import org.jooq.generated.tables.RequirementUnitProcess;
 import org.jooq.generated.tables.UnitProcess;
 import org.jooq.generated.tables.User;
@@ -216,6 +217,11 @@ public class ScaleAdvisor extends SchemaImpl {
     public final Requirement REQUIREMENT = Requirement.REQUIREMENT;
 
     /**
+     * The table <code>scale_advisor.REQUIREMENT_CATEGORY</code>.
+     */
+    public final RequirementCategory REQUIREMENT_CATEGORY = RequirementCategory.REQUIREMENT_CATEGORY;
+
+    /**
      * The table <code>scale_advisor.REQUIREMENT_UNIT_PROCESS</code>.
      */
     public final RequirementUnitProcess REQUIREMENT_UNIT_PROCESS = RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS;
@@ -282,6 +288,7 @@ public class ScaleAdvisor extends SchemaImpl {
             QrtzSimpropTriggers.QRTZ_SIMPROP_TRIGGERS,
             QrtzTriggers.QRTZ_TRIGGERS,
             Requirement.REQUIREMENT,
+            RequirementCategory.REQUIREMENT_CATEGORY,
             RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS,
             UnitProcess.UNIT_PROCESS,
             User.USER,
