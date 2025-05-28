@@ -17,15 +17,11 @@ class GeminiJooqRepository(
         dsl.select(
             REQUIREMENT.REQUIREMENT_ID,
             REQUIREMENT.PROJECT_ID,
-            REQUIREMENT.VERSION_MAJOR_NUMBER,
-            REQUIREMENT.VERSION_MINOR_NUMBER,
             REQUIREMENT.REQUIREMENT_NUMBER,
             REQUIREMENT.REQUIREMENT_TYPE,
             REQUIREMENT.REQUIREMENT_NAME,
             REQUIREMENT.REQUIREMENT_DEFINITION,
-            REQUIREMENT.REQUIREMENT_DETAIL_NUMBER,
             REQUIREMENT.REQUIREMENT_DETAIL,
-            REQUIREMENT.NOTE
         )
             .from(REQUIREMENT)
             .where(REQUIREMENT.PROJECT_ID.eq(projectId))
@@ -54,7 +50,7 @@ class GeminiJooqRepository(
                 .set(UNIT_PROCESS.IS_AMBIGUOUS,      0)
                 .execute()
 
-            d.detailIds
+            d.ids
                 .flatMap {
                     it.split(",")
                         .map { id -> id.trim() }

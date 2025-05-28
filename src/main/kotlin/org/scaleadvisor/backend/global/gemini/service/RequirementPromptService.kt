@@ -27,9 +27,7 @@ class RequirementPromptService(
                 rec.requirementNumber,
                 rec.requirementName,
                 rec.requirementDefinition.orEmpty(),
-                rec.requirementDetailNumber.orEmpty(),
                 rec.requirementDetail.orEmpty(),
-                rec.note.orEmpty()
             ).joinToString(" ") { it.trim() }
         }
 
@@ -66,10 +64,10 @@ class RequirementPromptService(
                 keySelector = { it.first },
                 valueTransform = { it.second }
             )
-            .map { (unitProcess, detailIds) ->
+            .map { (unitProcess, ids) ->
                 UnitProcessResponse(
                     unitProcess = unitProcess,
-                    detailIds   = detailIds
+                    ids   = ids
                 )
             }
     }
@@ -79,7 +77,7 @@ class RequirementPromptService(
 
         val reqMap: Map<String, Long> = geminiJooqRepository.findAllByProject(projectId)
             .associate { rec ->
-                rec.requirementDetailNumber.orEmpty() to rec.requirementId
+                rec.requirementNumber.orEmpty() to rec.requirementId
             }
 
         geminiJooqRepository.saveUnitProcess(dto, reqMap)
