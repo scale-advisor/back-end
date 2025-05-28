@@ -32,6 +32,7 @@ import org.jooq.generated.tables.AdjustmentFactor.AdjustmentFactorPath;
 import org.jooq.generated.tables.File.FilePath;
 import org.jooq.generated.tables.Project.ProjectPath;
 import org.jooq.generated.tables.Requirement.RequirementPath;
+import org.jooq.generated.tables.RequirementCategory.RequirementCategoryPath;
 import org.jooq.generated.tables.records.VersionRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -193,6 +194,19 @@ public class Version extends TableImpl<VersionRecord> {
             _file = new FilePath(this, null, Keys.FK_FILE_VERSION.getInverseKey());
 
         return _file;
+    }
+
+    private transient RequirementCategoryPath _requirementCategory;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>scale_advisor.REQUIREMENT_CATEGORY</code> table
+     */
+    public RequirementCategoryPath requirementCategory() {
+        if (_requirementCategory == null)
+            _requirementCategory = new RequirementCategoryPath(this, null, Keys.FK_REQUIREMENT_CATEGORY_VERSION.getInverseKey());
+
+        return _requirementCategory;
     }
 
     private transient RequirementPath _requirement;
