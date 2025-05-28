@@ -6,6 +6,10 @@ services:
         source: /etc/localtime
         target: /etc/localtime
         read_only: true
+      - type: bind
+        source: ${AI_PROMPT_MOUNT_PATH:-/ai}
+        target: /ai_prompt
+        read_only: true
     environment:
       - VERSION=${VERSION:-latest}
       - SPRING_PROFILES_ACTIVE=prod
