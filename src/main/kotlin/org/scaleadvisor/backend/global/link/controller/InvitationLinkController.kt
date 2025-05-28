@@ -7,7 +7,7 @@ import org.scaleadvisor.backend.global.link.service.InvitationLinkService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@Tag(name = "Invitation - Link")
+@Tag(name = "Link Invitation", description = "링크 초대 및 승인 API")
 @RestController
 @RequestMapping("/projects")
 class InvitationLinkController(

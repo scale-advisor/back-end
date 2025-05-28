@@ -1,5 +1,6 @@
 package org.scaleadvisor.backend.global.email.controller
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.global.email.dto.AcceptInvitationResponse
 import org.scaleadvisor.backend.global.email.dto.InvitationMailRequest
 import org.scaleadvisor.backend.global.email.service.EmailService
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+@Tag(name = "Mail Invitation", description = "프로젝트 초대 이메일 발송 및 승인 API")
 @RestController
 class InvitationMailController(
     private val emailService: EmailService
