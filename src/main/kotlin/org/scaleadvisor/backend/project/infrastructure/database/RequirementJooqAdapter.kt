@@ -4,7 +4,6 @@ import ProjectVersionId
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.REQUIREMENT
 import org.jooq.generated.tables.records.RequirementRecord
-import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.project.application.port.repository.requirement.CreateRequirementPort
 import org.scaleadvisor.backend.project.application.port.repository.requirement.DeleteRequirementPort
 import org.scaleadvisor.backend.project.domain.ProjectVersion
@@ -52,7 +51,7 @@ private class RequirementJooqAdapter(
             .apply {
                 requirementList.forEach { requirement ->
                     values(
-                        IdUtil.generateId(),
+                        requirement.id.toLong(),
                         requirement.projectVersionId.projectId.toLong(),
                         requirement.projectVersionId.major,
                         requirement.projectVersionId.minor,
