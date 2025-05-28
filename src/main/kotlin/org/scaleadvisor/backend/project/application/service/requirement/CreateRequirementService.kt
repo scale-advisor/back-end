@@ -32,10 +32,8 @@ private class CreateRequirementService(
                 number = it.number,
                 name = it.name,
                 definition = it.definition,
-                detailNumber = it.detailNumber,
                 detail = it.detail,
                 type = it.type,
-                note = it.note,
             )
         }
 

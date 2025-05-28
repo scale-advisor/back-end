@@ -22,12 +22,10 @@ public class Requirement implements Serializable {
     private Integer versionMinorNumber;
     private String requirementNumber;
     private String requirementName;
-    private String requirementDetailNumber;
     private String requirementDetail;
     private String requirementType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String note;
     private String requirementDefinition;
 
     public Requirement() {}
@@ -39,12 +37,10 @@ public class Requirement implements Serializable {
         this.versionMinorNumber = value.versionMinorNumber;
         this.requirementNumber = value.requirementNumber;
         this.requirementName = value.requirementName;
-        this.requirementDetailNumber = value.requirementDetailNumber;
         this.requirementDetail = value.requirementDetail;
         this.requirementType = value.requirementType;
         this.createdAt = value.createdAt;
         this.updatedAt = value.updatedAt;
-        this.note = value.note;
         this.requirementDefinition = value.requirementDefinition;
     }
 
@@ -55,12 +51,10 @@ public class Requirement implements Serializable {
         Integer versionMinorNumber,
         String requirementNumber,
         String requirementName,
-        String requirementDetailNumber,
         String requirementDetail,
         String requirementType,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        String note,
         String requirementDefinition
     ) {
         this.requirementId = requirementId;
@@ -69,12 +63,10 @@ public class Requirement implements Serializable {
         this.versionMinorNumber = versionMinorNumber;
         this.requirementNumber = requirementNumber;
         this.requirementName = requirementName;
-        this.requirementDetailNumber = requirementDetailNumber;
         this.requirementDetail = requirementDetail;
         this.requirementType = requirementType;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.note = note;
         this.requirementDefinition = requirementDefinition;
     }
 
@@ -169,23 +161,6 @@ public class Requirement implements Serializable {
     }
 
     /**
-     * Getter for
-     * <code>scale_advisor.REQUIREMENT.REQUIREMENT_DETAIL_NUMBER</code>.
-     */
-    public String getRequirementDetailNumber() {
-        return this.requirementDetailNumber;
-    }
-
-    /**
-     * Setter for
-     * <code>scale_advisor.REQUIREMENT.REQUIREMENT_DETAIL_NUMBER</code>.
-     */
-    public Requirement setRequirementDetailNumber(String requirementDetailNumber) {
-        this.requirementDetailNumber = requirementDetailNumber;
-        return this;
-    }
-
-    /**
      * Getter for <code>scale_advisor.REQUIREMENT.REQUIREMENT_DETAIL</code>.
      */
     public String getRequirementDetail() {
@@ -242,21 +217,6 @@ public class Requirement implements Serializable {
      */
     public Requirement setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-        return this;
-    }
-
-    /**
-     * Getter for <code>scale_advisor.REQUIREMENT.NOTE</code>.
-     */
-    public String getNote() {
-        return this.note;
-    }
-
-    /**
-     * Setter for <code>scale_advisor.REQUIREMENT.NOTE</code>.
-     */
-    public Requirement setNote(String note) {
-        this.note = note;
         return this;
     }
 
@@ -320,12 +280,6 @@ public class Requirement implements Serializable {
         }
         else if (!this.requirementName.equals(other.requirementName))
             return false;
-        if (this.requirementDetailNumber == null) {
-            if (other.requirementDetailNumber != null)
-                return false;
-        }
-        else if (!this.requirementDetailNumber.equals(other.requirementDetailNumber))
-            return false;
         if (this.requirementDetail == null) {
             if (other.requirementDetail != null)
                 return false;
@@ -350,12 +304,6 @@ public class Requirement implements Serializable {
         }
         else if (!this.updatedAt.equals(other.updatedAt))
             return false;
-        if (this.note == null) {
-            if (other.note != null)
-                return false;
-        }
-        else if (!this.note.equals(other.note))
-            return false;
         if (this.requirementDefinition == null) {
             if (other.requirementDefinition != null)
                 return false;
@@ -375,12 +323,10 @@ public class Requirement implements Serializable {
         result = prime * result + ((this.versionMinorNumber == null) ? 0 : this.versionMinorNumber.hashCode());
         result = prime * result + ((this.requirementNumber == null) ? 0 : this.requirementNumber.hashCode());
         result = prime * result + ((this.requirementName == null) ? 0 : this.requirementName.hashCode());
-        result = prime * result + ((this.requirementDetailNumber == null) ? 0 : this.requirementDetailNumber.hashCode());
         result = prime * result + ((this.requirementDetail == null) ? 0 : this.requirementDetail.hashCode());
         result = prime * result + ((this.requirementType == null) ? 0 : this.requirementType.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
-        result = prime * result + ((this.note == null) ? 0 : this.note.hashCode());
         result = prime * result + ((this.requirementDefinition == null) ? 0 : this.requirementDefinition.hashCode());
         return result;
     }
@@ -395,12 +341,10 @@ public class Requirement implements Serializable {
         sb.append(", ").append(versionMinorNumber);
         sb.append(", ").append(requirementNumber);
         sb.append(", ").append(requirementName);
-        sb.append(", ").append(requirementDetailNumber);
         sb.append(", ").append(requirementDetail);
         sb.append(", ").append(requirementType);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);
-        sb.append(", ").append(note);
         sb.append(", ").append(requirementDefinition);
 
         sb.append(")");

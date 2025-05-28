@@ -8,10 +8,8 @@ fun interface CreateRequirementUseCase {
         val number: String,
         val name: String,
         val definition: String,
-        val detailNumber: String,
         val detail: String,
         val type: String,
-        val note: String,
     )
 
     fun createAll(projectId: ProjectId, requirementDTOList: List<RequirementDTO>)
