@@ -29,10 +29,8 @@ private class RequirementJooqAdapter(
         number = this.requirementNumber,
         name = this.requirementName,
         definition = this.requirementDefinition,
-        detailNumber = this.requirementDetailNumber,
         detail = this.requirementDetail,
         type = this.requirementType,
-        note = this.note,
     )
 
     override fun createAll(requirementList: List<Requirement>) {
@@ -46,10 +44,8 @@ private class RequirementJooqAdapter(
                 REQUIREMENT.REQUIREMENT_NUMBER,
                 REQUIREMENT.REQUIREMENT_NAME,
                 REQUIREMENT.REQUIREMENT_DEFINITION,
-                REQUIREMENT.REQUIREMENT_DETAIL_NUMBER,
                 REQUIREMENT.REQUIREMENT_DETAIL,
                 REQUIREMENT.REQUIREMENT_TYPE,
-                REQUIREMENT.NOTE,
                 REQUIREMENT.CREATED_AT,
                 REQUIREMENT.UPDATED_AT
             )
@@ -63,10 +59,8 @@ private class RequirementJooqAdapter(
                         requirement.number,
                         requirement.name,
                         requirement.definition,
-                        requirement.detailNumber,
                         requirement.detail,
                         requirement.type,
-                        requirement.note,
                         LocalDateTime.now(),
                         LocalDateTime.now(),
                     )
