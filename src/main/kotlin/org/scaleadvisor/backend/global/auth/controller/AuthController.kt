@@ -10,7 +10,7 @@ import org.scaleadvisor.backend.global.exception.model.UnauthorizedException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@Tag(name = "Auth")
+@Tag(name = "Auth", description = "이메일 회원가입/로그인 관련 API")
 @RestController
 @RequestMapping("/auth")
 class AuthController(

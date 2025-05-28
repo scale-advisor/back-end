@@ -10,7 +10,7 @@ import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@Tag(name = "Auth - Kakao")
+@Tag(name = "Auth - Kakao", description = "카카오 회원가입/로그인 관련 API")
 @RestController
 @RequestMapping("/auth")
 class KakaoController(

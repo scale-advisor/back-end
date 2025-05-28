@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@Tag(name = "Auth - Send Email")
+@Tag(name = "Send Email", description = "회원가입 승인 / 비번 초기화 이메일 발송 API")
 @RestController
 @RequestMapping("/auth")
 class EmailController(

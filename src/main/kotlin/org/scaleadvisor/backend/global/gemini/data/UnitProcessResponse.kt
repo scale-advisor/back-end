@@ -7,5 +7,5 @@ data class UnitProcessResponse(
     val unitProcess: String,
 
     @JsonProperty("요구사항 ID 리스트")
-    val detailIds: List<String>
+    val ids: List<String>
 )
