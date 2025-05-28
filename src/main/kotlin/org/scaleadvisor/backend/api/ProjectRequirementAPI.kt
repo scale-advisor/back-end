@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.scaleadvisor.backend.project.controller.request.requirement.CreateRequirementCategoryRequest
 import org.scaleadvisor.backend.project.controller.request.requirement.CreateRequirementRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -27,5 +28,29 @@ interface ProjectRequirementAPI {
     fun create(
         @PathVariable("projectId") projectId: Long,
         @RequestBody requirementList: List<CreateRequirementRequest>
+    )
+
+    @Operation(
+        summary = "Project 요구사항 분류 등록",
+        description = "보정계수에 참고할 Project 요구사항 분류 등록 API\n\n" +
+                "**requirementCategoryName**\n\n" +
+                "FUNCTION: 기능\n\n" +
+                "INTEGRATION_COMPLEXITY: 연계복잡성\n\n" +
+                "PERFORMANCE, 성능 요구수준\n\n" +
+                "OPERATIONAL_COMPATIBILITY: 운영환경 호환성\n\n" +
+                "SECURITY: 보안성 요구수준",
+        parameters  = [
+            Parameter(
+                name = "projectId",
+                required = true,
+                `in` = ParameterIn.PATH
+            )
+        ]
+    )
+    @PostMapping("/categories")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun createCategory(
+        @PathVariable("projectId") projectId: Long,
+        @RequestBody requirementCategoryList: List<CreateRequirementCategoryRequest>
     )
 }

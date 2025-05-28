@@ -4,6 +4,6 @@ import org.scaleadvisor.backend.project.domain.Requirement
 
 fun interface CreateRequirementPort {
 
-    fun createAll(requirementList: List<Requirement>, )
+    fun createAll(requirementList: List<Requirement>)
 
 }
