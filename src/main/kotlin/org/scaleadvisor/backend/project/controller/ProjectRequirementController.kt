@@ -22,10 +22,8 @@ private class ProjectRequirementController(
                     number = it.requirementNumber,
                     name = it.requirementName,
                     definition = it.requirementDefinition,
-                    detailNumber = it.requirementDetailNumber,
                     detail = it.requirementDetail,
                     type = it.requirementType,
-                    note = it.note,
                 )
             },
         )
