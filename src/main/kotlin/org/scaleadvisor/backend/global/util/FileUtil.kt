@@ -21,13 +21,4 @@ object FileUtil {
         require(!(file.isEmpty || Objects.isNull(file.originalFilename))) { "File is empty" }
     }
 
-    @JvmStatic
-    fun extensionValidator(file: MultipartFile) {
-        val contentType = requireNotNull(file.contentType) { "Content-Type is null" }
-
-        require(contentType.contains("application/octet-stream")) {
-            "허용되지 않는 파일 형식: $contentType"
-        }
-    }
-
 }
