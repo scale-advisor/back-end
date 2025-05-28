@@ -4,6 +4,7 @@ import ProjectVersionId
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.REQUIREMENT_CATEGORY
 import org.jooq.generated.tables.records.RequirementCategoryRecord
+import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.project.application.port.repository.requirement.CreateRequirementCategoryPort
 import org.scaleadvisor.backend.project.domain.RequirementCategory
 import org.scaleadvisor.backend.project.domain.enum.RequirementCategoryName
@@ -44,7 +45,7 @@ private class RequirementCategoryAdapter(
             .apply {
                 requirementCategoryList.forEach { requirementCategory ->
                     values(
-                        requirementCategory.id.toLong(),
+                        IdUtil.generateId(),
                         requirementCategory.projectVersionId.projectId.toLong(),
                         requirementCategory.projectVersionId.major,
                         requirementCategory.projectVersionId.minor,
