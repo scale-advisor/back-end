@@ -44,6 +44,7 @@ class GeminiJooqRepository(
 
         dto.forEach { d ->
             val unitProcessId = IdUtil.generateId()
+
             dsl.insertInto(UNIT_PROCESS)
                 .set(UNIT_PROCESS.UNIT_PROCESS_ID,   unitProcessId)
                 .set(UNIT_PROCESS.UNIT_PROCESS_NAME, d.unitProcess)
@@ -53,16 +54,22 @@ class GeminiJooqRepository(
                 .set(UNIT_PROCESS.IS_AMBIGUOUS,      0)
                 .execute()
 
-            d.detailIds.forEach { detailNum ->
-                val requirementId = reqMap[detailNum]
-                    ?: return
-                dsl.insertInto(REQUIREMENT_UNIT_PROCESS)
-                    .set(REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID,    requirementId)
-                    .set(REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID,   unitProcessId)
-                    .set(REQUIREMENT_UNIT_PROCESS.CREATED_AT,        now)
-                    .set(REQUIREMENT_UNIT_PROCESS.UPDATED_AT,        now)
-                    .execute()
-            }
+            d.detailIds
+                .flatMap {
+                    it.split(",")
+                        .map { id -> id.trim() }
+                }
+                .distinct()
+                .forEach { detailNum ->
+                    reqMap[detailNum]?.let { requirementId ->
+                        dsl.insertInto(REQUIREMENT_UNIT_PROCESS)
+                            .set(REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID,  requirementId)
+                            .set(REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID, unitProcessId)
+                            .set(REQUIREMENT_UNIT_PROCESS.CREATED_AT,      now)
+                            .set(REQUIREMENT_UNIT_PROCESS.UPDATED_AT,      now)
+                            .execute()
+                    }
+                }
         }
     }
 
