@@ -10,8 +10,10 @@ import org.scaleadvisor.backend.project.application.port.usecase.member.DeleteMe
 import org.scaleadvisor.backend.project.application.port.usecase.project.GetProjectUseCase
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 private class DeleteMemberService(
     private val deleteProjectMemberPort: DeleteProjectMemberPort,
     private val getProjectUseCase: GetProjectUseCase,
