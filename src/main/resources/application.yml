@@ -118,6 +118,7 @@ spring:
 
 logging:
   level:
+    root: debug
     org.jooq.tools.LoggerListener: DEBUG
 
 app:
@@ -146,6 +147,7 @@ spring:
 
 logging:
   level:
+    root: debug
     org.jooq.tools.LoggerListener: DEBUG
   discord:
     webhook-url: ${WEB_HOOK_URL}
