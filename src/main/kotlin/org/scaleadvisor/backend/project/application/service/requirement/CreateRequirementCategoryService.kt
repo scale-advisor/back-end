@@ -10,12 +10,13 @@ import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.scaleadvisor.backend.project.domain.id.RequirementCategoryId
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.concurrent.locks.LockSupport
 
 @Service
 @Transactional
 private class CreateRequirementCategoryService(
     private val getProjectVersionUseCase: GetProjectVersionUseCase,
-    private val createRequirementCategoryPort : CreateRequirementCategoryPort
+    private val createRequirementCategoryPort: CreateRequirementCategoryPort
 ) : CreateRequirementCategoryUseCase {
     override fun createAll(
         projectId: ProjectId,
@@ -25,11 +26,12 @@ private class CreateRequirementCategoryService(
             ?: throw NotFoundException("Project version not found")
 
         val requirementCategoryList = requirementCategoryDTOList.map { requirementCategoryDTO ->
+            LockSupport.parkNanos(10_000)
             RequirementCategory(
                 id = RequirementCategoryId.newId(),
                 projectVersionId = projectVersion.id,
                 name = requirementCategoryDTO.name,
-                prefix =  requirementCategoryDTO.prefix,
+                prefix = requirementCategoryDTO.prefix,
             )
         }
         createRequirementCategoryPort.createAll(requirementCategoryList)

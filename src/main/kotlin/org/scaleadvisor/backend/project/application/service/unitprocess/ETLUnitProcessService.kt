@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.concurrent.locks.LockSupport
 
 data class RequirementUnitProcessDTO(
     val requirementNumber: String,
@@ -116,6 +117,7 @@ private class ETLUnitProcessService(
                 unitProcessId = unitProcess.id
             )
             requirementUnitProcessList.add(requirementUnitProcess)
+            LockSupport.parkNanos(10_000)
         }
 
         createUnitProcessUseCase.createAll(unitProcessList)
