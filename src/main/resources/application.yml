@@ -110,6 +110,13 @@ fp-classifier:
   url: ${FP_CLASSIFIER_URL}
   path: ${FP_CLASSIFIER_PATH}
 
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 60000
+
 ---
 spring:
   config:
