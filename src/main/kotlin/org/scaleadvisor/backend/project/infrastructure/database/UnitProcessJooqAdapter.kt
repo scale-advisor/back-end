@@ -4,6 +4,7 @@ import org.jooq.DSLContext
 import org.jooq.generated.Tables.*
 import org.jooq.generated.tables.records.UnitProcessRecord
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.CreateUnitProcessPort
+import org.scaleadvisor.backend.project.application.port.repository.unitprocess.DeleteUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.GetUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.UpdateUnitProcessPort
 import org.scaleadvisor.backend.project.domain.ProjectVersion
@@ -16,7 +17,7 @@ import java.time.LocalDateTime
 @Repository
 private class UnitProcessJooqAdapter(
     private val dsl: DSLContext
-) : CreateUnitProcessPort, GetUnitProcessPort, UpdateUnitProcessPort {
+) : CreateUnitProcessPort, GetUnitProcessPort, UpdateUnitProcessPort, DeleteUnitProcessPort {
 
     private fun toByte(isAmbiguous: Boolean): Byte {
         return if (isAmbiguous) 1 else 0
@@ -101,6 +102,12 @@ private class UnitProcessJooqAdapter(
                 isAmbiguous = 1.toByte()
             }
         }).execute()
+    }
+
+    override fun deleteAll(unitProcessIdList: List<UnitProcessId>) {
+        dsl.deleteFrom(UNIT_PROCESS)
+            .where(UNIT_PROCESS.UNIT_PROCESS_ID.`in`(unitProcessIdList.map { it.toLong() }))
+            .execute()
     }
 
 }

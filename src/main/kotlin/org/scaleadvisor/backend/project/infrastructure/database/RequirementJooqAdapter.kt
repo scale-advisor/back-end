@@ -35,6 +35,8 @@ private class RequirementJooqAdapter(
         type = this.requirementType,
     )
 
+    private fun RequirementRecord.getId() = RequirementId.from(this.requirementId)
+
     override fun createAll(requirementList: List<Requirement>) {
         val insertStep = dsl
             .insertInto(
@@ -102,27 +104,33 @@ private class RequirementJooqAdapter(
             .fetch { record -> record.into(REQUIREMENT).toDomain() }
     }
 
-    override fun deleteAll(projectId: ProjectId) {
-        dsl.deleteFrom(REQUIREMENT)
+    override fun findAllIdList(projectId: ProjectId): List<RequirementId> {
+        return dsl.selectFrom(REQUIREMENT)
             .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
-            .execute()
+            .fetch {record -> record.into(REQUIREMENT).getId()}
     }
 
-    override fun deleteAll(
+    override fun findAllIdList(
         projectId: ProjectId,
         versionMajorNumber: Int
-    ) {
-        dsl.deleteFrom(REQUIREMENT)
+    ): List<RequirementId> {
+        return dsl.selectFrom(REQUIREMENT)
             .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
             .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(versionMajorNumber))
-            .execute()
+            .fetch {record -> record.into(REQUIREMENT).getId()}
     }
 
-    override fun deleteAll(projectVersion: ProjectVersion) {
-        dsl.deleteFrom(REQUIREMENT)
+    override fun findAllIdList(projectVersion: ProjectVersion): List<RequirementId> {
+        return dsl.selectFrom(REQUIREMENT)
             .where(REQUIREMENT.PROJECT_ID.eq(projectVersion.projectId.toLong()))
             .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
             .and(REQUIREMENT.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
+            .fetch { record -> record.into(REQUIREMENT).getId() }
+    }
+
+    override fun deleteAll(requirementIdList: List<RequirementId>) {
+        dsl.deleteFrom(REQUIREMENT)
+            .where(REQUIREMENT.REQUIREMENT_ID.`in`(requirementIdList.map { it.toLong() }))
             .execute()
     }
 
