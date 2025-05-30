@@ -4,6 +4,7 @@ import ProjectVersionId
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.ADJUSTMENT_FACTOR
 import org.jooq.generated.tables.records.AdjustmentFactorRecord
+import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.CreateAdjustmentFactorPort
 import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.DeleteAdjustmentFactorPort
 import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.GetAdjustmentFactorPort
@@ -35,7 +36,7 @@ private class AdjustmentFactorJooqAdapter(
     override fun createAll(adjustmentFactorList: List<AdjustmentFactor>) {
         dsl.batchInsert(adjustmentFactorList.map {
             dsl.newRecord(ADJUSTMENT_FACTOR).apply{
-                adjustmentFactorId = it.id.toLong()
+                adjustmentFactorId = IdUtil.generateId()
                 projectId = it.projectVersionId.projectId.toLong()
                 versionMajorNumber = it.projectVersionId.major
                 versionMinorNumber = it.projectVersionId.minor
