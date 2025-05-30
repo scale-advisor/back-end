@@ -91,7 +91,7 @@ private class ETLUnitProcessService(
     }
 
     fun execute(projectVersion: ProjectVersion) {
-        val requirementList = getRequirementUseCase.findAll(projectVersion)
+        val requirementList = getRequirementUseCase.findAllFunctionRequirement(projectVersion)
         val requirementRawList = buildRawLines(requirementList)
         val result = generateDecompositionsBatch(requirementRawList)
         val requirementUnitProcessDTOList: List<RequirementUnitProcessDTO> =

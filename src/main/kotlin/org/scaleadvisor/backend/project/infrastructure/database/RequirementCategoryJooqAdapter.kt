@@ -70,6 +70,18 @@ private class RequirementCategoryAdapter(
             .fetch { record -> record.into(REQUIREMENT_CATEGORY).toDomain() }
     }
 
+    override fun findAll(
+        projectVersion: ProjectVersion,
+        categoryName: RequirementCategoryName
+    ): List<RequirementCategory> {
+        return dsl.selectFrom(REQUIREMENT_CATEGORY)
+            .where(REQUIREMENT_CATEGORY.PROJECT_ID.eq(projectVersion.projectId.toLong()))
+            .and(REQUIREMENT_CATEGORY.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+            .and(REQUIREMENT_CATEGORY.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
+            .and(REQUIREMENT_CATEGORY.REQUIREMENT_CATEGORY_NAME.eq(categoryName.name))
+            .fetch { record -> record.into(REQUIREMENT_CATEGORY).toDomain() }
+    }
+
     override fun deleteAll(projectId: ProjectId) {
         dsl.deleteFrom(REQUIREMENT_CATEGORY)
             .where(REQUIREMENT_CATEGORY.PROJECT_ID.eq(projectId.toLong()))
