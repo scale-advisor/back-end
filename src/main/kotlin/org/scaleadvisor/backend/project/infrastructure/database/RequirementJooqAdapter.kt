@@ -104,13 +104,13 @@ private class RequirementJooqAdapter(
             .fetch { record -> record.into(REQUIREMENT).toDomain() }
     }
 
-    override fun findAllIdList(projectId: ProjectId): List<RequirementId> {
+    override fun findAllId(projectId: ProjectId): List<RequirementId> {
         return dsl.selectFrom(REQUIREMENT)
             .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
             .fetch {record -> record.into(REQUIREMENT).getId()}
     }
 
-    override fun findAllIdList(
+    override fun findAllId(
         projectId: ProjectId,
         versionMajorNumber: Int
     ): List<RequirementId> {
@@ -120,7 +120,7 @@ private class RequirementJooqAdapter(
             .fetch {record -> record.into(REQUIREMENT).getId()}
     }
 
-    override fun findAllIdList(projectVersion: ProjectVersion): List<RequirementId> {
+    override fun findAllId(projectVersion: ProjectVersion): List<RequirementId> {
         return dsl.selectFrom(REQUIREMENT)
             .where(REQUIREMENT.PROJECT_ID.eq(projectVersion.projectId.toLong()))
             .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(projectVersion.major))

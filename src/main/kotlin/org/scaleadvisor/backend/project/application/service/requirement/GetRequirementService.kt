@@ -29,19 +29,21 @@ private class GetRequirementService(
     }
 
     override fun findAllId(projectId: ProjectId): List<RequirementId> {
-        TODO("Not yet implemented")
+        return getRequirementPort.findAllId(projectId)
     }
 
     override fun findAllId(
         projectId: ProjectId,
         versionMajorNumber: Int
     ): List<RequirementId> {
-        TODO("Not yet implemented")
+        return getRequirementPort.findAllId(
+            projectId,
+            versionMajorNumber
+        )
     }
 
     override fun findAllId(projectVersion: ProjectVersion): List<RequirementId> {
-        TODO("Not yet implemented")
+        return getRequirementPort.findAllId(projectVersion)
     }
-
 
 }

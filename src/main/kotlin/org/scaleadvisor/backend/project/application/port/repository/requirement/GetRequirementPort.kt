@@ -11,13 +11,13 @@ interface GetRequirementPort {
 
     fun findAll(projectVersion: ProjectVersion, requirementNumberPrefixList: List<String>): List<Requirement>
 
-    fun findAllIdList(projectId: ProjectId): List<RequirementId>
+    fun findAllId(projectId: ProjectId): List<RequirementId>
 
-    fun findAllIdList(
+    fun findAllId(
         projectId: ProjectId,
         versionMajorNumber: Int
     ): List<RequirementId>
 
-    fun findAllIdList(projectVersion: ProjectVersion): List<RequirementId>
+    fun findAllId(projectVersion: ProjectVersion): List<RequirementId>
 
 }
