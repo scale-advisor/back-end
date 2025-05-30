@@ -42,7 +42,7 @@ class AdjustmentFactorPromptService(
             ?: throw NotFoundException("프로젝트($projectId) 버전을 찾을 수 없습니다.")
         val categories = geminiJooqRepository.findAllCategories(projectId)
             .filter { cat ->
-                RequirementCategoryName.values()
+                RequirementCategoryName.entries
                     .filter { it in promptTemplates.keys }
                     .map { it.name }
                     .contains(cat.requirementCategoryName)
