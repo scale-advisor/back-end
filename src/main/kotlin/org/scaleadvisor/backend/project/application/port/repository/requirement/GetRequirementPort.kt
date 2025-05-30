@@ -7,4 +7,6 @@ interface GetRequirementPort {
 
     fun findAll(projectVersion: ProjectVersion): List<Requirement>
 
+    fun findAll(projectVersion: ProjectVersion, requirementNumberPrefixList: List<String>): List<Requirement>
+
 }

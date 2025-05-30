@@ -5,6 +5,7 @@ package org.scaleadvisor.backend.project.infrastructure.ai
 import org.scaleadvisor.backend.global.gemini.data.Content
 import org.scaleadvisor.backend.global.gemini.data.GenerateResponse
 import org.scaleadvisor.backend.global.gemini.data.Part
+import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.AnalyzeAdjustmentFactorPort
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.ExtractUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.ValidateUnitProcessPort
 import org.springframework.beans.factory.annotation.Value
@@ -31,7 +32,7 @@ private class GeminiClientAdapter(
     @Value("\${gemini.api.key}") private val apiKey: String,
     @Value("\${gemini.api.model}") private val model: String,
     private val restTemplate: RestTemplate,
-) : ExtractUnitProcessPort, ValidateUnitProcessPort {
+) : ExtractUnitProcessPort, ValidateUnitProcessPort, AnalyzeAdjustmentFactorPort {
 
     private val TEMPERATURE: Double = 0.0
     private val MAX_OUTPUT_TOKENS: Int = 100000

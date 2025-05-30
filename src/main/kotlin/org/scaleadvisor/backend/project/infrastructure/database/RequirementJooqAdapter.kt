@@ -4,6 +4,7 @@ import ProjectVersionId
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.REQUIREMENT
 import org.jooq.generated.tables.records.RequirementRecord
+import org.jooq.impl.DSL
 import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.project.application.port.repository.requirement.CreateRequirementPort
 import org.scaleadvisor.backend.project.application.port.repository.requirement.DeleteRequirementPort
@@ -76,6 +77,28 @@ private class RequirementJooqAdapter(
             .where(REQUIREMENT.PROJECT_ID.eq(projectVersion.projectId.toLong()))
             .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
             .and(REQUIREMENT.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
+            .fetch { record -> record.into(REQUIREMENT).toDomain() }
+    }
+
+    override fun findAll(
+        projectVersion: ProjectVersion,
+        requirementNumberPrefixList: List<String>
+    ): List<Requirement> {
+        if (requirementNumberPrefixList.isEmpty()) {
+            return emptyList()
+        }
+
+        val distinctPrefixes = requirementNumberPrefixList.distinct()
+        val likeConditions = distinctPrefixes.map { prefix ->
+            REQUIREMENT.REQUIREMENT_NUMBER.like("$prefix%")
+        }
+
+        return dsl.selectFrom(REQUIREMENT)
+            .where(REQUIREMENT.PROJECT_ID.eq(projectVersion.projectId.toLong()))
+            .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+            .and(REQUIREMENT.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
+            .and(DSL.or(likeConditions))
+            .orderBy(REQUIREMENT.REQUIREMENT_NUMBER.asc())
             .fetch { record -> record.into(REQUIREMENT).toDomain() }
     }
 
