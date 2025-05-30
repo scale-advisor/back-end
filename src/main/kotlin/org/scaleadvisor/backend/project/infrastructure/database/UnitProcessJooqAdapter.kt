@@ -89,7 +89,7 @@ private class UnitProcessJooqAdapter(
                 unitProcessId = it.id.toLong()
                 unitProcessName = it.name
                 functionType = it.functionType.name
-                isAmbiguous = 1.toByte()
+                isAmbiguous = toByte(it.isAmbiguous)
                 updatedAt = LocalDateTime.now()
             }
         }).execute()

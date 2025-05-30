@@ -15,6 +15,7 @@ import org.scaleadvisor.backend.project.domain.enum.AdjustmentFactorType
 import org.scaleadvisor.backend.project.domain.id.AdjustmentFactorId
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.stereotype.Repository
+import java.time.LocalDateTime
 
 @Repository
 private class AdjustmentFactorJooqAdapter(
@@ -33,6 +34,7 @@ private class AdjustmentFactorJooqAdapter(
     )
 
     override fun createAll(adjustmentFactorList: List<AdjustmentFactor>) {
+        val now = LocalDateTime.now()
         dsl.batchInsert(adjustmentFactorList.map {
             dsl.newRecord(ADJUSTMENT_FACTOR).apply{
                 adjustmentFactorId = it.id.toLong()
@@ -41,6 +43,8 @@ private class AdjustmentFactorJooqAdapter(
                 versionMinorNumber = it.projectVersionId.minor
                 adjustmentFactorType = it.type.name
                 adjustmentFactorLevel = it.level
+                createdAt = now
+                updatedAt = now
             }
         }).execute()
     }
@@ -50,6 +54,7 @@ private class AdjustmentFactorJooqAdapter(
             dsl.newRecord(ADJUSTMENT_FACTOR).apply {
                 adjustmentFactorId = it.id.toLong()
                 adjustmentFactorLevel = it.level
+                updatedAt = LocalDateTime.now()
             }
         }).execute()
     }
