@@ -77,7 +77,7 @@ private class ETLUnitProcessService(
                 if (parts.size == 2) parts[0] to parts[1] else null
             }
             .associate {
-                it.first to it.second.split(" - ").map(String::trim)
+                it.first to it.second.split(",").map(String::trim)
             }
             .flatMap { (unitProcess, requirementNumberList) ->
                 requirementNumberList.map { requirementNumber ->
