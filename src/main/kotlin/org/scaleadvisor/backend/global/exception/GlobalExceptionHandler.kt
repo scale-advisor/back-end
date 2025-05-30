@@ -72,12 +72,21 @@ class GlobalExceptionHandler {
     }
 
     /** Forbidden Exception **/
-    @ExceptionHandler(ForbiddenException::class)
-    fun handleForbiddenException(ex: ForbiddenException): ResponseEntity<ErrorResponse> {
+    @ExceptionHandler(
+        ForbiddenException::class,
+        JwtExpiredException::class)
+    fun handleForbiddenException(ex: CustomException): ResponseEntity<ErrorResponse> {
         logger.warn(FORBIDDEN_LOG_MESSAGE, ex)
+
+        val customEx = when (ex) {
+            is ForbiddenException ->
+                ex
+            else ->
+                ForbiddenException(ex.message ?: "Validation failed")
+        }
         return ResponseEntity
             .status(HttpStatus.FORBIDDEN)
-            .body(ErrorResponse(ex))
+            .body(ErrorResponse(customEx))
     }
 
     /** Not Found Exception **/
