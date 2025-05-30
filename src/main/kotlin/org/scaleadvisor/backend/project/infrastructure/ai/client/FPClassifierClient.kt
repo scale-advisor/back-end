@@ -17,10 +17,10 @@ data class FPClassifierClientResponse(
 
 @FeignClient(
     name = "fp-classifier-request",
-    url = "\${fp-classifier.url}" + "\${fp-classifier.path}"
+    url = "\${fp-classifier.url}"
 )
 interface FPClassifierClient {
-    @PostMapping("/classify")
+    @PostMapping("\${fp-classifier.path}")
     fun classify(
         @RequestBody requests: List<FPClassifierClientRequest>
     ): List<FPClassifierClientResponse>
