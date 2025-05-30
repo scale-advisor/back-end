@@ -3,6 +3,8 @@ package org.scaleadvisor.backend.global.config
 import org.scaleadvisor.backend.global.filter.JwtAuthenticationFilter
 import org.scaleadvisor.backend.global.filter.JwtAuthorizationFilter
 import org.scaleadvisor.backend.global.security.CustomUserDetailsService
+import org.scaleadvisor.backend.global.security.JwtAccessDeniedHandler
+import org.scaleadvisor.backend.global.security.JwtAuthenticationEntryPoint
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -23,7 +25,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig(
     private val customUserDetailsService: CustomUserDetailsService,
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
-    private val jwtAuthorizationFilter: JwtAuthorizationFilter
+    private val jwtAuthorizationFilter: JwtAuthorizationFilter,
+    private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
+    private val jwtAccessDeniedHandler: JwtAccessDeniedHandler
 ) {
 
     @Bean
@@ -49,6 +53,11 @@ class SecurityConfig(
 
             .sessionManagement { session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            }
+            .exceptionHandling { exceptions ->
+                exceptions
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .accessDeniedHandler(jwtAccessDeniedHandler)
             }
 
             .authorizeHttpRequests { auth ->
