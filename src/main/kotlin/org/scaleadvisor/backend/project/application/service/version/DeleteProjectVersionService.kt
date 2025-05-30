@@ -4,6 +4,7 @@ import org.scaleadvisor.backend.project.application.port.repository.version.Dele
 import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.DeleteAdjustmentFactorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.file.DeleteFileUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.requirement.DeleteRequirementUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.requirementcategory.DeleteRequirementCategoryUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.version.DeleteProjectVersionUseCase
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 private class DeleteProjectVersionService(
     private val deleteAdjustmentFactorUseCase: DeleteAdjustmentFactorUseCase,
+    private val deleteRequirementCategoryUseCase: DeleteRequirementCategoryUseCase,
     private val deleteRequirementUseCase: DeleteRequirementUseCase,
     private val deleteFileUseCase: DeleteFileUseCase,
     private val deleteProjectVersionPort: DeleteProjectVersionPort,
@@ -26,6 +28,7 @@ private class DeleteProjectVersionService(
         val projectVersion = ProjectVersion.of(projectId, versionNumber)
 
         deleteAdjustmentFactorUseCase.deleteAll(projectVersion)
+        deleteRequirementCategoryUseCase.deleteAll(projectVersion)
         deleteRequirementUseCase.deleteAll(projectVersion)
         if (projectVersion.minor == 0) {
             deleteFileUseCase.delete(projectVersion)
@@ -37,6 +40,7 @@ private class DeleteProjectVersionService(
 
     override fun deleteAll(projectId: ProjectId) {
         deleteAdjustmentFactorUseCase.deleteAll(projectId)
+        deleteRequirementCategoryUseCase.deleteAll(projectId)
         deleteRequirementUseCase.deleteAll(projectId)
         deleteFileUseCase.deleteAll(projectId)
         deleteProjectVersionPort.deleteAll(projectId)
