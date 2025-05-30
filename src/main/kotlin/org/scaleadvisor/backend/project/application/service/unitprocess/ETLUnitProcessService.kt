@@ -113,7 +113,7 @@ private class ETLUnitProcessService(
             unitProcessList.add(unitProcess)
 
             val requirementUnitProcess = RequirementUnitProcess(
-                requirementId = requirementMap.getValue(requirementUnitProcessDTO.unitProcessName),
+                requirementId = requirementMap.getValue(requirementUnitProcessDTO.requirementNumber),
                 unitProcessId = unitProcess.id
             )
             requirementUnitProcessList.add(requirementUnitProcess)
