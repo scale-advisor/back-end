@@ -5,7 +5,9 @@ import org.jooq.DSLContext
 import org.jooq.generated.Tables.REQUIREMENT_CATEGORY
 import org.jooq.generated.tables.records.RequirementCategoryRecord
 import org.scaleadvisor.backend.global.util.IdUtil
-import org.scaleadvisor.backend.project.application.port.repository.requirement.CreateRequirementCategoryPort
+import org.scaleadvisor.backend.project.application.port.repository.requirementcategory.CreateRequirementCategoryPort
+import org.scaleadvisor.backend.project.application.port.repository.requirementcategory.GetRequirementCategoryPort
+import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.RequirementCategory
 import org.scaleadvisor.backend.project.domain.enum.RequirementCategoryName
 import org.scaleadvisor.backend.project.domain.id.ProjectId
@@ -16,7 +18,7 @@ import java.time.LocalDateTime
 @Repository
 private class RequirementCategoryAdapter(
     private val dsl: DSLContext
-) : CreateRequirementCategoryPort {
+) : CreateRequirementCategoryPort, GetRequirementCategoryPort {
 
     private fun RequirementCategoryRecord.toDomain() = RequirementCategory(
         id = RequirementCategoryId.from(this.requirementCategoryId),
@@ -58,6 +60,14 @@ private class RequirementCategoryAdapter(
             }
 
         insertStep.execute()
+    }
+
+    override fun findAll(projectVersion: ProjectVersion): List<RequirementCategory> {
+        return dsl.selectFrom(REQUIREMENT_CATEGORY)
+            .where(REQUIREMENT_CATEGORY.PROJECT_ID.eq(projectVersion.projectId.toLong()))
+            .and(REQUIREMENT_CATEGORY.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+            .and(REQUIREMENT_CATEGORY.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
+            .fetch { record -> record.into(REQUIREMENT_CATEGORY).toDomain() }
     }
 
 }

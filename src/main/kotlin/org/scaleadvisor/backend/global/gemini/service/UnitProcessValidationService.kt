@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 class UnitProcessValidationService(
     private val geminiClient: GeminiClient,
     private val geminiJooqRepository: GeminiJooqRepository,
-    @Value("\${validation.prompt.resource}")
+    @Value("\${gemini.prompt.validation}")
     private val promptResource: Resource
 ) {
     private val promptTemplate: String = promptResource.inputStream

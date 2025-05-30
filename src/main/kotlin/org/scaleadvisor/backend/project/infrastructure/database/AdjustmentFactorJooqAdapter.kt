@@ -4,6 +4,7 @@ import ProjectVersionId
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.ADJUSTMENT_FACTOR
 import org.jooq.generated.tables.records.AdjustmentFactorRecord
+import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.CreateAdjustmentFactorPort
 import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.DeleteAdjustmentFactorPort
 import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.GetAdjustmentFactorPort
 import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.UpdateAdjustmentFactorPort
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Repository
 @Repository
 private class AdjustmentFactorJooqAdapter(
     private val dsl: DSLContext
-): GetAdjustmentFactorPort, UpdateAdjustmentFactorPort, DeleteAdjustmentFactorPort {
+): CreateAdjustmentFactorPort, GetAdjustmentFactorPort, UpdateAdjustmentFactorPort, DeleteAdjustmentFactorPort {
 
     private fun AdjustmentFactorRecord.toDomain() = AdjustmentFactor(
         id = AdjustmentFactorId.from(this.adjustmentFactorId),
@@ -31,12 +32,17 @@ private class AdjustmentFactorJooqAdapter(
         level = this.adjustmentFactorLevel,
     )
 
-    override fun findAll(projectVersionId: ProjectVersionId): List<AdjustmentFactor> {
-        return dsl.selectFrom(ADJUSTMENT_FACTOR)
-            .where(ADJUSTMENT_FACTOR.PROJECT_ID.eq(projectVersionId.projectId.toLong()))
-            .and(ADJUSTMENT_FACTOR.VERSION_MAJOR_NUMBER.eq(projectVersionId.major))
-            .and(ADJUSTMENT_FACTOR.VERSION_MINOR_NUMBER.eq(projectVersionId.minor))
-            .fetch { record -> record.into(ADJUSTMENT_FACTOR).toDomain() }
+    override fun createAll(adjustmentFactorList: List<AdjustmentFactor>) {
+        dsl.batchInsert(adjustmentFactorList.map {
+            dsl.newRecord(ADJUSTMENT_FACTOR).apply{
+                adjustmentFactorId = it.id.toLong()
+                projectId = it.projectVersionId.projectId.toLong()
+                versionMajorNumber = it.projectVersionId.major
+                versionMinorNumber = it.projectVersionId.minor
+                adjustmentFactorType = it.type.name
+                adjustmentFactorLevel = it.level
+            }
+        }).execute()
     }
 
     override fun updateAll(command: List<UpdateAdjustmentFactorDTO>) {
@@ -46,6 +52,14 @@ private class AdjustmentFactorJooqAdapter(
                 adjustmentFactorLevel = it.level
             }
         }).execute()
+    }
+
+    override fun findAll(projectVersionId: ProjectVersionId): List<AdjustmentFactor> {
+        return dsl.selectFrom(ADJUSTMENT_FACTOR)
+            .where(ADJUSTMENT_FACTOR.PROJECT_ID.eq(projectVersionId.projectId.toLong()))
+            .and(ADJUSTMENT_FACTOR.VERSION_MAJOR_NUMBER.eq(projectVersionId.major))
+            .and(ADJUSTMENT_FACTOR.VERSION_MINOR_NUMBER.eq(projectVersionId.minor))
+            .fetch { record -> record.into(ADJUSTMENT_FACTOR).toDomain() }
     }
 
     override fun deleteAll(projectId: ProjectId) {

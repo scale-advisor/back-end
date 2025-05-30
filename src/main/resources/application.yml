@@ -98,30 +98,17 @@ gemini:
     url: ${API_URL:url}
     key: ${API_KEY:key}
     model: ${API_MODEL:model}
-
-unit-process:
   prompt:
-    resource: ${UNIT_PROCESS_TXT_LOCATION}
+    unit-process: ${UNIT_PROCESS_TXT_LOCATION}
+    validation: ${VALIDATION_TXT_LOCATION}
+    security: ${SECURITY_FACTOR}
+    integration_complexity: ${INTEGRATION_COMPLEXITY_FACTOR}
+    operational_compatibility: ${OPERATIONAL_COMPATIBILITY_FACTOR}
+    performance: ${PERFORMANCE_FACTOR}
 
-validation:
-  prompt:
-    resource: ${VALIDATION_TXT_LOCATION}
-
-security:
-  prompt:
-    resource: ${SECURITY_FACTOR}
-
-integration_complexity:
-  prompt:
-    resource: ${INTEGRATION_COMPLEXITY_FACTOR}
-
-operational_compatibility:
-  prompt:
-    resource: ${OPERATIONAL_COMPATIBILITY_FACTOR}
-
-performance:
-  prompt:
-    resource: ${PERFORMANCE_FACTOR}
+fp-classifier:
+  url: http://127.0.0.1:8000
+  path: /classify
 
 ---
 spring:

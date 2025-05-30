@@ -22,6 +22,7 @@ plugins {
     id("nu.studer.jooq") version "9.0"
     id("org.flywaydb.flyway") version "10.19.0"
 }
+val springCloudVersion by extra("2023.0.5")
 
 group = "org.scaleadvisor"
 version = "0.0.1-SNAPSHOT"
@@ -58,6 +59,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-quartz")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
     //jwt
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
@@ -81,8 +83,6 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
     // discord logback
     implementation("com.github.napstr:logback-discord-appender:1.0.0")
-    // docker
-//    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
     // flyway
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
@@ -230,4 +230,9 @@ tasks.named("flywayMigrate") {
 
 tasks.named("generateJooq") {
     dependsOn("flywayMigrate")
+}
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
+    }
 }

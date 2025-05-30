@@ -8,7 +8,7 @@ value class UnitProcessId(val value: Long) {
     fun toLong(): Long = value
     companion object {
         fun newId() = UnitProcessId(IdUtil.generateId())
-        fun of(id: String) = UnitProcessId(id.toLong())
-        fun of(id: Long) = UnitProcessId(id)
+        fun from(id: String) = UnitProcessId(id.toLong())
+        fun from(id: Long) = UnitProcessId(id)
     }
 }

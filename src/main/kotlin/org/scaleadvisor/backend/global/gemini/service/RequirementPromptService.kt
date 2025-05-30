@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 class RequirementPromptService(
     private val geminiClient: GeminiClient,
     private val geminiJooqRepository: GeminiJooqRepository,
-    @Value("\${unit-process.prompt.resource}")
+    @Value("\${gemini.prompt.unit-process}")
     private val promptResource: Resource
 ) {
     private val promptTemplate: String = promptResource.inputStream

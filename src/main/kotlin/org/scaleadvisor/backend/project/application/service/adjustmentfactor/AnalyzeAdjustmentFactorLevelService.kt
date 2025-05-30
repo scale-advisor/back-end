@@ -1,23 +1,33 @@
-package org.scaleadvisor.backend.global.gemini.service
+package org.scaleadvisor.backend.project.application.service.adjustmentfactor
 
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.global.gemini.component.GeminiClient
 import org.scaleadvisor.backend.global.gemini.repository.GeminiJooqRepository
-import org.scaleadvisor.backend.project.application.port.usecase.version.GetProjectVersionUseCase
+import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.AnalyzeAdjustmentFactorPort
+import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.AnalyzeAdjustmentFactorLevelUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.requirement.GetRequirementUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.requirementcategory.GetRequirementCategoryUseCase
 import org.scaleadvisor.backend.project.domain.AdjustmentFactor
+import org.scaleadvisor.backend.project.domain.ProjectVersion
+import org.scaleadvisor.backend.project.domain.Requirement
+import org.scaleadvisor.backend.project.domain.RequirementCategory
 import org.scaleadvisor.backend.project.domain.enum.AdjustmentFactorType
 import org.scaleadvisor.backend.project.domain.enum.RequirementCategoryName
 import org.scaleadvisor.backend.project.domain.id.AdjustmentFactorId
-import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class AdjustmentFactorPromptService(
+@Transactional
+private class AnalyzeAdjustmentFactorLevelService(
     private val geminiJooqRepository: GeminiJooqRepository,
     private val geminiClient: GeminiClient,
-    private val getProjectVersionUseCase: GetProjectVersionUseCase,
+    private val getRequirementUseCase: GetRequirementUseCase,
+    private val getRequirementCategoryUseCase: GetRequirementCategoryUseCase,
+    private val analyzeAdjustmentFactor: AnalyzeAdjustmentFactorPort,
+
     @Value("\${gemini.prompt.security}")
     private val securityPrompt: Resource,
     @Value("\${gemini.prompt.integration_complexity}")
@@ -26,7 +36,8 @@ class AdjustmentFactorPromptService(
     private val operationalPrompt: Resource,
     @Value("\${gemini.prompt.performance}")
     private val performancePrompt: Resource,
-) {
+): AnalyzeAdjustmentFactorLevelUseCase {
+
     private val promptTemplates: Map<RequirementCategoryName, String> = mapOf(
         RequirementCategoryName.SECURITY to securityPrompt.readText(),
         RequirementCategoryName.INTEGRATION_COMPLEXITY to integrationPrompt.readText(),
@@ -37,25 +48,28 @@ class AdjustmentFactorPromptService(
     private fun Resource.readText(): String =
         this.inputStream.bufferedReader().use { it.readText() }
 
-    fun generateAndSaveAll(projectId: Long) {
-        val projectVersion = getProjectVersionUseCase.findLatest(ProjectId.from(projectId))
-            ?: throw NotFoundException("프로젝트($projectId) 버전을 찾을 수 없습니다.")
-        val categories = geminiJooqRepository.findAllCategories(projectId)
+    fun execute(projectVersion: ProjectVersion): List<AdjustmentFactor> {
+        val categories = getRequirementCategoryUseCase.findAll(projectVersion)
             .filter { cat ->
-                runCatching { RequirementCategoryName.valueOf(cat.requirementCategoryName) }
+                runCatching { cat.name }
                     .getOrNull()
                     ?.let { it in promptTemplates.keys }
                     ?: false
             }
 
+        val categoryNameMap: Map<RequirementCategoryName, List<RequirementCategory>> = categories.groupBy { it.name }
 
-    val factors = categories.map { cat ->
-        val name = RequirementCategoryName.valueOf(cat.requirementCategoryName)
+        val factors = RequirementCategoryName.entries.map { categoryName ->
+            val template = promptTemplates[categoryName]
+                ?: throw NotFoundException("보정계수 템플릿이 없습니다: $categoryName.name")
 
-        val template = promptTemplates[name]
-            ?: throw NotFoundException("보정계수 템플릿이 없습니다: $name")
-
-            val lines = geminiJooqRepository.listRequirementsByPrefix(projectId, cat.requirementCategoryPrefix)
+            val requirementList: List<Requirement> = getRequirementUseCase.findAll(
+                projectVersion,
+                categoryNameMap[categoryName]?.map { it.prefix } ?: emptyList(),
+            )
+            val lines : List<String> = requirementList.map {
+                "${it.number}: ${it.detail}"
+            }
 
             val prompt = buildString {
                 lines.forEach { appendLine("- $it") }
@@ -63,18 +77,18 @@ class AdjustmentFactorPromptService(
                 appendLine(template)
             }
 
-            val aiResponse: String = geminiClient.generate(prompt)
+            val aiResponse: String = analyzeAdjustmentFactor(prompt)
 
             val level = Regex("""\d+""")
                 .find(aiResponse)
                 ?.value
                 ?.toIntOrNull()
-                ?: throw NotFoundException("$name 응답에서 레벨 숫자를 찾을 수 없습니다:\n$aiResponse")
+                ?: throw NotFoundException("$categoryName.name 응답에서 레벨 숫자를 찾을 수 없습니다:\n$aiResponse")
 
             AdjustmentFactor(
                 id = AdjustmentFactorId.newId(),
                 projectVersionId = projectVersion.id,
-                type = AdjustmentFactorType.valueOf(name.name),
+                type = AdjustmentFactorType.valueOf(categoryName.name),
                 level = level
             )
         }
@@ -83,9 +97,12 @@ class AdjustmentFactorPromptService(
             throw NotFoundException("AI 응답에서 보정계수를 하나도 파싱하지 못했습니다.")
         }
 
-        val count = geminiJooqRepository.saveAdjustmentFactors(projectVersion.id, factors)
-        if (count == 0) {
-            throw NotFoundException("보정계수 저장에 실패했습니다.")
-        }
+        return factors
     }
+
+    override fun invoke(projectVersion: ProjectVersion): List<AdjustmentFactor> {
+        return this.execute(projectVersion)
+    }
+
+
 }

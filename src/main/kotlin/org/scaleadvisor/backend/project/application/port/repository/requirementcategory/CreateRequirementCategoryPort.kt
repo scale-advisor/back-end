@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.project.application.port.repository.requirement
+package org.scaleadvisor.backend.project.application.port.repository.requirementcategory
 
 import org.scaleadvisor.backend.project.domain.RequirementCategory
 

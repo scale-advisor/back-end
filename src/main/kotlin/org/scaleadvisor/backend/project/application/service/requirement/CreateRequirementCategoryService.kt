@@ -1,7 +1,7 @@
 package org.scaleadvisor.backend.project.application.service.requirement
 
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
-import org.scaleadvisor.backend.project.application.port.repository.requirement.CreateRequirementCategoryPort
+import org.scaleadvisor.backend.project.application.port.repository.requirementcategory.CreateRequirementCategoryPort
 import org.scaleadvisor.backend.project.application.port.usecase.requirement.CreateRequirementCategoryUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.version.GetProjectVersionUseCase
 import org.scaleadvisor.backend.project.domain.ProjectVersion
