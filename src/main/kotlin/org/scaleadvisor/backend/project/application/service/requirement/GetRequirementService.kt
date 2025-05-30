@@ -4,6 +4,8 @@ import org.scaleadvisor.backend.project.application.port.repository.requirement.
 import org.scaleadvisor.backend.project.application.port.usecase.requirement.GetRequirementUseCase
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.Requirement
+import org.scaleadvisor.backend.project.domain.id.ProjectId
+import org.scaleadvisor.backend.project.domain.id.RequirementId
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -26,5 +28,22 @@ private class GetRequirementService(
         )
     }
 
+    override fun findAllId(projectId: ProjectId): List<RequirementId> {
+        return getRequirementPort.findAllId(projectId)
+    }
+
+    override fun findAllId(
+        projectId: ProjectId,
+        versionMajorNumber: Int
+    ): List<RequirementId> {
+        return getRequirementPort.findAllId(
+            projectId,
+            versionMajorNumber
+        )
+    }
+
+    override fun findAllId(projectVersion: ProjectVersion): List<RequirementId> {
+        return getRequirementPort.findAllId(projectVersion)
+    }
 
 }
