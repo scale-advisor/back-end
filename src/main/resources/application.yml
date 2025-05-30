@@ -107,6 +107,22 @@ validation:
   prompt:
     resource: ${VALIDATION_TXT_LOCATION}
 
+security:
+  prompt:
+    resource: ${SECURITY_FACTOR}
+
+integration_complexity:
+  prompt:
+    resource: ${INTEGRATION_COMPLEXITY_FACTOR}
+
+operational_compatibility:
+  prompt:
+    resource: ${OPERATIONAL_COMPATIBILITY_FACTOR}
+
+performance:
+  prompt:
+    resource: ${PERFORMANCE_FACTOR}
+
 ---
 spring:
   config:

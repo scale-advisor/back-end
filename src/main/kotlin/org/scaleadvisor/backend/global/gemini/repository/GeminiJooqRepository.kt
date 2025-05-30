@@ -1,11 +1,14 @@
 package org.scaleadvisor.backend.global.gemini.repository
 
+import ProjectVersionId
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.*
+import org.jooq.generated.tables.records.RequirementCategoryRecord
 import org.jooq.generated.tables.records.RequirementRecord
 import org.jooq.generated.tables.records.UnitProcessRecord
 import org.scaleadvisor.backend.global.gemini.data.UnitProcessResponse
 import org.scaleadvisor.backend.global.util.IdUtil
+import org.scaleadvisor.backend.project.domain.AdjustmentFactor
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
@@ -95,4 +98,67 @@ class GeminiJooqRepository(
             .where(UNIT_PROCESS.UNIT_PROCESS_ID.`in`(unitProcessIds))
             .execute()
     }
+
+    fun listRequirementsByPrefix(projectId: Long, prefix: String): List<String> {
+        return dsl.select(
+            REQUIREMENT.REQUIREMENT_NUMBER,
+            REQUIREMENT.REQUIREMENT_NAME,
+            REQUIREMENT.REQUIREMENT_DETAIL
+        )
+            .from(REQUIREMENT)
+            .where(REQUIREMENT.PROJECT_ID.eq(projectId))
+            .and(REQUIREMENT.REQUIREMENT_NUMBER.like("$prefix%"))
+            .orderBy(REQUIREMENT.REQUIREMENT_NUMBER.asc())
+            .fetch { record ->
+                "${record[REQUIREMENT.REQUIREMENT_NUMBER]}: ${record[REQUIREMENT.REQUIREMENT_DETAIL]}"
+            }
+    }
+
+    fun saveAdjustmentFactors(
+        projectVersionId: ProjectVersionId,
+        factors: List<AdjustmentFactor>
+    ): Int {
+        if (factors.isEmpty()) return 0
+
+        val now = LocalDateTime.now()
+        val insert = dsl.insertInto(
+            ADJUSTMENT_FACTOR,
+            ADJUSTMENT_FACTOR.ADJUSTMENT_FACTOR_ID,
+            ADJUSTMENT_FACTOR.PROJECT_ID,
+            ADJUSTMENT_FACTOR.VERSION_MAJOR_NUMBER,
+            ADJUSTMENT_FACTOR.VERSION_MINOR_NUMBER,
+            ADJUSTMENT_FACTOR.ADJUSTMENT_FACTOR_TYPE,
+            ADJUSTMENT_FACTOR.ADJUSTMENT_FACTOR_LEVEL,
+            ADJUSTMENT_FACTOR.CREATED_AT,
+            ADJUSTMENT_FACTOR.UPDATED_AT
+        )
+
+        factors.forEach { factor ->
+            insert.values(
+                factor.id.toLong(),
+                projectVersionId.projectId.toLong(),
+                projectVersionId.major,
+                projectVersionId.minor,
+                factor.type.name,
+                factor.level,
+                now,
+                now
+            )
+        }
+
+        return insert.execute()
+    }
+
+    fun findAllCategories(projectId: Long): List<RequirementCategoryRecord> =
+        dsl.select(
+            REQUIREMENT_CATEGORY.REQUIREMENT_CATEGORY_ID,
+            REQUIREMENT_CATEGORY.PROJECT_ID,
+            REQUIREMENT_CATEGORY.VERSION_MAJOR_NUMBER,
+            REQUIREMENT_CATEGORY.VERSION_MINOR_NUMBER,
+            REQUIREMENT_CATEGORY.REQUIREMENT_CATEGORY_NAME,
+            REQUIREMENT_CATEGORY.REQUIREMENT_CATEGORY_PREFIX
+        )
+            .from(REQUIREMENT_CATEGORY)
+            .where(REQUIREMENT_CATEGORY.PROJECT_ID.eq(projectId))
+            .fetchInto(RequirementCategoryRecord::class.java)
 }
