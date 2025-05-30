@@ -2,6 +2,7 @@ package org.scaleadvisor.backend.project.infrastructure.ai
 
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.ClassifyUnitProcessPort
 import org.scaleadvisor.backend.project.domain.UnitProcess
+import org.scaleadvisor.backend.project.domain.enum.FunctionType
 import org.scaleadvisor.backend.project.infrastructure.ai.client.FPClassifierClient
 import org.scaleadvisor.backend.project.infrastructure.ai.client.FPClassifierClientRequest
 import org.springframework.stereotype.Component
@@ -26,7 +27,7 @@ private class FPClassifierAdapter(
                 UnitProcess(
                     id = originalUnitProcess.id,
                     name = originalUnitProcess.name,
-                    functionType = originalUnitProcess.functionType,
+                    functionType = FunctionType.valueOf(response.functionType),
                     isAmbiguous = originalUnitProcess.isAmbiguous,
                 )} else {
                     throw RuntimeException("응답에서 알 수 없는 unitProcessId를 받았습니다: ${response.unitProcessId}")
