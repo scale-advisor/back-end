@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.project.infrastructure.client
+package org.scaleadvisor.backend.project.infrastructure.ai
 
 //import org.scaleadvisor.backend.global.gemini.data.GenerateRequest
 //import org.scaleadvisor.backend.global.gemini.data.GenerationConfig

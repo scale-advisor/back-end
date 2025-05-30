@@ -105,7 +105,11 @@ gemini:
     integration_complexity: ${INTEGRATION_COMPLEXITY_FACTOR}
     operational_compatibility: ${OPERATIONAL_COMPATIBILITY_FACTOR}
     performance: ${PERFORMANCE_FACTOR}
-    
+
+fp-classifier:
+  url: http://127.0.0.1:8000
+  path: /classify
+
 ---
 spring:
   config:

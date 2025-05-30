@@ -82,6 +82,18 @@ private class UnitProcessJooqAdapter(
             .fetch{record -> record.into(UNIT_PROCESS).toDomain()}
     }
 
+    override fun updateAll(unitProcessList: List<UnitProcess>) {
+        dsl.batchUpdate(unitProcessList.map {
+            dsl.newRecord(UNIT_PROCESS).apply {
+                unitProcessId = it.id.toLong()
+                unitProcessName = it.name
+                functionType = it.functionType.name
+                isAmbiguous = 1.toByte()
+                updatedAt = LocalDateTime.now()
+            }
+        }).execute()
+    }
+
     override fun updateAllIsAmbiguous(unitProcessIdList: List<UnitProcessId>) {
         dsl.batchUpdate(unitProcessIdList.map {
             dsl.newRecord(UNIT_PROCESS).apply {

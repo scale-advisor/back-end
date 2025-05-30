@@ -1,8 +1,8 @@
 package org.scaleadvisor.backend.project.application.service.unitprocess
 
-import org.scaleadvisor.backend.project.application.port.repository.unitprocess.UpdateUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.ValidateUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.GetUnitProcessUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.UpdateUnitProcessUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.ValidateUnitProcessUseCase
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.UnitProcessId
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 private class ValidateUnitProcessService(
     private val getUnitProcessUseCase: GetUnitProcessUseCase,
     private val validateUnitProcessPort: ValidateUnitProcessPort,
-    private val updateUnitProcessPort: UpdateUnitProcessPort,
+    private val updateUnitProcessUseCase: UpdateUnitProcessUseCase,
     @Value("\${gemini.prompt.validation}")
     private val promptResource: Resource
 ): ValidateUnitProcessUseCase {
@@ -33,7 +33,7 @@ private class ValidateUnitProcessService(
         }
     }
 
-    override fun execute(projectVersion: ProjectVersion) {
+    fun execute(projectVersion: ProjectVersion) {
         val validationLines = buildValidationLines(projectVersion)
         val fullPrompt = buildString {
             validationLines.forEach { appendLine(it) }
@@ -42,16 +42,20 @@ private class ValidateUnitProcessService(
         }
         val rawResponse = validateUnitProcessPort(fullPrompt)
 
-        val ids = rawResponse
+        val unitProcessIdList = rawResponse
             .split("||")
             .map { it.trim() }
             .map { part -> part.substringBefore(" -") }
             .map { UnitProcessId.from(it) }
             .distinct()
 
-        if (ids.isNotEmpty()) {
-            updateUnitProcessPort.updateAllIsAmbiguous(ids)
+        if (unitProcessIdList.isNotEmpty()) {
+            updateUnitProcessUseCase.updateAllIsAmbiguous(unitProcessIdList)
         }
+    }
+
+    override fun invoke(projectVersion: ProjectVersion) {
+        this.execute(projectVersion)
     }
 
 }

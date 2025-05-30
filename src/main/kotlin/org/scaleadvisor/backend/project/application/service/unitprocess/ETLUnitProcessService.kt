@@ -90,7 +90,7 @@ private class ETLUnitProcessService(
             }
     }
 
-    override fun execute(projectVersion: ProjectVersion) {
+    fun execute(projectVersion: ProjectVersion) {
         val requirementList = getRequirementUseCase.findAll(projectVersion)
         val requirementRawList = buildRawLines(requirementList)
         val result = generateDecompositionsBatch(requirementRawList)
@@ -121,6 +121,10 @@ private class ETLUnitProcessService(
 
         createUnitProcessUseCase.createAll(unitProcessList)
         createRequirementUnitProcessUseCase.createAll(requirementUnitProcessList)
+    }
+
+    override fun invoke(projectVersion: ProjectVersion) {
+        this.execute(projectVersion)
     }
 
 }
