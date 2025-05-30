@@ -7,7 +7,7 @@ import org.scaleadvisor.backend.project.domain.id.RequirementId
 
 interface GetRequirementUseCase {
 
-    fun findAll(projectVersion: ProjectVersion): List<Requirement>
+    fun findAllFunctionRequirement(projectVersion: ProjectVersion): List<Requirement>
 
     fun findAll(
         projectVersion: ProjectVersion,

@@ -70,7 +70,7 @@ private class UnitProcessJooqAdapter(
             UNIT_PROCESS.IS_AMBIGUOUS,
             UNIT_PROCESS.CREATED_AT,
             UNIT_PROCESS.UPDATED_AT
-        )
+        ).distinctOn(UNIT_PROCESS.UNIT_PROCESS_ID)
             .from(UNIT_PROCESS)
             .join(REQUIREMENT_UNIT_PROCESS)
             .on(UNIT_PROCESS.UNIT_PROCESS_ID.eq(REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID))
