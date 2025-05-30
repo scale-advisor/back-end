@@ -1,6 +1,5 @@
 package org.scaleadvisor.backend.project.application.service.unitprocess
 
-import org.scaleadvisor.backend.global.gemini.repository.GeminiJooqRepository
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.ExtractUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.usecase.requirement.GetRequirementUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.requirementunitprocess.CreateRequirementUnitProcessUseCase
@@ -25,7 +24,7 @@ data class RequirementUnitProcessDTO(
 @Service
 @Transactional
 private class ETLUnitProcessService(
-    @Value("\${unit-process.prompt.resource}")
+    @Value("\${gemini.prompt.unit-process}")
     private val promptResource: Resource,
     private val getRequirementUseCase: GetRequirementUseCase,
     private val createUnitProcessUseCase: CreateUnitProcessUseCase,

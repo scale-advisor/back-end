@@ -18,13 +18,13 @@ class AdjustmentFactorPromptService(
     private val geminiJooqRepository: GeminiJooqRepository,
     private val geminiClient: GeminiClient,
     private val getProjectVersionUseCase: GetProjectVersionUseCase,
-    @Value("\${security.prompt.resource}")
+    @Value("\${gemini.prompt.security}")
     private val securityPrompt: Resource,
-    @Value("\${integration_complexity.prompt.resource}")
+    @Value("\${gemini.prompt.integration_complexity}")
     private val integrationPrompt: Resource,
-    @Value("\${operational_compatibility.prompt.resource}")
+    @Value("\${gemini.prompt.operational_compatibility}")
     private val operationalPrompt: Resource,
-    @Value("\${performance.prompt.resource}")
+    @Value("\${gemini.prompt.performance}")
     private val performancePrompt: Resource,
 ) {
     private val promptTemplates: Map<RequirementCategoryName, String> = mapOf(

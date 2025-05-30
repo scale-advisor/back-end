@@ -17,7 +17,7 @@ private class ValidateUnitProcessService(
     private val getUnitProcessUseCase: GetUnitProcessUseCase,
     private val validateUnitProcessPort: ValidateUnitProcessPort,
     private val updateUnitProcessPort: UpdateUnitProcessPort,
-    @Value("\${validation.prompt.resource}")
+    @Value("\${gemini.prompt.validation}")
     private val promptResource: Resource
 ): ValidateUnitProcessUseCase {
     private val promptTemplate: String = promptResource.inputStream
