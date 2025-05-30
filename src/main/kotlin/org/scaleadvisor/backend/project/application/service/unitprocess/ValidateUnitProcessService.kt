@@ -6,6 +6,8 @@ import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.Upd
 import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.ValidateUnitProcessUseCase
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.UnitProcessId
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
@@ -18,8 +20,13 @@ private class ValidateUnitProcessService(
     private val validateUnitProcessPort: ValidateUnitProcessPort,
     private val updateUnitProcessUseCase: UpdateUnitProcessUseCase,
     @Value("\${gemini.prompt.validation}")
-    private val promptResource: Resource
+    private val promptResource: Resource,
 ): ValidateUnitProcessUseCase {
+
+    companion object {
+        private val log: Logger = LoggerFactory.getLogger(ValidateUnitProcessService::class.java)
+    }
+
     private val promptTemplate: String = promptResource.inputStream
         .bufferedReader()
         .use { it.readText() }
@@ -41,6 +48,10 @@ private class ValidateUnitProcessService(
             appendLine(promptTemplate)
         }
         val rawResponse = validateUnitProcessPort(fullPrompt)
+
+        log.debug("=====================ValidateUnitProcessService:rawResponse=====================")
+        log.debug(rawResponse)
+
 
         val unitProcessIdList = rawResponse
             .split("||")
