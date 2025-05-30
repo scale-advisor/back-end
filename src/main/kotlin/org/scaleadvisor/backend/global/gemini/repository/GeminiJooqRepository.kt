@@ -109,8 +109,8 @@ class GeminiJooqRepository(
             .where(REQUIREMENT.PROJECT_ID.eq(projectId))
             .and(REQUIREMENT.REQUIREMENT_NUMBER.like("$prefix%"))
             .orderBy(REQUIREMENT.REQUIREMENT_NUMBER.asc())
-            .fetch { r ->
-                "${r.get(REQUIREMENT.REQUIREMENT_NUMBER)}: ${r.get(REQUIREMENT.REQUIREMENT_DETAIL)}"
+            .fetch { record ->
+                "${record[REQUIREMENT.REQUIREMENT_NUMBER]}: ${record[REQUIREMENT.REQUIREMENT_DETAIL]}"
             }
     }
 

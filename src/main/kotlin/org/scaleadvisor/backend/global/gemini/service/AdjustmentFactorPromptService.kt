@@ -42,15 +42,18 @@ class AdjustmentFactorPromptService(
             ?: throw NotFoundException("프로젝트($projectId) 버전을 찾을 수 없습니다.")
         val categories = geminiJooqRepository.findAllCategories(projectId)
             .filter { cat ->
-                RequirementCategoryName.entries
-                    .filter { it in promptTemplates.keys }
-                    .map { it.name }
-                    .contains(cat.requirementCategoryName)
+                runCatching { RequirementCategoryName.valueOf(cat.requirementCategoryName) }
+                    .getOrNull()
+                    ?.let { it in promptTemplates.keys }
+                    ?: false
             }
 
-        val factors = categories.map { cat ->
-            val name = RequirementCategoryName.valueOf(cat.requirementCategoryName)
-            val template = promptTemplates[name]!!
+
+    val factors = categories.map { cat ->
+        val name = RequirementCategoryName.valueOf(cat.requirementCategoryName)
+
+        val template = promptTemplates[name]
+            ?: throw NotFoundException("보정계수 템플릿이 없습니다: $name")
 
             val lines = geminiJooqRepository.listRequirementsByPrefix(projectId, cat.requirementCategoryPrefix)
 
