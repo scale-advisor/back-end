@@ -6,13 +6,9 @@ import org.jooq.generated.Tables.*
 import org.jooq.generated.tables.records.RequirementCategoryRecord
 import org.jooq.generated.tables.records.RequirementRecord
 import org.jooq.generated.tables.records.UnitProcessRecord
-import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.global.gemini.data.UnitProcessResponse
 import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.project.domain.AdjustmentFactor
-import org.scaleadvisor.backend.project.domain.enum.AdjustmentFactorType
-import org.scaleadvisor.backend.project.domain.enum.RequirementCategoryName
-import org.scaleadvisor.backend.project.domain.id.AdjustmentFactorId
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
