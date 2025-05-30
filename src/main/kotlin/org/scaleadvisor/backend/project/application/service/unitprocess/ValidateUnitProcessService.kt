@@ -53,6 +53,8 @@ private class ValidateUnitProcessService(
         log.debug(rawResponse)
 
 
+        if (rawResponse.isEmpty()) return
+
         val unitProcessIdList = rawResponse
             .split("||")
             .map { it.trim() }
