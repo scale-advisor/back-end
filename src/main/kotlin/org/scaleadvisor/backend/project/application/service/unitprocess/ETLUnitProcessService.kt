@@ -76,10 +76,9 @@ private class ETLUnitProcessService(
                 val parts = item.split(" - ").map { it.trim() }
                 if (parts.size == 2) parts[0] to parts[1] else null
             }
-            .groupBy(
-                keySelector = { it.first },
-                valueTransform = { it.second }
-            )
+            .associate {
+                it.first to it.second.split(" - ").map(String::trim)
+            }
             .flatMap { (unitProcess, requirementNumberList) ->
                 requirementNumberList.map { requirementNumber ->
                     RequirementUnitProcessDTO(
