@@ -107,8 +107,8 @@ gemini:
     performance: ${PERFORMANCE_FACTOR}
 
 fp-classifier:
-  url: http://127.0.0.1:8000
-  path: /classify
+  url: ${FP_CLASSIFIER_URL}
+  path: ${FP_CLASSIFIER_PATH}
 
 ---
 spring:
