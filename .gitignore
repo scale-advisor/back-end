@@ -53,3 +53,7 @@ qodana.yaml
 .storage/
 unit_process_prompt.txt
 validation_prompt.txt
+security_prompt.txt
+integration_complexity_prompt.txt
+performance_prompt.txt
+operational_compatibility_prompt.txt
