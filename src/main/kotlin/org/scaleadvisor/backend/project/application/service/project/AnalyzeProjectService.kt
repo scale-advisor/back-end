@@ -19,7 +19,7 @@ private class AnalyzeProjectService(
     private val validateUnitProcess: ValidateUnitProcessUseCase,
     private val classifyUnitProcess: ClassifyUnitProcessUseCase,
     private val updateUnitProcessUseCase: UpdateUnitProcessUseCase,
-    private val analyzeAdjustmentFactorLevelUseCase: AnalyzeAdjustmentFactorLevelUseCase,
+    private val analyzeAdjustmentFactorLevel: AnalyzeAdjustmentFactorLevelUseCase,
     private val createAdjustmentFactorUseCase: CreateAdjustmentFactorUseCase,
 ): AnalyzeProjectUseCase {
 
@@ -30,7 +30,7 @@ private class AnalyzeProjectService(
         val unitProcessList: List<UnitProcess> = classifyUnitProcess(projectVersion)
         updateUnitProcessUseCase.updateAll(unitProcessList)
 
-        val adjustmentFactorList = analyzeAdjustmentFactorLevelUseCase(projectVersion)
+        val adjustmentFactorList = analyzeAdjustmentFactorLevel(projectVersion)
         createAdjustmentFactorUseCase.createAll(adjustmentFactorList)
     }
 

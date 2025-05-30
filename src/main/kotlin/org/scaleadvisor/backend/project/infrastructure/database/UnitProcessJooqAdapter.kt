@@ -3,7 +3,6 @@ package org.scaleadvisor.backend.project.infrastructure.database
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.*
 import org.jooq.generated.tables.records.UnitProcessRecord
-import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.CreateUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.DeleteUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.GetUnitProcessPort
@@ -50,7 +49,7 @@ private class UnitProcessJooqAdapter(
             .apply {
                 unitProcessList.forEach { unitProcess ->
                     values(
-                        IdUtil.generateId(),
+                        unitProcess.id.toLong(),
                         unitProcess.name,
                         unitProcess.functionType.name,
                         toByte(unitProcess.isAmbiguous),

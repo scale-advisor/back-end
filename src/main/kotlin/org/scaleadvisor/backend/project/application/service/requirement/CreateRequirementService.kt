@@ -11,6 +11,7 @@ import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.scaleadvisor.backend.project.domain.id.RequirementId
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.concurrent.locks.LockSupport
 
 @Service
 @Transactional
@@ -26,6 +27,7 @@ private class CreateRequirementService(
             ?: throw NotFoundException("Project version not found")
 
         val requirementList =  requirementDTOList.map {
+            LockSupport.parkNanos(10_000)
             Requirement(
                 id = RequirementId.newId(),
                 projectVersionId = projectVersion.id,
