@@ -59,7 +59,9 @@ private class AnalyzeAdjustmentFactorLevelService(
 
         val categoryNameMap: Map<RequirementCategoryName, List<RequirementCategory>> = categories.groupBy { it.name }
 
-        val factors = RequirementCategoryName.entries.map { categoryName ->
+        val factors = RequirementCategoryName.entries
+            .filter { it != RequirementCategoryName.FUNCTION }
+            .map { categoryName ->
             val template = promptTemplates[categoryName]
                 ?: throw NotFoundException("보정계수 템플릿이 없습니다: $categoryName.name")
 
