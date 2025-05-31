@@ -6,45 +6,73 @@ import org.scaleadvisor.backend.project.application.port.usecase.project.Analyze
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.core.task.TaskExecutor
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 
 @Service
 class ProjectAnalysisJobService(
     private val analyzeProjectUseCase: AnalyzeProjectUseCase,
+    private val redisTemplate: RedisTemplate<String, AnalysisJob>,
     @Qualifier("analysisJobExecutor") private val executor: TaskExecutor
 ) {
-    private val store = ConcurrentHashMap<String, AnalysisJob>()
+    companion object {
+        private const val REDIS_JOB_HASH = "project:analysis:jobs"
+    }
 
-    /** Job 등록 → jobId 반환 */
     fun enqueue(projectVersion: ProjectVersion): String {
         val jobId = UUID.randomUUID().toString()
-        val job   = AnalysisJob(jobId, projectVersion)
+        val job = AnalysisJob(jobId, projectVersion)
 
-        store[jobId] = job
+        redisTemplate.opsForHash<String, AnalysisJob>().put(REDIS_JOB_HASH, jobId, job)
         executor.execute { run(job) }
+
         return jobId
     }
 
-    /** 상태 조회 */
-    fun get(jobId: String): AnalysisJob? = store[jobId]
+    fun get(jobId: String): AnalysisJob? {
+        val job = redisTemplate.opsForHash<String, AnalysisJob>()
+            .get(REDIS_JOB_HASH, jobId)
 
-    /** 내부 실행 */
+        if (job != null) {
+            if (job.status == JobStatus.SUCCESS || job.status == JobStatus.FAILED) {
+                redisTemplate.opsForHash<String, AnalysisJob>()
+                    .delete(REDIS_JOB_HASH, jobId)
+                return job
+            }
+        }
+
+        return job
+    }
+
     private fun run(job: AnalysisJob) {
-        job.status    = JobStatus.RUNNING
+        // ① 실행 직전 상태 저장
+        job.status = JobStatus.RUNNING
         job.startedAt = System.currentTimeMillis()
+        saveJob(job)
 
         try {
+            // 실제 분석 로직 수행
             val result = analyzeProjectUseCase(job.projectVersion)
-            job.result      = result
-            job.status      = JobStatus.SUCCESS
+
+            // ② 성공 시 상태 업데이트
+            job.result = result
+            job.status = JobStatus.SUCCESS
             job.completedAt = System.currentTimeMillis()
+            saveJob(job)
         } catch (ex: Exception) {
-            job.status       = JobStatus.FAILED
+            // ③ 실패 시 상태 업데이트
+            job.status = JobStatus.FAILED
             job.errorMessage = ex.message
-            job.completedAt  = System.currentTimeMillis()
+            job.completedAt = System.currentTimeMillis()
+            saveJob(job)
         }
+    }
+
+    /** Redis에 job 객체를 저장(업데이트) */
+    private fun saveJob(job: AnalysisJob) {
+        redisTemplate.opsForHash<String, AnalysisJob>()
+            .put(REDIS_JOB_HASH, job.jobId, job)
     }
 }
 
