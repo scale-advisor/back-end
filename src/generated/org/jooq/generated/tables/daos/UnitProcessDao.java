@@ -69,6 +69,51 @@ public class UnitProcessDao extends DAOImpl<UnitProcessRecord, org.jooq.generate
     }
 
     /**
+     * Fetch records that have <code>PROJECT_ID BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<org.jooq.generated.tables.pojos.UnitProcess> fetchRangeOfProjectId(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(UnitProcess.UNIT_PROCESS.PROJECT_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>PROJECT_ID IN (values)</code>
+     */
+    public List<org.jooq.generated.tables.pojos.UnitProcess> fetchByProjectId(Long... values) {
+        return fetch(UnitProcess.UNIT_PROCESS.PROJECT_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>VERSION_MAJOR_NUMBER BETWEEN lowerInclusive
+     * AND upperInclusive</code>
+     */
+    public List<org.jooq.generated.tables.pojos.UnitProcess> fetchRangeOfVersionMajorNumber(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(UnitProcess.UNIT_PROCESS.VERSION_MAJOR_NUMBER, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>VERSION_MAJOR_NUMBER IN (values)</code>
+     */
+    public List<org.jooq.generated.tables.pojos.UnitProcess> fetchByVersionMajorNumber(Integer... values) {
+        return fetch(UnitProcess.UNIT_PROCESS.VERSION_MAJOR_NUMBER, values);
+    }
+
+    /**
+     * Fetch records that have <code>VERSION_MINOR_NUMBER BETWEEN lowerInclusive
+     * AND upperInclusive</code>
+     */
+    public List<org.jooq.generated.tables.pojos.UnitProcess> fetchRangeOfVersionMinorNumber(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(UnitProcess.UNIT_PROCESS.VERSION_MINOR_NUMBER, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>VERSION_MINOR_NUMBER IN (values)</code>
+     */
+    public List<org.jooq.generated.tables.pojos.UnitProcess> fetchByVersionMinorNumber(Integer... values) {
+        return fetch(UnitProcess.UNIT_PROCESS.VERSION_MINOR_NUMBER, values);
+    }
+
+    /**
      * Fetch records that have <code>UNIT_PROCESS_NAME BETWEEN lowerInclusive
      * AND upperInclusive</code>
      */

@@ -34,6 +34,7 @@ import org.jooq.generated.tables.ProjectFactor.ProjectFactorPath;
 import org.jooq.generated.tables.ProjectLanguage.ProjectLanguagePath;
 import org.jooq.generated.tables.ProjectMember.ProjectMemberPath;
 import org.jooq.generated.tables.Requirement.RequirementPath;
+import org.jooq.generated.tables.UnitProcess.UnitProcessPath;
 import org.jooq.generated.tables.User.UserPath;
 import org.jooq.generated.tables.Version.VersionPath;
 import org.jooq.generated.tables.records.ProjectRecord;
@@ -249,6 +250,19 @@ public class Project extends TableImpl<ProjectRecord> {
             _requirement = new RequirementPath(this, null, Keys.FK_REQUIREMENT_PROJECT_ID.getInverseKey());
 
         return _requirement;
+    }
+
+    private transient UnitProcessPath _unitProcess;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>scale_advisor.UNIT_PROCESS</code> table
+     */
+    public UnitProcessPath unitProcess() {
+        if (_unitProcess == null)
+            _unitProcess = new UnitProcessPath(this, null, Keys.FK_UNIT_PROCESS_PROJECT_ID.getInverseKey());
+
+        return _unitProcess;
     }
 
     private transient ProjectMemberPath _projectMember;
