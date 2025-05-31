@@ -11,13 +11,10 @@ import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.InverseForeignKey;
+import org.jooq.Index;
 import org.jooq.Name;
-import org.jooq.Path;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
-import org.jooq.Record;
 import org.jooq.SQL;
 import org.jooq.Schema;
 import org.jooq.Select;
@@ -26,10 +23,9 @@ import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
+import org.jooq.generated.Indexes;
 import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
-import org.jooq.generated.tables.Requirement.RequirementPath;
-import org.jooq.generated.tables.UnitProcess.UnitProcessPath;
 import org.jooq.generated.tables.records.RequirementUnitProcessRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -57,6 +53,12 @@ public class RequirementUnitProcess extends TableImpl<RequirementUnitProcessReco
     public Class<RequirementUnitProcessRecord> getRecordType() {
         return RequirementUnitProcessRecord.class;
     }
+
+    /**
+     * The column
+     * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.REQUIREMENT_UNIT_PROCESS_ID</code>.
+     */
+    public final TableField<RequirementUnitProcessRecord, Long> REQUIREMENT_UNIT_PROCESS_ID = createField(DSL.name("REQUIREMENT_UNIT_PROCESS_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column
@@ -114,78 +116,19 @@ public class RequirementUnitProcess extends TableImpl<RequirementUnitProcessReco
         this(DSL.name("REQUIREMENT_UNIT_PROCESS"), null);
     }
 
-    public <O extends Record> RequirementUnitProcess(Table<O> path, ForeignKey<O, RequirementUnitProcessRecord> childPath, InverseForeignKey<O, RequirementUnitProcessRecord> parentPath) {
-        super(path, childPath, parentPath, REQUIREMENT_UNIT_PROCESS);
-    }
-
-    /**
-     * A subtype implementing {@link Path} for simplified path-based joins.
-     */
-    public static class RequirementUnitProcessPath extends RequirementUnitProcess implements Path<RequirementUnitProcessRecord> {
-
-        private static final long serialVersionUID = 1L;
-        public <O extends Record> RequirementUnitProcessPath(Table<O> path, ForeignKey<O, RequirementUnitProcessRecord> childPath, InverseForeignKey<O, RequirementUnitProcessRecord> parentPath) {
-            super(path, childPath, parentPath);
-        }
-        private RequirementUnitProcessPath(Name alias, Table<RequirementUnitProcessRecord> aliased) {
-            super(alias, aliased);
-        }
-
-        @Override
-        public RequirementUnitProcessPath as(String alias) {
-            return new RequirementUnitProcessPath(DSL.name(alias), this);
-        }
-
-        @Override
-        public RequirementUnitProcessPath as(Name alias) {
-            return new RequirementUnitProcessPath(alias, this);
-        }
-
-        @Override
-        public RequirementUnitProcessPath as(Table<?> alias) {
-            return new RequirementUnitProcessPath(alias.getQualifiedName(), this);
-        }
-    }
-
     @Override
     public Schema getSchema() {
         return aliased() ? null : ScaleAdvisor.SCALE_ADVISOR;
     }
 
     @Override
-    public UniqueKey<RequirementUnitProcessRecord> getPrimaryKey() {
-        return Keys.KEY_REQUIREMENT_UNIT_PROCESS_PRIMARY;
+    public List<Index> getIndexes() {
+        return Arrays.asList(Indexes.REQUIREMENT_UNIT_PROCESS_FK_REQUIREMENT_UNIT_PROCESS_UNIT_PROCESS_ID);
     }
 
     @Override
-    public List<ForeignKey<RequirementUnitProcessRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.FK_REQUIREMENT_UNIT_PROCESS_REQUIREMENT_ID, Keys.FK_REQUIREMENT_UNIT_PROCESS_UNIT_PROCESS_ID);
-    }
-
-    private transient RequirementPath _requirement;
-
-    /**
-     * Get the implicit join path to the <code>scale_advisor.REQUIREMENT</code>
-     * table.
-     */
-    public RequirementPath requirement() {
-        if (_requirement == null)
-            _requirement = new RequirementPath(this, Keys.FK_REQUIREMENT_UNIT_PROCESS_REQUIREMENT_ID, null);
-
-        return _requirement;
-    }
-
-    private transient UnitProcessPath _unitProcess;
-
-    /**
-     * Get the implicit join path to the <code>scale_advisor.UNIT_PROCESS</code>
-     * table.
-     */
-    public UnitProcessPath unitProcess() {
-        if (_unitProcess == null)
-            _unitProcess = new UnitProcessPath(this, Keys.FK_REQUIREMENT_UNIT_PROCESS_UNIT_PROCESS_ID, null);
-
-        return _unitProcess;
+    public UniqueKey<RequirementUnitProcessRecord> getPrimaryKey() {
+        return Keys.KEY_REQUIREMENT_UNIT_PROCESS_PRIMARY;
     }
 
     @Override
