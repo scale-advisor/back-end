@@ -129,7 +129,7 @@ spring:
 
 logging:
   level:
-    root: debug
+    root: INFO
     org.jooq.tools.LoggerListener: DEBUG
 
 app:
@@ -158,8 +158,8 @@ spring:
 
 logging:
   level:
-    root: debug
-    org.jooq.tools.LoggerListener: DEBUG
+    root: INFO
+    org.jooq.tools.LoggerListener: INFO
   discord:
     webhook-url: ${WEB_HOOK_URL}
   config: classpath:logback.xml
