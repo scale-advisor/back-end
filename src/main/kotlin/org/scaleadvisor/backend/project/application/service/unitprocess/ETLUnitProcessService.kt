@@ -106,6 +106,7 @@ private class ETLUnitProcessService(
         requirementUnitProcessDTOList.forEach { requirementUnitProcessDTO ->
             val unitProcess = UnitProcess(
                 UnitProcessId.newId(),
+                projectVersion.id,
                 requirementUnitProcessDTO.unitProcessName,
                 FunctionType.UNDEFINED,
                 true,

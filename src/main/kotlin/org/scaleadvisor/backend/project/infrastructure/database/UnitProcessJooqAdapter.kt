@@ -1,5 +1,6 @@
 package org.scaleadvisor.backend.project.infrastructure.database
 
+import ProjectVersionId
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.*
 import org.jooq.generated.tables.records.UnitProcessRecord
@@ -10,6 +11,7 @@ import org.scaleadvisor.backend.project.application.port.repository.unitprocess.
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.UnitProcess
 import org.scaleadvisor.backend.project.domain.enum.FunctionType
+import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.scaleadvisor.backend.project.domain.id.UnitProcessId
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
@@ -27,6 +29,11 @@ private class UnitProcessJooqAdapter(
     }
     private fun UnitProcessRecord.toDomain() = UnitProcess(
         id = UnitProcessId.from(this.unitProcessId),
+        projectVersionId = ProjectVersionId.of(
+            ProjectId.from(this.projectId),
+            this.versionMajorNumber,
+            this.versionMinorNumber,
+        ),
         name = this.unitProcessName,
         functionType = FunctionType.valueOf(this.functionType),
         isAmbiguous = toBoolean(isAmbiguous),
@@ -87,6 +94,9 @@ private class UnitProcessJooqAdapter(
         dsl.batchUpdate(unitProcessList.map {
             dsl.newRecord(UNIT_PROCESS).apply {
                 unitProcessId = it.id.toLong()
+                projectId = it.projectVersionId.projectId.toLong()
+                versionMajorNumber = it.projectVersionId.major
+                versionMinorNumber = it.projectVersionId.minor
                 unitProcessName = it.name
                 functionType = it.functionType.name
                 isAmbiguous = toByte(it.isAmbiguous)
