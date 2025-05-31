@@ -17,6 +17,9 @@ public class UnitProcess implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long unitProcessId;
+    private Long projectId;
+    private Integer versionMajorNumber;
+    private Integer versionMinorNumber;
     private String unitProcessName;
     private String functionType;
     private LocalDateTime createdAt;
@@ -27,6 +30,9 @@ public class UnitProcess implements Serializable {
 
     public UnitProcess(UnitProcess value) {
         this.unitProcessId = value.unitProcessId;
+        this.projectId = value.projectId;
+        this.versionMajorNumber = value.versionMajorNumber;
+        this.versionMinorNumber = value.versionMinorNumber;
         this.unitProcessName = value.unitProcessName;
         this.functionType = value.functionType;
         this.createdAt = value.createdAt;
@@ -36,6 +42,9 @@ public class UnitProcess implements Serializable {
 
     public UnitProcess(
         Long unitProcessId,
+        Long projectId,
+        Integer versionMajorNumber,
+        Integer versionMinorNumber,
         String unitProcessName,
         String functionType,
         LocalDateTime createdAt,
@@ -43,6 +52,9 @@ public class UnitProcess implements Serializable {
         Byte isAmbiguous
     ) {
         this.unitProcessId = unitProcessId;
+        this.projectId = projectId;
+        this.versionMajorNumber = versionMajorNumber;
+        this.versionMinorNumber = versionMinorNumber;
         this.unitProcessName = unitProcessName;
         this.functionType = functionType;
         this.createdAt = createdAt;
@@ -62,6 +74,51 @@ public class UnitProcess implements Serializable {
      */
     public UnitProcess setUnitProcessId(Long unitProcessId) {
         this.unitProcessId = unitProcessId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.UNIT_PROCESS.PROJECT_ID</code>.
+     */
+    public Long getProjectId() {
+        return this.projectId;
+    }
+
+    /**
+     * Setter for <code>scale_advisor.UNIT_PROCESS.PROJECT_ID</code>.
+     */
+    public UnitProcess setProjectId(Long projectId) {
+        this.projectId = projectId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.UNIT_PROCESS.VERSION_MAJOR_NUMBER</code>.
+     */
+    public Integer getVersionMajorNumber() {
+        return this.versionMajorNumber;
+    }
+
+    /**
+     * Setter for <code>scale_advisor.UNIT_PROCESS.VERSION_MAJOR_NUMBER</code>.
+     */
+    public UnitProcess setVersionMajorNumber(Integer versionMajorNumber) {
+        this.versionMajorNumber = versionMajorNumber;
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.UNIT_PROCESS.VERSION_MINOR_NUMBER</code>.
+     */
+    public Integer getVersionMinorNumber() {
+        return this.versionMinorNumber;
+    }
+
+    /**
+     * Setter for <code>scale_advisor.UNIT_PROCESS.VERSION_MINOR_NUMBER</code>.
+     */
+    public UnitProcess setVersionMinorNumber(Integer versionMinorNumber) {
+        this.versionMinorNumber = versionMinorNumber;
         return this;
     }
 
@@ -155,6 +212,24 @@ public class UnitProcess implements Serializable {
         }
         else if (!this.unitProcessId.equals(other.unitProcessId))
             return false;
+        if (this.projectId == null) {
+            if (other.projectId != null)
+                return false;
+        }
+        else if (!this.projectId.equals(other.projectId))
+            return false;
+        if (this.versionMajorNumber == null) {
+            if (other.versionMajorNumber != null)
+                return false;
+        }
+        else if (!this.versionMajorNumber.equals(other.versionMajorNumber))
+            return false;
+        if (this.versionMinorNumber == null) {
+            if (other.versionMinorNumber != null)
+                return false;
+        }
+        else if (!this.versionMinorNumber.equals(other.versionMinorNumber))
+            return false;
         if (this.unitProcessName == null) {
             if (other.unitProcessName != null)
                 return false;
@@ -193,6 +268,9 @@ public class UnitProcess implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.unitProcessId == null) ? 0 : this.unitProcessId.hashCode());
+        result = prime * result + ((this.projectId == null) ? 0 : this.projectId.hashCode());
+        result = prime * result + ((this.versionMajorNumber == null) ? 0 : this.versionMajorNumber.hashCode());
+        result = prime * result + ((this.versionMinorNumber == null) ? 0 : this.versionMinorNumber.hashCode());
         result = prime * result + ((this.unitProcessName == null) ? 0 : this.unitProcessName.hashCode());
         result = prime * result + ((this.functionType == null) ? 0 : this.functionType.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
@@ -206,6 +284,9 @@ public class UnitProcess implements Serializable {
         StringBuilder sb = new StringBuilder("UnitProcess (");
 
         sb.append(unitProcessId);
+        sb.append(", ").append(projectId);
+        sb.append(", ").append(versionMajorNumber);
+        sb.append(", ").append(versionMinorNumber);
         sb.append(", ").append(unitProcessName);
         sb.append(", ").append(functionType);
         sb.append(", ").append(createdAt);

@@ -35,10 +35,55 @@ public class UnitProcessRecord extends UpdatableRecordImpl<UnitProcessRecord> {
     }
 
     /**
+     * Setter for <code>scale_advisor.UNIT_PROCESS.PROJECT_ID</code>.
+     */
+    public UnitProcessRecord setProjectId(Long value) {
+        set(1, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.UNIT_PROCESS.PROJECT_ID</code>.
+     */
+    public Long getProjectId() {
+        return (Long) get(1);
+    }
+
+    /**
+     * Setter for <code>scale_advisor.UNIT_PROCESS.VERSION_MAJOR_NUMBER</code>.
+     */
+    public UnitProcessRecord setVersionMajorNumber(Integer value) {
+        set(2, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.UNIT_PROCESS.VERSION_MAJOR_NUMBER</code>.
+     */
+    public Integer getVersionMajorNumber() {
+        return (Integer) get(2);
+    }
+
+    /**
+     * Setter for <code>scale_advisor.UNIT_PROCESS.VERSION_MINOR_NUMBER</code>.
+     */
+    public UnitProcessRecord setVersionMinorNumber(Integer value) {
+        set(3, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>scale_advisor.UNIT_PROCESS.VERSION_MINOR_NUMBER</code>.
+     */
+    public Integer getVersionMinorNumber() {
+        return (Integer) get(3);
+    }
+
+    /**
      * Setter for <code>scale_advisor.UNIT_PROCESS.UNIT_PROCESS_NAME</code>.
      */
     public UnitProcessRecord setUnitProcessName(String value) {
-        set(1, value);
+        set(4, value);
         return this;
     }
 
@@ -46,14 +91,14 @@ public class UnitProcessRecord extends UpdatableRecordImpl<UnitProcessRecord> {
      * Getter for <code>scale_advisor.UNIT_PROCESS.UNIT_PROCESS_NAME</code>.
      */
     public String getUnitProcessName() {
-        return (String) get(1);
+        return (String) get(4);
     }
 
     /**
      * Setter for <code>scale_advisor.UNIT_PROCESS.FUNCTION_TYPE</code>.
      */
     public UnitProcessRecord setFunctionType(String value) {
-        set(2, value);
+        set(5, value);
         return this;
     }
 
@@ -61,14 +106,14 @@ public class UnitProcessRecord extends UpdatableRecordImpl<UnitProcessRecord> {
      * Getter for <code>scale_advisor.UNIT_PROCESS.FUNCTION_TYPE</code>.
      */
     public String getFunctionType() {
-        return (String) get(2);
+        return (String) get(5);
     }
 
     /**
      * Setter for <code>scale_advisor.UNIT_PROCESS.CREATED_AT</code>.
      */
     public UnitProcessRecord setCreatedAt(LocalDateTime value) {
-        set(3, value);
+        set(6, value);
         return this;
     }
 
@@ -76,14 +121,14 @@ public class UnitProcessRecord extends UpdatableRecordImpl<UnitProcessRecord> {
      * Getter for <code>scale_advisor.UNIT_PROCESS.CREATED_AT</code>.
      */
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(3);
+        return (LocalDateTime) get(6);
     }
 
     /**
      * Setter for <code>scale_advisor.UNIT_PROCESS.UPDATED_AT</code>.
      */
     public UnitProcessRecord setUpdatedAt(LocalDateTime value) {
-        set(4, value);
+        set(7, value);
         return this;
     }
 
@@ -91,14 +136,14 @@ public class UnitProcessRecord extends UpdatableRecordImpl<UnitProcessRecord> {
      * Getter for <code>scale_advisor.UNIT_PROCESS.UPDATED_AT</code>.
      */
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(4);
+        return (LocalDateTime) get(7);
     }
 
     /**
      * Setter for <code>scale_advisor.UNIT_PROCESS.IS_AMBIGUOUS</code>.
      */
     public UnitProcessRecord setIsAmbiguous(Byte value) {
-        set(5, value);
+        set(8, value);
         return this;
     }
 
@@ -106,7 +151,7 @@ public class UnitProcessRecord extends UpdatableRecordImpl<UnitProcessRecord> {
      * Getter for <code>scale_advisor.UNIT_PROCESS.IS_AMBIGUOUS</code>.
      */
     public Byte getIsAmbiguous() {
-        return (Byte) get(5);
+        return (Byte) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -132,10 +177,13 @@ public class UnitProcessRecord extends UpdatableRecordImpl<UnitProcessRecord> {
     /**
      * Create a detached, initialised UnitProcessRecord
      */
-    public UnitProcessRecord(Long unitProcessId, String unitProcessName, String functionType, LocalDateTime createdAt, LocalDateTime updatedAt, Byte isAmbiguous) {
+    public UnitProcessRecord(Long unitProcessId, Long projectId, Integer versionMajorNumber, Integer versionMinorNumber, String unitProcessName, String functionType, LocalDateTime createdAt, LocalDateTime updatedAt, Byte isAmbiguous) {
         super(UnitProcess.UNIT_PROCESS);
 
         setUnitProcessId(unitProcessId);
+        setProjectId(projectId);
+        setVersionMajorNumber(versionMajorNumber);
+        setVersionMinorNumber(versionMinorNumber);
         setUnitProcessName(unitProcessName);
         setFunctionType(functionType);
         setCreatedAt(createdAt);
@@ -152,6 +200,9 @@ public class UnitProcessRecord extends UpdatableRecordImpl<UnitProcessRecord> {
 
         if (value != null) {
             setUnitProcessId(value.getUnitProcessId());
+            setProjectId(value.getProjectId());
+            setVersionMajorNumber(value.getVersionMajorNumber());
+            setVersionMinorNumber(value.getVersionMinorNumber());
             setUnitProcessName(value.getUnitProcessName());
             setFunctionType(value.getFunctionType());
             setCreatedAt(value.getCreatedAt());

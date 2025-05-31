@@ -5,13 +5,19 @@ package org.jooq.generated.tables;
 
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.ForeignKey;
+import org.jooq.InverseForeignKey;
 import org.jooq.Name;
+import org.jooq.Path;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
+import org.jooq.Record;
 import org.jooq.SQL;
 import org.jooq.Schema;
 import org.jooq.Select;
@@ -22,6 +28,8 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
+import org.jooq.generated.tables.Project.ProjectPath;
+import org.jooq.generated.tables.Version.VersionPath;
 import org.jooq.generated.tables.records.UnitProcessRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -53,6 +61,21 @@ public class UnitProcess extends TableImpl<UnitProcessRecord> {
      * The column <code>scale_advisor.UNIT_PROCESS.UNIT_PROCESS_ID</code>.
      */
     public final TableField<UnitProcessRecord, Long> UNIT_PROCESS_ID = createField(DSL.name("UNIT_PROCESS_ID"), SQLDataType.BIGINT.nullable(false), this, "");
+
+    /**
+     * The column <code>scale_advisor.UNIT_PROCESS.PROJECT_ID</code>.
+     */
+    public final TableField<UnitProcessRecord, Long> PROJECT_ID = createField(DSL.name("PROJECT_ID"), SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>scale_advisor.UNIT_PROCESS.VERSION_MAJOR_NUMBER</code>.
+     */
+    public final TableField<UnitProcessRecord, Integer> VERSION_MAJOR_NUMBER = createField(DSL.name("VERSION_MAJOR_NUMBER"), SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>scale_advisor.UNIT_PROCESS.VERSION_MINOR_NUMBER</code>.
+     */
+    public final TableField<UnitProcessRecord, Integer> VERSION_MINOR_NUMBER = createField(DSL.name("VERSION_MINOR_NUMBER"), SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>scale_advisor.UNIT_PROCESS.UNIT_PROCESS_NAME</code>.
@@ -108,6 +131,39 @@ public class UnitProcess extends TableImpl<UnitProcessRecord> {
         this(DSL.name("UNIT_PROCESS"), null);
     }
 
+    public <O extends Record> UnitProcess(Table<O> path, ForeignKey<O, UnitProcessRecord> childPath, InverseForeignKey<O, UnitProcessRecord> parentPath) {
+        super(path, childPath, parentPath, UNIT_PROCESS);
+    }
+
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    public static class UnitProcessPath extends UnitProcess implements Path<UnitProcessRecord> {
+
+        private static final long serialVersionUID = 1L;
+        public <O extends Record> UnitProcessPath(Table<O> path, ForeignKey<O, UnitProcessRecord> childPath, InverseForeignKey<O, UnitProcessRecord> parentPath) {
+            super(path, childPath, parentPath);
+        }
+        private UnitProcessPath(Name alias, Table<UnitProcessRecord> aliased) {
+            super(alias, aliased);
+        }
+
+        @Override
+        public UnitProcessPath as(String alias) {
+            return new UnitProcessPath(DSL.name(alias), this);
+        }
+
+        @Override
+        public UnitProcessPath as(Name alias) {
+            return new UnitProcessPath(alias, this);
+        }
+
+        @Override
+        public UnitProcessPath as(Table<?> alias) {
+            return new UnitProcessPath(alias.getQualifiedName(), this);
+        }
+    }
+
     @Override
     public Schema getSchema() {
         return aliased() ? null : ScaleAdvisor.SCALE_ADVISOR;
@@ -116,6 +172,37 @@ public class UnitProcess extends TableImpl<UnitProcessRecord> {
     @Override
     public UniqueKey<UnitProcessRecord> getPrimaryKey() {
         return Keys.KEY_UNIT_PROCESS_PRIMARY;
+    }
+
+    @Override
+    public List<ForeignKey<UnitProcessRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.FK_UNIT_PROCESS_PROJECT_ID, Keys.FK_UNIT_PROCESS_VERSION);
+    }
+
+    private transient ProjectPath _project;
+
+    /**
+     * Get the implicit join path to the <code>scale_advisor.PROJECT</code>
+     * table.
+     */
+    public ProjectPath project() {
+        if (_project == null)
+            _project = new ProjectPath(this, Keys.FK_UNIT_PROCESS_PROJECT_ID, null);
+
+        return _project;
+    }
+
+    private transient VersionPath _version;
+
+    /**
+     * Get the implicit join path to the <code>scale_advisor.VERSION</code>
+     * table.
+     */
+    public VersionPath version() {
+        if (_version == null)
+            _version = new VersionPath(this, Keys.FK_UNIT_PROCESS_VERSION, null);
+
+        return _version;
     }
 
     @Override
