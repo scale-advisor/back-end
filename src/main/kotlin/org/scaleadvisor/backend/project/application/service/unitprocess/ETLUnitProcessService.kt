@@ -109,7 +109,7 @@ private class ETLUnitProcessService(
                 projectVersion.id,
                 requirementUnitProcessDTO.unitProcessName,
                 FunctionType.UNDEFINED,
-                true,
+                false,
             )
             unitProcessList.add(unitProcess)
 
