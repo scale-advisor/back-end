@@ -11,6 +11,7 @@ import org.scaleadvisor.backend.project.domain.id.RequirementId
 import org.scaleadvisor.backend.project.domain.id.UnitProcessId
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
+import java.util.concurrent.locks.LockSupport
 
 @Repository
 private class RequirementUnitProcessJooqAdapter(
@@ -31,6 +32,7 @@ private class RequirementUnitProcessJooqAdapter(
             REQUIREMENT_UNIT_PROCESS.UPDATED_AT,
         ).apply {
             requirementUnitProcessList.forEach { requirementUnitProcess ->
+                LockSupport.parkNanos(10_000)
                 values(
                     IdUtil.generateId(),
                     requirementUnitProcess.requirementId.toLong(),
