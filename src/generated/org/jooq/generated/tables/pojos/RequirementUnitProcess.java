@@ -16,6 +16,7 @@ public class RequirementUnitProcess implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Long requirementUnitProcessId;
     private Long requirementId;
     private Long unitProcessId;
     private LocalDateTime createdAt;
@@ -24,6 +25,7 @@ public class RequirementUnitProcess implements Serializable {
     public RequirementUnitProcess() {}
 
     public RequirementUnitProcess(RequirementUnitProcess value) {
+        this.requirementUnitProcessId = value.requirementUnitProcessId;
         this.requirementId = value.requirementId;
         this.unitProcessId = value.unitProcessId;
         this.createdAt = value.createdAt;
@@ -31,15 +33,34 @@ public class RequirementUnitProcess implements Serializable {
     }
 
     public RequirementUnitProcess(
+        Long requirementUnitProcessId,
         Long requirementId,
         Long unitProcessId,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
     ) {
+        this.requirementUnitProcessId = requirementUnitProcessId;
         this.requirementId = requirementId;
         this.unitProcessId = unitProcessId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    /**
+     * Getter for
+     * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.REQUIREMENT_UNIT_PROCESS_ID</code>.
+     */
+    public Long getRequirementUnitProcessId() {
+        return this.requirementUnitProcessId;
+    }
+
+    /**
+     * Setter for
+     * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.REQUIREMENT_UNIT_PROCESS_ID</code>.
+     */
+    public RequirementUnitProcess setRequirementUnitProcessId(Long requirementUnitProcessId) {
+        this.requirementUnitProcessId = requirementUnitProcessId;
+        return this;
     }
 
     /**
@@ -119,6 +140,12 @@ public class RequirementUnitProcess implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         final RequirementUnitProcess other = (RequirementUnitProcess) obj;
+        if (this.requirementUnitProcessId == null) {
+            if (other.requirementUnitProcessId != null)
+                return false;
+        }
+        else if (!this.requirementUnitProcessId.equals(other.requirementUnitProcessId))
+            return false;
         if (this.requirementId == null) {
             if (other.requirementId != null)
                 return false;
@@ -150,6 +177,7 @@ public class RequirementUnitProcess implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((this.requirementUnitProcessId == null) ? 0 : this.requirementUnitProcessId.hashCode());
         result = prime * result + ((this.requirementId == null) ? 0 : this.requirementId.hashCode());
         result = prime * result + ((this.unitProcessId == null) ? 0 : this.unitProcessId.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
@@ -161,7 +189,8 @@ public class RequirementUnitProcess implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("RequirementUnitProcess (");
 
-        sb.append(requirementId);
+        sb.append(requirementUnitProcessId);
+        sb.append(", ").append(requirementId);
         sb.append(", ").append(unitProcessId);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);

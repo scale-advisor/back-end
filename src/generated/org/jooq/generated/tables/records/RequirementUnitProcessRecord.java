@@ -6,7 +6,7 @@ package org.jooq.generated.tables.records;
 
 import java.time.LocalDateTime;
 
-import org.jooq.Record2;
+import org.jooq.Record1;
 import org.jooq.generated.tables.RequirementUnitProcess;
 import org.jooq.impl.UpdatableRecordImpl;
 
@@ -21,10 +21,27 @@ public class RequirementUnitProcessRecord extends UpdatableRecordImpl<Requiremen
 
     /**
      * Setter for
+     * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.REQUIREMENT_UNIT_PROCESS_ID</code>.
+     */
+    public RequirementUnitProcessRecord setRequirementUnitProcessId(Long value) {
+        set(0, value);
+        return this;
+    }
+
+    /**
+     * Getter for
+     * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.REQUIREMENT_UNIT_PROCESS_ID</code>.
+     */
+    public Long getRequirementUnitProcessId() {
+        return (Long) get(0);
+    }
+
+    /**
+     * Setter for
      * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID</code>.
      */
     public RequirementUnitProcessRecord setRequirementId(Long value) {
-        set(0, value);
+        set(1, value);
         return this;
     }
 
@@ -33,7 +50,7 @@ public class RequirementUnitProcessRecord extends UpdatableRecordImpl<Requiremen
      * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID</code>.
      */
     public Long getRequirementId() {
-        return (Long) get(0);
+        return (Long) get(1);
     }
 
     /**
@@ -41,7 +58,7 @@ public class RequirementUnitProcessRecord extends UpdatableRecordImpl<Requiremen
      * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID</code>.
      */
     public RequirementUnitProcessRecord setUnitProcessId(Long value) {
-        set(1, value);
+        set(2, value);
         return this;
     }
 
@@ -50,7 +67,7 @@ public class RequirementUnitProcessRecord extends UpdatableRecordImpl<Requiremen
      * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID</code>.
      */
     public Long getUnitProcessId() {
-        return (Long) get(1);
+        return (Long) get(2);
     }
 
     /**
@@ -58,7 +75,7 @@ public class RequirementUnitProcessRecord extends UpdatableRecordImpl<Requiremen
      * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.CREATED_AT</code>.
      */
     public RequirementUnitProcessRecord setCreatedAt(LocalDateTime value) {
-        set(2, value);
+        set(3, value);
         return this;
     }
 
@@ -67,7 +84,7 @@ public class RequirementUnitProcessRecord extends UpdatableRecordImpl<Requiremen
      * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.CREATED_AT</code>.
      */
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(2);
+        return (LocalDateTime) get(3);
     }
 
     /**
@@ -75,7 +92,7 @@ public class RequirementUnitProcessRecord extends UpdatableRecordImpl<Requiremen
      * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.UPDATED_AT</code>.
      */
     public RequirementUnitProcessRecord setUpdatedAt(LocalDateTime value) {
-        set(3, value);
+        set(4, value);
         return this;
     }
 
@@ -84,7 +101,7 @@ public class RequirementUnitProcessRecord extends UpdatableRecordImpl<Requiremen
      * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS.UPDATED_AT</code>.
      */
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(3);
+        return (LocalDateTime) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -92,8 +109,8 @@ public class RequirementUnitProcessRecord extends UpdatableRecordImpl<Requiremen
     // -------------------------------------------------------------------------
 
     @Override
-    public Record2<Long, Long> key() {
-        return (Record2) super.key();
+    public Record1<Long> key() {
+        return (Record1) super.key();
     }
 
     // -------------------------------------------------------------------------
@@ -110,9 +127,10 @@ public class RequirementUnitProcessRecord extends UpdatableRecordImpl<Requiremen
     /**
      * Create a detached, initialised RequirementUnitProcessRecord
      */
-    public RequirementUnitProcessRecord(Long requirementId, Long unitProcessId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public RequirementUnitProcessRecord(Long requirementUnitProcessId, Long requirementId, Long unitProcessId, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS);
 
+        setRequirementUnitProcessId(requirementUnitProcessId);
         setRequirementId(requirementId);
         setUnitProcessId(unitProcessId);
         setCreatedAt(createdAt);
@@ -127,6 +145,7 @@ public class RequirementUnitProcessRecord extends UpdatableRecordImpl<Requiremen
         super(RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS);
 
         if (value != null) {
+            setRequirementUnitProcessId(value.getRequirementUnitProcessId());
             setRequirementId(value.getRequirementId());
             setUnitProcessId(value.getUnitProcessId());
             setCreatedAt(value.getCreatedAt());

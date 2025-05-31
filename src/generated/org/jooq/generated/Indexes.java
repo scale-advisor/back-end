@@ -10,6 +10,7 @@ import org.jooq.generated.tables.QrtzBlobTriggers;
 import org.jooq.generated.tables.QrtzFiredTriggers;
 import org.jooq.generated.tables.QrtzJobDetails;
 import org.jooq.generated.tables.QrtzTriggers;
+import org.jooq.generated.tables.RequirementUnitProcess;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
 
@@ -24,6 +25,7 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
+    public static final Index REQUIREMENT_UNIT_PROCESS_FK_REQUIREMENT_UNIT_PROCESS_UNIT_PROCESS_ID = Internal.createIndex(DSL.name("FK_REQUIREMENT_UNIT_PROCESS_UNIT_PROCESS_ID"), RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS, new OrderField[] { RequirementUnitProcess.REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID }, false);
     public static final Index QRTZ_FIRED_TRIGGERS_IDX_QRTZ_FT_INST_JOB_REQ_RCVRY = Internal.createIndex(DSL.name("IDX_QRTZ_FT_INST_JOB_REQ_RCVRY"), QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS, new OrderField[] { QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS.SCHED_NAME, QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS.INSTANCE_NAME, QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS.REQUESTS_RECOVERY }, false);
     public static final Index QRTZ_FIRED_TRIGGERS_IDX_QRTZ_FT_J_G = Internal.createIndex(DSL.name("IDX_QRTZ_FT_J_G"), QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS, new OrderField[] { QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS.SCHED_NAME, QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS.JOB_NAME, QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS.JOB_GROUP }, false);
     public static final Index QRTZ_FIRED_TRIGGERS_IDX_QRTZ_FT_JG = Internal.createIndex(DSL.name("IDX_QRTZ_FT_JG"), QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS, new OrderField[] { QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS.SCHED_NAME, QrtzFiredTriggers.QRTZ_FIRED_TRIGGERS.JOB_GROUP }, false);

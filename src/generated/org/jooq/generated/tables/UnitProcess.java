@@ -9,13 +9,9 @@ import java.util.Collection;
 
 import org.jooq.Condition;
 import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.InverseForeignKey;
 import org.jooq.Name;
-import org.jooq.Path;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
-import org.jooq.Record;
 import org.jooq.SQL;
 import org.jooq.Schema;
 import org.jooq.Select;
@@ -26,8 +22,6 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.generated.Keys;
 import org.jooq.generated.ScaleAdvisor;
-import org.jooq.generated.tables.Requirement.RequirementPath;
-import org.jooq.generated.tables.RequirementUnitProcess.RequirementUnitProcessPath;
 import org.jooq.generated.tables.records.UnitProcessRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
@@ -114,39 +108,6 @@ public class UnitProcess extends TableImpl<UnitProcessRecord> {
         this(DSL.name("UNIT_PROCESS"), null);
     }
 
-    public <O extends Record> UnitProcess(Table<O> path, ForeignKey<O, UnitProcessRecord> childPath, InverseForeignKey<O, UnitProcessRecord> parentPath) {
-        super(path, childPath, parentPath, UNIT_PROCESS);
-    }
-
-    /**
-     * A subtype implementing {@link Path} for simplified path-based joins.
-     */
-    public static class UnitProcessPath extends UnitProcess implements Path<UnitProcessRecord> {
-
-        private static final long serialVersionUID = 1L;
-        public <O extends Record> UnitProcessPath(Table<O> path, ForeignKey<O, UnitProcessRecord> childPath, InverseForeignKey<O, UnitProcessRecord> parentPath) {
-            super(path, childPath, parentPath);
-        }
-        private UnitProcessPath(Name alias, Table<UnitProcessRecord> aliased) {
-            super(alias, aliased);
-        }
-
-        @Override
-        public UnitProcessPath as(String alias) {
-            return new UnitProcessPath(DSL.name(alias), this);
-        }
-
-        @Override
-        public UnitProcessPath as(Name alias) {
-            return new UnitProcessPath(alias, this);
-        }
-
-        @Override
-        public UnitProcessPath as(Table<?> alias) {
-            return new UnitProcessPath(alias.getQualifiedName(), this);
-        }
-    }
-
     @Override
     public Schema getSchema() {
         return aliased() ? null : ScaleAdvisor.SCALE_ADVISOR;
@@ -155,27 +116,6 @@ public class UnitProcess extends TableImpl<UnitProcessRecord> {
     @Override
     public UniqueKey<UnitProcessRecord> getPrimaryKey() {
         return Keys.KEY_UNIT_PROCESS_PRIMARY;
-    }
-
-    private transient RequirementUnitProcessPath _requirementUnitProcess;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>scale_advisor.REQUIREMENT_UNIT_PROCESS</code> table
-     */
-    public RequirementUnitProcessPath requirementUnitProcess() {
-        if (_requirementUnitProcess == null)
-            _requirementUnitProcess = new RequirementUnitProcessPath(this, null, Keys.FK_REQUIREMENT_UNIT_PROCESS_UNIT_PROCESS_ID.getInverseKey());
-
-        return _requirementUnitProcess;
-    }
-
-    /**
-     * Get the implicit many-to-many join path to the
-     * <code>scale_advisor.REQUIREMENT</code> table
-     */
-    public RequirementPath requirement() {
-        return requirementUnitProcess().requirement();
     }
 
     @Override
