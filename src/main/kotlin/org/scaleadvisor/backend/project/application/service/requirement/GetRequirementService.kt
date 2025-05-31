@@ -30,6 +30,10 @@ private class GetRequirementService(
         )
     }
 
+    override fun findAll(projectVersion: ProjectVersion): List<Requirement> {
+        return getRequirementPort.findAll(projectVersion)
+    }
+
     override fun findAll(
         projectVersion: ProjectVersion,
         requirementNumberPrefixList: List<String>

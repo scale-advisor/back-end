@@ -29,6 +29,13 @@ data class ProjectVersion private constructor(
             return of(projectId, maj.toInt(), min.toInt())
         }
 
+        fun of(projectId: Long, version: String): ProjectVersion {
+            return of(
+                ProjectId.from(projectId),
+                version
+            )
+        }
+
         fun from(id: ProjectVersionId) = ProjectVersion(id)
     }
 }

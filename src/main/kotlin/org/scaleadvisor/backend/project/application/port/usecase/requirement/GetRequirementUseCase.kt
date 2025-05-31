@@ -9,6 +9,8 @@ interface GetRequirementUseCase {
 
     fun findAllFunctionRequirement(projectVersion: ProjectVersion): List<Requirement>
 
+    fun findAll(projectVersion: ProjectVersion, ): List<Requirement>
+
     fun findAll(
         projectVersion: ProjectVersion,
         requirementNumberPrefixList: List<String>
