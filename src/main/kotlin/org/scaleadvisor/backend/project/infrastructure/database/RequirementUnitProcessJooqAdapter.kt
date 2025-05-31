@@ -2,6 +2,7 @@ package org.scaleadvisor.backend.project.infrastructure.database
 
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.REQUIREMENT_UNIT_PROCESS
+import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.project.application.port.repository.requirementunitprocess.CreateRequirementUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.repository.requirementunitprocess.DeleteRequirementUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.repository.requirementunitprocess.GetRequirementUnitProcessPort
@@ -23,6 +24,7 @@ private class RequirementUnitProcessJooqAdapter(
 
         val insertStep = dsl.insertInto(
             REQUIREMENT_UNIT_PROCESS,
+            REQUIREMENT_UNIT_PROCESS.REQUIREMENT_UNIT_PROCESS_ID,
             REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID,
             REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID,
             REQUIREMENT_UNIT_PROCESS.CREATED_AT,
@@ -30,6 +32,7 @@ private class RequirementUnitProcessJooqAdapter(
         ).apply {
             requirementUnitProcessList.forEach { requirementUnitProcess ->
                 values(
+                    IdUtil.generateId(),
                     requirementUnitProcess.requirementId.toLong(),
                     requirementUnitProcess.unitProcessId.toLong(),
                     now,

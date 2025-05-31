@@ -1,7 +1,8 @@
 package org.scaleadvisor.backend.project.infrastructure.database
 
+import ProjectVersionId
 import org.jooq.DSLContext
-import org.jooq.generated.Tables.*
+import org.jooq.generated.Tables.UNIT_PROCESS
 import org.jooq.generated.tables.records.UnitProcessRecord
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.CreateUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.DeleteUnitProcessPort
@@ -10,6 +11,7 @@ import org.scaleadvisor.backend.project.application.port.repository.unitprocess.
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.UnitProcess
 import org.scaleadvisor.backend.project.domain.enum.FunctionType
+import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.scaleadvisor.backend.project.domain.id.UnitProcessId
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
@@ -27,6 +29,11 @@ private class UnitProcessJooqAdapter(
     }
     private fun UnitProcessRecord.toDomain() = UnitProcess(
         id = UnitProcessId.from(this.unitProcessId),
+        projectVersionId = ProjectVersionId.of(
+            ProjectId.from(this.projectId),
+            this.versionMajorNumber,
+            this.versionMinorNumber,
+        ),
         name = this.unitProcessName,
         functionType = FunctionType.valueOf(this.functionType),
         isAmbiguous = toBoolean(isAmbiguous),
@@ -63,30 +70,20 @@ private class UnitProcessJooqAdapter(
     }
 
     override fun findAll(projectVersion: ProjectVersion): List<UnitProcess> {
-        return dsl.select(
-            UNIT_PROCESS.UNIT_PROCESS_ID,
-            UNIT_PROCESS.UNIT_PROCESS_NAME,
-            UNIT_PROCESS.FUNCTION_TYPE,
-            UNIT_PROCESS.IS_AMBIGUOUS,
-            UNIT_PROCESS.CREATED_AT,
-            UNIT_PROCESS.UPDATED_AT
-        ).distinctOn(UNIT_PROCESS.UNIT_PROCESS_ID)
-            .from(UNIT_PROCESS)
-            .join(REQUIREMENT_UNIT_PROCESS)
-            .on(UNIT_PROCESS.UNIT_PROCESS_ID.eq(REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID))
-            .join(REQUIREMENT)
-            .on(REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.eq(REQUIREMENT.REQUIREMENT_ID))
-
-            .where(REQUIREMENT.PROJECT_ID.eq(projectVersion.projectId.toLong()))
-            .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
-            .and(REQUIREMENT.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
-            .fetch{record -> record.into(UNIT_PROCESS).toDomain()}
+        return dsl.selectFrom(UNIT_PROCESS)
+            .where(UNIT_PROCESS.PROJECT_ID.eq(projectVersion.projectId.toLong()))
+            .and(UNIT_PROCESS.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+            .and(UNIT_PROCESS.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
+            .fetch {record -> record.into(UNIT_PROCESS).toDomain()}
     }
 
     override fun updateAll(unitProcessList: List<UnitProcess>) {
         dsl.batchUpdate(unitProcessList.map {
             dsl.newRecord(UNIT_PROCESS).apply {
                 unitProcessId = it.id.toLong()
+                projectId = it.projectVersionId.projectId.toLong()
+                versionMajorNumber = it.projectVersionId.major
+                versionMinorNumber = it.projectVersionId.minor
                 unitProcessName = it.name
                 functionType = it.functionType.name
                 isAmbiguous = toByte(it.isAmbiguous)

@@ -26,6 +26,7 @@ private class FPClassifierAdapter(
                 if (originalUnitProcess != null) {
                 UnitProcess(
                     id = originalUnitProcess.id,
+                    projectVersionId = originalUnitProcess.projectVersionId,
                     name = originalUnitProcess.name,
                     functionType = FunctionType.valueOf(response.functionType),
                     isAmbiguous = originalUnitProcess.isAmbiguous,
