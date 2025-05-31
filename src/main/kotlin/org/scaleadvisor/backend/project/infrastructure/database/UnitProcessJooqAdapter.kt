@@ -47,6 +47,9 @@ private class UnitProcessJooqAdapter(
             .insertInto(
                 UNIT_PROCESS,
                 UNIT_PROCESS.UNIT_PROCESS_ID,
+                UNIT_PROCESS.PROJECT_ID,
+                UNIT_PROCESS.VERSION_MAJOR_NUMBER,
+                UNIT_PROCESS.VERSION_MINOR_NUMBER,
                 UNIT_PROCESS.UNIT_PROCESS_NAME,
                 UNIT_PROCESS.FUNCTION_TYPE,
                 UNIT_PROCESS.IS_AMBIGUOUS,
@@ -57,6 +60,9 @@ private class UnitProcessJooqAdapter(
                 unitProcessList.forEach { unitProcess ->
                     values(
                         unitProcess.id.toLong(),
+                        unitProcess.projectVersionId.projectId.toLong(),
+                        unitProcess.projectVersionId.major,
+                        unitProcess.projectVersionId.minor,
                         unitProcess.name,
                         unitProcess.functionType.name,
                         toByte(unitProcess.isAmbiguous),
