@@ -24,6 +24,7 @@ enum class BaseErrorCode(
 
     // 403에러(Forbidden 오류)
     FORBIDDEN_EXCEPTION("F001", "허용하지 않는 접근."),
+    JWT_EXPIRED_EXCEPTION("F002", "인증 토큰이 만료됨."),
 
     // 404에러(Not Found 오류)
     NOT_FOUND_EXCEPTION("N001", "요청한 리소스 존재하지 않음."),

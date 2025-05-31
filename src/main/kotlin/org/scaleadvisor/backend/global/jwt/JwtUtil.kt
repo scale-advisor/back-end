@@ -3,8 +3,7 @@ package org.scaleadvisor.backend.global.jwt
 import io.jsonwebtoken.Jwts
 import jakarta.servlet.http.HttpServletRequest
 import lombok.extern.slf4j.Slf4j
-import org.scaleadvisor.backend.global.exception.constant.TokenMessageConstant
-import org.scaleadvisor.backend.global.exception.model.InvalidTokenException
+import org.scaleadvisor.backend.global.exception.model.JwtExpiredException
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
@@ -24,7 +23,7 @@ class JwtUtil(
             log?.info("Request 상의 accessToken: {}", accessToken)
             return accessToken
         } else {
-            throw InvalidTokenException(TokenMessageConstant.INVALID_TOKEN_MESSAGE)
+            throw JwtExpiredException("인증 토큰이 만료되었거나 잘못되었습니다.")
         }
     }
 
