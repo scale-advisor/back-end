@@ -3,6 +3,8 @@ spring:
     name: back-end
 
   mvc:
+    async:
+      request-timeout: 300000
     pathmatch:
       matching-strategy: ant_path_matcher
 
@@ -60,6 +62,8 @@ spring:
       file-size-threshold: 2MB  # 2 MB 넘으면 바로 디스크에 쓴다(메모리 절약, 선택)
 
 server:
+  tomcat:
+    connection-timeout: 300s
   servlet:
     context-path: ${CONTEXT_PATH:/server}
 
