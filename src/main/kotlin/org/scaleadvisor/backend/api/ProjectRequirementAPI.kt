@@ -4,8 +4,10 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.project.controller.request.requirement.CreateRequirementCategoryRequest
 import org.scaleadvisor.backend.project.controller.request.requirement.CreateRequirementRequest
+import org.scaleadvisor.backend.project.controller.response.requirement.GetAllRequirementResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -25,10 +27,29 @@ interface ProjectRequirementAPI {
     )
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(
-        @PathVariable("projectId") projectId: Long,
+    fun createAll(
+        @PathVariable projectId: Long,
         @RequestBody requirementList: List<CreateRequirementRequest>
     )
+
+
+    @Operation(
+        summary = "Project 요구사항 조회",
+        description = "Project 버전 별 요구사항 조회 API",
+        parameters  = [
+            Parameter(
+                name = "projectId",
+                required = true,
+                `in` = ParameterIn.PATH
+            )
+        ]
+    )
+    @GetMapping("")
+    @ResponseStatus(HttpStatus.OK)
+    fun findAll(
+        @PathVariable projectId: Long,
+        @RequestParam versionNumber: String,
+    ): SuccessResponse<GetAllRequirementResponse>
 
     @Operation(
         summary = "Project 요구사항 분류 등록",

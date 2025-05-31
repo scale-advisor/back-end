@@ -1,20 +1,25 @@
 package org.scaleadvisor.backend.project.controller
 
 import org.scaleadvisor.backend.api.ProjectRequirementAPI
+import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.project.application.port.usecase.requirement.CreateRequirementCategoryUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.requirement.CreateRequirementUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.requirement.GetRequirementUseCase
 import org.scaleadvisor.backend.project.controller.request.requirement.CreateRequirementCategoryRequest
 import org.scaleadvisor.backend.project.controller.request.requirement.CreateRequirementRequest
+import org.scaleadvisor.backend.project.controller.response.requirement.GetAllRequirementResponse
+import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 private class ProjectRequirementController(
     private val createRequirementUseCase: CreateRequirementUseCase,
+    private val getRequirementUseCase: GetRequirementUseCase,
     private val createRequirementCategoryUseCase: CreateRequirementCategoryUseCase,
 ) : ProjectRequirementAPI {
 
-    override fun create(
+    override fun createAll(
         projectId: Long,
         requirementList: List<CreateRequirementRequest>
     ) {
@@ -29,6 +34,17 @@ private class ProjectRequirementController(
                     type = it.requirementType,
                 )
             },
+        )
+    }
+
+    override fun findAll(
+        projectId: Long,
+        versionNumber: String
+    ): SuccessResponse<GetAllRequirementResponse> {
+        val projectVersion = ProjectVersion.of(projectId, versionNumber)
+        val requirementList = getRequirementUseCase.findAll(projectVersion)
+        return SuccessResponse.from(
+            GetAllRequirementResponse.from(requirementList)
         )
     }
 
