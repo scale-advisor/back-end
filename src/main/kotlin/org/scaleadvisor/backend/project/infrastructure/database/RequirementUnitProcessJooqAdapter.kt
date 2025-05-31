@@ -24,6 +24,7 @@ private class RequirementUnitProcessJooqAdapter(
 
         val insertStep = dsl.insertInto(
             REQUIREMENT_UNIT_PROCESS,
+            REQUIREMENT_UNIT_PROCESS.REQUIREMENT_UNIT_PROCESS_ID,
             REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID,
             REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID,
             REQUIREMENT_UNIT_PROCESS.CREATED_AT,
