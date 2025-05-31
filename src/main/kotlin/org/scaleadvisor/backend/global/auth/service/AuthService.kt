@@ -5,7 +5,6 @@ import org.scaleadvisor.backend.global.config.SecurityConfig
 import org.scaleadvisor.backend.global.exception.constant.UserMessageConstant
 import org.scaleadvisor.backend.global.jwt.JwtProvider
 import org.scaleadvisor.backend.global.oauth.kakao.component.KakaoCallbackService
-import org.scaleadvisor.backend.global.oauth.kakao.dto.KakaoCallbackRequest
 import org.scaleadvisor.backend.global.util.IdUtil
 import org.scaleadvisor.backend.user.domain.User
 import org.scaleadvisor.backend.global.auth.dto.LoginRequest
@@ -80,7 +79,10 @@ class AuthService(
             "refreshToken=$refreshToken; HttpOnly; Secure; SameSite=None; Domain=$cookieDomain; Path=/; Max-Age=$maxAgeSec"
         )
 
-        return LoginResponse(accessToken = accessToken)
+        return LoginResponse(
+            name = user.name,
+            email = user.email,
+            accessToken = accessToken)
     }
 
     fun kakaoLogin(code: String, response: HttpServletResponse
@@ -172,6 +174,9 @@ class AuthService(
             "refreshToken=$newRefresh; HttpOnly; Secure; SameSite=None; Domain=$cookieDomain; Path=/; Max-Age=$maxAgeSec"
         )
 
-        return LoginResponse(accessToken = newAccess)
+        return LoginResponse(
+            name = user.name,
+            email = user.email,
+            accessToken = newAccess)
     }
 }
