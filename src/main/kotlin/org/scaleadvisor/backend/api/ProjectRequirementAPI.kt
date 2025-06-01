@@ -65,7 +65,7 @@ interface ProjectRequirementAPI {
             )
         ]
     )
-    @GetMapping("")
+    @PutMapping("")
     @ResponseStatus(HttpStatus.OK)
     fun updateAll(
         @RequestBody requirementList: List<UpdateAllRequirementRequest>
@@ -82,7 +82,7 @@ interface ProjectRequirementAPI {
             )
         ]
     )
-    @GetMapping("")
+    @DeleteMapping("")
     @ResponseStatus(HttpStatus.OK)
     fun deleteAll(
         @RequestBody requirementIdList: List<String>
