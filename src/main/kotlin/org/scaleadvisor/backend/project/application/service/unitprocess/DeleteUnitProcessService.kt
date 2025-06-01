@@ -12,20 +12,23 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 private class DeleteUnitProcessService(
     private val deleteUnitProcessPort: DeleteUnitProcessPort,
-): DeleteUnitProcessUseCase {
+) : DeleteUnitProcessUseCase {
     override fun deleteAll(projectId: ProjectId) {
         deleteUnitProcessPort.deleteAll(projectId)
     }
 
+    override fun deleteAll(
+        projectId: ProjectId,
+        versionMajorNumber: Int
+    ) {
+        deleteUnitProcessPort.deleteAll(
+            projectId,
+            versionMajorNumber
+        )
+    }
+
     override fun deleteAll(projectVersion: ProjectVersion) {
-        if (projectVersion.minor == 0) {
-            deleteUnitProcessPort.deleteAll(
-                projectId = projectVersion.projectId,
-                versionMajorNumber = projectVersion.major
-            )
-        } else {
-            deleteUnitProcessPort.deleteAll(projectVersion)
-        }
+        deleteUnitProcessPort.deleteAll(projectVersion)
     }
 
     override fun deleteAll(unitProcessIdList: List<UnitProcessId>) {

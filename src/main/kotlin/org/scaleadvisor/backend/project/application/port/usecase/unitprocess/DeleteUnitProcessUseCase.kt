@@ -6,6 +6,7 @@ import org.scaleadvisor.backend.project.domain.id.UnitProcessId
 
 interface DeleteUnitProcessUseCase {
     fun deleteAll(projectId: ProjectId)
+    fun deleteAll(projectId: ProjectId, versionMajorNumber: Int)
     fun deleteAll(projectVersion: ProjectVersion)
     fun deleteAll(unitProcessIdList: List<UnitProcessId>)
 }

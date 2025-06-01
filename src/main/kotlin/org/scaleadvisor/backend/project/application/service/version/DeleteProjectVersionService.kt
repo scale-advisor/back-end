@@ -29,16 +29,24 @@ private class DeleteProjectVersionService(
     ) {
         val projectVersion = ProjectVersion.of(projectId, versionNumber)
 
-        deleteAdjustmentFactorUseCase.deleteAll(projectVersion)
-
-        deleteRequirementCategoryUseCase.deleteAll(projectVersion)
-        deleteRequirementUseCase.deleteAll(projectVersion)
-        deleteUnitProcessUseCase.deleteAll(projectVersion)
-
         if (projectVersion.minor == 0) {
+            deleteAdjustmentFactorUseCase.deleteAll(projectId, projectVersion.major)
+
+            deleteRequirementCategoryUseCase.deleteAll(projectId, projectVersion.major)
+
+            deleteRequirementUseCase.deleteAll(projectId, projectVersion.major)
+            deleteUnitProcessUseCase.deleteAll(projectId, projectVersion.major)
+
             deleteFileUseCase.delete(projectVersion)
             deleteProjectVersionPort.deleteAll(projectId, projectVersion.major)
         } else {
+            deleteAdjustmentFactorUseCase.deleteAll(projectVersion)
+
+            deleteRequirementCategoryUseCase.deleteAll(projectVersion)
+
+            deleteRequirementUseCase.deleteAll(projectVersion)
+            deleteUnitProcessUseCase.deleteAll(projectVersion)
+
             deleteProjectVersionPort.delete(projectVersion)
         }
     }

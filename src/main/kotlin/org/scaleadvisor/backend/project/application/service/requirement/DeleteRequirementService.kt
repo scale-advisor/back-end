@@ -17,15 +17,18 @@ private class DeleteRequirementService(
         deleteRequirementPort.deleteAll(projectId)
     }
 
+    override fun deleteAll(
+        projectId: ProjectId,
+        versionMajorNumber: Int
+    ) {
+        deleteRequirementPort.deleteAll(
+            projectId,
+            versionMajorNumber
+        )
+    }
+
     override fun deleteAll(projectVersion: ProjectVersion) {
-        if (projectVersion.minor == 0) {
-            deleteRequirementPort.deleteAll(
-                projectId = projectVersion.projectId,
-                versionMajorNumber = projectVersion.major
-            )
-        } else {
-            deleteRequirementPort.deleteAll(projectVersion)
-        }
+        deleteRequirementPort.deleteAll(projectVersion)
     }
 
     override fun deleteAll(requirementIdList: List<RequirementId>) {
