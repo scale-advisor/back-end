@@ -1,9 +1,17 @@
 package org.scaleadvisor.backend.global.job.service
 
 import org.scaleadvisor.backend.global.job.AnalysisJob
+import org.scaleadvisor.backend.global.job.AnalysisStage
 import org.scaleadvisor.backend.global.job.JobStatus
-import org.scaleadvisor.backend.project.application.port.usecase.project.AnalyzeProjectUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.AnalyzeAdjustmentFactorLevelUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.CreateAdjustmentFactorUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.ClassifyUnitProcessUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.ETLUnitProcessUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.UpdateUnitProcessUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.ValidateUnitProcessUseCase
+import org.scaleadvisor.backend.project.domain.AdjustmentFactor
 import org.scaleadvisor.backend.project.domain.ProjectVersion
+import org.scaleadvisor.backend.project.domain.UnitProcess
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.core.task.TaskExecutor
 import org.springframework.data.redis.core.RedisTemplate
@@ -13,7 +21,13 @@ import java.util.*
 
 @Service
 class ProjectAnalysisJobService(
-    private val analyzeProjectUseCase: AnalyzeProjectUseCase,
+    private val etlUnitProcess: ETLUnitProcessUseCase,
+    private val validateUnitProcess: ValidateUnitProcessUseCase,
+    private val classifyUnitProcess: ClassifyUnitProcessUseCase,
+    private val updateUnitProcessUseCase: UpdateUnitProcessUseCase,
+    private val analyzeAdjustmentFactorLevel: AnalyzeAdjustmentFactorLevelUseCase,
+    private val createAdjustmentFactorUseCase: CreateAdjustmentFactorUseCase,
+
     private val redisTemplate: RedisTemplate<String, AnalysisJob>,
     @Qualifier("analysisJobExecutor") private val executor: TaskExecutor
 ) {
@@ -25,12 +39,10 @@ class ProjectAnalysisJobService(
     fun enqueue(projectVersion: ProjectVersion): String {
         val jobId = UUID.randomUUID().toString()
         val job = AnalysisJob(jobId, projectVersion)
-
         val redisKey = JOB_KEY_PREFIX + jobId
+
         redisTemplate.opsForValue().set(redisKey, job, JOB_TTL)
-
         executor.execute { run(job) }
-
         return jobId
     }
 
@@ -47,16 +59,53 @@ class ProjectAnalysisJobService(
         saveJob(redisKey, job)
 
         try {
-            val result = analyzeProjectUseCase(job.projectVersion)
-            job.result = result
-            job.status = JobStatus.SUCCESS
-            job.completedAt = System.currentTimeMillis()
-            saveJob(redisKey, job)
+            if (job.stage == AnalysisStage.ETL_UNIT_PROCESS) {
+                etlUnitProcess.invoke(job.projectVersion)
+                job.stage = AnalysisStage.VALIDATE_UNIT_PROCESS
+                saveJob(redisKey, job)
+            }
+
+            if (job.stage == AnalysisStage.VALIDATE_UNIT_PROCESS) {
+                validateUnitProcess.invoke(job.projectVersion)
+                job.stage = AnalysisStage.CLASSIFY_FUNCTION
+                saveJob(redisKey, job)
+            }
+
+            if (job.stage == AnalysisStage.CLASSIFY_FUNCTION) {
+                val unitProcessList: List<UnitProcess> = classifyUnitProcess.invoke(job.projectVersion)
+                updateUnitProcessUseCase.updateAll(unitProcessList)
+                job.stage = AnalysisStage.COMPUTE_ADJUSTMENT
+                saveJob(redisKey, job)
+            }
+
+            if (job.stage == AnalysisStage.COMPUTE_ADJUSTMENT) {
+                val adjustmentFactorList: List<AdjustmentFactor> =
+                    analyzeAdjustmentFactorLevel.invoke(job.projectVersion)
+                createAdjustmentFactorUseCase.createAll(adjustmentFactorList)
+
+                job.stage = AnalysisStage.DONE
+                job.status = JobStatus.SUCCESS
+                job.completedAt = System.currentTimeMillis()
+                saveJob(redisKey, job)
+                return
+            }
+
+            if (job.stage == AnalysisStage.DONE) {
+                job.status = JobStatus.SUCCESS
+                job.completedAt = System.currentTimeMillis()
+                saveJob(redisKey, job)
+            }
         } catch (ex: Exception) {
             job.status = JobStatus.FAILED
             job.errorMessage = ex.message
             job.completedAt = System.currentTimeMillis()
             saveJob(redisKey, job)
+
+            if (job.retryCount < job.maxRetries) {
+                job.retryCount += 1
+                saveJob(redisKey, job)
+                executor.execute { run(job) }
+            }
         }
     }
 

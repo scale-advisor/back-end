@@ -5,7 +5,10 @@ import java.io.Serializable
 
 data class AnalysisJob(
     val jobId: String,
-    val projectVersion: ProjectVersion
+    val projectVersion: ProjectVersion,
+    var retryCount: Int = 0,
+    val maxRetries: Int = 5,
+    var stage: AnalysisStage = AnalysisStage.ETL_UNIT_PROCESS
 ) : Serializable {
     var status: JobStatus = JobStatus.QUEUED
     var startedAt: Long? = null
@@ -15,3 +18,11 @@ data class AnalysisJob(
 }
 
 enum class JobStatus { QUEUED, RUNNING, SUCCESS, FAILED }
+
+enum class AnalysisStage {
+    ETL_UNIT_PROCESS,
+    VALIDATE_UNIT_PROCESS,
+    CLASSIFY_FUNCTION,
+    COMPUTE_ADJUSTMENT,
+    DONE
+}
