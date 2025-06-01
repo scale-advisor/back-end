@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.global.job.dto
+package org.scaleadvisor.backend.project.controller.response.projectanalysis
 
 import org.scaleadvisor.backend.global.job.JobStatus
 
