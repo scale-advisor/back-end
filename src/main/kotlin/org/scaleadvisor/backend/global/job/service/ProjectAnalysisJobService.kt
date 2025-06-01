@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.core.task.TaskExecutor
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
+import java.time.Duration
 import java.util.*
 
 @Service
@@ -17,62 +18,50 @@ class ProjectAnalysisJobService(
     @Qualifier("analysisJobExecutor") private val executor: TaskExecutor
 ) {
     companion object {
-        private const val REDIS_JOB_HASH = "project:analysis:jobs"
+        private const val JOB_KEY_PREFIX = "project:analysis:job:"
+        private val JOB_TTL: Duration = Duration.ofMinutes(10)
     }
 
     fun enqueue(projectVersion: ProjectVersion): String {
         val jobId = UUID.randomUUID().toString()
         val job = AnalysisJob(jobId, projectVersion)
 
-        redisTemplate.opsForHash<String, AnalysisJob>().put(REDIS_JOB_HASH, jobId, job)
+        val redisKey = JOB_KEY_PREFIX + jobId
+        redisTemplate.opsForValue().set(redisKey, job, JOB_TTL)
+
         executor.execute { run(job) }
 
         return jobId
     }
 
     fun get(jobId: String): AnalysisJob? {
-        val job = redisTemplate.opsForHash<String, AnalysisJob>()
-            .get(REDIS_JOB_HASH, jobId)
-
-        if (job != null) {
-            if (job.status == JobStatus.SUCCESS || job.status == JobStatus.FAILED) {
-                redisTemplate.opsForHash<String, AnalysisJob>()
-                    .delete(REDIS_JOB_HASH, jobId)
-                return job
-            }
-        }
-
-        return job
+        val redisKey = JOB_KEY_PREFIX + jobId
+        return redisTemplate.opsForValue().get(redisKey)
     }
 
     private fun run(job: AnalysisJob) {
-        // ① 실행 직전 상태 저장
+        val redisKey = JOB_KEY_PREFIX + job.jobId
+
         job.status = JobStatus.RUNNING
         job.startedAt = System.currentTimeMillis()
-        saveJob(job)
+        saveJob(redisKey, job)
 
         try {
-            // 실제 분석 로직 수행
             val result = analyzeProjectUseCase(job.projectVersion)
-
-            // ② 성공 시 상태 업데이트
             job.result = result
             job.status = JobStatus.SUCCESS
             job.completedAt = System.currentTimeMillis()
-            saveJob(job)
+            saveJob(redisKey, job)
         } catch (ex: Exception) {
-            // ③ 실패 시 상태 업데이트
             job.status = JobStatus.FAILED
             job.errorMessage = ex.message
             job.completedAt = System.currentTimeMillis()
-            saveJob(job)
+            saveJob(redisKey, job)
         }
     }
 
-    /** Redis에 job 객체를 저장(업데이트) */
-    private fun saveJob(job: AnalysisJob) {
-        redisTemplate.opsForHash<String, AnalysisJob>()
-            .put(REDIS_JOB_HASH, job.jobId, job)
+    private fun saveJob(redisKey: String, job: AnalysisJob) {
+        redisTemplate.opsForValue().set(redisKey, job, JOB_TTL)
     }
 }
 
