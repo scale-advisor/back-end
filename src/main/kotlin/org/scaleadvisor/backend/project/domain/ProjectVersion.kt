@@ -14,7 +14,7 @@ data class ProjectVersion private constructor(
     val versionNumber: String get() = "${id.major}.${id.minor}"
 
     fun nextMajor() = of(projectId, major + 1, 0)
-    fun nextMinor() = of(projectId, major,     minor + 1)
+    fun nextMinor(latestMinorNumber: Int) = of(projectId, major,     latestMinorNumber + 1)
 
     companion object {
         fun init(projectId: ProjectId)        = of(projectId, 1, 0)

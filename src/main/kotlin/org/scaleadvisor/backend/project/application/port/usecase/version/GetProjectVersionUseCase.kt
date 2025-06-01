@@ -7,6 +7,8 @@ interface GetProjectVersionUseCase {
 
     fun findLatest(projectId: ProjectId): ProjectVersion?
 
+    fun findLatestMinor(projectVersion: ProjectVersion): Int
+
     fun findAll(projectId: ProjectId): List<ProjectVersion>
 
 }

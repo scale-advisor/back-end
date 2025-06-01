@@ -15,6 +15,10 @@ import java.util.concurrent.locks.LockSupport
 private class CreateRequirementService(
     private val createRequirementPort: CreateRequirementPort,
 ) : CreateRequirementUseCase {
+    override fun createAll(requirementList: List<Requirement>) {
+        createRequirementPort.createAll(requirementList)
+    }
+
     override fun createAll(
         projectVersion: ProjectVersion,
         requirementDTOList: List<RequirementDTO>

@@ -7,6 +7,8 @@ interface GetProjectVersionPort {
 
     fun findOrderByVersionNumberDesc(projectId: ProjectId): ProjectVersion?
 
+    fun findOrderByVersionNumberDesc(projectId: ProjectId, versionMajorNumber: Int): ProjectVersion?
+
     fun findAll(projectId: ProjectId): List<ProjectVersion>
 
 }
