@@ -1,9 +1,8 @@
 package org.scaleadvisor.backend.project.controller
 
 import org.scaleadvisor.backend.api.ProjectAnalysisAPI
-import org.scaleadvisor.backend.global.job.JobStatus
+import org.scaleadvisor.backend.project.infrastructure.job.JobStatus
 import org.scaleadvisor.backend.project.controller.response.projectanalysis.AnalysisJobStatusResponse
-import org.scaleadvisor.backend.global.job.service.ProjectAnalysisJobService
 import org.scaleadvisor.backend.project.application.port.usecase.GetJobUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.AnalyzeProjectUseCase
 import org.scaleadvisor.backend.project.controller.response.projectanalysis.JobIdResponse

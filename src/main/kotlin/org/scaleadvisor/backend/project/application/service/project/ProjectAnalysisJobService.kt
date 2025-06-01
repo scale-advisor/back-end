@@ -1,8 +1,8 @@
-package org.scaleadvisor.backend.global.job.service
+package org.scaleadvisor.backend.project.application.service.project
 
-import org.scaleadvisor.backend.global.job.AnalysisJob
-import org.scaleadvisor.backend.global.job.AnalysisStage
-import org.scaleadvisor.backend.global.job.JobStatus
+import org.scaleadvisor.backend.project.infrastructure.job.AnalysisJob
+import org.scaleadvisor.backend.project.infrastructure.job.AnalysisStage
+import org.scaleadvisor.backend.project.infrastructure.job.JobStatus
 import org.scaleadvisor.backend.project.application.port.usecase.GetJobUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.AnalyzeAdjustmentFactorLevelUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.CreateAdjustmentFactorUseCase
