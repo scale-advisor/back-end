@@ -11,22 +11,24 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 private class DeleteAdjustmentFactorService(
     private val deleteAdjustmentFactorPort: DeleteAdjustmentFactorPort,
-): DeleteAdjustmentFactorUseCase {
+) : DeleteAdjustmentFactorUseCase {
 
     override fun deleteAll(projectId: ProjectId) {
         deleteAdjustmentFactorPort.deleteAll(projectId)
     }
 
-    override fun deleteAll(projectVersion: ProjectVersion) {
-        if (projectVersion.minor == 0) {
-            deleteAdjustmentFactorPort.deleteAll(
-                projectId = projectVersion.projectId,
-                versionMajorNumber = projectVersion.major
-            )
-        } else {
-            deleteAdjustmentFactorPort.deleteAll(projectVersion)
-        }
+    override fun deleteAll(
+        projectId: ProjectId,
+        versionMajorNumber: Int
+    ) {
+        deleteAdjustmentFactorPort.deleteAll(
+            projectId,
+            versionMajorNumber
+        )
     }
 
+    override fun deleteAll(projectVersion: ProjectVersion) {
+        deleteAdjustmentFactorPort.deleteAll(projectVersion)
+    }
 
 }

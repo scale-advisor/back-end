@@ -11,22 +11,25 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 private class DeleteRequirementCategoryService(
     private val deleteRequirementCategoryPort: DeleteRequirementCategoryPort,
-): DeleteRequirementCategoryUseCase {
+) : DeleteRequirementCategoryUseCase {
 
     override fun deleteAll(projectId: ProjectId) {
         deleteRequirementCategoryPort.deleteAll(projectId)
 
     }
 
+    override fun deleteAll(
+        projectId: ProjectId,
+        versionMajorNumber: Int
+    ) {
+        deleteRequirementCategoryPort.deleteAll(
+            projectId,
+            versionMajorNumber
+        )
+    }
+
     override fun deleteAll(projectVersion: ProjectVersion) {
-        if (projectVersion.minor == 0) {
-            deleteRequirementCategoryPort.deleteAll(
-                projectId = projectVersion.projectId,
-                versionMajorNumber = projectVersion.major
-            )
-        } else {
-            deleteRequirementCategoryPort.deleteAll(projectVersion)
-        }
+        deleteRequirementCategoryPort.deleteAll(projectVersion)
     }
 
 }

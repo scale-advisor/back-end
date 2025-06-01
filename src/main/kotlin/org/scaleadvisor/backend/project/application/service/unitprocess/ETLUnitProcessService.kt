@@ -4,6 +4,7 @@ import org.scaleadvisor.backend.project.application.port.repository.unitprocess.
 import org.scaleadvisor.backend.project.application.port.usecase.requirement.GetRequirementUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.requirementunitprocess.CreateRequirementUnitProcessUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.CreateUnitProcessUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.DeleteUnitProcessUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.ETLUnitProcessUseCase
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.Requirement
@@ -28,6 +29,7 @@ private class ETLUnitProcessService(
     @Value("\${gemini.prompt.unit-process}")
     private val promptResource: Resource,
     private val getRequirementUseCase: GetRequirementUseCase,
+    private val deleteUnitProcessUseCase: DeleteUnitProcessUseCase,
     private val createUnitProcessUseCase: CreateUnitProcessUseCase,
     private val createRequirementUnitProcessUseCase: CreateRequirementUnitProcessUseCase,
     private val extractUnitProcess: ExtractUnitProcessPort,
@@ -91,6 +93,8 @@ private class ETLUnitProcessService(
     }
 
     fun execute(projectVersion: ProjectVersion) {
+        deleteUnitProcessUseCase.deleteAll(projectVersion)
+
         val requirementList = getRequirementUseCase.findAllFunctionRequirement(projectVersion)
         val requirementRawList = buildRawLines(requirementList)
         val result = generateDecompositionsBatch(requirementRawList)

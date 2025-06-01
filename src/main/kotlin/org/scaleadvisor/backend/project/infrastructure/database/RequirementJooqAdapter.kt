@@ -3,6 +3,7 @@ package org.scaleadvisor.backend.project.infrastructure.database
 import ProjectVersionId
 import org.jooq.DSLContext
 import org.jooq.generated.Tables.REQUIREMENT
+import org.jooq.generated.Tables.REQUIREMENT_UNIT_PROCESS
 import org.jooq.generated.tables.records.RequirementRecord
 import org.jooq.impl.DSL
 import org.scaleadvisor.backend.project.application.port.repository.requirement.CreateRequirementPort
@@ -12,6 +13,7 @@ import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.Requirement
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.scaleadvisor.backend.project.domain.id.RequirementId
+import org.scaleadvisor.backend.project.domain.id.UnitProcessId
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
@@ -127,10 +129,95 @@ private class RequirementJooqAdapter(
             .fetch { record -> record.into(REQUIREMENT).getId() }
     }
 
+    override fun findAllId(unitProcessId: UnitProcessId): List<RequirementId> {
+        return dsl.select(REQUIREMENT.REQUIREMENT_ID)
+            .from(REQUIREMENT)
+            .join(REQUIREMENT_UNIT_PROCESS)
+            .on(REQUIREMENT.REQUIREMENT_ID.eq(REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID))
+            .where(REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID.eq(unitProcessId.toLong()))
+            .fetch { record -> record.into(REQUIREMENT).getId() }
+
+    }
+
+    override fun deleteAll(projectId: ProjectId) {
+        dsl.transaction { configuration ->
+            val ctx = DSL.using(configuration)
+
+            ctx.deleteFrom(REQUIREMENT_UNIT_PROCESS)
+                .where(REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.`in`(
+                    ctx.select(REQUIREMENT.REQUIREMENT_ID)
+                        .from(REQUIREMENT)
+                        .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
+                ))
+                .execute()
+
+            ctx.deleteFrom(REQUIREMENT)
+                .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
+                .execute()
+        }
+    }
+
+    override fun deleteAll(
+        projectId: ProjectId,
+        versionMajorNumber: Int
+    ) {
+        dsl.transaction { configuration ->
+            val ctx = DSL.using(configuration)
+
+            ctx.deleteFrom(REQUIREMENT_UNIT_PROCESS)
+                .where(REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.`in`(
+                    ctx.select(REQUIREMENT.REQUIREMENT_ID)
+                        .from(REQUIREMENT)
+                        .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
+                        .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(versionMajorNumber))
+                ))
+                .execute()
+
+            ctx.deleteFrom(REQUIREMENT)
+                .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
+                .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(versionMajorNumber))
+                .execute()
+        }
+    }
+
+    override fun deleteAll(projectVersion: ProjectVersion) {
+        dsl.transaction { configuration ->
+            val ctx = DSL.using(configuration)
+
+            ctx.deleteFrom(REQUIREMENT_UNIT_PROCESS)
+                .where(REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.`in`(
+                    ctx.select(REQUIREMENT.REQUIREMENT_ID)
+                        .from(REQUIREMENT)
+                        .where(REQUIREMENT.PROJECT_ID.eq(projectVersion.projectId.toLong()))
+                        .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+                        .and(REQUIREMENT.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
+                ))
+                .execute()
+
+            ctx.deleteFrom(REQUIREMENT)
+                .where(REQUIREMENT.PROJECT_ID.eq(projectVersion.projectId.toLong()))
+                .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+                .and(REQUIREMENT.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
+                .execute()
+        }
+    }
+
     override fun deleteAll(requirementIdList: List<RequirementId>) {
-        dsl.deleteFrom(REQUIREMENT)
-            .where(REQUIREMENT.REQUIREMENT_ID.`in`(requirementIdList.map { it.toLong() }))
-            .execute()
+        dsl.transaction { configuration ->
+            val ctx = DSL.using(configuration)
+
+            ctx.deleteFrom(REQUIREMENT_UNIT_PROCESS)
+                .where(REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.`in`(
+                    ctx.select(REQUIREMENT.REQUIREMENT_ID)
+                        .from(REQUIREMENT)
+                        .where(REQUIREMENT.REQUIREMENT_ID.`in`(requirementIdList.map { it.toLong() }))
+                ))
+                .execute()
+
+            ctx.deleteFrom(REQUIREMENT)
+                .where(REQUIREMENT.REQUIREMENT_ID.`in`(requirementIdList.map { it.toLong() }))
+                .execute()
+        }
     }
 
 }
