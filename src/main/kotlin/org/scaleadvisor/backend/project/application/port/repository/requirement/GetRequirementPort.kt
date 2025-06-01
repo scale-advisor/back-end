@@ -12,6 +12,8 @@ interface GetRequirementPort {
 
     fun findAll(projectVersion: ProjectVersion, requirementNumberPrefixList: List<String>): List<Requirement>
 
+    fun findAll(requirementIdList: List<RequirementId>): List<Requirement>
+
     fun findAllId(projectId: ProjectId): List<RequirementId>
 
     fun findAllId(

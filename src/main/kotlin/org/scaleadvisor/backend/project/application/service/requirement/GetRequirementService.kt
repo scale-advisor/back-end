@@ -45,6 +45,10 @@ private class GetRequirementService(
         )
     }
 
+    override fun findAll(requirementIdList: List<RequirementId>): List<Requirement> {
+        return  getRequirementPort.findAll(requirementIdList)
+    }
+
     override fun findAllId(projectId: ProjectId): List<RequirementId> {
         return getRequirementPort.findAllId(projectId)
     }

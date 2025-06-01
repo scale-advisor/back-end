@@ -9,6 +9,7 @@ import org.jooq.impl.DSL
 import org.scaleadvisor.backend.project.application.port.repository.requirement.CreateRequirementPort
 import org.scaleadvisor.backend.project.application.port.repository.requirement.DeleteRequirementPort
 import org.scaleadvisor.backend.project.application.port.repository.requirement.GetRequirementPort
+import org.scaleadvisor.backend.project.application.port.repository.requirement.UpdateRequirementPort
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.Requirement
 import org.scaleadvisor.backend.project.domain.id.ProjectId
@@ -20,7 +21,7 @@ import java.time.LocalDateTime
 @Repository
 private class RequirementJooqAdapter(
     private val dsl: DSLContext
-) : CreateRequirementPort, GetRequirementPort, DeleteRequirementPort {
+) : CreateRequirementPort, GetRequirementPort, UpdateRequirementPort, DeleteRequirementPort {
 
     private fun RequirementRecord.toDomain() = Requirement(
         id = RequirementId.from(this.requirementId),
@@ -105,10 +106,16 @@ private class RequirementJooqAdapter(
             .fetch { record -> record.into(REQUIREMENT).toDomain() }
     }
 
+    override fun findAll(requirementIdList: List<RequirementId>): List<Requirement> {
+        return dsl.selectFrom(REQUIREMENT)
+            .where(REQUIREMENT.REQUIREMENT_ID.`in`(requirementIdList.map { it.toLong() }))
+            .fetch { record -> record.into(REQUIREMENT).toDomain() }
+    }
+
     override fun findAllId(projectId: ProjectId): List<RequirementId> {
         return dsl.selectFrom(REQUIREMENT)
             .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
-            .fetch {record -> record.into(REQUIREMENT).getId()}
+            .fetch { record -> record.into(REQUIREMENT).getId() }
     }
 
     override fun findAllId(
@@ -118,7 +125,7 @@ private class RequirementJooqAdapter(
         return dsl.selectFrom(REQUIREMENT)
             .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
             .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(versionMajorNumber))
-            .fetch {record -> record.into(REQUIREMENT).getId()}
+            .fetch { record -> record.into(REQUIREMENT).getId() }
     }
 
     override fun findAllId(projectVersion: ProjectVersion): List<RequirementId> {
@@ -139,16 +146,35 @@ private class RequirementJooqAdapter(
 
     }
 
+    override fun updateAll(requirementList: List<Requirement>) {
+        dsl.batchUpdate(requirementList.map {
+            dsl.newRecord(REQUIREMENT).apply {
+                requirementId = it.id.toLong()
+                projectId = it.projectVersionId.projectId.toLong()
+                versionMajorNumber = it.projectVersionId.major
+                versionMinorNumber = it.projectVersionId.minor
+                requirementNumber = it.number
+                requirementName = it.name
+                requirementDefinition = it.definition
+                requirementDetail = it.detail
+                requirementType = it.type
+                updatedAt = LocalDateTime.now()
+            }
+        })
+    }
+
     override fun deleteAll(projectId: ProjectId) {
         dsl.transaction { configuration ->
             val ctx = DSL.using(configuration)
 
             ctx.deleteFrom(REQUIREMENT_UNIT_PROCESS)
-                .where(REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.`in`(
-                    ctx.select(REQUIREMENT.REQUIREMENT_ID)
-                        .from(REQUIREMENT)
-                        .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
-                ))
+                .where(
+                    REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.`in`(
+                        ctx.select(REQUIREMENT.REQUIREMENT_ID)
+                            .from(REQUIREMENT)
+                            .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
+                    )
+                )
                 .execute()
 
             ctx.deleteFrom(REQUIREMENT)
@@ -165,12 +191,14 @@ private class RequirementJooqAdapter(
             val ctx = DSL.using(configuration)
 
             ctx.deleteFrom(REQUIREMENT_UNIT_PROCESS)
-                .where(REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.`in`(
-                    ctx.select(REQUIREMENT.REQUIREMENT_ID)
-                        .from(REQUIREMENT)
-                        .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
-                        .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(versionMajorNumber))
-                ))
+                .where(
+                    REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.`in`(
+                        ctx.select(REQUIREMENT.REQUIREMENT_ID)
+                            .from(REQUIREMENT)
+                            .where(REQUIREMENT.PROJECT_ID.eq(projectId.toLong()))
+                            .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(versionMajorNumber))
+                    )
+                )
                 .execute()
 
             ctx.deleteFrom(REQUIREMENT)
@@ -185,13 +213,15 @@ private class RequirementJooqAdapter(
             val ctx = DSL.using(configuration)
 
             ctx.deleteFrom(REQUIREMENT_UNIT_PROCESS)
-                .where(REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.`in`(
-                    ctx.select(REQUIREMENT.REQUIREMENT_ID)
-                        .from(REQUIREMENT)
-                        .where(REQUIREMENT.PROJECT_ID.eq(projectVersion.projectId.toLong()))
-                        .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
-                        .and(REQUIREMENT.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
-                ))
+                .where(
+                    REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.`in`(
+                        ctx.select(REQUIREMENT.REQUIREMENT_ID)
+                            .from(REQUIREMENT)
+                            .where(REQUIREMENT.PROJECT_ID.eq(projectVersion.projectId.toLong()))
+                            .and(REQUIREMENT.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+                            .and(REQUIREMENT.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
+                    )
+                )
                 .execute()
 
             ctx.deleteFrom(REQUIREMENT)
@@ -207,11 +237,13 @@ private class RequirementJooqAdapter(
             val ctx = DSL.using(configuration)
 
             ctx.deleteFrom(REQUIREMENT_UNIT_PROCESS)
-                .where(REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.`in`(
-                    ctx.select(REQUIREMENT.REQUIREMENT_ID)
-                        .from(REQUIREMENT)
-                        .where(REQUIREMENT.REQUIREMENT_ID.`in`(requirementIdList.map { it.toLong() }))
-                ))
+                .where(
+                    REQUIREMENT_UNIT_PROCESS.REQUIREMENT_ID.`in`(
+                        ctx.select(REQUIREMENT.REQUIREMENT_ID)
+                            .from(REQUIREMENT)
+                            .where(REQUIREMENT.REQUIREMENT_ID.`in`(requirementIdList.map { it.toLong() }))
+                    )
+                )
                 .execute()
 
             ctx.deleteFrom(REQUIREMENT)
