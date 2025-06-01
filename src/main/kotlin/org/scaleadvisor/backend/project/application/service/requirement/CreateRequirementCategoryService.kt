@@ -26,7 +26,6 @@ private class CreateRequirementCategoryService(
             ?: throw NotFoundException("Project version not found")
 
         val requirementCategoryList = requirementCategoryDTOList.map { requirementCategoryDTO ->
-            LockSupport.parkNanos(10_000)
             RequirementCategory(
                 id = RequirementCategoryId.newId(),
                 projectVersionId = projectVersion.id,
