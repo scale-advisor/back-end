@@ -1,6 +1,7 @@
 package org.scaleadvisor.backend.project.controller.request.requirement
 
-data class CreateRequirementRequest (
+data class UpdateAllRequirementRequest (
+    val requirementId: String,
     val requirementNumber: String,
     val requirementName: String,
     val requirementDefinition: String,
