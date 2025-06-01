@@ -1,10 +1,11 @@
 package org.scaleadvisor.backend.project.application.port.usecase.requirement
 
-import org.scaleadvisor.backend.project.domain.ProjectVersion
+import org.scaleadvisor.backend.project.domain.id.RequirementId
 
-fun interface CreateRequirementUseCase {
+fun interface UpdateRequirementUseCase {
 
     data class RequirementDTO(
+        val id: RequirementId,
         val number: String,
         val name: String,
         val definition: String,
@@ -12,9 +13,6 @@ fun interface CreateRequirementUseCase {
         val type: String,
     )
 
-    fun createAll(
-        projectVersion: ProjectVersion,
-        requirementDTOList: List<RequirementDTO>
-    )
+    fun updateAll(requirementDTOList: List<RequirementDTO>)
 
 }
