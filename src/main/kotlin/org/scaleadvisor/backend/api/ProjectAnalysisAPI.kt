@@ -11,13 +11,13 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @Tag(name = "Project Analysis", description = "프로젝트 분석 API")
-@RequestMapping("projects/{projectId}/analysis", produces = ["application/json;charset=utf-8"])
+@RequestMapping("projects/{projectId}", produces = ["application/json;charset=utf-8"])
 interface ProjectAnalysisAPI {
 
     @Operation(
         summary = "Project 분석",
         description = "프로젝트 분석 API",
-        parameters  = [
+        parameters = [
             Parameter(
                 name = "projectId",
                 required = true,
@@ -25,7 +25,7 @@ interface ProjectAnalysisAPI {
             )
         ]
     )
-    @PostMapping("")
+    @PostMapping("/analysis")
     @ResponseStatus(HttpStatus.OK)
     fun analyze(
         @PathVariable projectId: Long,
@@ -36,9 +36,18 @@ interface ProjectAnalysisAPI {
         summary = "Job 상태 조회",
         description = "프로젝트 분석 Job 상태 조회 API"
     )
-    @GetMapping("jobs/{jobId}")
+    @GetMapping("/analysis/jobs/{jobId}")
     fun getJobStatus(
         @PathVariable projectId: Long,
         @PathVariable jobId: String
     ): ResponseEntity<AnalysisJobStatusResponse>
+
+
+    @Operation(summary = "Project 기능 유형 재분류", description = "프로젝트 FP 재분류 API")
+    @PostMapping("/reclassify")
+    @ResponseStatus(HttpStatus.OK)
+    fun reClassify(
+        @PathVariable projectId: Long,
+        @RequestParam versionNumber: String,
+    ): JobIdResponse
 }
