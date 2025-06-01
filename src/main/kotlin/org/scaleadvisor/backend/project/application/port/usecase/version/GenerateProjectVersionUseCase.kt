@@ -5,5 +5,5 @@ import org.scaleadvisor.backend.project.domain.id.ProjectId
 
 interface GenerateProjectVersionUseCase {
     fun generateNextMajorVersion(projectId: ProjectId): ProjectVersion
-    fun generateNextMinorVersion(projectId: ProjectId): ProjectVersion
+    fun generateNextMinorVersion(projectVersion: ProjectVersion): ProjectVersion
 }

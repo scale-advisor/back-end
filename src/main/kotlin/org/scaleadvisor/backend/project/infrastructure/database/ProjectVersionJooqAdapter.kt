@@ -15,7 +15,6 @@ import java.time.LocalDateTime
 private class ProjectVersionJooqAdapter(
     private val dsl: DSLContext
 ) : CreateProjectVersionPort, GetProjectVersionPort, DeleteProjectVersionPort {
-
     private fun VersionRecord.toDomain() = ProjectVersion.of(
         projectId = ProjectId.from(this.projectId),
         major = this.versionMajorNumber,
@@ -36,6 +35,16 @@ private class ProjectVersionJooqAdapter(
         return dsl
             .selectFrom(VERSION)
             .where(VERSION.PROJECT_ID.eq(projectId.toLong()))
+            .orderBy(VERSION.VERSION_MAJOR_NUMBER.desc(), VERSION.VERSION_MINOR_NUMBER.desc())
+            .limit(1)
+            .fetchOne { record -> record.into(VERSION).toDomain() }
+    }
+
+    override fun findOrderByVersionNumberDesc(projectId: ProjectId, versionMajorNumber: Int): ProjectVersion? {
+        return dsl
+            .selectFrom(VERSION)
+            .where(VERSION.PROJECT_ID.eq(projectId.toLong()))
+            .and(VERSION.VERSION_MAJOR_NUMBER.eq(versionMajorNumber))
             .orderBy(VERSION.VERSION_MAJOR_NUMBER.desc(), VERSION.VERSION_MINOR_NUMBER.desc())
             .limit(1)
             .fetchOne { record -> record.into(VERSION).toDomain() }

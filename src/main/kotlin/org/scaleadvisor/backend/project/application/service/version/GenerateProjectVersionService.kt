@@ -1,6 +1,5 @@
 package org.scaleadvisor.backend.project.application.service.version
 
-import org.scaleadvisor.backend.global.exception.model.NotFoundException
 import org.scaleadvisor.backend.project.application.port.repository.version.CreateProjectVersionPort
 import org.scaleadvisor.backend.project.application.port.usecase.version.GenerateProjectVersionUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.version.GetProjectVersionUseCase
@@ -25,14 +24,14 @@ private class GenerateProjectVersionService(
         return projectVersion
     }
 
-    override fun generateNextMinorVersion(projectId: ProjectId): ProjectVersion {
-        val projectVersion: ProjectVersion =
-            getProjectVersionUseCase.findLatest(projectId)?.nextMinor()
-                ?: throw NotFoundException("Project version not found")
+    override fun generateNextMinorVersion(projectVersion: ProjectVersion): ProjectVersion {
 
-        createProjectVersionPort.create(projectVersion)
+        val latestMinorNumber = getProjectVersionUseCase.findLatestMinor(projectVersion)
+        val nextProjectVersion = projectVersion.nextMinor(latestMinorNumber)
 
-        return projectVersion
+        createProjectVersionPort.create(nextProjectVersion)
+
+        return nextProjectVersion
     }
 
 }
