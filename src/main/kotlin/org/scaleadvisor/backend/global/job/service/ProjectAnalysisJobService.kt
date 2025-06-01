@@ -3,8 +3,10 @@ package org.scaleadvisor.backend.global.job.service
 import org.scaleadvisor.backend.global.job.AnalysisJob
 import org.scaleadvisor.backend.global.job.AnalysisStage
 import org.scaleadvisor.backend.global.job.JobStatus
+import org.scaleadvisor.backend.project.application.port.usecase.GetJobUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.AnalyzeAdjustmentFactorLevelUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.CreateAdjustmentFactorUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.project.AnalyzeProjectUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.ClassifyUnitProcessUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.ETLUnitProcessUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.UpdateUnitProcessUseCase
@@ -30,13 +32,21 @@ class ProjectAnalysisJobService(
 
     private val redisTemplate: RedisTemplate<String, AnalysisJob>,
     @Qualifier("analysisJobExecutor") private val executor: TaskExecutor
-) {
+): AnalyzeProjectUseCase, GetJobUseCase {
     companion object {
         private const val JOB_KEY_PREFIX = "project:analysis:job:"
         private val JOB_TTL: Duration = Duration.ofMinutes(10)
     }
 
-    fun enqueue(projectVersion: ProjectVersion): String {
+    override operator fun invoke(projectVersion: ProjectVersion): String {
+        return enqueue(projectVersion)
+    }
+
+    override operator fun invoke(jobId: String): AnalysisJob? {
+        return get(jobId)
+    }
+
+    private fun enqueue(projectVersion: ProjectVersion): String {
         val jobId = UUID.randomUUID().toString()
         val job = AnalysisJob(jobId, projectVersion)
         val redisKey = JOB_KEY_PREFIX + jobId
@@ -46,7 +56,7 @@ class ProjectAnalysisJobService(
         return jobId
     }
 
-    fun get(jobId: String): AnalysisJob? {
+    private fun get(jobId: String): AnalysisJob? {
         val redisKey = JOB_KEY_PREFIX + jobId
         return redisTemplate.opsForValue().get(redisKey)
     }
