@@ -16,9 +16,9 @@ private class ProjectUnitProcessController(
         versionNumber: String
     ): SuccessResponse<GetAllUnitProcessResponse> {
         val projectVersion = ProjectVersion.of(projectId, versionNumber)
-        val unitProcessList = getUnitProcessUseCase.findAll(projectVersion)
+        val unitProcessList = getUnitProcessUseCase.findAllWithRequirementIdList(projectVersion)
         return SuccessResponse.from(
-            GetAllUnitProcessResponse.from(
+            GetAllUnitProcessResponse(
                 unitProcessList
             )
         )

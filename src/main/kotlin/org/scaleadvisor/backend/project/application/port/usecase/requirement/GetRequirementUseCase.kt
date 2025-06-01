@@ -4,6 +4,7 @@ import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.Requirement
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.scaleadvisor.backend.project.domain.id.RequirementId
+import org.scaleadvisor.backend.project.domain.id.UnitProcessId
 
 interface GetRequirementUseCase {
 
@@ -24,5 +25,7 @@ interface GetRequirementUseCase {
     ): List<RequirementId>
 
     fun findAllId(projectVersion: ProjectVersion): List<RequirementId>
+
+    fun findAllId(unitProcessId: UnitProcessId): List<RequirementId>
 
 }

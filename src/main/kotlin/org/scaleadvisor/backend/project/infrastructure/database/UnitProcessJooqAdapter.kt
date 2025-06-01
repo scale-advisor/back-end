@@ -2,8 +2,10 @@ package org.scaleadvisor.backend.project.infrastructure.database
 
 import ProjectVersionId
 import org.jooq.DSLContext
+import org.jooq.generated.Tables.REQUIREMENT_UNIT_PROCESS
 import org.jooq.generated.Tables.UNIT_PROCESS
 import org.jooq.generated.tables.records.UnitProcessRecord
+import org.jooq.impl.DSL
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.CreateUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.DeleteUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.GetUnitProcessPort
@@ -24,9 +26,11 @@ private class UnitProcessJooqAdapter(
     private fun toByte(isAmbiguous: Boolean): Byte {
         return if (isAmbiguous) 1 else 0
     }
+
     private fun toBoolean(isAmbiguous: Byte): Boolean {
         return isAmbiguous == 1.toByte()
     }
+
     private fun UnitProcessRecord.toDomain() = UnitProcess(
         id = UnitProcessId.from(this.unitProcessId),
         projectVersionId = ProjectVersionId.of(
@@ -39,8 +43,10 @@ private class UnitProcessJooqAdapter(
         isAmbiguous = toBoolean(isAmbiguous),
     )
 
+    private fun UnitProcessRecord.getId() = UnitProcessId.from(this.unitProcessId)
 
-    override fun createAll(unitProcessList: List<UnitProcess>){
+
+    override fun createAll(unitProcessList: List<UnitProcess>) {
         val now = LocalDateTime.now()
 
         val insertStep = dsl
@@ -80,7 +86,15 @@ private class UnitProcessJooqAdapter(
             .where(UNIT_PROCESS.PROJECT_ID.eq(projectVersion.projectId.toLong()))
             .and(UNIT_PROCESS.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
             .and(UNIT_PROCESS.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
-            .fetch {record -> record.into(UNIT_PROCESS).toDomain()}
+            .fetch { record -> record.into(UNIT_PROCESS).toDomain() }
+    }
+
+    override fun findAllId(projectVersion: ProjectVersion): List<UnitProcessId> {
+        return dsl.selectFrom(UNIT_PROCESS)
+            .where(UNIT_PROCESS.PROJECT_ID.eq(projectVersion.projectId.toLong()))
+            .and(UNIT_PROCESS.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+            .and(UNIT_PROCESS.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
+            .fetch { record -> record.into(UNIT_PROCESS).getId() }
     }
 
     override fun updateAll(unitProcessList: List<UnitProcess>) {
@@ -107,10 +121,85 @@ private class UnitProcessJooqAdapter(
         }).execute()
     }
 
+    override fun deleteAll(projectId: ProjectId) {
+        dsl.transaction { configuration ->
+            val ctx = DSL.using(configuration)
+
+            ctx.deleteFrom(REQUIREMENT_UNIT_PROCESS)
+                .where(REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID.`in`(
+                    ctx.select(UNIT_PROCESS.UNIT_PROCESS_ID)
+                        .from(UNIT_PROCESS)
+                        .where(UNIT_PROCESS.PROJECT_ID.eq(projectId.toLong()))
+                ))
+                .execute()
+
+            ctx.deleteFrom(UNIT_PROCESS)
+                .where(UNIT_PROCESS.PROJECT_ID.eq(projectId.toLong()))
+                .execute()
+        }
+    }
+
+    override fun deleteAll(
+        projectId: ProjectId,
+        versionMajorNumber: Int
+    ) {
+        dsl.transaction { configuration ->
+            val ctx = DSL.using(configuration)
+
+            ctx.deleteFrom(REQUIREMENT_UNIT_PROCESS)
+                .where(REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID.`in`(
+                    ctx.select(UNIT_PROCESS.UNIT_PROCESS_ID)
+                        .from(UNIT_PROCESS)
+                        .where(UNIT_PROCESS.PROJECT_ID.eq(projectId.toLong()))
+                        .and(UNIT_PROCESS.VERSION_MAJOR_NUMBER.eq(versionMajorNumber))
+                ))
+                .execute()
+
+            ctx.deleteFrom(UNIT_PROCESS)
+                .where(UNIT_PROCESS.PROJECT_ID.eq(projectId.toLong()))
+                .and(UNIT_PROCESS.VERSION_MAJOR_NUMBER.eq(versionMajorNumber))
+                .execute()
+        }
+    }
+
+    override fun deleteAll(projectVersion: ProjectVersion) {
+        dsl.transaction { configuration ->
+            val ctx = DSL.using(configuration)
+
+            ctx.deleteFrom(REQUIREMENT_UNIT_PROCESS)
+                .where(REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID.`in`(
+                    ctx.select(UNIT_PROCESS.UNIT_PROCESS_ID)
+                        .from(UNIT_PROCESS)
+                        .where(UNIT_PROCESS.PROJECT_ID.eq(projectVersion.projectId.toLong()))
+                        .and(UNIT_PROCESS.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+                        .and(UNIT_PROCESS.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
+                ))
+                .execute()
+
+            ctx.deleteFrom(UNIT_PROCESS)
+                .where(UNIT_PROCESS.PROJECT_ID.eq(projectVersion.projectId.toLong()))
+                .and(UNIT_PROCESS.VERSION_MAJOR_NUMBER.eq(projectVersion.major))
+                .and(UNIT_PROCESS.VERSION_MINOR_NUMBER.eq(projectVersion.minor))
+                .execute()
+        }
+    }
+
     override fun deleteAll(unitProcessIdList: List<UnitProcessId>) {
-        dsl.deleteFrom(UNIT_PROCESS)
-            .where(UNIT_PROCESS.UNIT_PROCESS_ID.`in`(unitProcessIdList.map { it.toLong() }))
-            .execute()
+        dsl.transaction { configuration ->
+            val ctx = DSL.using(configuration)
+
+            ctx.deleteFrom(REQUIREMENT_UNIT_PROCESS)
+                .where(REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID.`in`(
+                    ctx.select(UNIT_PROCESS.UNIT_PROCESS_ID)
+                        .from(UNIT_PROCESS)
+                        .where(UNIT_PROCESS.UNIT_PROCESS_ID.`in`(unitProcessIdList.map { it.toLong() }))
+                ))
+                .execute()
+
+            ctx.deleteFrom(UNIT_PROCESS)
+                .where(UNIT_PROCESS.UNIT_PROCESS_ID.`in`(unitProcessIdList.map { it.toLong() }))
+                .execute()
+        }
     }
 
 }

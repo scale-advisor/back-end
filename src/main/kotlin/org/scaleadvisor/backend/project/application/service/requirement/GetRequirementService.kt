@@ -9,6 +9,7 @@ import org.scaleadvisor.backend.project.domain.RequirementCategory
 import org.scaleadvisor.backend.project.domain.enum.RequirementCategoryName
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.scaleadvisor.backend.project.domain.id.RequirementId
+import org.scaleadvisor.backend.project.domain.id.UnitProcessId
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -60,6 +61,10 @@ private class GetRequirementService(
 
     override fun findAllId(projectVersion: ProjectVersion): List<RequirementId> {
         return getRequirementPort.findAllId(projectVersion)
+    }
+
+    override fun findAllId(unitProcessId: UnitProcessId): List<RequirementId> {
+        return getRequirementPort.findAllId(unitProcessId)
     }
 
 }

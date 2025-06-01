@@ -5,5 +5,6 @@ import org.scaleadvisor.backend.project.domain.id.ProjectId
 
 interface DeleteRequirementCategoryUseCase {
     fun deleteAll(projectId: ProjectId)
+    fun deleteAll(projectId: ProjectId, versionMajorNumber: Int)
     fun deleteAll(projectVersion: ProjectVersion)
 }
