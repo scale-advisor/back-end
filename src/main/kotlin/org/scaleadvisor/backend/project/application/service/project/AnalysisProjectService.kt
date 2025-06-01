@@ -38,17 +38,21 @@ private class AnalysisProjectService(
         private val JOB_TTL: Duration = Duration.ofMinutes(10)
     }
 
-    override operator fun invoke(projectVersion: ProjectVersion): String {
-        return enqueue(projectVersion)
+    override operator fun invoke(projectVersion: ProjectVersion, initialStage: AnalysisStage): String {
+        return enqueue(projectVersion, initialStage)
     }
 
     override operator fun invoke(jobId: String): AnalysisJob? {
         return get(jobId)
     }
 
-    private fun enqueue(projectVersion: ProjectVersion): String {
+    private fun enqueue(projectVersion: ProjectVersion, initialStage: AnalysisStage): String {
         val jobId = UUID.randomUUID().toString()
-        val job = AnalysisJob(jobId, projectVersion)
+        val job = AnalysisJob(
+            jobId = jobId,
+            projectVersion = projectVersion,
+            stage = initialStage,
+        )
         val redisKey = JOB_KEY_PREFIX + jobId
 
         redisTemplate.opsForValue().set(redisKey, job, JOB_TTL)
