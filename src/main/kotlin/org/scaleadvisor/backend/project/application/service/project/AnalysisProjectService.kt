@@ -14,6 +14,7 @@ import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.Val
 import org.scaleadvisor.backend.project.domain.AdjustmentFactor
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.UnitProcess
+import org.scaleadvisor.backend.project.domain.enum.FunctionType
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.core.task.TaskExecutor
 import org.springframework.data.redis.core.RedisTemplate
@@ -93,7 +94,16 @@ private class AnalysisProjectService(
 
             if (job.stage == AnalysisStage.CLASSIFY_FUNCTION) {
                 val unitProcessList: List<UnitProcess> = classifyUnitProcess.invoke(job.projectVersion)
-                updateUnitProcessUseCase.updateAll(unitProcessList)
+
+                val updatedList = unitProcessList.map { up ->
+                    if (up.functionType == FunctionType.UNDEFINED) {
+                        up.copy(isAmbiguous = true)
+                    } else {
+                        up
+                    }
+                }
+
+                updateUnitProcessUseCase.updateAll(updatedList)
 
                 if (job.onlyClassify) {
                     job.stage = AnalysisStage.DONE
