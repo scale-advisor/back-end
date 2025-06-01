@@ -22,7 +22,7 @@ import java.time.Duration
 import java.util.*
 
 @Service
-class ProjectAnalysisJobService(
+private class AnalysisProjectService(
     private val etlUnitProcess: ETLUnitProcessUseCase,
     private val validateUnitProcess: ValidateUnitProcessUseCase,
     private val classifyUnitProcess: ClassifyUnitProcessUseCase,
