@@ -122,7 +122,6 @@ private class ETLUnitProcessService(
                 unitProcessId = unitProcess.id
             )
             requirementUnitProcessList.add(requirementUnitProcess)
-            LockSupport.parkNanos(10_000)
         }
 
         createUnitProcessUseCase.createAll(unitProcessList)

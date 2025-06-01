@@ -20,7 +20,6 @@ private class CreateRequirementService(
         requirementDTOList: List<RequirementDTO>
     ) {
         val requirementList =  requirementDTOList.map {
-            LockSupport.parkNanos(10_000)
             Requirement(
                 id = RequirementId.newId(),
                 projectVersionId = projectVersion.id,
