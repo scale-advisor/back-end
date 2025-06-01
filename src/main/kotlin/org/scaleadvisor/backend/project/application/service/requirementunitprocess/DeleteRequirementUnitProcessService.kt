@@ -3,6 +3,7 @@ package org.scaleadvisor.backend.project.application.service.requirementunitproc
 import org.scaleadvisor.backend.project.application.port.repository.requirementunitprocess.DeleteRequirementUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.usecase.requirementunitprocess.DeleteRequirementUnitProcessUseCase
 import org.scaleadvisor.backend.project.domain.id.RequirementId
+import org.scaleadvisor.backend.project.domain.id.UnitProcessId
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,6 +12,10 @@ private class DeleteRequirementUnitProcessService(
 ): DeleteRequirementUnitProcessUseCase {
     override fun deleteAll(requirementIdList: List<RequirementId>) {
         return deleteRequirementUnitProcessPort.deleteAll(requirementIdList)
+    }
+
+    override fun deleteAll(unitProcessIdList: List<UnitProcessId>) {
+        return deleteRequirementUnitProcessPort.deleteAll(unitProcessIdList)
     }
 
 }

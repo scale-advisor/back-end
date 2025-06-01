@@ -59,4 +59,10 @@ private class RequirementUnitProcessJooqAdapter(
             .execute()
     }
 
+    override fun deleteAll(unitProcessIdList: List<UnitProcessId>) {
+        dsl.deleteFrom(REQUIREMENT_UNIT_PROCESS)
+            .where(REQUIREMENT_UNIT_PROCESS.UNIT_PROCESS_ID.`in`(unitProcessIdList.map { it.toLong() }))
+            .execute()
+    }
+
 }
