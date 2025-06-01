@@ -1,4 +1,4 @@
-package org.scaleadvisor.backend.global.job
+package org.scaleadvisor.backend.project.infrastructure.job
 
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import java.io.Serializable

@@ -4,6 +4,6 @@ import org.scaleadvisor.backend.project.domain.ProjectVersion
 
 interface AnalyzeProjectUseCase {
 
-    operator fun invoke(projectVersion: ProjectVersion)
+    operator fun invoke(projectVersion: ProjectVersion): String
 
 }

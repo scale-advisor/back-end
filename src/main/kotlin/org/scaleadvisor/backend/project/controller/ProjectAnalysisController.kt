@@ -1,9 +1,10 @@
 package org.scaleadvisor.backend.project.controller
 
 import org.scaleadvisor.backend.api.ProjectAnalysisAPI
-import org.scaleadvisor.backend.global.job.JobStatus
+import org.scaleadvisor.backend.project.infrastructure.job.JobStatus
 import org.scaleadvisor.backend.project.controller.response.projectanalysis.AnalysisJobStatusResponse
-import org.scaleadvisor.backend.global.job.service.ProjectAnalysisJobService
+import org.scaleadvisor.backend.project.application.port.usecase.GetJobUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.project.AnalyzeProjectUseCase
 import org.scaleadvisor.backend.project.controller.response.projectanalysis.JobIdResponse
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 private class ProjectAnalysisController(
-    private val jobService: ProjectAnalysisJobService
+    private val analyzeProjectUseCase: AnalyzeProjectUseCase,
+    private val getJobUseCase: GetJobUseCase
 ): ProjectAnalysisAPI {
 
     override fun analyze(
@@ -22,7 +24,7 @@ private class ProjectAnalysisController(
         versionNumber: String
     ): JobIdResponse {
         val pv = ProjectVersion.of(ProjectId.from(projectId), versionNumber)
-        val jobId = jobService.enqueue(pv)
+        val jobId = analyzeProjectUseCase.invoke(pv)
         return JobIdResponse(jobId)
     }
 
@@ -31,7 +33,7 @@ private class ProjectAnalysisController(
         @PathVariable jobId: String
     ): ResponseEntity<AnalysisJobStatusResponse> {
 
-        val job = jobService.get(jobId)
+        val job = getJobUseCase.invoke(jobId)
             ?: return ResponseEntity.notFound().build()
 
         if (job.projectVersion.projectId.toLong() != projectId)
