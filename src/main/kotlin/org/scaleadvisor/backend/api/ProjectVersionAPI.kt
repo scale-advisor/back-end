@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.scaleadvisor.backend.api.response.SuccessResponse
 import org.scaleadvisor.backend.project.controller.request.version.CreateProjectVersionRequest
+import org.scaleadvisor.backend.project.controller.request.version.UpdateProjectVersionRequest
 import org.scaleadvisor.backend.project.controller.response.version.CreateProjectVersionResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -31,6 +32,25 @@ interface ProjectVersionAPI {
         @RequestParam versionNumber: String,
         @RequestBody request: CreateProjectVersionRequest,
     ): SuccessResponse<CreateProjectVersionResponse>
+
+    @Operation(
+        summary = "Project 버전 수정",
+        description = "프로젝트 기존 버전 분석 결과 갱신",
+        parameters = [
+            Parameter(
+                name = "projectId",
+                required = true,
+                `in` = ParameterIn.PATH
+            )
+        ]
+    )
+    @PutMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun update(
+        @PathVariable projectId: Long,
+        @RequestParam versionNumber: String,
+        @RequestBody request: UpdateProjectVersionRequest,
+    )
 
     @Operation(
         summary = "Project 버전 삭제",
