@@ -1,7 +1,6 @@
 package org.scaleadvisor.backend.project.application.port.usecase.version
 
 import org.scaleadvisor.backend.project.domain.ProjectVersion
-import org.scaleadvisor.backend.project.domain.enum.AdjustmentFactorType
 import org.scaleadvisor.backend.project.domain.enum.FunctionType
 
 interface UpdateProjectVersionUseCase {
