@@ -8,7 +8,8 @@ data class AnalysisJob(
     val projectVersion: ProjectVersion,
     var retryCount: Int = 0,
     val maxRetries: Int = 5,
-    var stage: AnalysisStage = AnalysisStage.ETL_UNIT_PROCESS
+    var stage: AnalysisStage = AnalysisStage.ETL_UNIT_PROCESS,
+    var onlyClassify: Boolean = false
 ) : Serializable {
     var status: JobStatus = JobStatus.QUEUED
     var startedAt: Long? = null

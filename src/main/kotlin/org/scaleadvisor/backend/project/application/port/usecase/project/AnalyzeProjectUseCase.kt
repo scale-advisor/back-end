@@ -5,6 +5,8 @@ import org.scaleadvisor.backend.project.infrastructure.job.AnalysisStage
 
 interface AnalyzeProjectUseCase {
 
-    operator fun invoke(projectVersion: ProjectVersion, initialStage: AnalysisStage): String
+    operator fun invoke(projectVersion: ProjectVersion,
+                        initialStage: AnalysisStage,
+                        onlyClassify: Boolean): String
 
 }

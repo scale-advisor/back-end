@@ -38,20 +38,26 @@ private class AnalysisProjectService(
         private val JOB_TTL: Duration = Duration.ofMinutes(10)
     }
 
-    override operator fun invoke(projectVersion: ProjectVersion, initialStage: AnalysisStage): String {
-        return enqueue(projectVersion, initialStage)
+    override operator fun invoke(projectVersion: ProjectVersion,
+                                 initialStage: AnalysisStage,
+                                 onlyClassify: Boolean): String {
+        return enqueue(projectVersion, initialStage, onlyClassify)
     }
 
     override operator fun invoke(jobId: String): AnalysisJob? {
         return get(jobId)
     }
 
-    private fun enqueue(projectVersion: ProjectVersion, initialStage: AnalysisStage): String {
+    private fun enqueue(
+        projectVersion: ProjectVersion,
+        initialStage: AnalysisStage,
+        onlyClassify: Boolean): String {
         val jobId = UUID.randomUUID().toString()
         val job = AnalysisJob(
             jobId = jobId,
             projectVersion = projectVersion,
             stage = initialStage,
+            onlyClassify = onlyClassify
         )
         val redisKey = JOB_KEY_PREFIX + jobId
 
@@ -88,6 +94,15 @@ private class AnalysisProjectService(
             if (job.stage == AnalysisStage.CLASSIFY_FUNCTION) {
                 val unitProcessList: List<UnitProcess> = classifyUnitProcess.invoke(job.projectVersion)
                 updateUnitProcessUseCase.updateAll(unitProcessList)
+
+                if (job.onlyClassify) {
+                    job.stage = AnalysisStage.DONE
+                    job.status = JobStatus.SUCCESS
+                    job.completedAt = System.currentTimeMillis()
+                    saveJob(redisKey, job)
+                    return
+                }
+
                 job.stage = AnalysisStage.COMPUTE_ADJUSTMENT
                 saveJob(redisKey, job)
             }

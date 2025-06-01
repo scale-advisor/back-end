@@ -25,7 +25,8 @@ private class ProjectAnalysisController(
         versionNumber: String
     ): JobIdResponse {
         val pv = ProjectVersion.of(ProjectId.from(projectId), versionNumber)
-        val jobId = analyzeProjectUseCase.invoke(pv, AnalysisStage.ETL_UNIT_PROCESS)
+        val onlyClassify = false
+        val jobId = analyzeProjectUseCase.invoke(pv, AnalysisStage.ETL_UNIT_PROCESS, onlyClassify)
         return JobIdResponse(jobId)
     }
 
@@ -66,7 +67,8 @@ private class ProjectAnalysisController(
 
     override fun reClassify(projectId: Long, versionNumber: String): JobIdResponse {
         val pv = ProjectVersion.of(ProjectId.from(projectId), versionNumber)
-        val jobId = analyzeProjectUseCase.invoke(pv, AnalysisStage.CLASSIFY_FUNCTION)
+        val onlyClassify = true
+        val jobId = analyzeProjectUseCase.invoke(pv, AnalysisStage.CLASSIFY_FUNCTION, onlyClassify)
         return JobIdResponse(jobId)
     }
 }

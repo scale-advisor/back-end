@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service
 private class ReClassifyProjectService(
     private val analyzeProjectUseCase: AnalyzeProjectUseCase
 ): ReClassifyProjectUseCase {
-    override fun invoke(projectVersion: ProjectVersion, initialStage: AnalysisStage): String {
-        return analyzeProjectUseCase.invoke(projectVersion, initialStage)
+    override fun invoke(projectVersion: ProjectVersion,
+                        initialStage: AnalysisStage,
+                        onlyClassify: Boolean): String {
+        return analyzeProjectUseCase.invoke(projectVersion, initialStage, onlyClassify)
     }
 }

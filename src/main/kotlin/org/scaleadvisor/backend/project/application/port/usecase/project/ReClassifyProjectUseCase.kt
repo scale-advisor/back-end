@@ -4,5 +4,7 @@ import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.infrastructure.job.AnalysisStage
 
 interface ReClassifyProjectUseCase {
-    fun invoke(projectVersion: ProjectVersion, initialStage: AnalysisStage): String
+    fun invoke(projectVersion: ProjectVersion,
+               initialStage: AnalysisStage,
+               onlyClassify: Boolean): String
 }
