@@ -55,15 +55,8 @@ interface ProjectRequirementAPI {
 
 
     @Operation(
-        summary = "Project 요구사항 조회",
-        description = "Project 버전 별 요구사항 조회 API",
-        parameters  = [
-            Parameter(
-                name = "projectId",
-                required = true,
-                `in` = ParameterIn.PATH
-            )
-        ]
+        summary = "Project 요구사항 수정",
+        description = "Project 버전 별 요구사항 수정 API",
     )
     @PutMapping("")
     @ResponseStatus(HttpStatus.OK)
@@ -72,15 +65,8 @@ interface ProjectRequirementAPI {
     )
 
     @Operation(
-        summary = "Project 요구사항 조회",
-        description = "Project 버전 별 요구사항 조회 API",
-        parameters  = [
-            Parameter(
-                name = "projectId",
-                required = true,
-                `in` = ParameterIn.PATH
-            )
-        ]
+        summary = "Project 요구사항 삭제",
+        description = "Project 버전 별 요구사항 삭제 API",
     )
     @DeleteMapping("")
     @ResponseStatus(HttpStatus.OK)
