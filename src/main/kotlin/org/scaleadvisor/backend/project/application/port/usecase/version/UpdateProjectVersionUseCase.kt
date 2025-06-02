@@ -9,7 +9,7 @@ interface UpdateProjectVersionUseCase {
         val projectVersion: ProjectVersion,
         val requirementList: List<RequirementDTO>,
         val unitProcessList: List<UnitProcessDTO>,
-        val adjustmentFactorList: List<AdjustmentFactorDTO>,
+//        val adjustmentFactorList: List<AdjustmentFactorDTO>,
     )
 
     data class RequirementDTO(
@@ -28,10 +28,10 @@ interface UpdateProjectVersionUseCase {
         val isAmbiguous: Boolean,
     )
 
-    data class AdjustmentFactorDTO(
-        var adjustmentFactorId: String,
-        val adjustmentFactorLevel: Int,
-    )
+//    data class AdjustmentFactorDTO(
+//        var adjustmentFactorId: String,
+//        val adjustmentFactorLevel: Int,
+//    )
 
     fun update(command: Command)
 }
