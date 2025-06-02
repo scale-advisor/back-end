@@ -1,6 +1,5 @@
 package org.scaleadvisor.backend.project.application.service.version
 
-import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.UpdateAdjustmentFactorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.requirement.CreateRequirementUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.requirement.DeleteRequirementUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.requirementunitprocess.CreateRequirementUnitProcessUseCase
@@ -8,10 +7,8 @@ import org.scaleadvisor.backend.project.application.port.usecase.requirementunit
 import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.CreateUnitProcessUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.DeleteUnitProcessUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.version.UpdateProjectVersionUseCase
-import org.scaleadvisor.backend.project.application.service.adjustmentfactor.dto.UpdateAdjustmentFactorDTO
 import org.scaleadvisor.backend.project.domain.Requirement
 import org.scaleadvisor.backend.project.domain.UnitProcess
-import org.scaleadvisor.backend.project.domain.id.AdjustmentFactorId
 import org.scaleadvisor.backend.project.domain.id.RequirementId
 import org.scaleadvisor.backend.project.domain.id.UnitProcessId
 import org.springframework.stereotype.Service
@@ -26,7 +23,7 @@ private class UpdateProjectVersionService(
     private val createRequirementUseCase: CreateRequirementUseCase,
     private val createUnitProcessUseCase: CreateUnitProcessUseCase,
     private val createRequirementUnitProcessUseCase: CreateRequirementUnitProcessUseCase,
-    private val updateAdjustmentFactorUseCase: UpdateAdjustmentFactorUseCase,
+//    private val updateAdjustmentFactorUseCase: UpdateAdjustmentFactorUseCase,
 ) : UpdateProjectVersionUseCase {
     override fun update(command: UpdateProjectVersionUseCase.Command) {
 
@@ -71,11 +68,11 @@ private class UpdateProjectVersionService(
         createUnitProcessUseCase.createAll(unitProcessList)
         createRequirementUnitProcessUseCase.createAll(requirementUnitProcessList)
 
-        updateAdjustmentFactorUseCase.updateAll(command.adjustmentFactorList.map {
-            UpdateAdjustmentFactorDTO(
-                id = AdjustmentFactorId.from(it.adjustmentFactorId),
-                level = it.adjustmentFactorLevel,
-            )
-        })
+//        updateAdjustmentFactorUseCase.updateAll(command.adjustmentFactorList.map {
+//            UpdateAdjustmentFactorDTO(
+//                id = AdjustmentFactorId.from(it.adjustmentFactorId),
+//                level = it.adjustmentFactorLevel,
+//            )
+//        })
     }
 }

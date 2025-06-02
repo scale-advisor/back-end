@@ -46,7 +46,7 @@ private class ProjectVersionController(
                 ProjectVersion.of(projectId, versionNumber),
                 request.requirementList,
                 request.unitProcessList,
-                request.adjustmentFactorList,
+//                request.adjustmentFactorList,
             )
         )
     }

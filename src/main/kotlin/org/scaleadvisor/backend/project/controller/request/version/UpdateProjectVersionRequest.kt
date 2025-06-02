@@ -5,5 +5,5 @@ import org.scaleadvisor.backend.project.application.port.usecase.version.UpdateP
 data class UpdateProjectVersionRequest(
     var requirementList: List<UpdateProjectVersionUseCase.RequirementDTO>,
     var unitProcessList: List<UpdateProjectVersionUseCase.UnitProcessDTO>,
-    var adjustmentFactorList: List<UpdateProjectVersionUseCase.AdjustmentFactorDTO>,
+//    var adjustmentFactorList: List<UpdateProjectVersionUseCase.AdjustmentFactorDTO>,
 )
