@@ -1,10 +1,5 @@
 package org.scaleadvisor.backend.project.infrastructure.ai
 
-//import org.scaleadvisor.backend.global.gemini.data.GenerateRequest
-//import org.scaleadvisor.backend.global.gemini.data.GenerationConfig
-import org.scaleadvisor.backend.global.gemini.data.Content
-import org.scaleadvisor.backend.global.gemini.data.GenerateResponse
-import org.scaleadvisor.backend.global.gemini.data.Part
 import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.AnalyzeAdjustmentFactorPort
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.ExtractUnitProcessPort
 import org.scaleadvisor.backend.project.application.port.repository.unitprocess.ValidateUnitProcessPort

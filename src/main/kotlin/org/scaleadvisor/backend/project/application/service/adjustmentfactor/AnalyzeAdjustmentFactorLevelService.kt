@@ -1,8 +1,6 @@
 package org.scaleadvisor.backend.project.application.service.adjustmentfactor
 
 import org.scaleadvisor.backend.global.exception.model.NotFoundException
-import org.scaleadvisor.backend.global.gemini.component.GeminiClient
-import org.scaleadvisor.backend.global.gemini.repository.GeminiJooqRepository
 import org.scaleadvisor.backend.project.application.port.repository.adjustmentfactor.AnalyzeAdjustmentFactorPort
 import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.AnalyzeAdjustmentFactorLevelUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.requirement.GetRequirementUseCase
@@ -22,8 +20,6 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 private class AnalyzeAdjustmentFactorLevelService(
-    private val geminiJooqRepository: GeminiJooqRepository,
-    private val geminiClient: GeminiClient,
     private val getRequirementUseCase: GetRequirementUseCase,
     private val getRequirementCategoryUseCase: GetRequirementCategoryUseCase,
     private val analyzeAdjustmentFactor: AnalyzeAdjustmentFactorPort,
