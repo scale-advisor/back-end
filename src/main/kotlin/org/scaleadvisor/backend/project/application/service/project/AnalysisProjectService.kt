@@ -7,10 +7,7 @@ import org.scaleadvisor.backend.project.application.port.usecase.GetJobUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.AnalyzeAdjustmentFactorLevelUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.adjustmentfactor.CreateAdjustmentFactorUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.AnalyzeProjectUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.ClassifyUnitProcessUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.ETLUnitProcessUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.UpdateUnitProcessUseCase
-import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.ValidateUnitProcessUseCase
+import org.scaleadvisor.backend.project.application.port.usecase.unitprocess.*
 import org.scaleadvisor.backend.project.domain.AdjustmentFactor
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.UnitProcess
@@ -30,6 +27,7 @@ private class AnalysisProjectService(
     private val updateUnitProcessUseCase: UpdateUnitProcessUseCase,
     private val analyzeAdjustmentFactorLevel: AnalyzeAdjustmentFactorLevelUseCase,
     private val createAdjustmentFactorUseCase: CreateAdjustmentFactorUseCase,
+    private val updateUndefinedUnitProcessUseCase: UpdateUndefinedUnitProcessUseCase,
 
     private val redisTemplate: RedisTemplate<String, AnalysisJob>,
     @Qualifier("analysisJobExecutor") private val executor: TaskExecutor
@@ -104,6 +102,7 @@ private class AnalysisProjectService(
                 }
 
                 updateUnitProcessUseCase.updateAll(updatedList)
+                updateUndefinedUnitProcessUseCase.markAmbiguousForUndefined(job.projectVersion)
 
                 if (job.onlyClassify) {
                     job.stage = AnalysisStage.DONE
