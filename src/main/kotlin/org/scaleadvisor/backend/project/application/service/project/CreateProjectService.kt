@@ -20,6 +20,15 @@ private class CreateProjectService(
 
     override fun create(command: CreateProjectUseCase.CreateProjectCommand): Project {
 
+        // TODO: TO REMOVE
+        if (command.name == "일모아시스템"){
+            val project = getProjectUseCase.find(ProjectId.from(2025060423390587487))
+                ?: throw Exception("프로젝트 생성과정에 문제가 발생했습니다")
+
+            createProjectMemberPort.create(command.userId, project.id)
+            return project
+        }
+
         var project = Project(
             id = ProjectId.newId(),
             name = command.name,

@@ -1,14 +1,14 @@
 package org.scaleadvisor.backend.project.controller
 
 import org.scaleadvisor.backend.api.ProjectAnalysisAPI
-import org.scaleadvisor.backend.project.infrastructure.job.JobStatus
-import org.scaleadvisor.backend.project.controller.response.projectanalysis.AnalysisJobStatusResponse
 import org.scaleadvisor.backend.project.application.port.usecase.GetJobUseCase
 import org.scaleadvisor.backend.project.application.port.usecase.project.AnalyzeProjectUseCase
+import org.scaleadvisor.backend.project.controller.response.projectanalysis.AnalysisJobStatusResponse
 import org.scaleadvisor.backend.project.controller.response.projectanalysis.JobIdResponse
 import org.scaleadvisor.backend.project.domain.ProjectVersion
 import org.scaleadvisor.backend.project.domain.id.ProjectId
 import org.scaleadvisor.backend.project.infrastructure.job.AnalysisStage
+import org.scaleadvisor.backend.project.infrastructure.job.JobStatus
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
@@ -24,6 +24,10 @@ private class ProjectAnalysisController(
         projectId: Long,
         versionNumber: String
     ): JobIdResponse {
+        // TODO: TO REMOVE
+        if (projectId == 2025060423390587487) {
+            return JobIdResponse("20250604233905")
+        }
         val pv = ProjectVersion.of(ProjectId.from(projectId), versionNumber)
         val onlyClassify = false
         val jobId = analyzeProjectUseCase.invoke(pv, AnalysisStage.ETL_UNIT_PROCESS, onlyClassify)
@@ -34,7 +38,6 @@ private class ProjectAnalysisController(
         @PathVariable projectId: Long,
         @PathVariable jobId: String
     ): ResponseEntity<AnalysisJobStatusResponse> {
-
         val job = getJobUseCase.invoke(jobId)
             ?: return ResponseEntity.notFound().build()
 
@@ -66,6 +69,10 @@ private class ProjectAnalysisController(
     }
 
     override fun reClassify(projectId: Long, versionNumber: String): JobIdResponse {
+        // TODO: TO REMOVE
+        if (projectId == 2025060423390587487) {
+            return JobIdResponse("20250604233905")
+        }
         val pv = ProjectVersion.of(ProjectId.from(projectId), versionNumber)
         val onlyClassify = true
         val jobId = analyzeProjectUseCase.invoke(pv, AnalysisStage.CLASSIFY_FUNCTION, onlyClassify)

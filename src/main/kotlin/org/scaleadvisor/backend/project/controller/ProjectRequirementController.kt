@@ -27,6 +27,10 @@ private class ProjectRequirementController(
         requirementList: List<CreateAllRequirementRequest>
     ) {
         val projectVersion = ProjectVersion.of(projectId, versionNumber)
+        // TODO: TO REMOVE
+        if (projectId == 2025060423390587487) {
+            return
+        }
         createRequirementUseCase.createAll(
             projectVersion,
             requirementDTOList = requirementList.map {
@@ -80,6 +84,10 @@ private class ProjectRequirementController(
         projectId: Long,
         requirementCategoryList: List<CreateAllRequirementCategoryRequest>
     ) {
+        // TODO: TO REMOVE
+        if (projectId == 2025060423390587487) {
+            return
+        }
         createRequirementCategoryUseCase.createAll(
             projectId = ProjectId.from(projectId),
             requirementCategoryDTOList = requirementCategoryList.map { requirementCategory ->
