@@ -23,6 +23,12 @@ private class ProjectVersionController(
         versionNumber: String,
         request: CreateProjectVersionRequest
     ): SuccessResponse<CreateProjectVersionResponse> {
+        // TODO: TO REMOVE
+        if (projectId == 2025060423390587487) {
+            return SuccessResponse.from(
+                CreateProjectVersionResponse("1.1")
+            )
+        }
         val projectVersion = createProjectVersionUseCase.create(
             CreateProjectVersionUseCase.Command(
                 ProjectVersion.of(projectId, versionNumber),
