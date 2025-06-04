@@ -21,21 +21,33 @@ private class FPClassifierAdapter(
         }
         val unitProcessIdMap = unitProcessList.associateBy { it.id.toString() }
         try {
-            return fpClassifierClient.classify(requests).map { response ->
-                val originalUnitProcess = unitProcessIdMap[response.unitProcessId]
-                if (originalUnitProcess != null) {
-                UnitProcess(
-                    id = originalUnitProcess.id,
-                    projectVersionId = originalUnitProcess.projectVersionId,
-                    name = originalUnitProcess.name,
-                    functionType = FunctionType.valueOf(response.functionType),
-                    isAmbiguous = originalUnitProcess.isAmbiguous,
-                )} else {
-                    throw RuntimeException("응답에서 알 수 없는 unitProcessId를 받았습니다: ${response.unitProcessId}")
+            val classifiedResults = mutableListOf<UnitProcess>()
+            requests.chunked(100).forEach { chunkedRequests ->
+                val responses = fpClassifierClient.classify(chunkedRequests)
+
+                responses.forEach { response ->
+                    val originalUnitProcess = unitProcessIdMap[response.unitProcessId]
+                    if (originalUnitProcess != null) {
+                        classifiedResults.add(
+                            UnitProcess(
+                                id = originalUnitProcess.id,
+                                projectVersionId = originalUnitProcess.projectVersionId,
+                                name = originalUnitProcess.name,
+                                functionType = FunctionType.valueOf(response.functionType),
+                                isAmbiguous = originalUnitProcess.isAmbiguous,
+                            )
+                        )
+                    } else {
+                        throw RuntimeException(
+                            "응답에서 알 수 없는 unitProcessId를 받았습니다: ${response.unitProcessId}"
+                        )
+                    }
                 }
             }
+
+            return classifiedResults
+
         } catch (ex: Exception) {
-            // 로깅 또는 예외 처리
             throw RuntimeException("분류 API 호출 중 오류가 발생했습니다: ${ex.message}", ex)
         }
     }
@@ -43,4 +55,5 @@ private class FPClassifierAdapter(
     override fun invoke(unitProcessList: List<UnitProcess>): List<UnitProcess> {
         return this.classify(unitProcessList)
     }
+
 }
