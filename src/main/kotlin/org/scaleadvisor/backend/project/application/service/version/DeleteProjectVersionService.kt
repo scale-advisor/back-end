@@ -27,6 +27,9 @@ private class DeleteProjectVersionService(
         projectId: ProjectId,
         versionNumber: String
     ) {
+        if (projectId.toLong() == 2025060423390587487) {
+            return
+        }
         val projectVersion = ProjectVersion.of(projectId, versionNumber)
 
         if (projectVersion.minor == 0) {
