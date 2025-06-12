@@ -29,11 +29,6 @@ private class CreateFileService(
 ) : CreateFileUseCase {
 
     override fun create(command: CreateFileUseCase.Command) {
-        // TODO: TO REMOVE
-        if (command.projectId.toLong() == 2025060423390587487) {
-            return
-        }
-
         if (!checkIsEditorUseCase.checkIsEditor(command.projectId.toLong())) {
             throw ForbiddenException("프로젝트 요소를 수정할 권한이 없습니다.")
         }

@@ -32,18 +32,7 @@ private class DeleteProjectService(
 ) : DeleteProjectUseCase {
 
     override fun delete(userId: Long, projectId: ProjectId) {
-        //TODO: TO REMOVE
-        if (projectId.toLong() == 2025060423390587487) {
-            val isProjectMember = checkIsProjectMemberUseCase.isProjectMember(
-                userId = userId,
-                projectId = projectId
-            )
-            if (!isProjectMember) {
-                throw ValidationException("프로젝트 멤버가 아닙니다.")
-            }
-            deleteProjectMemberPort.delete(userId, projectId)
-            return
-        }
+
         val isProjectMember = checkIsProjectMemberUseCase.isProjectMember(
             userId = userId,
             projectId = projectId
